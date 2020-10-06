@@ -1,0 +1,19 @@
+{
+  "location": "org.sorus.oneeightnine.injectors",
+  "injectors": [
+    "MinecraftInjector",
+    "GuiScreenInjector",
+    "EntityRendererInjector",
+    "GuiNewChatInjector",
+    "oldanimations.ItemRendererInjector",
+    "oldanimations.LayerArmorBaseInjector",
+    "oldanimations.MinecraftInjector",
+    "timechanger.WorldInjector",
+    "mousedelayfix.EntityLivingBaseInjector",
+    "itemphysics.RenderEntityItemInjector",
+    "perspective.EntityRendererInjector",
+    "blockoverlay.RenderGlobalInjector",
+    "enhancements.InventoryEffectRendererInjector",
+    "enhancements.ItemRendererInjector"
+  ]
+}
