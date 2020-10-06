@@ -5,6 +5,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -14,4 +15,5 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
     compile group: 'com.cedarsoftware', name: 'json-io', version: '4.12.0'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    compile group: 'club.minnced', name: 'java-discord-rpc', version: '2.0.2'
 }
