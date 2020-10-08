@@ -6,14 +6,20 @@ plugins {
 repositories {
     mavenCentral()
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     compile group: 'org.ow2.asm', name: 'asm-all', version: '5.2'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
-    compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+    compile group: 'com.google.guava', name: 'guava', version: '17.0'
     compile group: 'com.cedarsoftware', name: 'json-io', version: '4.12.0'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-    compile group: 'club.minnced', name: 'java-discord-rpc', version: '2.0.2'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+}
+
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

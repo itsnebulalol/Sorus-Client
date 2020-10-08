@@ -84,6 +84,8 @@ public class Input implements IInput {
                 return new Keybind(gameSettings.keyBindBack);
             case SPRINT:
                 return new Keybind(gameSettings.keyBindSprint);
+            case JUMP:
+                return new Keybind(gameSettings.keyBindJump);
             default:
                 return null;
         }

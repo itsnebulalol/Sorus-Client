@@ -38,14 +38,15 @@ public class SorusStartupCustomClassLoader {
   public static void start(String versionClass, String args, boolean dev) {
     SorusStartup.DEV = dev;
     if (args != null) {
-      for (String string : args.split(",")) {
+      for (String string : args.split(";")) {
         String[] strings = string.split("=");
         SorusStartup.getLaunchArgs().put(strings[0], strings[1]);
       }
     }
     Sorus sorus = Sorus.getSorus();
     try {
-      sorus.initialize((Class<? extends IVersion>) Class.forName(versionClass));
+      sorus.initialize(
+          (Class<? extends IVersion>) Class.forName(versionClass), SorusStartup.getLaunchArgs());
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
     }

@@ -24,10 +24,12 @@
 
 package org.sorus.client;
 
+import java.util.Map;
 import org.sorus.client.event.EventManager;
 import org.sorus.client.gui.core.GUIManager;
 import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.HUDRenderScreen;
+import org.sorus.client.gui.theme.ThemeManager;
 import org.sorus.client.module.ModuleManager;
 import org.sorus.client.plugin.PluginManager;
 import org.sorus.client.settings.SettingsManager;
@@ -41,6 +43,8 @@ public class Sorus {
   public static Sorus getSorus() {
     return INSTANCE;
   }
+
+  private Map<String, String> args;
 
   /** The {@link EventManager} for Sorus */
   private final EventManager EVENT_MANAGER = new EventManager();
@@ -60,6 +64,9 @@ public class Sorus {
   /** The {@link PluginManager} for Sorus */
   private final PluginManager PLUGIN_MANAGER = new PluginManager();
 
+  /** The {@link ThemeManager} for Sorus */
+  private final ThemeManager THEME_MANAGER = new ThemeManager();
+
   /** The {@link IVersion} for Sorus */
   private IVersion version;
 
@@ -71,19 +78,25 @@ public class Sorus {
    *
    * @param version the version class used to connect with the version of minecraft
    */
-  public void initialize(Class<? extends IVersion> version) {
+  public void initialize(Class<? extends IVersion> version, Map<String, String> args) {
     try {
       this.version = version.newInstance();
       Class.forName("org.sorus.client.obfuscation.ObfuscationManager");
     } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
       e.printStackTrace();
     }
+    this.args = args;
     this.getModuleManager().registerInternalModules();
     this.getModuleManager().onLoad();
-    this.getGUIManager().initialize();
+    this.getGUIManager().initialize(this.getThemeManager());
     this.getHUDManager().initialize();
     this.getGUIManager().open(new HUDRenderScreen(this.getHUDManager()));
+    this.getPluginManager().initialize(args.get("plugins"));
     this.getSettingsManager().load();
+  }
+
+  public Map<String, String> getArgs() {
+    return args;
   }
 
   public EventManager getEventManager() {
@@ -108,6 +121,10 @@ public class Sorus {
 
   public PluginManager getPluginManager() {
     return PLUGIN_MANAGER;
+  }
+
+  public ThemeManager getThemeManager() {
+    return THEME_MANAGER;
   }
 
   public IVersion getVersion() {

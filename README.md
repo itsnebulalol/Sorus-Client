@@ -20,7 +20,7 @@ First you need to get the Sorus workspace on your computer. You can do this by e
 Open the build.gradle in the workspace as an IntelliJ project.
 You should see the gradle widget on the right, click on that and navigate to the setup task for the version you want to run.
 ![Image](https://i.ibb.co/p2cfTZb/sorus-setup.png) \
-Next go to DevMain.java in the source folder of the version you want to run and run it.\
+Next go to Start.java in the source folder of the version you want to run and run it.\
 You should see a run configuration pop up at the top, go to the edit configuration menu and copy these settings.
 ![Image](https://i.ibb.co/XtGLkL0/image.png) 
 

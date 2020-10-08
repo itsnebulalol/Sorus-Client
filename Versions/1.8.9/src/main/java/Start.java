@@ -22,22 +22,19 @@
  * SOFTWARE.
  */
 
-package org.sorus.oneeightnine;import org.sorus.client.startup.SorusStartup;
+import org.sorus.client.startup.SorusStartup;
 import org.sorus.client.startup.dev.DevClassLoader;
 import org.sorus.client.startup.impl.ClassLoaderTransformerUtility;
+import org.sorus.oneeightnine.Version;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.net.URLClassLoader;
 
 /**
  * Used in a dev environment to run Sorus with a class loader transformer instead of java agents.
  */
-public class DevMain {
+public class Start {
 
     /**
      * Runs the minecraft main class and initializes Sorus along with it, for use in a dev environment.
@@ -45,8 +42,8 @@ public class DevMain {
      */
     public static void main(String[] args) {
         ClassLoaderTransformerUtility utility = new ClassLoaderTransformerUtility();
-        DevClassLoader loader = new DevClassLoader(((URLClassLoader) DevMain.class.getClassLoader()).getURLs(), utility);
-        SorusStartup.start(Version.class, utility, loader, null,true);
+        DevClassLoader loader = new DevClassLoader(((URLClassLoader) Start.class.getClassLoader()).getURLs(), utility);
+        SorusStartup.start(Version.class, utility, loader, System.getProperty("sorus.args"),true);
         try {
             final Class<?> clazz = Class.forName("net.minecraft.client.main.Main", false, loader);
             final Method mainMethod = clazz.getMethod("main", String[].class);
