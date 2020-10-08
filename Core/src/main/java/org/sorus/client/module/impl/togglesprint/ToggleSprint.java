@@ -27,6 +27,8 @@ package org.sorus.client.module.impl.togglesprint;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
+import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.screen.settings.components.Keybind;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.input.Input;
@@ -61,5 +63,10 @@ public class ToggleSprint extends ModuleConfigurable {
         .equals(Sorus.getSorus().getVersion().getInput().getKeybind(KeybindType.SPRINT).getKey())) {
       toggled = false;
     }
+  }
+
+  @Override
+  public void addConfigComponents(Collection collection) {
+    collection.add(new Keybind(toggleSprint, "Toggle Sprint"));
   }
 }

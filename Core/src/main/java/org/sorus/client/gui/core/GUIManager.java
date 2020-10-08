@@ -32,6 +32,7 @@ import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.event.impl.client.input.MouseReleaseEvent;
 import org.sorus.client.event.impl.client.render.Render2DEvent;
+import org.sorus.client.gui.theme.ThemeManager;
 import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.Button;
 import org.sorus.client.version.input.Key;
@@ -51,8 +52,11 @@ public class GUIManager {
   /** Stores whether a blank gui is opened. */
   private boolean guiOpen = false;
 
+  private ThemeManager themeManager;
+
   /** Performs initialization duties to make sure it operates correctly. */
-  public void initialize() {
+  public void initialize(ThemeManager themeManager) {
+    this.themeManager = themeManager;
     Sorus.getSorus().getEventManager().register(this);
     this.renderer = new RendererImpl();
   }

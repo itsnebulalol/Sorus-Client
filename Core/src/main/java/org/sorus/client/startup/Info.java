@@ -22,15 +22,17 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version.input;
+package org.sorus.client.startup;
 
-public enum KeybindType {
-  ATTACK,
-  INTERACT,
-  FORWARD,
-  LEFT,
-  RIGHT,
-  BACK,
-  SPRINT,
-  JUMP
+import java.util.ArrayList;
+import java.util.List;
+
+/** Data class used with {@link com.google.gson.Gson} to collect info. */
+public class Info {
+
+  /** The package that the injectors are located in. */
+  public String location;
+
+  /** The a list of the full paths of all the injectors minus the {@link #location}. */
+  public List<String> injectors = new ArrayList<>();
 }

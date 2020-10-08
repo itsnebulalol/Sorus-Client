@@ -25,11 +25,14 @@
 package org.sorus.client.module.impl.keystrokes;
 
 import java.awt.*;
+import java.util.Arrays;
+
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.Component;
+import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Slider;
 import org.sorus.client.gui.screen.settings.components.Toggle;
@@ -63,9 +66,9 @@ public class KeystrokesComponent extends Component {
     this.register(mainPressedColor = new Setting<>("mainPressedColor", Color.WHITE));
     this.register(
         backgroundStandardColor =
-            new Setting<>("backgroundStandardColor", new Color(0, 0, 0, 100)));
+            new Setting<>("backgroundStandardColor", new Color(0, 0, 0, 50)));
     this.register(
-        backgroundPressedColor = new Setting<>("backgroundPressedColor", new Color(0, 0, 0, 175)));
+        backgroundPressedColor = new Setting<>("backgroundPressedColor", new Color(0, 0, 0, 125)));
     this.register(borderSize = new Setting<>("borderSize", 1.0));
     this.register(
         borderStandardColor = new Setting<>("borderStandardColor", new Color(0, 0, 0, 0)));
@@ -124,6 +127,7 @@ public class KeystrokesComponent extends Component {
 
   @Override
   public void addConfigComponents(Collection collection) {
+    collection.add(new ClickThrough(mode, Arrays.asList("WASD", "WASD-Space"), "Mode"));
     collection.add(new Slider(fadeTime, 0, 5000, "Fade Time"));
     collection.add(new Toggle(customFont, "Custom Font"));
     collection.add(new ColorPicker(mainStandardColor, "Main Standard Color"));
@@ -181,7 +185,13 @@ public class KeystrokesComponent extends Component {
         new KeystrokesKey.Bind(KeybindType.FORWARD, 20, 0, 18, 18),
         new KeystrokesKey.Bind(KeybindType.LEFT, 0, 20, 18, 18),
         new KeystrokesKey.Bind(KeybindType.BACK, 20, 20, 18, 18),
-        new KeystrokesKey.Bind(KeybindType.RIGHT, 40, 20, 18, 18));
+        new KeystrokesKey.Bind(KeybindType.RIGHT, 40, 20, 18, 18)),
+    WASD_SPACE(
+        new KeystrokesKey.Bind(KeybindType.FORWARD, 20, 0, 18, 18),
+        new KeystrokesKey.Bind(KeybindType.LEFT, 0, 20, 18, 18),
+            new KeystrokesKey.Bind(KeybindType.BACK, 20, 20, 18, 18),
+            new KeystrokesKey.Bind(KeybindType.RIGHT, 40, 20, 18, 18),
+            new KeystrokesKey.Bind(KeybindType.JUMP, 0, 40, 58, 18));
 
     private final KeystrokesKey.KeyData[] keys;
 

@@ -3,8 +3,8 @@ apply plugin: 'java'
 String version = '1.8.9'
 
 configurations {
-    jarCompile
-    compile.extendsFrom(jarCompile)
+    jarExport
+    compile.extendsFrom(jarExport)
 }
 
 repositories {
@@ -14,9 +14,9 @@ repositories {
 }
 
 dependencies {
-    jarCompile project(':Core')
-    jarCompile group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
-    compile files(project.parent.parent.projectDir.absolutePath + "/sorus/temp/" + version + ".jar")
+    compile project(':Core')
+    jarExport group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
+    compile files("../../sorus/temp/" + version + ".jar")
 
     File file = new File("${project.parent.parent.projectDir}/sorus/temp/classpath.txt")
     if (file.exists()) {
@@ -35,7 +35,7 @@ jar {
     )
 
     from {
-        configurations.jarCompile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.jarExport.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
@@ -53,18 +53,20 @@ tasks.register('setup') {
         }
         javaexec {
             main = '-jar'
-            args = ["${project.parent.parent.projectDir}/sorus/Sorus-Utils.jar", "deobfuscateJar", "--input", System.getenv('MINECRAFT_HOME') + "/versions/" + version + "/" + version + ".jar", "--output", project.parent.parent.projectDir.absolutePath + "/sorus/temp/" + version + ".jar", "--mappings", project.projectDir.absolutePath + "/src/main/resources/mappings.txt"]
+            args = ["${project.parent.parent.projectDir}/sorus/Sorus-Utils.jar", "reobfuscateJar", "--input", System.getenv('MINECRAFT_HOME') + "/versions/" + version + "/" + version + ".jar", "--output", project.parent.parent.projectDir.absolutePath + "/sorus/temp/" + version + ".jar", "--mappings", project.projectDir.absolutePath + "/src/main/resources/mappings.txt"]
         }
     }
 }
 
-tasks.register('reobfuscate') {
+tasks.register('export') {
     group = "sorus"
     dependsOn build
     doLast {
         javaexec {
             main = '-jar'
-            args = ["${project.parent.parent.projectDir}/sorus/Sorus-Utils.jar", "deobfuscateJar", "--input", project.buildDir.absolutePath + "/libs/" + version + ".jar", "--output", project.buildDir.absolutePath + "/" + version + ".jar", "--mappings", project.projectDir.absolutePath + "/src/main/resources/mappings.txt", "--originalIndex", "1", "--targetIndex", "0"]
+            args = ["${project.parent.parent.projectDir}/sorus/Sorus-Utils.jar", "reobfuscateJar", "--input", project.buildDir.absolutePath + "/libs/" + version + ".jar;" + project.parent.parent.projectDir.absolutePath + "/Core/build/libs/Core.jar", "--output", project.buildDir.absolutePath + "/" + version + ".jar", "--mappings", project.projectDir.absolutePath + "/src/main/resources/mappings.txt", "--originalIndex", "1", "--targetIndex", "0"]
         }
     }
+    File file = new File(project.buildDir.absolutePath + "/libs/" + version + ".jar")
+    file.delete()
 }

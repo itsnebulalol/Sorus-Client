@@ -32,8 +32,7 @@ import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.hud.HUDManager;
-import org.sorus.client.gui.screen.hudlist.HUDListScreen;
-import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
+import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.util.Axis;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Button;
@@ -54,11 +53,8 @@ public class HUDPositionScreen extends Screen {
     Sorus.getSorus().getVersion().getRenderer().enableBlur();
     this.huds = hudManager.getHUDs();
     main.add(
-        new PositionScreenButton(this::onHUDListScreenButtonClick, "HUDS", 120, 50)
-            .position(815, 515));
-    main.add(
-        new PositionScreenButton(this::onModuleListScreenButtonClick, "MODULES", 170, 50)
-            .position(945, 515));
+        new PositionScreenButton(this::onButtonClick, "S", 50, 50)
+            .position(935, 515));
   }
 
   @Override
@@ -459,15 +455,8 @@ public class HUDPositionScreen extends Screen {
     return true;
   }
 
-  private void onHUDListScreenButtonClick() {
+  private void onButtonClick() {
     Sorus.getSorus().getGUIManager().close(HUDPositionScreen.this);
-    Sorus.getSorus().getGUIManager().open(new HUDListScreen(Sorus.getSorus().getHUDManager()));
-  }
-
-  private void onModuleListScreenButtonClick() {
-    Sorus.getSorus().getGUIManager().close(HUDPositionScreen.this);
-    Sorus.getSorus()
-        .getGUIManager()
-        .open(new ModuleListScreen(Sorus.getSorus().getModuleManager()));
+    Sorus.getSorus().getGUIManager().open(new MenuScreen());
   }
 }
