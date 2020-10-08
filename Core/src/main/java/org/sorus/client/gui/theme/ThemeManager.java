@@ -22,17 +22,23 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.startup.injection.detection;
+package org.sorus.client.gui.theme;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.sorus.client.gui.core.Screen;
 
-/** Data class used with {@link com.google.gson.Gson} to collect injectors. */
-public class InjectorInfo {
+import java.util.HashMap;
+import java.util.Map;
 
-  /** The package that the injectors are located in. */
-  public String location;
+public class ThemeManager {
 
-  /** The a list of the full paths of all the injectors minus the {@link #location}. */
-  public List<String> injectors = new ArrayList<>();
+    private final Map<String, Screen> screens = new HashMap<>();
+
+    public void register(String screenName, Screen screen) {
+        this.screens.put(screenName, screen);
+    }
+
+    public void reset() {
+        this.screens.clear();
+    }
+
 }

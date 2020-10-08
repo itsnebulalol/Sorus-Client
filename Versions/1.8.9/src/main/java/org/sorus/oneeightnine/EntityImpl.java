@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-package org.sorus.oneeightnine;import net.minecraft.entity.Entity;
+package org.sorus.oneeightnine;
+
+import net.minecraft.entity.Entity;
 import org.sorus.client.version.game.IEntity;
 
 public class EntityImpl implements IEntity {

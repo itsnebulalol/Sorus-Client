@@ -25,6 +25,7 @@
 package org.sorus.oneeightnine;import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.settings.GameSettings;
+import org.sorus.client.Sorus;
 import org.sorus.client.version.game.IEntity;
 import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.game.PerspectiveMode;
@@ -101,5 +102,17 @@ public class Game implements IGame {
     @Override
     public int getPing() {
         return Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
+    }
+
+    @Override
+    public String getCurrentServerIP() {
+        String servername = Minecraft.getMinecraft().getCurrentServerData().serverIP;
+
+        if(servername == null) {
+            servername = "singhelagjaiwejg";
+        }
+
+        return servername;
+
     }
 }

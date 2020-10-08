@@ -31,5 +31,6 @@ public enum KeybindType {
   LEFT,
   RIGHT,
   BACK,
-  SPRINT
+  SPRINT,
+  JUMP
 }

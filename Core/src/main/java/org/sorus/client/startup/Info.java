@@ -22,15 +22,17 @@
  * SOFTWARE.
  */
 
-package org.sorus.oneeightnine;
+package org.sorus.client.startup;
 
-import net.minecraft.client.gui.GuiScreen;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GuiBlank extends GuiScreen {
+/** Data class used with {@link com.google.gson.Gson} to collect info. */
+public class Info {
 
-    @Override
-    public void keyTyped(char c, int i) {
+  /** The package that the injectors are located in. */
+  public String location;
 
-    }
-
+  /** The a list of the full paths of all the injectors minus the {@link #location}. */
+  public List<String> injectors = new ArrayList<>();
 }
