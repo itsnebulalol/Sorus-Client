@@ -31,9 +31,12 @@ import org.sorus.client.gui.hud.HUDRenderScreen;
 import org.sorus.client.module.ModuleManager;
 import org.sorus.client.plugin.PluginManager;
 import org.sorus.client.settings.SettingsManager;
+import org.sorus.client.module.impl.rpc.SorusRPC;
 import org.sorus.client.version.IVersion;
 
 public class Sorus {
+
+  public static boolean isRunning = false;
 
   /** The single {@link Sorus} instance */
   private static final Sorus INSTANCE = new Sorus();
@@ -60,6 +63,9 @@ public class Sorus {
   /** The {@link PluginManager} for Sorus */
   private final PluginManager PLUGIN_MANAGER = new PluginManager();
 
+  /** The {@link SorusRPC} for Sorus */
+  private final SorusRPC SORUS_RPC = new SorusRPC();
+
   /** The {@link IVersion} for Sorus */
   private IVersion version;
 
@@ -72,6 +78,7 @@ public class Sorus {
    * @param version the version class used to connect with the version of minecraft
    */
   public void initialize(Class<? extends IVersion> version) {
+    isRunning = true;
     try {
       this.version = version.newInstance();
       Class.forName("org.sorus.client.obfuscation.ObfuscationManager");
@@ -84,6 +91,11 @@ public class Sorus {
     this.getHUDManager().initialize();
     this.getGUIManager().open(new HUDRenderScreen(this.getHUDManager()));
     this.getSettingsManager().load();
+
+    while (isRunning) {
+      System.out.println("Located in Sorus.java | Needs to be fixed!!! | " + Sorus.getSorus().version.getGame().getCurrentServerIP());
+    }
+
   }
 
   public EventManager getEventManager() {
@@ -108,6 +120,10 @@ public class Sorus {
 
   public PluginManager getPluginManager() {
     return PLUGIN_MANAGER;
+  }
+
+  public SorusRPC getSorusRpc() {
+    return SORUS_RPC;
   }
 
   public IVersion getVersion() {

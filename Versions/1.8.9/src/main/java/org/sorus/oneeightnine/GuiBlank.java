@@ -29,7 +29,7 @@ import net.minecraft.client.gui.GuiScreen;
 public class GuiBlank extends GuiScreen {
 
     @Override
-    protected void keyTyped(char c, int i) {
+    public void keyTyped(char c, int i) {
 
     }
 

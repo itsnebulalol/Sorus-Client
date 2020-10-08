@@ -32,6 +32,7 @@ import org.sorus.client.module.impl.enhancements.Enhancements;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
 import org.sorus.client.module.impl.perspective.Perspective;
+import org.sorus.client.module.impl.rpc.RPCModule;
 import org.sorus.client.module.impl.timechanger.TimeChanger;
 import org.sorus.client.module.impl.togglesprint.ToggleSprint;
 
@@ -64,6 +65,7 @@ public class ModuleManager {
     this.register(new TimeChanger());
     this.register(new ToggleSprint());
     this.register(new Enhancements());
+    this.register(new RPCModule());
   }
 
   /** Goes through all the modules and enables them. */
