@@ -42,11 +42,6 @@ public abstract class Screen implements IInputReceiver, IRenderable, IContainer 
     this.renderer = Sorus.getSorus().getGUIManager().getRenderer();
   }
 
-  public Screen(String firstlineRPC, String secondlineRPC) {
-    this.renderer = Sorus.getSorus().getGUIManager().getRenderer();
-    Sorus.getSorus().getSorusRpc().setPresence(firstlineRPC, secondlineRPC);
-  }
-
   /** Called when the screen if first opened. */
   public void init() {}
 

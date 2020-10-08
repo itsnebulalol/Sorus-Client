@@ -22,21 +22,26 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.theme;
+package org.sorus.client.event.impl.client;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.sorus.client.gui.core.Screen;
+import org.sorus.client.event.Event;
 
-public class ThemeManager {
+public class GuiSwitchEvent extends Event {
 
-  private final Map<String, Screen> screens = new HashMap<>();
+    private final Type type;
 
-  public void register(String screenName, Screen screen) {
-    this.screens.put(screenName, screen);
-  }
+    public GuiSwitchEvent(Type type) {
+        this.type = type;
+    }
 
-  public void reset() {
-    this.screens.clear();
-  }
+    public Type getType() {
+        return type;
+    }
+
+    public enum Type {
+        UNDEFINED,
+        NULL,
+        MAIN_MENU
+    }
+
 }

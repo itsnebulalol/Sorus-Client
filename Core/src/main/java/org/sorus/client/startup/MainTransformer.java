@@ -458,14 +458,19 @@ public class MainTransformer implements ITransformer {
         }
       }
 
-      if(classNode.superName != null) {
+      if (classNode.superName != null) {
         ClassMapping classMapping3 = mappings.getClassMapping(classNode.superName, 0);
-        if(classMapping3 != null) {
-          MethodData methodData1 = classMapping3.getClassData(0).getMethodData(methodNode.name, methodNode.desc);
-          if(methodData1 != null) {
-            methodNode.name = classMapping3.getClassData(1).getMethodDatas().get(classMapping3.getClassData(0).getMethodDatas().indexOf(methodData1)).getName();
+        if (classMapping3 != null) {
+          MethodData methodData1 =
+              classMapping3.getClassData(0).getMethodData(methodNode.name, methodNode.desc);
+          if (methodData1 != null) {
+            methodNode.name =
+                classMapping3
+                    .getClassData(1)
+                    .getMethodDatas()
+                    .get(classMapping3.getClassData(0).getMethodDatas().indexOf(methodData1))
+                    .getName();
           }
-          System.out.println(methodNode.name);
         }
       }
 

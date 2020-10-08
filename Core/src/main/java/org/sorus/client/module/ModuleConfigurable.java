@@ -132,6 +132,9 @@ public abstract class ModuleConfigurable extends Module
         setting.setValueIgnoreType(settingsMap.get(setting.getName()));
       }
     }
+    if (this.enabled.getValue()) {
+      this.onEnable();
+    }
   }
 
   @Override

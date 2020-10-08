@@ -52,7 +52,6 @@ public class HUDListScreen extends Screen {
   private double targetScroll;
 
   public HUDListScreen(HUDManager hudManager) {
-    super("Hud List", "Selecting Mods...");
     this.hudManager = hudManager;
   }
 
@@ -123,8 +122,6 @@ public class HUDListScreen extends Screen {
     Sorus.getSorus().getVersion().getRenderer().disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     main.onRemove();
-
-    Sorus.getSorus().getSorusRpc().resetPresence();
 
     super.exit();
   }
