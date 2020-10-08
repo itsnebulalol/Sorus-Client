@@ -34,6 +34,8 @@ public interface IGame {
 
   void removeBlankGUI();
 
+  String getCurrentServerIP();
+
   /**
    * Gets the game's current fps.
    *

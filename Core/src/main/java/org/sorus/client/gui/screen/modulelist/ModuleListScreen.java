@@ -49,11 +49,13 @@ public class ModuleListScreen extends Screen {
   private double targetScroll;
 
   public ModuleListScreen(ModuleManager moduleManager) {
+    super("Module List", "Selecting Mods...");
     this.moduleManager = moduleManager;
   }
 
   @Override
   public void init() {
+
     Sorus.getSorus().getVersion().getRenderer().enableBlur();
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
@@ -118,6 +120,9 @@ public class ModuleListScreen extends Screen {
     Sorus.getSorus().getVersion().getRenderer().disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     main.onRemove();
+
+    Sorus.getSorus().getSorusRpc().resetPresence();
+
     super.exit();
   }
 
