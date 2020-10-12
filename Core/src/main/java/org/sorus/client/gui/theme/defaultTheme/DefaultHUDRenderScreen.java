@@ -22,30 +22,34 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.screen.hudlist;
+package org.sorus.client.gui.theme.defaultTheme;
 
 import org.sorus.client.Sorus;
-import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.screen.settings.SettingsScreen;
-import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.gui.core.GUIManager;
+import org.sorus.client.gui.hud.HUD;
+import org.sorus.client.gui.hud.HUDManager;
+import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
+import org.sorus.client.gui.theme.base.HUDRenderScreenTheme;
 
-public class HUDListScreen extends ThemeableScreen {
+public class DefaultHUDRenderScreen extends HUDRenderScreenTheme {
 
-  public HUDListScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("hud-list", Sorus.getSorus().getHUDManager()));
-  }
-
-  public void displayModuleSettings(ModuleConfigurable module) {
-    Sorus.getSorus().getGUIManager().close(this);
-    Sorus.getSorus().getGUIManager().open(new SettingsScreen(module));
-  }
-
-  public void enableDisableModule(ModuleConfigurable module, boolean enable) {
-    module.setEnabled(enable);
+  public DefaultHUDRenderScreen(HUDManager hudManager) {
+    super(hudManager);
   }
 
   @Override
-  public boolean shouldTakeOutOfGame() {
-    return true;
+  public void render() {
+    if (this.shouldRenderHUDS()) {
+      for (HUD hud : this.hudManager.getHUDs()) {
+        hud.render();
+      }
+    }
+  }
+
+  private boolean shouldRenderHUDS() {
+    Sorus sorus = Sorus.getSorus();
+    GUIManager guiManager = sorus.getGUIManager();
+    return sorus.getVersion().getGame().shouldRenderHUDS()
+        && !guiManager.isScreenOpen(HUDPositionScreen.class);
   }
 }

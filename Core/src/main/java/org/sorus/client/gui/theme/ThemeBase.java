@@ -22,30 +22,21 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.screen.hudlist;
+package org.sorus.client.gui.theme;
 
-import org.sorus.client.Sorus;
-import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.screen.settings.SettingsScreen;
-import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.gui.core.Screen;
 
-public class HUDListScreen extends ThemeableScreen {
+public class ThemeBase<T extends Screen> implements ITheme<T> {
 
-  public HUDListScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("hud-list", Sorus.getSorus().getHUDManager()));
-  }
-
-  public void displayModuleSettings(ModuleConfigurable module) {
-    Sorus.getSorus().getGUIManager().close(this);
-    Sorus.getSorus().getGUIManager().open(new SettingsScreen(module));
-  }
-
-  public void enableDisableModule(ModuleConfigurable module, boolean enable) {
-    module.setEnabled(enable);
-  }
+  public T screen;
 
   @Override
-  public boolean shouldTakeOutOfGame() {
-    return true;
+  public void setScreen(T screen) {
+    System.out.println(this);
+    this.screen = screen;
+  }
+
+  protected T getScreen() {
+    return screen;
   }
 }

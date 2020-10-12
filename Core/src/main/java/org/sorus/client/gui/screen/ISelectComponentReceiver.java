@@ -25,8 +25,9 @@
 package org.sorus.client.gui.screen;
 
 import org.sorus.client.gui.hud.IComponent;
+import org.sorus.client.gui.theme.defaultTheme.DefaultSelectComponentScreen;
 
-/** Used to receive the selected components from the {@link SelectComponentScreen}. */
+/** Used to receive the selected components from the {@link DefaultSelectComponentScreen}. */
 public interface ISelectComponentReceiver {
 
   /**

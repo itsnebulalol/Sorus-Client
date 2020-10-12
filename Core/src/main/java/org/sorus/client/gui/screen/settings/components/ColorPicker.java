@@ -95,7 +95,9 @@ public class ColorPicker extends Configurable {
         e.getY() > this.absoluteY()
             && e.getY() < this.absoluteY() + this.getHeight() * this.absoluteYScale();
     if (expanded && this.getContainer().isInteractContainer()) {
-      Sorus.getSorus().getGUIManager().open(new ColorPickerScreen(setting));
+      Sorus.getSorus()
+          .getGUIManager()
+          .open(new org.sorus.client.gui.theme.defaultTheme.DefaultColorPickerScreen(setting));
     }
   }
 
@@ -108,7 +110,7 @@ public class ColorPicker extends Configurable {
     return setting.getValue();
   }
 
-  public static class ColorPickerScreen extends Screen {
+  public static class DefaultColorPickerScreen extends Screen {
 
     private final Setting<Color> setting;
     private final Panel main;
@@ -118,7 +120,7 @@ public class ColorPicker extends Configurable {
     private final BrightnessSlider brightnessSlider;
     private final Rectangle colorViewer;
 
-    public ColorPickerScreen(Setting<Color> setting) {
+    public DefaultColorPickerScreen(Setting<Color> setting) {
       this.setting = setting;
       this.main = new Panel();
       Color color = setting.getValue();
@@ -309,7 +311,7 @@ public class ColorPicker extends Configurable {
           imageMouseY = MathUtil.clamp(imageMouseY, 0, 199);
           selector.position(imageMouseX - 5, imageMouseY - 5);
           this.color = new Color(image.getRGB((int) imageMouseX, (int) imageMouseY));
-          ColorPickerScreen.this.updateSetting();
+          DefaultColorPickerScreen.this.updateSetting();
         }
         super.onRender();
       }
@@ -368,7 +370,7 @@ public class ColorPicker extends Configurable {
           double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
           this.value =
               MathUtil.clamp((mouseY - this.absoluteY()) / (200 * this.absoluteYScale()), 0, 1);
-          ColorPickerScreen.this.updateSetting();
+          DefaultColorPickerScreen.this.updateSetting();
         }
         this.selector.position(0, 200 * value - 1);
         super.onRender();
@@ -424,7 +426,7 @@ public class ColorPicker extends Configurable {
           double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
           this.value =
               MathUtil.clamp((mouseX - this.absoluteX()) / (200 * this.absoluteXScale()), 0, 1);
-          ColorPickerScreen.this.updateSetting();
+          DefaultColorPickerScreen.this.updateSetting();
         }
         this.selector.position(200 * value - 1, 0);
         super.onRender();

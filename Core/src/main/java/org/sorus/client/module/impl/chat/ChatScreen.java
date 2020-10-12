@@ -135,7 +135,7 @@ public class ChatScreen extends Screen {
   }
 
   @Override
-  public void exit() {
+  public void onExit() {
     this.chatComponent.setScreenOpen(false);
     Sorus.getSorus().getEventManager().unregister(this);
   }

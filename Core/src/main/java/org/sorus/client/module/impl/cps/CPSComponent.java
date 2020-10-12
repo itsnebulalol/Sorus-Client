@@ -158,12 +158,12 @@ public class CPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    return tightFit.getValue() ? fontRenderer.getStringWidth(ArrayUtil.concat(cpsString)) + 2 : 60;
+    return tightFit.getValue() ? fontRenderer.getStringWidth(ArrayUtil.concat(cpsString)) + 4 : 60;
   }
 
   @Override
   public double getHeight() {
-    return tightFit.getValue() ? fontRenderer.getFontHeight() + 2 : 11;
+    return tightFit.getValue() ? fontRenderer.getFontHeight() + 4 : 11;
   }
 
   @Override

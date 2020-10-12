@@ -22,30 +22,16 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.screen.hudlist;
+package org.sorus.client.gui.theme.defaultTheme;
 
+import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.screen.settings.SettingsScreen;
-import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.settings.Setting;
 
-public class HUDListScreen extends ThemeableScreen {
+public class DefaultColorPickerScreen extends ThemeableScreen {
 
-  public HUDListScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("hud-list", Sorus.getSorus().getHUDManager()));
-  }
-
-  public void displayModuleSettings(ModuleConfigurable module) {
-    Sorus.getSorus().getGUIManager().close(this);
-    Sorus.getSorus().getGUIManager().open(new SettingsScreen(module));
-  }
-
-  public void enableDisableModule(ModuleConfigurable module, boolean enable) {
-    module.setEnabled(enable);
-  }
-
-  @Override
-  public boolean shouldTakeOutOfGame() {
-    return true;
+  public DefaultColorPickerScreen(Setting<Color> setting) {
+    super(Sorus.getSorus().getThemeManager().getTheme("settings-color-picker", setting));
   }
 }

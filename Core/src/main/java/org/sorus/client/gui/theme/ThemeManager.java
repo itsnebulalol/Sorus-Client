@@ -24,19 +24,61 @@
 
 package org.sorus.client.gui.theme;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.sorus.client.gui.core.Screen;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import org.sorus.client.gui.theme.defaultTheme.DefaultHUDRenderScreen;
+import org.sorus.client.gui.theme.defaultTheme.DefaultSelectComponentScreen;
+import org.sorus.client.gui.theme.defaultTheme.DefaultSettingsScreen;
+import org.sorus.client.gui.theme.defaultTheme.hudconfig.DefaultHUDConfigScreen;
+import org.sorus.client.gui.theme.defaultTheme.hudlist.DefaultHUDListScreen;
+import org.sorus.client.gui.theme.defaultTheme.menu.DefaultMenuScreen;
+import org.sorus.client.gui.theme.defaultTheme.modulelist.DefaultModuleListScreen;
+import org.sorus.client.gui.theme.defaultTheme.positionscreen.DefaultHUDPositionScreen;
 
 public class ThemeManager {
 
-  private final Map<String, Screen> screens = new HashMap<>();
+  private final List<Theme> registeredThemes = new ArrayList<>();
+  private final List<Theme> currentThemes = new ArrayList<>();
 
-  public void register(String screenName, Screen screen) {
-    this.screens.put(screenName, screen);
+  public ThemeManager() {
+    Theme defaultTheme = new Theme("DEFAULT");
+    defaultTheme.register("menu", DefaultMenuScreen.class);
+    defaultTheme.register("module-list", DefaultModuleListScreen.class);
+    defaultTheme.register("hud-render", DefaultHUDRenderScreen.class);
+    defaultTheme.register("hud-position", DefaultHUDPositionScreen.class);
+    defaultTheme.register("hud-list", DefaultHUDListScreen.class);
+    defaultTheme.register("hud-config", DefaultHUDConfigScreen.class);
+    defaultTheme.register("settings", DefaultSettingsScreen.class);
+    defaultTheme.register("select-component", DefaultSelectComponentScreen.class);
+    this.register(defaultTheme);
+    this.currentThemes.add(defaultTheme);
   }
 
-  public void reset() {
-    this.screens.clear();
+  public void register(Theme theme) {
+    this.registeredThemes.add(theme);
+  }
+
+  public <T> T getTheme(String screenName, Object... args) {
+    Class<? extends ITheme> themeClass = null;
+    int i = 0;
+    while (themeClass == null) {
+      themeClass = currentThemes.get(i).getTheme(screenName);
+      i++;
+    }
+    try {
+      return (T) themeClass.getConstructors()[0].newInstance(args);
+    } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public List<Theme> getCurrentThemes() {
+    return currentThemes;
+  }
+
+  public List<Theme> getRegisteredThemes() {
+    return registeredThemes;
   }
 }

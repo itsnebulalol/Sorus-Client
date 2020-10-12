@@ -211,13 +211,13 @@ public class GPSComponent extends Component {
                     fontRenderer.getStringWidth(ArrayUtil.concat(xString)),
                     fontRenderer.getStringWidth(ArrayUtil.concat(yString))),
                 fontRenderer.getStringWidth(ArrayUtil.concat(zString)))
-            + 2
+            + 4
         : 60;
   }
 
   @Override
   public double getHeight() {
-    return fontRenderer.getFontHeight() * 3 + 6;
+    return fontRenderer.getFontHeight() * 3 + 8;
   }
 
   @Override

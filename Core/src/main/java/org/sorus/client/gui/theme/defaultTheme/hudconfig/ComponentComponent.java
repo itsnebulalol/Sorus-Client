@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.hud;
+package org.sorus.client.gui.theme.defaultTheme.hudconfig;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,15 +35,17 @@ import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
+import org.sorus.client.gui.hud.Component;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
 import org.sorus.client.util.Axis;
 import org.sorus.client.version.IGLHelper;
 
 public class ComponentComponent extends Collection {
 
-  private final HUDConfigScreen screen;
+  private final DefaultHUDConfigScreen screen;
 
-  public ComponentComponent(HUDConfigScreen screen, Component component) {
+  public ComponentComponent(
+      DefaultHUDConfigScreen screen, org.sorus.client.gui.hud.Component component) {
     this.screen = screen;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
@@ -172,11 +174,11 @@ public class ComponentComponent extends Collection {
 
     private long prevRenderTime;
 
-    private final Component component;
+    private final org.sorus.client.gui.hud.Component component;
 
     private final Image image;
 
-    public SettingsButton(Component component) {
+    public SettingsButton(org.sorus.client.gui.hud.Component component) {
       this.component = component;
       this.add(image = new Image().resource("sorus/gear.png").size(40, 40));
       Sorus.getSorus().getEventManager().register(this);
@@ -217,7 +219,7 @@ public class ComponentComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        Sorus.getSorus().getGUIManager().close(ComponentComponent.this.screen);
+        Sorus.getSorus().getGUIManager().close(ComponentComponent.this.screen.screen);
         Sorus.getSorus().getGUIManager().open(new SettingsScreen(component));
       }
     }
@@ -232,7 +234,7 @@ public class ComponentComponent extends Collection {
 
   public class RemoveButton extends Collection {
 
-    private final Component component;
+    private final org.sorus.client.gui.hud.Component component;
 
     private final Collection main;
 

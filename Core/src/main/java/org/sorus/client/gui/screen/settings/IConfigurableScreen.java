@@ -25,8 +25,9 @@
 package org.sorus.client.gui.screen.settings;
 
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.theme.defaultTheme.DefaultSettingsScreen;
 
-/** Interface used for use with {@link SettingsScreen} to create a setting menu. */
+/** Interface used for use with {@link DefaultSettingsScreen} to create a setting menu. */
 public interface IConfigurableScreen {
 
   /**

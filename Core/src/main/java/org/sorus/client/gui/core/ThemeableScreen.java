@@ -24,42 +24,46 @@
 
 package org.sorus.client.gui.core;
 
-import java.util.List;
-import org.sorus.client.Sorus;
-import org.sorus.client.gui.core.component.api.IInputReceiver;
-import org.sorus.client.gui.core.component.api.IRenderable;
-import org.sorus.client.gui.core.component.api.IScreenRenderer;
+import org.sorus.client.gui.theme.ITheme;
+import org.sorus.client.version.input.Button;
+import org.sorus.client.version.input.Key;
 
-/**
- * Core class for use in the {@link GUIManager} for rendering to the screen. Can be displayed and
- * removed from display.
- */
-public abstract class Screen implements IInputReceiver, IRenderable, IContainer {
+public class ThemeableScreen extends Screen {
 
-  protected final IScreenRenderer renderer;
+  private final ITheme<?> theme;
 
-  public Screen() {
-    this.renderer = Sorus.getSorus().getGUIManager().getRenderer();
-  }
-
-  /** Called when the screen if first opened. */
-  public void onOpen() {}
-
-  /** Called when the screen is closed. */
-  public void onExit() {}
-
-  /**
-   * Used to determine if a blank gui needs to be displayed while this is a current screen.
-   *
-   * @return if the screen should take the user out of their game
-   */
-  public boolean shouldTakeOutOfGame() {
-    return false;
+  public ThemeableScreen(ITheme<ThemeableScreen> theme) {
+    this.theme = theme;
+    theme.setScreen(this);
   }
 
   @Override
-  public boolean isInteractContainer() {
-    List<Screen> currentScreens = Sorus.getSorus().getGUIManager().getCurrentScreens();
-    return currentScreens.indexOf(this) == currentScreens.size() - 1;
+  public void onOpen() {
+    this.theme.init();
+  }
+
+  @Override
+  public void onRender() {
+    this.theme.render();
+  }
+
+  @Override
+  public void onExit() {
+    this.theme.exit();
+  }
+
+  @Override
+  public void keyTyped(Key key) {
+    this.theme.keyTyped(key);
+  }
+
+  @Override
+  public void mouseClicked(Button button, double x, double y) {
+    this.theme.mouseClicked(button, x, y);
+  }
+
+  @Override
+  public void mouseReleased(Button button) {
+    this.theme.mouseReleased(button);
   }
 }

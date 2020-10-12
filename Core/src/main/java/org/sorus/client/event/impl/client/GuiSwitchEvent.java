@@ -28,20 +28,19 @@ import org.sorus.client.event.Event;
 
 public class GuiSwitchEvent extends Event {
 
-    private final Type type;
+  private final Type type;
 
-    public GuiSwitchEvent(Type type) {
-        this.type = type;
-    }
+  public GuiSwitchEvent(Type type) {
+    this.type = type;
+  }
 
-    public Type getType() {
-        return type;
-    }
+  public Type getType() {
+    return type;
+  }
 
-    public enum Type {
-        UNDEFINED,
-        NULL,
-        MAIN_MENU
-    }
-
+  public enum Type {
+    UNDEFINED,
+    NULL,
+    MAIN_MENU
+  }
 }

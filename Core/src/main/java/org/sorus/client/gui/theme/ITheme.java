@@ -22,30 +22,26 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.screen.hudlist;
+package org.sorus.client.gui.theme;
 
-import org.sorus.client.Sorus;
-import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.screen.settings.SettingsScreen;
-import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.version.input.Button;
+import org.sorus.client.version.input.Key;
 
-public class HUDListScreen extends ThemeableScreen {
+public interface ITheme<T> {
 
-  public HUDListScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("hud-list", Sorus.getSorus().getHUDManager()));
-  }
+  default void init() {}
 
-  public void displayModuleSettings(ModuleConfigurable module) {
-    Sorus.getSorus().getGUIManager().close(this);
-    Sorus.getSorus().getGUIManager().open(new SettingsScreen(module));
-  }
+  default void render() {}
 
-  public void enableDisableModule(ModuleConfigurable module, boolean enable) {
-    module.setEnabled(enable);
-  }
+  default void exit() {}
 
-  @Override
-  public boolean shouldTakeOutOfGame() {
-    return true;
+  default void keyTyped(Key key) {}
+
+  default void mouseClicked(Button button, double x, double y) {}
+
+  default void mouseReleased(Button button) {}
+
+  default void setScreen(T screen) {
+
   }
 }

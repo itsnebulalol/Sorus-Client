@@ -50,4 +50,8 @@ public class EntityImpl implements IEntity {
         return entity.posZ;
     }
 
+    @Override
+    public boolean isNull() {
+        return entity == null;
+    }
 }

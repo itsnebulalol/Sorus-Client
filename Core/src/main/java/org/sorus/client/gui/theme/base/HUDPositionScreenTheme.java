@@ -22,30 +22,9 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.screen.hudlist;
+package org.sorus.client.gui.theme.base;
 
-import org.sorus.client.Sorus;
-import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.screen.settings.SettingsScreen;
-import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
+import org.sorus.client.gui.theme.ThemeBase;
 
-public class HUDListScreen extends ThemeableScreen {
-
-  public HUDListScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("hud-list", Sorus.getSorus().getHUDManager()));
-  }
-
-  public void displayModuleSettings(ModuleConfigurable module) {
-    Sorus.getSorus().getGUIManager().close(this);
-    Sorus.getSorus().getGUIManager().open(new SettingsScreen(module));
-  }
-
-  public void enableDisableModule(ModuleConfigurable module, boolean enable) {
-    module.setEnabled(enable);
-  }
-
-  @Override
-  public boolean shouldTakeOutOfGame() {
-    return true;
-  }
-}
+public class HUDPositionScreenTheme extends ThemeBase<HUDPositionScreen> {}
