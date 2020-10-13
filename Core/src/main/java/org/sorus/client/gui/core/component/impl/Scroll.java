@@ -39,7 +39,7 @@ public class Scroll extends Collection {
    * @return absolute y
    */
   @Override
-  protected double absoluteY() {
+  public double absoluteY() {
     return super.absoluteY() + scroll * this.absoluteYScale();
   }
 

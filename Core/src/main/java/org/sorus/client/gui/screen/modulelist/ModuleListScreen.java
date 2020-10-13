@@ -32,7 +32,10 @@ import org.sorus.client.module.ModuleConfigurable;
 public class ModuleListScreen extends ThemeableScreen {
 
   public ModuleListScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("module-list", Sorus.getSorus().getModuleManager()));
+    super(
+        Sorus.getSorus()
+            .getThemeManager()
+            .getTheme("module-list", Sorus.getSorus().getModuleManager()));
   }
 
   public void displayModuleSettings(ModuleConfigurable module) {

@@ -27,14 +27,7 @@ package org.sorus.client.gui.theme;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import org.sorus.client.gui.theme.defaultTheme.DefaultHUDRenderScreen;
-import org.sorus.client.gui.theme.defaultTheme.DefaultSelectComponentScreen;
-import org.sorus.client.gui.theme.defaultTheme.DefaultSettingsScreen;
-import org.sorus.client.gui.theme.defaultTheme.hudconfig.DefaultHUDConfigScreen;
-import org.sorus.client.gui.theme.defaultTheme.hudlist.DefaultHUDListScreen;
-import org.sorus.client.gui.theme.defaultTheme.menu.DefaultMenuScreen;
-import org.sorus.client.gui.theme.defaultTheme.modulelist.DefaultModuleListScreen;
-import org.sorus.client.gui.theme.defaultTheme.positionscreen.DefaultHUDPositionScreen;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 
 public class ThemeManager {
 
@@ -42,15 +35,7 @@ public class ThemeManager {
   private final List<Theme> currentThemes = new ArrayList<>();
 
   public ThemeManager() {
-    Theme defaultTheme = new Theme("DEFAULT");
-    defaultTheme.register("menu", DefaultMenuScreen.class);
-    defaultTheme.register("module-list", DefaultModuleListScreen.class);
-    defaultTheme.register("hud-render", DefaultHUDRenderScreen.class);
-    defaultTheme.register("hud-position", DefaultHUDPositionScreen.class);
-    defaultTheme.register("hud-list", DefaultHUDListScreen.class);
-    defaultTheme.register("hud-config", DefaultHUDConfigScreen.class);
-    defaultTheme.register("settings", DefaultSettingsScreen.class);
-    defaultTheme.register("select-component", DefaultSelectComponentScreen.class);
+    Theme defaultTheme = new DefaultTheme();
     this.register(defaultTheme);
     this.currentThemes.add(defaultTheme);
   }
@@ -59,8 +44,16 @@ public class ThemeManager {
     this.registeredThemes.add(theme);
   }
 
+  public void add(Theme theme) {
+    this.currentThemes.add(theme);
+  }
+
+  public void remove(Theme theme) {
+    this.currentThemes.remove(theme);
+  }
+
   public <T> T getTheme(String screenName, Object... args) {
-    Class<? extends ITheme> themeClass = null;
+    Class<? extends ITheme<?>> themeClass = null;
     int i = 0;
     while (themeClass == null) {
       themeClass = currentThemes.get(i).getTheme(screenName);
@@ -81,4 +74,14 @@ public class ThemeManager {
   public List<Theme> getRegisteredThemes() {
     return registeredThemes;
   }
+
+  public <T extends Theme> T getTheme(Class<T> clazz) {
+    for(Theme theme : this.getCurrentThemes()) {
+      if(clazz.isAssignableFrom(theme.getClass())) {
+        return (T) theme;
+      }
+    }
+    return null;
+  }
+
 }

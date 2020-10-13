@@ -22,9 +22,22 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.theme.base;
+package org.sorus.client.gui.screen.theme;
 
-import org.sorus.client.gui.screen.MenuScreen;
-import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.Sorus;
+import org.sorus.client.gui.core.ThemeableScreen;
 
-public class MenuScreenTheme extends ThemeBase<MenuScreen> {}
+public class ThemeListScreen extends ThemeableScreen {
+
+  public ThemeListScreen() {
+    super(
+        Sorus.getSorus()
+            .getThemeManager()
+            .getTheme("theme-list", Sorus.getSorus().getThemeManager()));
+  }
+
+  @Override
+  public boolean shouldTakeOutOfGame() {
+    return true;
+  }
+}

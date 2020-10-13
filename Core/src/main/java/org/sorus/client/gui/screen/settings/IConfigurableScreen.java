@@ -37,7 +37,5 @@ public interface IConfigurableScreen {
    */
   void addConfigComponents(Collection collection);
 
-  void updateConfigComponents();
-
   String getDisplayName();
 }

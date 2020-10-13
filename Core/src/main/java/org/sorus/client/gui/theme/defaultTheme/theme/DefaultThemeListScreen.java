@@ -22,9 +22,12 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.theme.defaultTheme.hudlist;
+package org.sorus.client.gui.theme.defaultTheme.theme;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -33,27 +36,32 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.hud.HUD;
-import org.sorus.client.gui.hud.HUDManager;
-import org.sorus.client.gui.hud.SingleHUD;
-import org.sorus.client.gui.screen.hudlist.HUDListScreen;
+import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.screen.theme.SelectThemeScreen;
+import org.sorus.client.gui.screen.theme.ThemeListScreen;
+import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.gui.theme.ThemeManager;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
 
-public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
+public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
-  private final HUDManager hudManager;
+  private final ThemeManager themeManager;
 
   private Panel main;
   private Scroll scroll;
 
-  private int hudCount;
+  private int themeCount;
 
   private double targetScroll;
 
-  public DefaultHUDListScreen(HUDManager hudManager) {
-    this.hudManager = hudManager;
+  private ThemeListComponent draggedComponent;
+  private double initialMouseX, initialMouseY;
+  private double initialX, initialY;
+
+  public DefaultThemeListScreen(ThemeManager themeManager) {
+    this.themeManager = themeManager;
   }
 
   @Override
@@ -86,35 +94,48 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
             .scale(5.5, 5.5)
             .color(new Color(215, 215, 215)));
     menu.add(new Add().position(320, 705));
-    Scissor scissor = new Scissor().size(680, 600).position(10, 85);
+    Scissor scissor = new Scissor().size(680, 690).position(10, 85);
     this.scroll = new Scroll();
     scroll.position(0, 2);
     scissor.add(scroll);
     menu.add(scissor);
-    this.updateHUDS();
+    this.updateThemes();
   }
 
-  public void updateHUDS() {
+  public void updateThemes() {
     scroll.clear();
-    hudCount = 0;
-    for (HUD hud : this.hudManager.getHUDs()) {
-      scroll.add(new HUDComponent(this, hud).position(0, 135 * hudCount));
-      hudCount++;
+    themeCount = 0;
+    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    for (Theme theme : this.themeManager.getCurrentThemes()) {
+      boolean added = false;
+      while(!added) {
+        boolean add = true;
+        if(draggedComponent != null) {
+          double y = MathUtil.clamp(draggedComponent.absoluteY(), 225 * yRatio, 1000 * yRatio);
+          if(Math.abs(y - ((themeCount * 135) + 225) * yRatio) < 62.5 * yRatio) {
+            add = false;
+          }
+        }
+        if(add) {
+          scroll.add(new ThemeListComponent(this, theme).position(0, themeCount * 135));
+          added = true;
+        }
+        themeCount++;
+      }
     }
   }
 
   @Override
   public void render() {
-    final int FPS = Math.max(Sorus.getSorus().getVersion().getGame().getFPS(), 1);
-    double scrollValue = Sorus.getSorus().getVersion().getInput().getScroll();
-    targetScroll = targetScroll + scrollValue * 0.7;
-    scroll.setScroll((targetScroll - scroll.getScroll()) * 7 / FPS + scroll.getScroll());
-    double maxScroll = hudCount * 135 - 690;
-    scroll.addMinMaxScroll(-maxScroll, 0);
-    targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
-    main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+    double xRatio = Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920;
+    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    if(draggedComponent != null) {
+      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      draggedComponent.position((mouseX - initialMouseX + initialX) * 1 / xRatio, (mouseY - initialMouseY + initialY) * 1 / yRatio);
+      this.updateThemes();
+    }
+    main.scale(xRatio, yRatio);
     main.onRender();
   }
 
@@ -123,6 +144,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
     Sorus.getSorus().getVersion().getRenderer().disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     main.onRemove();
+    super.exit();
   }
 
   @Override
@@ -132,26 +154,55 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
     }
   }
 
+  public void onComponentDrag(ThemeListComponent draggedComponent, double mouseX, double mouseY) {
+    this.draggedComponent = new ThemeListComponent(this, draggedComponent.getTheme());
+    this.initialMouseX = mouseX;
+    this.initialMouseY = mouseY;
+    this.initialX = draggedComponent.absoluteX();
+    this.initialY = draggedComponent.absoluteY();
+    themeManager.remove(draggedComponent.getTheme());
+    main.add(this.draggedComponent);
+    this.updateThemes();
+  }
+
+  public void onComponentRelease(ThemeListComponent component) {
+    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    int size = themeManager.getCurrentThemes().size();
+    int index = 0;
+    boolean added = false;
+    while(!added) {
+      if(draggedComponent != null) {
+        double y = MathUtil.clamp(draggedComponent.absoluteY(), 225 * yRatio, (225 + size * 135) * yRatio);
+        if(Math.abs(y - ((index * 135) + 225) * yRatio) < 62.5 * yRatio) {
+          System.out.println(index);
+          themeManager.getCurrentThemes().add(index, component.getTheme());
+          added = true;
+        }
+      }
+      index++;
+    }
+    main.remove(draggedComponent);
+    draggedComponent = null;
+    this.updateThemes();
+  }
+
+  public ThemeListComponent getDraggedComponent() {
+    return draggedComponent;
+  }
+
   public class Add extends Collection {
 
-    private final Collection collection;
-    private final Rectangle rectangle;
-    private final Scissor scissor;
-    private final Collection centerCross;
+    private final Collection main;
     private double expandedPercent;
 
     private long prevRenderTime;
 
     public Add() {
       Sorus.getSorus().getEventManager().register(this);
-      this.add(rectangle = new Rectangle().smooth(4).color(new Color(35, 160, 65)));
-      collection = new Collection();
-      this.scissor = new Scissor();
-      this.add(scissor);
-      this.centerCross = new Collection();
-      this.centerCross.add(new Rectangle().smooth(3).size(10, 40).position(25, 10));
-      this.centerCross.add(new Rectangle().smooth(3).size(40, 10).position(10, 25));
-      this.add(centerCross);
+      this.add(main = new Collection());
+      main.add(new Rectangle().smooth(4).size(60, 60).color(new Color(35, 160, 65)));
+      main.add(new Collection().add(new Rectangle().smooth(3).size(10, 40).position(25, 10)))
+          .add(new Rectangle().smooth(3).size(40, 10).position(10, 25));
     }
 
     @Override
@@ -161,64 +212,19 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
       double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
       double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
       boolean hovered = this.isHovered(mouseX, mouseY);
-      double x = -80 * expandedPercent;
       expandedPercent =
           Math.min(Math.max(0, expandedPercent + (hovered ? 1 : -1) * deltaTime / 100.0), 1);
-      rectangle.size(60 + 160 * expandedPercent, 60).position(x, 0);
-      scissor
-          .size(60 + 160 * expandedPercent, 60)
-          .position(x, 0)
-          .color(new Color(235, 235, 235, (int) (255 * expandedPercent)));
-      centerCross.color(new Color(235, 235, 235, (int) (Math.max(0, 255 - 400 * expandedPercent))));
+      main.scale(1 + 0.1 * expandedPercent, 1 + 0.1 * expandedPercent)
+          .position(-2.5 * expandedPercent, -2.5 * expandedPercent);
       prevRenderTime = renderTime;
-      this.remove(collection);
-      if (hovered) {
-        this.collection.clear();
-        Rectangle selectedSide =
-            new Rectangle().size(30 + 80 * expandedPercent, 60).color(new Color(0, 0, 0, 30));
-        this.collection.add(selectedSide);
-        if (mouseX > this.absoluteX() + 30 * this.absoluteXScale()) {
-          selectedSide.position(30, 0);
-        } else {
-          selectedSide.position(-80 * expandedPercent, 0);
-        }
-        this.add(collection);
-      }
-      scissor.clear();
-      scissor.add(new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(-x - 35, 10));
-      scissor.add(
-          new Text()
-              .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
-              .text("SINGLE")
-              .scale(2, 2)
-              .position(-x - 50, 40));
-      scissor.add(
-          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(-x + 51.25, 10));
-      scissor.add(
-          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(-x + 73.625, 10));
-      scissor.add(
-          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(-x + 96.625, 10));
-      scissor.add(
-          new Text()
-              .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
-              .text("MULTI")
-              .scale(2, 2)
-              .position(-x + 64, 40));
       super.onRender();
     }
 
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        HUD hud;
-        if (e.getX() > this.absoluteX() + 30 * this.absoluteXScale()) {
-          hud = new HUD();
-        } else {
-          hud = new SingleHUD();
-        }
-        Sorus.getSorus().getHUDManager().register(hud);
-        Sorus.getSorus().getGUIManager().close(DefaultHUDListScreen.this.screen);
-        hud.onCreation();
+        Sorus.getSorus().getGUIManager().close(DefaultThemeListScreen.this.screen);
+        Sorus.getSorus().getGUIManager().open(new SelectThemeScreen(new ThemeReceiver()));
       }
     }
 
@@ -234,6 +240,22 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
     public void onRemove() {
       Sorus.getSorus().getEventManager().unregister(this);
       super.onRemove();
+    }
+
+    public class ThemeReceiver implements IReceiver<Theme> {
+
+      @Override
+      public void select(Theme selected) {
+        themeManager.add(selected);
+        Sorus.getSorus().getGUIManager().open(DefaultThemeListScreen.this.screen);
+        DefaultThemeListScreen.this.updateThemes();
+      }
+
+      @Override
+      public void cancel() {
+        Sorus.getSorus().getGUIManager().open(new ThemeListScreen());
+      }
+
     }
   }
 }

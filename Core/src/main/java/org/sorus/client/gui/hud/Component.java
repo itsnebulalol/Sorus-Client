@@ -80,9 +80,6 @@ public abstract class Component implements IComponent, IConfigurableScreen {
   public void addConfigComponents(Collection collection) {}
 
   @Override
-  public void updateConfigComponents() {}
-
-  @Override
   public Map<String, Object> getSettings() {
     Map<String, Object> settings = new HashMap<>();
     for (Setting<?> setting : this.settings) {

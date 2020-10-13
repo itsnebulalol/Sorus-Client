@@ -32,7 +32,6 @@ public class ThemeBase<T extends Screen> implements ITheme<T> {
 
   @Override
   public void setScreen(T screen) {
-    System.out.println(this);
     this.screen = screen;
   }
 

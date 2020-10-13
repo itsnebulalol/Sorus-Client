@@ -93,21 +93,21 @@ public class GPSComponent extends Component {
             .add(xLabel = new Text())
             .add(xLabelExtraPost = new Text())
             .add(xValue = new Text())
-            .position(1, 1));
+            .position(2, 2));
     modPanel.add(
         new MultiTextComponent()
             .add(yLabelExtraPre = new Text())
             .add(yLabel = new Text())
             .add(yLabelExtraPost = new Text())
             .add(yValue = new Text())
-            .position(1, 10));
+            .position(2, 12));
     modPanel.add(
         new MultiTextComponent()
             .add(zLabelExtraPre = new Text())
             .add(zLabel = new Text())
             .add(zLabelExtraPost = new Text())
             .add(zValue = new Text())
-            .position(1, 19));
+            .position(2, 22));
     this.updateFontRenderer();
   }
 
@@ -217,7 +217,7 @@ public class GPSComponent extends Component {
 
   @Override
   public double getHeight() {
-    return fontRenderer.getFontHeight() * 3 + 8;
+    return fontRenderer.getFontHeight() * 3 + 10;
   }
 
   @Override

@@ -35,18 +35,20 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.*;
 import org.sorus.client.gui.hud.Component;
-import org.sorus.client.gui.screen.ISelectComponentReceiver;
+import org.sorus.client.gui.screen.IReceiver;
 import org.sorus.client.gui.screen.SelectComponentScreen;
-import org.sorus.client.gui.theme.base.HUDConfigScreenTheme;
+import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.version.input.Key;
 
-public class DefaultHUDConfigScreen extends HUDConfigScreenTheme {
+public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
+
+  private final HUD hud;
 
   private Panel main;
   private Scroll scroll;
 
   public DefaultHUDConfigScreen(HUD hud) {
-    super(hud);
+    this.hud = hud;
   }
 
   @Override
@@ -187,7 +189,7 @@ public class DefaultHUDConfigScreen extends HUDConfigScreenTheme {
       super.onRemove();
     }
 
-    public class OnAddComponent implements ISelectComponentReceiver {
+    public class OnAddComponent implements IReceiver<IComponent> {
 
       @Override
       public void select(IComponent selected) {

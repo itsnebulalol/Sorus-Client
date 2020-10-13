@@ -32,16 +32,17 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.api.IScreenRenderer;
 import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.hud.HUDManager;
+import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.hud.positonscreen.SelectedHUDState;
 import org.sorus.client.gui.hud.positonscreen.Snap;
 import org.sorus.client.gui.screen.MenuScreen;
-import org.sorus.client.gui.theme.base.HUDPositionScreenTheme;
+import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.Axis;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Button;
 import org.sorus.client.version.input.Key;
 
-public class DefaultHUDPositionScreen extends HUDPositionScreenTheme {
+public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
 
   private final Panel main = new Panel();
   private final List<HUD> huds;

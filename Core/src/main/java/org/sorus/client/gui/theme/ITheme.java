@@ -41,7 +41,5 @@ public interface ITheme<T> {
 
   default void mouseReleased(Button button) {}
 
-  default void setScreen(T screen) {
-
-  }
+  default void setScreen(T screen) {}
 }

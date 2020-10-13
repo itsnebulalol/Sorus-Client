@@ -22,9 +22,19 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.theme.base;
+package org.sorus.client.gui.screen;
 
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
-import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.gui.theme.defaultTheme.DefaultSelectComponentScreen;
 
-public class HUDPositionScreenTheme extends ThemeBase<HUDPositionScreen> {}
+/** Used to receive the selected components from the {@link DefaultSelectComponentScreen}. */
+public interface IReceiver<T> {
+
+  /**
+   * Receives and handles the selected component.
+   *
+   * @param selected the selected component
+   */
+  void select(T selected);
+
+  void cancel();
+}

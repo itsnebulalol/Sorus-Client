@@ -32,32 +32,36 @@ import org.sorus.client.gui.core.component.impl.Arc;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
+import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
-import org.sorus.client.gui.theme.base.MenuScreenTheme;
+import org.sorus.client.gui.screen.theme.ThemeListScreen;
+import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.version.input.Key;
 
-public class DefaultMenuScreen extends MenuScreenTheme {
+public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
 
   private Panel main;
 
   @Override
   public void init() {
+    Sorus.getSorus().getVersion().getRenderer().enableBlur();
     main = new Panel();
-    Collection menu = new Collection().position(690, 200); // +60
+    Collection menu = new Collection().position(690, 200);
     main.add(menu);
-    menu.add(new Rectangle().smooth(5).size(580, 600).position(0, 70).color(new Color(18, 18, 18)));
-    menu.add(new Rectangle().size(580, 65).position(0, 5).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(180, 270).position(0, 0).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(90, 180).position(570, 0).color(new Color(30, 30, 30)));
-    menu.add(new Rectangle().size(570, 5).position(5, 0).color(new Color(30, 30, 30)));
+    menu.add(new Rectangle().smooth(5).size(580, 600).position(0, 70).color(DefaultTheme.getBackgroundLayerColor()));
+    menu.add(new Rectangle().size(580, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(new Arc().radius(5, 5).angle(180, 270).position(0, 0).color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(new Arc().radius(5, 5).angle(90, 180).position(570, 0).color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(new Rectangle().size(570, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14))
+                DefaultTheme.getShadowEndColor(),
+                    DefaultTheme.getShadowEndColor(),
+                    DefaultTheme.getShadowStartColor(),
+                    DefaultTheme.getShadowStartColor())
             .size(580, 7)
             .position(0, 70));
     IFontRenderer fontRenderer =
@@ -68,10 +72,10 @@ public class DefaultMenuScreen extends MenuScreenTheme {
             .text("SORUS")
             .position(290 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
-            .color(new Color(215, 215, 215)));
+            .color(DefaultTheme.getForegroundLayerColor()));
     menu.add(new MenuComponent("HUDs", null, HUDListScreen.class).position(20, 90));
     menu.add(new MenuComponent("Modules", null, ModuleListScreen.class).position(207.5, 90));
-    menu.add(new MenuComponent("Themes", null, null).position(395, 90));
+    menu.add(new MenuComponent("Themes", null, ThemeListScreen.class).position(395, 90));
     menu.add(new MenuComponent("Settings", null, null).position(20, 282.5));
     menu.add(new MenuComponent("Plugins", null, null).position(207.5, 282.5));
     menu.add(new MenuComponent("test", null, null).position(395, 282.5));
@@ -90,6 +94,7 @@ public class DefaultMenuScreen extends MenuScreenTheme {
 
   @Override
   public void exit() {
+    Sorus.getSorus().getVersion().getRenderer().disableBlur();
     this.main.onRemove();
   }
 

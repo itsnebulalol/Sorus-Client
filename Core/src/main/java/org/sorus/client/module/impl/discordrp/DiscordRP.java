@@ -23,8 +23,7 @@ public class DiscordRP extends ModuleConfigurable {
   @Override
   public void onLoad() {
     client.setListener(new IPCListener() {});
-
-    builder.setStartTimestamp(OffsetDateTime.now()).setLargeImage("main", "Sorus Client");
+    builder.setStartTimestamp(OffsetDateTime.now()).setLargeImage("logo_dark", "Sorus Client");
     Runtime.getRuntime().addShutdownHook(new Thread(client::close));
   }
 
@@ -59,6 +58,8 @@ public class DiscordRP extends ModuleConfigurable {
 
   public void setPresence(String firstLine) {
     builder.setDetails(firstLine);
-    client.sendRichPresence(builder.build());
+    if(this.isEnabled()) {
+      client.sendRichPresence(builder.build());
+    }
   }
 }

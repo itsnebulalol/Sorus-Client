@@ -86,7 +86,7 @@ public abstract class Component implements IRenderable {
    *
    * @return absolute x
    */
-  protected double absoluteX() {
+  public double absoluteX() {
     return this.collection.absoluteX() + x * this.collection.absoluteXScale();
   }
 
@@ -95,7 +95,7 @@ public abstract class Component implements IRenderable {
    *
    * @return absolute y
    */
-  protected double absoluteY() {
+  public double absoluteY() {
     return this.collection.absoluteY() + y * this.collection.absoluteYScale();
   }
 
@@ -104,7 +104,7 @@ public abstract class Component implements IRenderable {
    *
    * @return absolute x scale
    */
-  protected double absoluteXScale() {
+  public double absoluteXScale() {
     return this.collection.absoluteXScale() * xScale;
   }
 
@@ -113,7 +113,7 @@ public abstract class Component implements IRenderable {
    *
    * @return absolute y scale
    */
-  protected double absoluteYScale() {
+  public double absoluteYScale() {
     return this.collection.absoluteYScale() * yScale;
   }
 
@@ -122,7 +122,7 @@ public abstract class Component implements IRenderable {
    *
    * @return absolute color
    */
-  protected Color absoluteColor() {
+  public Color absoluteColor() {
     return ColorUtil.average(this.collection.absoluteColor(), color);
   }
 

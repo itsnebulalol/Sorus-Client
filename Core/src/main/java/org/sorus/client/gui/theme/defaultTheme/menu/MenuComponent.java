@@ -24,6 +24,7 @@
 
 package org.sorus.client.gui.theme.defaultTheme.menu;
 
+import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -31,9 +32,8 @@ import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
-
-import java.awt.*;
 
 public class MenuComponent extends Collection {
 
@@ -47,90 +47,100 @@ public class MenuComponent extends Collection {
   public MenuComponent(String name, ILogoCreator logoCreator, Class<? extends Screen> screenClass) {
     this.screenClass = screenClass;
     this.add(main = new Collection());
-    main.add(new Rectangle().size(167.5, 172.5).color(new Color(30, 30, 30)));
+    main.add(new Rectangle().size(167.5, 172.5).color(DefaultTheme.getMedgroundLayerColor()));
     main.add(
-            new Rectangle()
-                    .gradient(
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30))
-                    .size(167.5, 4)
-                    .position(0, -4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(167.5, 4)
+            .position(0, -4));
     main.add(
-            new Rectangle()
-                    .gradient(
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30))
-                    .size(4, 4)
-                    .position(167.5, -4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(4, 4)
+            .position(167.5, -4));
     main.add(
-            new Rectangle()
-                    .gradient(
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 150))
-                    .size(4, 172.5)
-                    .position(167.5, -4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
+            .size(4, 172.5)
+            .position(167.5, 0));
     main.add(
-            new Rectangle()
-                    .gradient(
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 150))
-                    .size(4, 4)
-                    .position(167.5, 172.5));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
+            .size(4, 4)
+            .position(167.5, 172.5));
     main.add(
-            new Rectangle()
-                    .gradient(
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 150))
-                    .size(167.5, 4)
-                    .position(0, 172.5));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
+            .size(167.5, 4)
+            .position(0, 172.5));
     main.add(
-            new Rectangle()
-                    .gradient(
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 30))
-                    .size(4, 4)
-                    .position(-4, 172.5));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(4, 4)
+            .position(-4, 172.5));
     main.add(
-            new Rectangle()
-                    .gradient(
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 30))
-                    .size(4, 172.5)
-                    .position(-4, 0));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(4, 172.5)
+            .position(-4, 0));
     main.add(
-            new Rectangle()
-                    .gradient(
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 150),
-                            new Color(14, 14, 14, 30),
-                            new Color(14, 14, 14, 30))
-                    .size(4, 4)
-                    .position(-4, -4));
-    this.text = new Text()
-            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer()).text(name);
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(4, 4)
+            .position(-4, -4));
+    this.text =
+        new Text()
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
+            .text(name);
     main.add(text.scale(3, 3).position(83.75 - text.width() * 3 / 2, 145));
     main.add(symbol = new Collection());
-    symbol.add(new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer()).text("?").scale(12.5, 12.5).position(60, 10));
+    symbol.add(
+        new Text()
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
+            .text("?")
+            .scale(12.5, 12.5)
+            .position(60, 10));
     Sorus.getSorus().getEventManager().register(this);
   }
 
   @Override
   public void onRender() {
-    boolean hovered = this.isHovered(Sorus.getSorus().getVersion().getInput().getMouseX(), Sorus.getSorus().getVersion().getInput().getMouseY());
+    boolean hovered =
+        this.isHovered(
+            Sorus.getSorus().getVersion().getInput().getMouseX(),
+            Sorus.getSorus().getVersion().getInput().getMouseY());
     hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.04, 0, 1);
     main.position(-5 * hoveredPercent, -5 * hoveredPercent);
     main.scale(1 + hoveredPercent * 0.05, 1 + hoveredPercent * 0.05);
@@ -147,18 +157,21 @@ public class MenuComponent extends Collection {
 
   @EventInvoked
   public void onClick(MousePressEvent e) {
-    if(this.isHovered(e.getX(), e.getY())) {
+    if (this.isHovered(e.getX(), e.getY())) {
       Sorus.getSorus().getGUIManager().close((Screen) this.getContainer());
       try {
         Sorus.getSorus().getGUIManager().open(screenClass.newInstance());
-      } catch(InstantiationException | IllegalAccessException ex) {
+      } catch (InstantiationException | IllegalAccessException ex) {
         ex.printStackTrace();
       }
     }
   }
 
   private boolean isHovered(double x, double y) {
-    return x > this.absoluteX() && x < this.absoluteX() + 167.5 * this.absoluteXScale() && y > this.absoluteY() && y < this.absoluteY() + 172.5 * this.absoluteYScale();
+    return x > this.absoluteX()
+        && x < this.absoluteX() + 167.5 * this.absoluteXScale()
+        && y > this.absoluteY()
+        && y < this.absoluteY() + 172.5 * this.absoluteYScale();
   }
 
   public interface ILogoCreator {

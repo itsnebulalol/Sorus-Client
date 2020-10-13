@@ -32,7 +32,8 @@ import org.sorus.client.module.ModuleConfigurable;
 public class HUDListScreen extends ThemeableScreen {
 
   public HUDListScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("hud-list", Sorus.getSorus().getHUDManager()));
+    super(
+        Sorus.getSorus().getThemeManager().getTheme("hud-list", Sorus.getSorus().getHUDManager()));
   }
 
   public void displayModuleSettings(ModuleConfigurable module) {

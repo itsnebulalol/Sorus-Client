@@ -27,11 +27,12 @@ package org.sorus.client.gui.screen;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.ThemeableScreen;
 import org.sorus.client.gui.hud.HUDManager;
+import org.sorus.client.gui.hud.IComponent;
 
 public class SelectComponentScreen extends ThemeableScreen {
 
-  public SelectComponentScreen(HUDManager hudManager, ISelectComponentReceiver receiver) {
-    super(Sorus.getSorus().getThemeManager().getTheme("select-component", hudManager, receiver));
+  public SelectComponentScreen(HUDManager hudManager, IReceiver<IComponent> receiver) {
+    super(Sorus.getSorus().getThemeManager().getTheme("component-select", hudManager, receiver));
   }
 
   @Override

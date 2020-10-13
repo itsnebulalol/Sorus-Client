@@ -28,13 +28,16 @@ import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.GUIManager;
 import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.hud.HUDManager;
+import org.sorus.client.gui.hud.HUDRenderScreen;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
-import org.sorus.client.gui.theme.base.HUDRenderScreenTheme;
+import org.sorus.client.gui.theme.ThemeBase;
 
-public class DefaultHUDRenderScreen extends HUDRenderScreenTheme {
+public class DefaultHUDRenderScreen extends ThemeBase<HUDRenderScreen> {
+
+  private final HUDManager hudManager;
 
   public DefaultHUDRenderScreen(HUDManager hudManager) {
-    super(hudManager);
+    this.hudManager = hudManager;
   }
 
   @Override

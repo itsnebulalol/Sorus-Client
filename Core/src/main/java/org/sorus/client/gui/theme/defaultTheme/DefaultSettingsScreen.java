@@ -33,12 +33,12 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.screen.settings.IConfigurableScreen;
 import org.sorus.client.gui.screen.settings.SettingsHolder;
-import org.sorus.client.gui.theme.base.SettingsScreenTheme;
+import org.sorus.client.gui.screen.settings.SettingsScreen;
+import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
 
-/** Screen used with {@link IConfigurableScreen} to display and allow configuration of settings. */
-public class DefaultSettingsScreen extends SettingsScreenTheme {
+public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
 
   private final IConfigurableScreen configurable;
 

@@ -31,13 +31,16 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.theme.base.ModuleListScreenTheme;
+import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
+import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.ModuleManager;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
 
-public class DefaultModuleListScreen extends ModuleListScreenTheme {
+public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
+
+  private final ModuleManager moduleManager;
 
   private Panel main;
   private Scroll scroll;
@@ -47,7 +50,7 @@ public class DefaultModuleListScreen extends ModuleListScreenTheme {
   private double targetScroll;
 
   public DefaultModuleListScreen(ModuleManager moduleManager) {
-    super(moduleManager);
+    this.moduleManager = moduleManager;
   }
 
   @Override
