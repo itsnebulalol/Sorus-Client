@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.screen.hudlist;
+package org.sorus.client.gui.theme.defaultTheme.hudlist;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -43,9 +43,9 @@ import org.sorus.client.version.IGLHelper;
 
 public class HUDComponent extends Collection {
 
-  private final HUDListScreen screen;
+  private final DefaultHUDListScreen screen;
 
-  public HUDComponent(HUDListScreen screen, HUD hud) {
+  public HUDComponent(DefaultHUDListScreen screen, HUD hud) {
     this.screen = screen;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
@@ -250,7 +250,7 @@ public class HUDComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        Sorus.getSorus().getGUIManager().close(HUDComponent.this.screen);
+        Sorus.getSorus().getGUIManager().close(HUDComponent.this.screen.screen);
         hud.displaySettings();
       }
     }

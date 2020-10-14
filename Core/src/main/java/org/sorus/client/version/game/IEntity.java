@@ -32,4 +32,6 @@ public interface IEntity {
   double getY();
 
   double getZ();
+
+  boolean isNull();
 }

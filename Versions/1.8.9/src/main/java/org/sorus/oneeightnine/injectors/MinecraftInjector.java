@@ -25,9 +25,12 @@
 package org.sorus.oneeightnine.injectors;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.sorus.client.Sorus;
+import org.sorus.client.event.impl.client.GuiSwitchEvent;
 import org.sorus.client.event.impl.client.StartEvent;
 import org.sorus.client.event.impl.client.TickEvent;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
@@ -86,6 +89,18 @@ public class MinecraftInjector extends Injector<Minecraft> {
                 Sorus.getSorus().getEventManager().post(new KeyReleaseEvent(InputMap.getKey(eventKey)));
             }
         }
+    }
+
+    @Inject(name = "displayGuiScreen", desc = "(Lnet/minecraft/client/gui/GuiScreen;)V", at = @At(value = "RETURN"))
+    public void displayGuiScreen() {
+        GuiSwitchEvent.Type type = GuiSwitchEvent.Type.UNDEFINED;
+        GuiScreen guiScreen = that.currentScreen;
+        if(guiScreen == null) {
+            type = GuiSwitchEvent.Type.NULL;
+        } else if(guiScreen instanceof GuiMainMenu) {
+            type = GuiSwitchEvent.Type.MAIN_MENU;
+        }
+        Sorus.getSorus().getEventManager().post(new GuiSwitchEvent(type));
     }
 
 }

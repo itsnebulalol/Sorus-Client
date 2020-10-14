@@ -42,16 +42,6 @@ public class OldAnimations extends ModuleConfigurable {
   }
 
   @Override
-  public void onEnable() {
-    this.setEnabled(false);
-  }
-
-  @Override
-  public void onDisable() {
-    super.onDisable();
-  }
-
-  @Override
   public void addIconElements(Collection collection) {
     collection.add(new Image().resource("sorus/modules/oldanimations/logo.png").size(95, 95));
   }

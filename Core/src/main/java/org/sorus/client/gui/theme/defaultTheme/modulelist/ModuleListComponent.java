@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.screen.modulelist;
+package org.sorus.client.gui.theme.defaultTheme.modulelist;
 
 import java.awt.*;
 import org.sorus.client.Sorus;
@@ -33,17 +33,17 @@ import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.screen.settings.SettingsScreen;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.util.Axis;
 import org.sorus.client.version.IGLHelper;
 
-public class ModuleComponent extends Collection {
+public class ModuleListComponent extends Collection {
 
-  private final ModuleListScreen screen;
+  private final DefaultModuleListScreen moduleListScreenTheme;
 
-  public ModuleComponent(ModuleListScreen screen, ModuleConfigurable module) {
-    this.screen = screen;
+  public ModuleListComponent(
+      DefaultModuleListScreen moduleListScreenTheme, ModuleConfigurable module) {
+    this.moduleListScreenTheme = moduleListScreenTheme;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
     this.add(new Rectangle().size(670, 125).position(5, 4).color(new Color(30, 30, 30)));
@@ -146,7 +146,7 @@ public class ModuleComponent extends Collection {
     this.add(new SettingsButton(module).position(615, 15));
   }
 
-  public static class ToggleButton extends Collection {
+  public class ToggleButton extends Collection {
 
     private final ModuleConfigurable module;
     private boolean enabled;
@@ -209,7 +209,7 @@ public class ModuleComponent extends Collection {
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
         enabled = !enabled;
-        module.setEnabled(enabled);
+        ModuleListComponent.this.moduleListScreenTheme.screen.enableDisableModule(module, enabled);
       }
     }
 
@@ -273,8 +273,7 @@ public class ModuleComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (module.isEnabled() && this.isHovered(e.getX(), e.getY())) {
-        Sorus.getSorus().getGUIManager().close(ModuleComponent.this.screen);
-        Sorus.getSorus().getGUIManager().open(new SettingsScreen(module));
+        ModuleListComponent.this.moduleListScreenTheme.screen.displayModuleSettings(module);
       }
     }
 

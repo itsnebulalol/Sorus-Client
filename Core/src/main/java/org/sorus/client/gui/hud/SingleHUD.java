@@ -25,7 +25,7 @@
 package org.sorus.client.gui.hud;
 
 import org.sorus.client.Sorus;
-import org.sorus.client.gui.screen.ISelectComponentReceiver;
+import org.sorus.client.gui.screen.IReceiver;
 import org.sorus.client.gui.screen.SelectComponentScreen;
 import org.sorus.client.gui.screen.settings.IConfigurableScreen;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
@@ -64,7 +64,7 @@ public class SingleHUD extends HUD {
     return ((Component) this.getComponents().get(0)).getDescription();
   }
 
-  public class OnSelectScreenExit implements ISelectComponentReceiver {
+  public class OnSelectScreenExit implements IReceiver<IComponent> {
 
     @Override
     public void select(IComponent selected) {

@@ -25,31 +25,11 @@
 package org.sorus.client.gui.hud;
 
 import org.sorus.client.Sorus;
-import org.sorus.client.gui.core.GUIManager;
-import org.sorus.client.gui.core.Screen;
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
+import org.sorus.client.gui.core.ThemeableScreen;
 
-public class HUDRenderScreen extends Screen {
-
-  private final HUDManager hudManager;
+public class HUDRenderScreen extends ThemeableScreen {
 
   public HUDRenderScreen(HUDManager hudManager) {
-    this.hudManager = hudManager;
-  }
-
-  @Override
-  public void onRender() {
-    if (this.shouldRenderHUDS()) {
-      for (HUD hud : this.hudManager.getHUDs()) {
-        hud.render();
-      }
-    }
-  }
-
-  private boolean shouldRenderHUDS() {
-    Sorus sorus = Sorus.getSorus();
-    GUIManager guiManager = sorus.getGUIManager();
-    return sorus.getVersion().getGame().shouldRenderHUDS()
-        && !guiManager.isScreenOpen(HUDPositionScreen.class);
+    super(Sorus.getSorus().getThemeManager().getTheme("hud-render", hudManager));
   }
 }

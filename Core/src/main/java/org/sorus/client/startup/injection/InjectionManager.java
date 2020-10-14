@@ -50,37 +50,53 @@ public class InjectionManager {
 
   static {
     String version = SorusStartup.getLaunchArgs().get("version");
-    if(SorusStartup.getLaunchArgs().get("plugins") != null) {
-      for(String string : SorusStartup.getLaunchArgs().get("plugins").split(",")) {
+    if (SorusStartup.getLaunchArgs().get("plugins") != null) {
+      for (String string : SorusStartup.getLaunchArgs().get("plugins").split(",")) {
         String actual = string.substring(2);
-        switch(string.charAt(0)) {
+        switch (string.charAt(0)) {
           case 'p':
             File directory = new File(actual);
-            for(File file : Objects.requireNonNull(directory.listFiles())) {
+            for (File file : Objects.requireNonNull(directory.listFiles())) {
               File file1 = new File(file, version);
-              if(file1.exists()) {
+              if (file1.exists()) {
                 try {
                   File file2 = new File(file1, version + ".jar");
                   Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
                   method.setAccessible(true);
-                  method.invoke(SorusStartup.class.getClassLoader(), (file1.exists() ? new File(file1, file1.getName() + ".jar") : new File(file, file.getName() + ".jar")).toURI().toURL());
+                  method.invoke(
+                      SorusStartup.class.getClassLoader(),
+                      (file1.exists()
+                              ? new File(file1, file1.getName() + ".jar")
+                              : new File(file, file.getName() + ".jar"))
+                          .toURI()
+                          .toURL());
                   JarFile jarFile = new JarFile(file2);
                   JarEntry jarEntry = jarFile.getJarEntry(version + ".json");
                   InputStream inputStream = jarFile.getInputStream(jarEntry);
                   Scanner scanner = new Scanner(inputStream);
                   StringBuilder stringBuilder = new StringBuilder();
-                  while(scanner.hasNextLine()) {
+                  while (scanner.hasNextLine()) {
                     stringBuilder.append(scanner.nextLine());
                   }
                   Info info = new Gson().fromJson(stringBuilder.toString(), Info.class);
                   String location = info.location;
-                  for(String injectorName : info.injectors) {
-                    String fullClassName = (location + (location.isEmpty() ? "" : ".") + injectorName);
+                  for (String injectorName : info.injectors) {
+                    String fullClassName =
+                        (location + (location.isEmpty() ? "" : ".") + injectorName);
                     Class<?> injector = Class.forName(fullClassName);
-                    String hookClass = ObfuscationManager.getClassName(injector.getDeclaredAnnotation(Hook.class).value());
-                    injectorClasses.computeIfAbsent(Class.forName(hookClass.replace("/", ".")), k -> new ArrayList<>()).add(injector);
+                    String hookClass =
+                        ObfuscationManager.getClassName(
+                            injector.getDeclaredAnnotation(Hook.class).value());
+                    injectorClasses
+                        .computeIfAbsent(
+                            Class.forName(hookClass.replace("/", ".")), k -> new ArrayList<>())
+                        .add(injector);
                   }
-                } catch(IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                } catch (IOException
+                    | ClassNotFoundException
+                    | NoSuchMethodException
+                    | IllegalAccessException
+                    | InvocationTargetException e) {
                   e.printStackTrace();
                 }
               }

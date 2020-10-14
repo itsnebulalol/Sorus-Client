@@ -113,9 +113,6 @@ public abstract class ModuleConfigurable extends Module
   public void addConfigComponents(Collection collection) {}
 
   @Override
-  public void updateConfigComponents() {}
-
-  @Override
   public Map<String, Object> getSettings() {
     Map<String, Object> settings = new HashMap<>();
     for (Setting<?> setting : this.settings) {
@@ -131,6 +128,9 @@ public abstract class ModuleConfigurable extends Module
       if (settingsMap.get(setting.getName()) != null) {
         setting.setValueIgnoreType(settingsMap.get(setting.getName()));
       }
+    }
+    if (this.enabled.getValue()) {
+      this.onEnable();
     }
   }
 

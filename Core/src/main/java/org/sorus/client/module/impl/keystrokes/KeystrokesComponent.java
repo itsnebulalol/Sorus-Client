@@ -26,7 +26,6 @@ package org.sorus.client.module.impl.keystrokes;
 
 import java.awt.*;
 import java.util.Arrays;
-
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
@@ -65,8 +64,7 @@ public class KeystrokesComponent extends Component {
     this.register(mainStandardColor = new Setting<>("mainStandardColor", Color.WHITE));
     this.register(mainPressedColor = new Setting<>("mainPressedColor", Color.WHITE));
     this.register(
-        backgroundStandardColor =
-            new Setting<>("backgroundStandardColor", new Color(0, 0, 0, 50)));
+        backgroundStandardColor = new Setting<>("backgroundStandardColor", new Color(0, 0, 0, 50)));
     this.register(
         backgroundPressedColor = new Setting<>("backgroundPressedColor", new Color(0, 0, 0, 125)));
     this.register(borderSize = new Setting<>("borderSize", 1.0));
@@ -189,9 +187,9 @@ public class KeystrokesComponent extends Component {
     WASD_SPACE(
         new KeystrokesKey.Bind(KeybindType.FORWARD, 20, 0, 18, 18),
         new KeystrokesKey.Bind(KeybindType.LEFT, 0, 20, 18, 18),
-            new KeystrokesKey.Bind(KeybindType.BACK, 20, 20, 18, 18),
-            new KeystrokesKey.Bind(KeybindType.RIGHT, 40, 20, 18, 18),
-            new KeystrokesKey.Bind(KeybindType.JUMP, 0, 40, 58, 18));
+        new KeystrokesKey.Bind(KeybindType.BACK, 20, 20, 18, 18),
+        new KeystrokesKey.Bind(KeybindType.RIGHT, 40, 20, 18, 18),
+        new KeystrokesKey.Bind(KeybindType.JUMP, 0, 40, 58, 18));
 
     private final KeystrokesKey.KeyData[] keys;
 

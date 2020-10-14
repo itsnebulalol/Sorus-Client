@@ -22,19 +22,48 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.screen;
+package org.sorus.client.gui.core;
 
-import org.sorus.client.gui.hud.IComponent;
+import org.sorus.client.gui.theme.ITheme;
+import org.sorus.client.version.input.Button;
+import org.sorus.client.version.input.Key;
 
-/** Used to receive the selected components from the {@link SelectComponentScreen}. */
-public interface ISelectComponentReceiver {
+public class ThemeableScreen extends Screen {
 
-  /**
-   * Receives and handles the selected component.
-   *
-   * @param selected the selected component
-   */
-  void select(IComponent selected);
+  private final ITheme<?> theme;
 
-  void cancel();
+  public ThemeableScreen(ITheme<ThemeableScreen> theme) {
+    this.theme = theme;
+    theme.setScreen(this);
+  }
+
+  @Override
+  public void onOpen() {
+    this.theme.init();
+  }
+
+  @Override
+  public void onRender() {
+    this.theme.render();
+  }
+
+  @Override
+  public void onExit() {
+    this.theme.exit();
+  }
+
+  @Override
+  public void keyTyped(Key key) {
+    this.theme.keyTyped(key);
+  }
+
+  @Override
+  public void mouseClicked(Button button, double x, double y) {
+    this.theme.mouseClicked(button, x, y);
+  }
+
+  @Override
+  public void mouseReleased(Button button) {
+    this.theme.mouseReleased(button);
+  }
 }

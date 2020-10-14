@@ -68,7 +68,7 @@ public class GUIManager {
    */
   public void open(Screen screen) {
     this.currentScreens.add(screen);
-    screen.init();
+    screen.onOpen();
   }
 
   /**
@@ -78,7 +78,7 @@ public class GUIManager {
    */
   public void close(Screen screen) {
     this.currentScreens.remove(screen);
-    screen.exit();
+    screen.onExit();
   }
 
   /**

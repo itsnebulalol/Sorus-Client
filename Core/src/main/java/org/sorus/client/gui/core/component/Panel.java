@@ -38,7 +38,7 @@ public class Panel extends Collection {
    * @return absolute x
    */
   @Override
-  protected double absoluteX() {
+  public double absoluteX() {
     return this.x;
   }
 
@@ -48,7 +48,7 @@ public class Panel extends Collection {
    * @return absolute y
    */
   @Override
-  protected double absoluteY() {
+  public double absoluteY() {
     return this.y;
   }
 
@@ -58,7 +58,7 @@ public class Panel extends Collection {
    * @return absolute x scale
    */
   @Override
-  protected double absoluteXScale() {
+  public double absoluteXScale() {
     return this.xScale;
   }
 
@@ -68,7 +68,7 @@ public class Panel extends Collection {
    * @return absolute y scale
    */
   @Override
-  protected double absoluteYScale() {
+  public double absoluteYScale() {
     return this.yScale;
   }
 
@@ -78,7 +78,7 @@ public class Panel extends Collection {
    * @return absolute color
    */
   @Override
-  protected Color absoluteColor() {
+  public Color absoluteColor() {
     return this.color;
   }
 

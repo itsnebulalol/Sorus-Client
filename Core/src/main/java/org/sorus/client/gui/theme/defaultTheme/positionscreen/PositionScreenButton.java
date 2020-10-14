@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.hud.positonscreen;
+package org.sorus.client.gui.theme.defaultTheme.positionscreen;
 
 import java.awt.*;
 import org.sorus.client.Sorus;

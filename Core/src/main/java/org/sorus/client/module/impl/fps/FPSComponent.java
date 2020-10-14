@@ -152,12 +152,12 @@ public class FPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    return tightFit.getValue() ? fontRenderer.getStringWidth(ArrayUtil.concat(fpsString)) + 2 : 60;
+    return tightFit.getValue() ? fontRenderer.getStringWidth(ArrayUtil.concat(fpsString)) + 4 : 60;
   }
 
   @Override
   public double getHeight() {
-    return tightFit.getValue() ? fontRenderer.getFontHeight() + 2 : 11;
+    return tightFit.getValue() ? fontRenderer.getFontHeight() + 4 : 11;
   }
 
   @Override

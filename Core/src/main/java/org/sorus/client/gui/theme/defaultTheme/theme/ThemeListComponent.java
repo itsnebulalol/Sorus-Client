@@ -22,31 +22,36 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.hud;
+package org.sorus.client.gui.theme.defaultTheme.theme;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
+import org.sorus.client.event.impl.client.input.MouseReleaseEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
+import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
+import org.sorus.client.gui.theme.Theme;
+import org.sorus.client.gui.theme.defaultTheme.hudlist.HUDComponent;
+import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.util.Axis;
 import org.sorus.client.version.IGLHelper;
 
-public class ComponentComponent extends Collection {
+public class ThemeListComponent extends Collection {
 
-  private final HUDConfigScreen screen;
+  private final DefaultThemeListScreen themeListScreen;
+  private final Theme theme;
 
-  public ComponentComponent(HUDConfigScreen screen, Component component) {
-    this.screen = screen;
+  public ThemeListComponent(DefaultThemeListScreen themeListScreen, Theme theme) {
+    this.themeListScreen = themeListScreen;
+    this.theme = theme;
     IFontRenderer fontRenderer =
-        Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
+        Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
     this.add(new Rectangle().size(670, 125).position(5, 4).color(new Color(30, 30, 30)));
     this.add(
         new Rectangle()
@@ -122,63 +127,62 @@ public class ComponentComponent extends Collection {
             .position(1, 0));
     Collection collection = new Collection().position(15, 15);
     this.add(collection);
-    // hud.addIconElements(collection);
+    // module.addIconElements(collection);
     this.add(
         new Text()
             .fontRenderer(fontRenderer)
-            .text(component.getName())
-            .position(125, 27)
+            .text(theme.getName())
+            .position(125, 20)
             .scale(4, 4)
             .color(new Color(235, 235, 235, 210)));
-    this.add(new SettingsButton(component).position(615, 22));
-    this.add(new RemoveButton(component).position(555, 22));
     int i = 0;
-    for (String string :
-        this.getSplitDescription(
-            component.getDescription(),
-            Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer(),
-            150)) {
-      this.add(
-          new Text()
-              .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
-              .text(string)
-              .position(125, 72 + i * 23)
-              .scale(2, 2)
-              .color(new Color(190, 190, 190, 210)));
-      i++;
+    this.add(new SettingsButton(theme).position(615, 22));
+    this.add(new RemoveButton(theme).position(555, 22));
+    Sorus.getSorus().getEventManager().register(this);
+  }
+
+  @Override
+  public void onRemove() {
+    Sorus.getSorus().getEventManager().unregister(this);
+  }
+
+  @EventInvoked
+  public void onClick(MousePressEvent e) {
+    if(this.collection == null) {
+      return;
+    }
+    if(e.getX() > this.absoluteX() && e.getY() < this.absoluteX() + 670 * this.absoluteXScale() && e.getY() > this.absoluteY() && e.getY() < this.absoluteY() + 125 * this.absoluteYScale()) {
+      this.themeListScreen.onComponentDrag(this, e.getX(), e.getY());
     }
   }
 
-  public List<String> getSplitDescription(
-      String description, IFontRenderer fontRenderer, double width) {
-    List<String> strings = new ArrayList<>();
-    StringBuilder stringBuilder = new StringBuilder();
-    for (char c : description.toCharArray()) {
-      stringBuilder.append(c);
-      if (fontRenderer.getStringWidth(stringBuilder.toString()) > width) {
-        String string = stringBuilder.toString();
-        int index = string.lastIndexOf(" ");
-        strings.add(string.substring(0, index));
-        stringBuilder = new StringBuilder(string.substring(index + 1));
-      }
+  @EventInvoked
+  public void onRelease(MouseReleaseEvent e) {
+    if(this.equals(this.themeListScreen.getDraggedComponent())) {
+      this.themeListScreen.onComponentRelease(this);
     }
-    strings.add(stringBuilder.toString());
-    return strings;
   }
 
-  public class SettingsButton extends Collection {
+  public Theme getTheme() {
+    return theme;
+  }
+
+  public class RemoveButton extends Collection {
+
+    private final Theme theme;
+
+    private final Collection main;
 
     private double hoverPercent;
 
     private long prevRenderTime;
 
-    private final Component component;
-
-    private final Image image;
-
-    public SettingsButton(Component component) {
-      this.component = component;
-      this.add(image = new Image().resource("sorus/gear.png").size(40, 40));
+    public RemoveButton(Theme theme) {
+      this.theme = theme;
+      this.add(main = new Collection());
+      main.add(new Rectangle().size(40, 40).smooth(5).color(new Color(160, 35, 35)));
+      main.add(
+              new Rectangle().size(30, 10).smooth(3).position(5, 15).color(new Color(210, 210, 210)));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -187,9 +191,63 @@ public class ComponentComponent extends Collection {
       long renderTime = System.currentTimeMillis();
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
-          this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              this.isHovered(
+                      Sorus.getSorus().getVersion().getInput().getMouseX(),
+                      Sorus.getSorus().getVersion().getInput().getMouseY());
+      hoverPercent =
+              Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
+      this.main
+              .position(-hoverPercent * 2.25, -hoverPercent * 2.25)
+              .scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
+      prevRenderTime = renderTime;
+      super.onRender();
+    }
+
+    @Override
+    public void onRemove() {
+      Sorus.getSorus().getEventManager().unregister(this);
+      super.onRemove();
+    }
+
+    @EventInvoked
+    public void onClick(MousePressEvent e) {
+      if (this.isHovered(e.getX(), e.getY())) {
+        Sorus.getSorus().getThemeManager().remove(theme);
+        ThemeListComponent.this.themeListScreen.updateThemes();
+      }
+    }
+
+    private boolean isHovered(double x, double y) {
+      return x > this.absoluteX()
+              && x < this.absoluteX() + 40 * this.absoluteXScale()
+              && y > this.absoluteY()
+              && y < this.absoluteY() + 40 * this.absoluteYScale();
+    }
+  }
+
+  public class SettingsButton extends Collection {
+
+    private double hoverPercent;
+
+    private long prevRenderTime;
+
+    private final Theme theme;
+
+    private final Image image;
+
+    public SettingsButton(Theme theme) {
+      this.theme = theme;
+      this.add(image = new Image().resource("sorus/gear.png").size(40, 40));
+      Sorus.getSorus().getEventManager().register(this);
+    }
+
+    @Override
+    public void onRender() {
+      long renderTime = System.currentTimeMillis();
+      long deltaTime = renderTime - prevRenderTime;
+      boolean hovered = this.isHovered(
+                  Sorus.getSorus().getVersion().getInput().getMouseX(),
+                  Sorus.getSorus().getVersion().getInput().getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       image.scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
@@ -217,8 +275,8 @@ public class ComponentComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        Sorus.getSorus().getGUIManager().close(ComponentComponent.this.screen);
-        Sorus.getSorus().getGUIManager().open(new SettingsScreen(component));
+        Sorus.getSorus().getGUIManager().open(new SettingsScreen(theme));
+        // ThemeListComponent.this.themeListScreen.screen.displayModuleSettings(module);
       }
     }
 
@@ -227,64 +285,6 @@ public class ComponentComponent extends Collection {
           && x < this.absoluteX() + 50 * this.absoluteXScale()
           && y > this.absoluteY()
           && y < this.absoluteY() + 50 * this.absoluteYScale();
-    }
-  }
-
-  public class RemoveButton extends Collection {
-
-    private final Component component;
-
-    private final Collection main;
-
-    private double hoverPercent;
-
-    private long prevRenderTime;
-
-    public RemoveButton(Component component) {
-      this.component = component;
-      this.add(main = new Collection());
-      main.add(new Rectangle().size(40, 40).smooth(5).color(new Color(160, 35, 35)));
-      main.add(
-          new Rectangle().size(30, 10).smooth(3).position(5, 15).color(new Color(210, 210, 210)));
-      Sorus.getSorus().getEventManager().register(this);
-    }
-
-    @Override
-    public void onRender() {
-      long renderTime = System.currentTimeMillis();
-      long deltaTime = renderTime - prevRenderTime;
-      boolean hovered =
-          this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
-      hoverPercent =
-          Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
-      this.main
-          .position(-hoverPercent * 2.25, -hoverPercent * 2.25)
-          .scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
-      prevRenderTime = renderTime;
-      super.onRender();
-    }
-
-    @Override
-    public void onRemove() {
-      Sorus.getSorus().getEventManager().unregister(this);
-      super.onRemove();
-    }
-
-    @EventInvoked
-    public void onClick(MousePressEvent e) {
-      if (this.isHovered(e.getX(), e.getY())) {
-        screen.getHUD().removeComponent(component);
-        ComponentComponent.this.screen.updateComponents();
-      }
-    }
-
-    private boolean isHovered(double x, double y) {
-      return x > this.absoluteX()
-          && x < this.absoluteX() + 40 * this.absoluteXScale()
-          && y > this.absoluteY()
-          && y < this.absoluteY() + 40 * this.absoluteYScale();
     }
   }
 }
