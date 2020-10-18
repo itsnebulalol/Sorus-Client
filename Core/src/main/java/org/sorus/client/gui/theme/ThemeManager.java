@@ -76,12 +76,11 @@ public class ThemeManager {
   }
 
   public <T extends Theme> T getTheme(Class<T> clazz) {
-    for(Theme theme : this.getCurrentThemes()) {
-      if(clazz.isAssignableFrom(theme.getClass())) {
+    for (Theme theme : this.getCurrentThemes()) {
+      if (clazz.isAssignableFrom(theme.getClass())) {
         return (T) theme;
       }
     }
     return null;
   }
-
 }

@@ -26,20 +26,24 @@ package org.sorus.client.gui.theme.defaultTheme;
 
 import java.awt.*;
 import org.sorus.client.Sorus;
+import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
+import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.settings.IConfigurableScreen;
 import org.sorus.client.gui.screen.settings.SettingsHolder;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
+import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
 
 public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
 
+  private final Screen parent;
   private final IConfigurableScreen configurable;
 
   private Panel main;
@@ -48,7 +52,8 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
 
   private double targetScroll;
 
-  public DefaultSettingsScreen(IConfigurableScreen configurable) {
+  public DefaultSettingsScreen(Screen parent, IConfigurableScreen configurable) {
+    this.parent = parent;
     this.configurable = configurable;
   }
 
@@ -58,18 +63,35 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
-    menu.add(new Rectangle().smooth(5).size(700, 720).position(0, 70).color(new Color(18, 18, 18)));
-    menu.add(new Rectangle().size(700, 65).position(0, 5).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(180, 270).position(0, 0).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(90, 180).position(690, 0).color(new Color(30, 30, 30)));
-    menu.add(new Rectangle().size(690, 5).position(5, 0).color(new Color(30, 30, 30)));
+    menu.add(
+        new Rectangle()
+            .smooth(5)
+            .size(700, 720)
+            .position(0, 70)
+            .color(DefaultTheme.getBackgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(700, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(180, 270)
+            .position(0, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(90, 180)
+            .position(690, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(690, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
             .size(700, 7)
             .position(0, 70));
     IFontRenderer fontRenderer =
@@ -80,7 +102,11 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
             .text("SORUS")
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
-            .color(new Color(215, 215, 215)));
+            .color(DefaultTheme.getForegroundLayerColor()));
+    menu.add(new ExitButton(() -> {
+      Sorus.getSorus().getGUIManager().close(this.screen);
+      Sorus.getSorus().getGUIManager().open(this.parent);
+    }).position(10, 10));
     menu.add(
         new Text()
             .fontRenderer(fontRenderer)
@@ -89,113 +115,117 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
                 350 - fontRenderer.getStringWidth(configurable.getDisplayName()) / 2 * 4.5, 95)
             .scale(4.5, 4.5)
             .color(new Color(175, 175, 175)));
-    menu.add(new Rectangle().size(660, 620).position(20, 150).color(new Color(30, 30, 30)));
+    menu.add(
+        new Rectangle()
+            .size(660, 620)
+            .position(20, 150)
+            .color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
             .size(660, 4)
             .position(20, 146));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(680, 146));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150))
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
             .size(4, 620)
             .position(680, 150));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
             .size(4, 4)
             .position(680, 770));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 150))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
             .size(660, 4)
             .position(20, 770));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(16, 770));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
             .size(4, 620)
             .position(16, 150));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(16, 146));
     /*menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
             .size(650, 7)
             .position(25, 770));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0))
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
             .size(650, 7)
             .position(25, 143));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14, 0))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
             .size(7, 610)
             .position(13, 155));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14))
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
             .size(7, 610)
             .position(680, 155));*/
     Scissor scissor = new Scissor().size(680, 580).position(10, 170);

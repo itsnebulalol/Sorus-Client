@@ -29,7 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
-
+import javax.imageio.ImageIO;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -44,8 +44,6 @@ import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
-
-import javax.imageio.ImageIO;
 
 public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerScreen> {
 
@@ -65,107 +63,111 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
   public void init() {
     this.main = new Panel();
     Color color = setting.getValue();
-    main.add(new org.sorus.client.gui.core.component.impl.Rectangle().size(290, 290).position(815, 395).color(new Color(42, 42, 42)));
     main.add(
-            new org.sorus.client.gui.core.component.impl.Rectangle()
-                    .gradient(
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30))
-                    .size(290, 4)
-                    .position(815, 391));
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .size(290, 290)
+            .position(815, 395)
+            .color(new Color(42, 42, 42)));
     main.add(
-            new org.sorus.client.gui.core.component.impl.Rectangle()
-                    .gradient(
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30))
-                    .size(4, 4)
-                    .position(1105, 391));
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .gradient(
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30))
+            .size(290, 4)
+            .position(815, 391));
     main.add(
-            new org.sorus.client.gui.core.component.impl.Rectangle()
-                    .gradient(
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 150))
-                    .size(4, 125)
-                    .position(1105, 395));
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .gradient(
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30))
+            .size(4, 4)
+            .position(1105, 391));
     main.add(
-            new org.sorus.client.gui.core.component.impl.Rectangle()
-                    .gradient(
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 150))
-                    .size(4, 4)
-                    .position(1105, 685));
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .gradient(
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 150))
+            .size(4, 125)
+            .position(1105, 395));
     main.add(
-            new org.sorus.client.gui.core.component.impl.Rectangle()
-                    .gradient(
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 150))
-                    .size(290, 4)
-                    .position(815, 685));
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .gradient(
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 150))
+            .size(4, 4)
+            .position(1105, 685));
     main.add(
-            new org.sorus.client.gui.core.component.impl.Rectangle()
-                    .gradient(
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 30))
-                    .size(4, 4)
-                    .position(811, 685));
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .gradient(
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 150))
+            .size(290, 4)
+            .position(815, 685));
     main.add(
-            new org.sorus.client.gui.core.component.impl.Rectangle()
-                    .gradient(
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 30))
-                    .size(4, 290)
-                    .position(811, 395));
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .gradient(
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 30))
+            .size(4, 4)
+            .position(811, 685));
     main.add(
-            new org.sorus.client.gui.core.component.impl.Rectangle()
-                    .gradient(
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 150),
-                            new Color(26, 26, 26, 30),
-                            new Color(26, 26, 26, 30))
-                    .size(4, 4)
-                    .position(811, 391));
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .gradient(
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 30))
+            .size(4, 290)
+            .position(811, 395));
+    main.add(
+        new org.sorus.client.gui.core.component.impl.Rectangle()
+            .gradient(
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 150),
+                new Color(26, 26, 26, 30),
+                new Color(26, 26, 26, 30))
+            .size(4, 4)
+            .position(811, 391));
     main.add(alphaSlider = new AlphaSlider(color.getAlpha() / 255.0).position(1045, 415));
     int max = Math.max(Math.max(color.getRed(), color.getGreen()), color.getBlue());
     double brightness = max / 255.0;
     main.add(brightnessSlider = new BrightnessSlider(brightness).position(835, 625));
     main.add(
-            colorPicker =
-                    new ColorPickerInner(
-                            new Color(
-                                    (int) (color.getRed() * (1 / brightness)),
-                                    (int) (color.getGreen() * (1 / brightness)),
-                                    (int) (color.getBlue() * (1 / brightness))))
-                            .position(835, 415));
+        colorPicker =
+            new ColorPickerInner(
+                    new Color(
+                        (int) (color.getRed() * (1 / brightness)),
+                        (int) (color.getGreen() * (1 / brightness)),
+                        (int) (color.getBlue() * (1 / brightness))))
+                .position(835, 415));
     this.updateSetting();
     main.add(colorViewer = new Rectangle().size(40, 40).position(1045, 625));
     main.add(
-            new HollowRectangle()
-                    .thickness(2)
-                    .size(40, 40)
-                    .position(1045, 625)
-                    .color(new Color(200, 200, 200, 210)));
+        new HollowRectangle()
+            .thickness(2)
+            .size(40, 40)
+            .position(1045, 625)
+            .color(new Color(200, 200, 200, 210)));
   }
 
   @Override
   public void render() {
     this.colorViewer.color(this.getCompleteColor());
     main.scale(
-            Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-            Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
     main.onRender(this.screen);
   }
 
@@ -178,7 +180,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
 
   public void updateSetting() {
     this.colorPicker.updateColorWheel(
-            this.brightnessSlider.getValue(), this.alphaSlider.getValue());
+        this.brightnessSlider.getValue(), this.alphaSlider.getValue());
     this.setting.setValue(this.getCompleteColor());
   }
 
@@ -186,10 +188,10 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
     Color color = this.colorPicker.getColor();
     double brightness = this.brightnessSlider.getValue();
     return new Color(
-            (int) (color.getRed() * brightness),
-            (int) (color.getGreen() * brightness),
-            (int) (color.getBlue() * brightness),
-            (int) (this.alphaSlider.getValue() * 255));
+        (int) (color.getRed() * brightness),
+        (int) (color.getGreen() * brightness),
+        (int) (color.getBlue() * brightness),
+        (int) (this.alphaSlider.getValue() * 255));
   }
 
   public class ColorPickerInner extends Collection {
@@ -205,14 +207,16 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
 
     public ColorPickerInner(Color color) {
       this.color = color;
-      this.add(imageComponent = new org.sorus.client.gui.core.component.impl.Image().resource("sorus/color-picker.png").size(200, 200));
       this.add(
-              new HollowRectangle().thickness(2).size(200, 200).color(new Color(200, 200, 200, 210)));
+          imageComponent =
+              new org.sorus.client.gui.core.component.impl.Image()
+                  .resource("sorus/color-picker.png")
+                  .size(200, 200));
+      this.add(
+          new HollowRectangle().thickness(2).size(200, 200).color(new Color(200, 200, 200, 210)));
       this.add(selector = new HollowRectangle().thickness(2).size(10, 10));
       URL url =
-              ColorPicker.class
-                      .getClassLoader()
-                      .getResource("assets/minecraft/sorus/color-picker.png");
+          ColorPicker.class.getClassLoader().getResource("assets/minecraft/sorus/color-picker.png");
       try {
         this.image = ImageIO.read(Objects.requireNonNull(url));
       } catch (IOException e) {
@@ -233,7 +237,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
       return Math.abs(color1.getRed() - color2.getRed())
               + Math.abs(color1.getGreen() - color2.getGreen())
               + Math.abs(color1.getBlue() - color2.getBlue())
-              < 30;
+          < 30;
     }
 
     @Override
@@ -261,10 +265,10 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
     @EventInvoked
     public void onClick(MousePressEvent e) {
       selected =
-              e.getX() > this.absoluteX()
-                      && e.getX() < this.absoluteX() + 200 * this.absoluteXScale()
-                      && e.getY() > this.absoluteY()
-                      && e.getY() < this.absoluteY() + 200 * this.absoluteYScale();
+          e.getX() > this.absoluteX()
+              && e.getX() < this.absoluteX() + 200 * this.absoluteXScale()
+              && e.getY() > this.absoluteY()
+              && e.getY() < this.absoluteY() + 200 * this.absoluteYScale();
     }
 
     @EventInvoked
@@ -280,7 +284,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
       int brightnessValue = (int) (brightness * 255);
       int alphaValue = (int) (alpha * 255);
       this.imageComponent.color(
-              new Color(brightnessValue, brightnessValue, brightnessValue, alphaValue));
+          new Color(brightnessValue, brightnessValue, brightnessValue, alphaValue));
     }
   }
 
@@ -294,9 +298,12 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
     public AlphaSlider(double value) {
       this.value = value;
       Sorus.getSorus().getEventManager().register(this);
-      this.add(new org.sorus.client.gui.core.component.impl.Image().resource("sorus/alpha-slider.png").size(40, 200));
       this.add(
-              new HollowRectangle().thickness(2).size(40, 200).color(new Color(200, 200, 200, 210)));
+          new org.sorus.client.gui.core.component.impl.Image()
+              .resource("sorus/alpha-slider.png")
+              .size(40, 200));
+      this.add(
+          new HollowRectangle().thickness(2).size(40, 200).color(new Color(200, 200, 200, 210)));
       this.add(selector = new Rectangle().size(40, 2).color(new Color(200, 200, 200, 210)));
     }
 
@@ -305,7 +312,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
       if (selected) {
         double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
         this.value =
-                MathUtil.clamp((mouseY - this.absoluteY()) / (200 * this.absoluteYScale()), 0, 1);
+            MathUtil.clamp((mouseY - this.absoluteY()) / (200 * this.absoluteYScale()), 0, 1);
         DefaultColorPickerScreen.this.updateSetting();
       }
       this.selector.position(0, 200 * value - 1);
@@ -330,9 +337,9 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
 
     private boolean isHovered(double x, double y) {
       return x > this.absoluteX()
-              && x < this.absoluteX() + 40 * this.absoluteXScale()
-              && y > this.absoluteY()
-              && y < this.absoluteY() + 200 * this.absoluteYScale();
+          && x < this.absoluteX() + 40 * this.absoluteXScale()
+          && y > this.absoluteY()
+          && y < this.absoluteY() + 200 * this.absoluteYScale();
     }
 
     public double getValue() {
@@ -352,7 +359,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
       Sorus.getSorus().getEventManager().register(this);
       this.add(new Image().resource("sorus/brightness-slider.png").size(200, 40));
       this.add(
-              new HollowRectangle().thickness(2).size(200, 40).color(new Color(200, 200, 200, 210)));
+          new HollowRectangle().thickness(2).size(200, 40).color(new Color(200, 200, 200, 210)));
       this.add(selector = new Rectangle().size(2, 40).color(new Color(200, 200, 200, 210)));
     }
 
@@ -361,7 +368,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
       if (selected) {
         double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
         this.value =
-                MathUtil.clamp((mouseX - this.absoluteX()) / (200 * this.absoluteXScale()), 0, 1);
+            MathUtil.clamp((mouseX - this.absoluteX()) / (200 * this.absoluteXScale()), 0, 1);
         DefaultColorPickerScreen.this.updateSetting();
       }
       this.selector.position(200 * value - 1, 0);
@@ -386,9 +393,9 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
 
     private boolean isHovered(double x, double y) {
       return x > this.absoluteX()
-              && x < this.absoluteX() + 200 * this.absoluteXScale()
-              && y > this.absoluteY()
-              && y < this.absoluteY() + 40 * this.absoluteYScale();
+          && x < this.absoluteX() + 200 * this.absoluteXScale()
+          && y > this.absoluteY()
+          && y < this.absoluteY() + 40 * this.absoluteYScale();
     }
 
     public double getValue() {

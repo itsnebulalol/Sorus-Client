@@ -33,6 +33,7 @@ import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.util.Axis;
 import org.sorus.client.version.IGLHelper;
@@ -46,77 +47,78 @@ public class ModuleListComponent extends Collection {
     this.moduleListScreenTheme = moduleListScreenTheme;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
-    this.add(new Rectangle().size(670, 125).position(5, 4).color(new Color(30, 30, 30)));
+    this.add(
+        new Rectangle().size(670, 125).position(5, 4).color(DefaultTheme.getMedgroundLayerColor()));
     this.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
             .size(670, 4)
             .position(5, 0));
     this.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(675, 0));
     this.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150))
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
             .size(4, 125)
             .position(675, 4));
     this.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
             .size(4, 4)
             .position(675, 129));
     this.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 150))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
             .size(670, 4)
             .position(5, 129));
     this.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(2, 129));
     this.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
             .size(4, 125)
             .position(2, 4));
     this.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 150),
-                new Color(14, 14, 14, 30),
-                new Color(14, 14, 14, 30))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(1, 0));
     Collection collection = new Collection().position(15, 15);

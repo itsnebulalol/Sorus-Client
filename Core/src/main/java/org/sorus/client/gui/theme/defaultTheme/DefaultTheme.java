@@ -24,6 +24,7 @@
 
 package org.sorus.client.gui.theme.defaultTheme;
 
+import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
@@ -37,68 +38,101 @@ import org.sorus.client.gui.theme.defaultTheme.theme.DefaultSelectThemeScreen;
 import org.sorus.client.gui.theme.defaultTheme.theme.DefaultThemeListScreen;
 import org.sorus.client.settings.Setting;
 
-import java.awt.*;
-
 public class DefaultTheme extends Theme {
 
-    private final Setting<Color> backgroundLayerColor;
-    private final Setting<Color> medgroundLayerColor;
-    private final Setting<Color> foregroundLayerColor;
-    private final Setting<Color> shadowStartColor;
-    private final Setting<Color> shadowEndColor;
+  private final Setting<Color> backgroundLayerColor;
+  private final Setting<Color> medgroundLayerColor;
+  private final Setting<Color> foregroundLayerColor;
+  private final Setting<Color> foregroundLessLayerColor;
+  private final Setting<Color> shadowStartColor;
+  private final Setting<Color> shadowEndColor;
 
-    public DefaultTheme() {
-        super("DEFAULT");
-        this.register("menu", DefaultMenuScreen.class);
-        this.register("module-list", DefaultModuleListScreen.class);
-        this.register("hud-render", DefaultHUDRenderScreen.class);
-        this.register("hud-position", DefaultHUDPositionScreen.class);
-        this.register("hud-list", DefaultHUDListScreen.class);
-        this.register("hud-config", DefaultHUDConfigScreen.class);
-        this.register("settings", DefaultSettingsScreen.class);
-        this.register("settings-color-picker", DefaultColorPickerScreen.class);
-        this.register("component-select", DefaultSelectComponentScreen.class);
-        this.register("theme-list", DefaultThemeListScreen.class);
-        this.register("theme-select", DefaultSelectThemeScreen.class);
-        this.register(backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
-        this.register(medgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(30, 30, 30)));
-        this.register(foregroundLayerColor = new Setting<>("foregroundLayerColor", new Color(215, 215, 215)));
-        this.register(shadowStartColor = new Setting<>("shadowStartColor", new Color(14, 14, 14)));
-        this.register(shadowEndColor = new Setting<>("shadowEndColor", new Color(14, 14, 14, 0)));
-    }
+  public DefaultTheme() {
+    super("DEFAULT");
+    this.register("menu", DefaultMenuScreen.class);
+    this.register("module-list", DefaultModuleListScreen.class);
+    this.register("hud-render", DefaultHUDRenderScreen.class);
+    this.register("hud-position", DefaultHUDPositionScreen.class);
+    this.register("hud-list", DefaultHUDListScreen.class);
+    this.register("hud-config", DefaultHUDConfigScreen.class);
+    this.register("settings", DefaultSettingsScreen.class);
+    this.register("settings-color-picker", DefaultColorPickerScreen.class);
+    this.register("component-select", DefaultSelectComponentScreen.class);
+    this.register("theme-list", DefaultThemeListScreen.class);
+    this.register("theme-select", DefaultSelectThemeScreen.class);
+    this.register(
+        backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
+    this.register(
+        medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
+    this.register(
+        foregroundLayerColor = new Setting<>("foregroundLayerColor", new Color(215, 215, 215)));
+    this.register(
+        foregroundLessLayerColor =
+            new Setting<>("foregroundLessLayerColor", new Color(160, 160, 160)));
+    this.register(shadowStartColor = new Setting<>("shadowStartColor", new Color(14, 14, 14)));
+    this.register(shadowEndColor = new Setting<>("shadowEndColor", new Color(14, 14, 14, 0)));
+  }
 
-    @Override
-    public void addConfigComponents(Collection collection) {
-        collection.add(new ColorPicker(backgroundLayerColor, "Background Layer"));
-        collection.add(new ColorPicker(medgroundLayerColor, "Medground Layer"));
-        collection.add(new ColorPicker(foregroundLayerColor, "Foreground Layer"));
-        collection.add(new ColorPicker(shadowStartColor, "Shadow Start"));
-        collection.add(new ColorPicker(shadowEndColor, "Shadow End"));
-    }
+  @Override
+  public void addConfigComponents(Collection collection) {
+    collection.add(new ColorPicker(backgroundLayerColor, "Background Layer"));
+    collection.add(new ColorPicker(medgroundLayerColor, "Medground Layer"));
+    collection.add(new ColorPicker(foregroundLayerColor, "Foreground Layer"));
+    collection.add(new ColorPicker(foregroundLessLayerColor, "Foreground Less Layer"));
+    collection.add(new ColorPicker(shadowStartColor, "Shadow Start"));
+    collection.add(new ColorPicker(shadowEndColor, "Shadow End"));
+  }
 
-    @Override
-    public String getDisplayName() {
-        return "DEFAULT";
-    }
+  @Override
+  public String getDisplayName() {
+    return "DEFAULT";
+  }
 
-    public static Color getBackgroundLayerColor() {
-        return Sorus.getSorus().getThemeManager().getTheme(DefaultTheme.class).backgroundLayerColor.getValue();
-    }
+  public static Color getBackgroundLayerColor() {
+    return Sorus.getSorus()
+        .getThemeManager()
+        .getTheme(DefaultTheme.class)
+        .backgroundLayerColor
+        .getValue();
+  }
 
-    public static Color getMedgroundLayerColor() {
-        return Sorus.getSorus().getThemeManager().getTheme(DefaultTheme.class).medgroundLayerColor.getValue();
-    }
+  public static Color getMedgroundLayerColor() {
+    return Sorus.getSorus()
+        .getThemeManager()
+        .getTheme(DefaultTheme.class)
+        .medgroundLayerColor
+        .getValue();
+  }
 
-    public static Color getForegroundLayerColor() {
-        return Sorus.getSorus().getThemeManager().getTheme(DefaultTheme.class).foregroundLayerColor.getValue();
-    }
+  public static Color getForegroundLayerColor() {
+    return Sorus.getSorus()
+        .getThemeManager()
+        .getTheme(DefaultTheme.class)
+        .foregroundLayerColor
+        .getValue();
+  }
 
-    public static Color getShadowStartColor() {
-        return Sorus.getSorus().getThemeManager().getTheme(DefaultTheme.class).shadowStartColor.getValue();
-    }
+  public static Color getForegroundLessLayerColor() {
+    return Sorus.getSorus()
+        .getThemeManager()
+        .getTheme(DefaultTheme.class)
+        .foregroundLessLayerColor
+        .getValue();
+  }
 
-    public static Color getShadowEndColor() {
-        return Sorus.getSorus().getThemeManager().getTheme(DefaultTheme.class).shadowEndColor.getValue();
-    }
+  public static Color getShadowStartColor() {
+    return Sorus.getSorus()
+        .getThemeManager()
+        .getTheme(DefaultTheme.class)
+        .shadowStartColor
+        .getValue();
+  }
 
+  public static Color getShadowEndColor() {
+    return Sorus.getSorus()
+        .getThemeManager()
+        .getTheme(DefaultTheme.class)
+        .shadowEndColor
+        .getValue();
+  }
 }

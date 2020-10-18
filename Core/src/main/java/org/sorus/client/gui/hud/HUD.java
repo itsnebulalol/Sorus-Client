@@ -26,6 +26,7 @@ package org.sorus.client.gui.hud;
 
 import java.util.*;
 import org.sorus.client.Sorus;
+import org.sorus.client.gui.core.Screen;
 import org.sorus.client.settings.ISettingHolder;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.IGLHelper;
@@ -144,11 +145,11 @@ public class HUD implements ISettingHolder {
    * @return the unscaled width
    */
   public double getWidth() {
-    final double[] width = {0};
-    this.components
-        .getValue()
-        .forEach(component -> width[0] = Math.max(width[0], component.getWidth()));
-    return width[0];
+    double width = 0;
+    for(IComponent component : components.getValue()) {
+      width = Math.max(width, component.getWidth());
+    }
+    return width;
   }
 
   /**
@@ -166,9 +167,11 @@ public class HUD implements ISettingHolder {
    * @return the unscaled height
    */
   public double getHeight() {
-    final double[] height = {0};
-    this.components.getValue().forEach(component -> height[0] = height[0] + component.getHeight());
-    return height[0];
+    double height = 0;
+    for(IComponent component : components.getValue()) {
+      height = height + component.getHeight();
+    }
+    return height;
   }
 
   /**
@@ -236,7 +239,7 @@ public class HUD implements ISettingHolder {
   }
 
   /** Displays the main settings menu for the hud. */
-  public void displaySettings() {
+  public void displaySettings(Screen currentScreen) {
     Sorus.getSorus().getGUIManager().open(new HUDConfigScreen(this));
   }
 

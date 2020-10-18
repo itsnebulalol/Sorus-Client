@@ -25,26 +25,14 @@
 package org.sorus.client.gui.screen.settings.components;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import javax.imageio.ImageIO;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
-import org.sorus.client.event.impl.client.input.MouseReleaseEvent;
-import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.core.component.Collection;
-import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
-import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.screen.settings.Configurable;
 import org.sorus.client.settings.Setting;
-import org.sorus.client.util.MathUtil;
-import org.sorus.client.version.input.Key;
 
 public class ColorPicker extends Configurable {
 
@@ -96,9 +84,7 @@ public class ColorPicker extends Configurable {
         e.getY() > this.absoluteY()
             && e.getY() < this.absoluteY() + this.getHeight() * this.absoluteYScale();
     if (expanded && this.getContainer().isInteractContainer()) {
-      Sorus.getSorus()
-          .getGUIManager()
-          .open(new ColorPickerScreen(setting));
+      Sorus.getSorus().getGUIManager().open(new ColorPickerScreen(setting));
     }
   }
 

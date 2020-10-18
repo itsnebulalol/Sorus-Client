@@ -63,7 +63,7 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
   public void render() {
     for (HUD hud : this.huds) {
       hud.render();
-      this.renderOverlay(hud);
+      this.renderHUDOverlay(hud);
     }
     this.updateMods();
     main.scale(
@@ -80,7 +80,7 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
   }
 
   /** Renders the overlay for a hud taking in account selectedness, and hoveredness. */
-  private void renderOverlay(HUD hud) {
+  private void renderHUDOverlay(HUD hud) {
     Color backgroundColor = new Color(255, 255, 255, 45);
     Color borderColor = new Color(255, 255, 255, 90);
     Color resizeBoxesColor = new Color(255, 255, 255, 90);
@@ -102,12 +102,9 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
       double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
       double hudRight = hud.getRight();
       double hudBottom = hud.getBottom();
-      if (this.distance(mouseX, mouseY, hudRight, hudTop) < 3
-          || this.distance(mouseX, mouseY, hudLeft, hudTop) < 3
-          || this.distance(mouseX, mouseY, hudLeft, hudBottom) < 3
-          || this.distance(mouseX, mouseY, hudRight, hudBottom) < 3) {
-        resizeBoxesColor = new Color(255, 255, 255, 120);
-      } else if (mouseX > hudLeft && mouseX < hudRight && mouseY > hudTop && mouseY < hudBottom) {
+      double minValue = Math.min(Math.min(this.distance(mouseX, mouseY, hudRight, hudTop), this.distance(mouseX, mouseY, hudLeft, hudTop)), Math.min(this.distance(mouseX, mouseY, hudLeft, hudBottom), this.distance(mouseX, mouseY, hudRight, hudBottom)));
+      resizeBoxesColor = new Color(255, 255, 255, (int) Math.max((120 - minValue), 0));
+      if (minValue > 50 && mouseX > hudLeft && mouseX < hudRight && mouseY > hudTop && mouseY < hudBottom) {
         backgroundColor = new Color(255, 255, 255, 60);
         borderColor = new Color(255, 255, 255, 120);
       }

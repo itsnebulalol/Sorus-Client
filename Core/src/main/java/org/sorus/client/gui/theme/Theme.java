@@ -24,13 +24,12 @@
 
 package org.sorus.client.gui.theme;
 
-import org.sorus.client.gui.screen.settings.IConfigurableScreen;
-import org.sorus.client.settings.Setting;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.sorus.client.gui.screen.settings.IConfigurableScreen;
+import org.sorus.client.settings.Setting;
 
 public abstract class Theme implements IConfigurableScreen {
 

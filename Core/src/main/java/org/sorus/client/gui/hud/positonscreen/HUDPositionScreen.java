@@ -30,8 +30,8 @@ import org.sorus.client.gui.hud.HUDManager;
 
 public class HUDPositionScreen extends ThemeableScreen {
 
-  public HUDPositionScreen(HUDManager hudManager) {
-    super(Sorus.getSorus().getThemeManager().getTheme("hud-position", hudManager));
+  public HUDPositionScreen() {
+    super(Sorus.getSorus().getThemeManager().getTheme("hud-position", Sorus.getSorus().getHUDManager()));
   }
 
   @Override

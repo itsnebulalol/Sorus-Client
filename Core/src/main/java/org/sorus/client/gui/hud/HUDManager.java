@@ -94,7 +94,7 @@ public class HUDManager implements ISettingHolder {
   @EventInvoked
   public void onKeyPress(KeyPressEvent e) {
     if (Sorus.getSorus().getVersion().getGame().isIngame() && e.getKey() == Key.SHIFT_RIGHT) {
-      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(this));
+      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen());
     }
   }
 
