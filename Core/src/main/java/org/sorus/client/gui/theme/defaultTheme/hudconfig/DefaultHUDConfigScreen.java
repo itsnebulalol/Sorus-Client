@@ -35,8 +35,7 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.*;
 import org.sorus.client.gui.hud.Component;
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
-import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.SelectComponentScreen;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.theme.ExitButton;
@@ -101,10 +100,13 @@ public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
-    menu.add(new ExitButton(() -> {
-      Sorus.getSorus().getGUIManager().close(this.screen);
-      Sorus.getSorus().getGUIManager().open(new HUDListScreen());
-    }).position(10, 10));
+    menu.add(
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(new HUDListScreen());
+                })
+            .position(10, 10));
     menu.add(
         new Text()
             .fontRenderer(fontRenderer)
@@ -147,7 +149,7 @@ public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE && this.screen.isInteractContainer()) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }
@@ -214,12 +216,13 @@ public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
       super.onRemove();
     }
 
-    public class OnAddComponent implements IReceiver<IComponent> {
+    public class OnAddComponent implements Callback<IComponent> {
 
       @Override
-      public void select(IComponent selected) {
+      public void call(IComponent selected) {
         DefaultHUDConfigScreen.this.hud.addComponent(selected);
-        DefaultHUDConfigScreen.this.hud.displaySettings(new HUDConfigScreen(DefaultHUDConfigScreen.this.hud));
+        DefaultHUDConfigScreen.this.hud.displaySettings(
+            new HUDConfigScreen(DefaultHUDConfigScreen.this.hud));
       }
 
       @Override

@@ -33,7 +33,7 @@ import org.sorus.client.event.impl.client.chat.ChatEvent;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
-import org.sorus.client.gui.core.component.impl.MultiTextComponent;
+import org.sorus.client.gui.core.component.impl.MultiText;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Scroll;
 import org.sorus.client.gui.core.component.impl.Text;
@@ -60,7 +60,7 @@ public class ChatComponent extends Component {
   private double chatScrollOffset;
 
   private final List<String> chat = new ArrayList<>();
-  private final List<MultiTextComponent> chatComponents = new ArrayList<>();
+  private final List<MultiText> chatComponents = new ArrayList<>();
 
   private double chatHeight;
   private double prevChatWidth;
@@ -152,8 +152,7 @@ public class ChatComponent extends Component {
     for (String chatLineString :
         this.getSplitString(
             fontRenderer, 1 / 0.5 * ChatComponent.this.chatWidth.getValue() - 25, string)) {
-      MultiTextComponent multiText =
-          new MultiTextComponent().scale(0.5, 0.5).position(0, offsetY + 2);
+      MultiText multiText = new MultiText().scale(0.5, 0.5).position(0, offsetY + 2);
       boolean formattingSymbolFound = false;
       StringBuilder partialString = new StringBuilder();
       Text text = new Text().fontRenderer(fontRenderer);
@@ -236,7 +235,8 @@ public class ChatComponent extends Component {
   @EventInvoked
   public void onKeyPress(KeyPressEvent e) {
     if (Sorus.getSorus().getVersion().getGame().isIngame()
-        && e.getKey() == this.chatKeybind.getValue()) {
+        && e.getKey() == this.chatKeybind.getValue()
+        && !e.isRepeat()) {
       Sorus.getSorus().getGUIManager().open(new ChatScreen(this));
     }
   }

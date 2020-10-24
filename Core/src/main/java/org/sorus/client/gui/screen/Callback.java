@@ -27,14 +27,14 @@ package org.sorus.client.gui.screen;
 import org.sorus.client.gui.theme.defaultTheme.DefaultSelectComponentScreen;
 
 /** Used to receive the selected components from the {@link DefaultSelectComponentScreen}. */
-public interface IReceiver<T> {
+public interface Callback<T> {
 
   /**
    * Receives and handles the selected component.
    *
    * @param selected the selected component
    */
-  void select(T selected);
+  void call(T selected);
 
   void cancel();
 }

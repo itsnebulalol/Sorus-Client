@@ -91,10 +91,13 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
             .position(290 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
-    menu.add(new ExitButton(() -> {
-      Sorus.getSorus().getGUIManager().close(this.screen);
-      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen());
-    }).position(10, 10));
+    menu.add(
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(new HUDPositionScreen());
+                })
+            .position(10, 10));
     menu.add(new MenuComponent("HUDs", null, HUDListScreen.class).position(20, 90));
     menu.add(new MenuComponent("Modules", null, ModuleListScreen.class).position(207.5, 90));
     menu.add(new MenuComponent("Themes", null, ThemeListScreen.class).position(395, 90));
@@ -121,7 +124,7 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }

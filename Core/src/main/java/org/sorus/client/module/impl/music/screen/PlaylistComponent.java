@@ -36,9 +36,11 @@ import org.sorus.client.module.impl.music.Playlist;
 
 public class PlaylistComponent extends Collection {
 
+  private final MainMusicScreen mainMusicScreen;
   private final Playlist playlist;
 
-  public PlaylistComponent(Playlist playlist) {
+  public PlaylistComponent(MainMusicScreen mainMusicScreen, Playlist playlist) {
+    this.mainMusicScreen = mainMusicScreen;
     this.playlist = playlist;
     this.add(
         new Rectangle().size(380, 70).position(4, 4).color(DefaultTheme.getMedgroundLayerColor()));
@@ -114,6 +116,7 @@ public class PlaylistComponent extends Collection {
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(0, 0));
+    this.add(new SettingsButton().position(280, 17.5));
     this.add(new PlayButton().position(330, 17.5));
   }
 
@@ -169,6 +172,64 @@ public class PlaylistComponent extends Collection {
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
         playlist.resume();
+      }
+    }
+
+    private boolean isHovered(double x, double y) {
+      return x > this.absoluteX()
+          && x < this.absoluteX() + 40 * this.absoluteXScale()
+          && y > this.absoluteY()
+          && y < this.absoluteY() + 40 * this.absoluteYScale();
+    }
+  }
+
+  public class SettingsButton extends Collection {
+
+    private final Collection main;
+
+    private double hoverPercent;
+
+    private long prevRenderTime;
+
+    public SettingsButton() {
+      this.add(main = new Collection());
+      main.add(new Image().resource("sorus/gear.png").size(40, 40));
+      Sorus.getSorus().getEventManager().register(this);
+    }
+
+    @Override
+    public void onRender() {
+      long renderTime = System.currentTimeMillis();
+      long deltaTime = renderTime - prevRenderTime;
+      boolean hovered =
+          this.isHovered(
+              Sorus.getSorus().getVersion().getInput().getMouseX(),
+              Sorus.getSorus().getVersion().getInput().getMouseY());
+      hoverPercent =
+          Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
+      this.main
+          .position(-hoverPercent * 0.5, -hoverPercent * 1.125)
+          .scale(1 + hoverPercent * 0.05, 1 + hoverPercent * 0.05)
+          .color(
+              new Color(
+                  (int) (145 + 55 * hoverPercent),
+                  (int) (145 + 55 * hoverPercent),
+                  (int) (145 + 55 * hoverPercent)));
+      prevRenderTime = renderTime;
+      super.onRender();
+    }
+
+    @Override
+    public void onRemove() {
+      Sorus.getSorus().getEventManager().unregister(this);
+      super.onRemove();
+    }
+
+    @EventInvoked
+    public void onClick(MousePressEvent e) {
+      if (this.isHovered(e.getX(), e.getY())) {
+        Sorus.getSorus().getGUIManager().close(PlaylistComponent.this.mainMusicScreen);
+        Sorus.getSorus().getGUIManager().open(new PlaylistEditScreen(playlist));
       }
     }
 

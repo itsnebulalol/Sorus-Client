@@ -31,7 +31,7 @@ import org.sorus.client.gui.hud.IComponent;
 
 public class SelectComponentScreen extends ThemeableScreen {
 
-  public SelectComponentScreen(HUDManager hudManager, IReceiver<IComponent> receiver) {
+  public SelectComponentScreen(HUDManager hudManager, Callback<IComponent> receiver) {
     super(Sorus.getSorus().getThemeManager().getTheme("component-select", hudManager, receiver));
   }
 

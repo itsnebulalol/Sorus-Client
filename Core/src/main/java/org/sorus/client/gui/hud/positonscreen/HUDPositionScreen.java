@@ -26,12 +26,14 @@ package org.sorus.client.gui.hud.positonscreen;
 
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.hud.HUDManager;
 
 public class HUDPositionScreen extends ThemeableScreen {
 
   public HUDPositionScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("hud-position", Sorus.getSorus().getHUDManager()));
+    super(
+        Sorus.getSorus()
+            .getThemeManager()
+            .getTheme("hud-position", Sorus.getSorus().getHUDManager()));
   }
 
   @Override

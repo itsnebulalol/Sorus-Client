@@ -35,7 +35,7 @@ public interface ITheme<T> {
 
   default void exit() {}
 
-  default void keyTyped(Key key) {}
+  default void keyTyped(Key key, boolean repeat) {}
 
   default void mouseClicked(Button button, double x, double y) {}
 

@@ -37,4 +37,6 @@ public interface ISound {
   void addCompletionHook(ICompletionHook hook);
 
   String getName();
+
+  boolean isComplete();
 }

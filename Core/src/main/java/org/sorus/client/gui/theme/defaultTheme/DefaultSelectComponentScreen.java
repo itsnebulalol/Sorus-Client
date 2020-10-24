@@ -39,7 +39,7 @@ import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.Component;
 import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.IComponent;
-import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.SelectComponentScreen;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.MathUtil;
@@ -48,7 +48,7 @@ import org.sorus.client.version.input.Key;
 public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScreen> {
 
   private final HUDManager hudManager;
-  private final IReceiver<IComponent> receiver;
+  private final Callback<IComponent> receiver;
 
   private Panel main;
   private Scroll scroll;
@@ -59,7 +59,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
 
   private SelectComponent selected;
 
-  public DefaultSelectComponentScreen(HUDManager hudManager, IReceiver<IComponent> receiver) {
+  public DefaultSelectComponentScreen(HUDManager hudManager, Callback<IComponent> receiver) {
     this.hudManager = hudManager;
     this.receiver = receiver;
   }
@@ -154,7 +154,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       receiver.cancel();
       Sorus.getSorus().getGUIManager().close(this.screen);
@@ -363,7 +363,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
         Sorus.getSorus().getGUIManager().close((Screen) this.getContainer());
-        receiver.select(DefaultSelectComponentScreen.this.selected.component);
+        receiver.call(DefaultSelectComponentScreen.this.selected.component);
       }
     }
 

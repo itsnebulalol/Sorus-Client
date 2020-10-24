@@ -99,6 +99,11 @@ public class GLHelper implements IGLHelper {
     }
 
     @Override
+    public void lineWidth(double lineWidth) {
+        GL11.glLineWidth((float) lineWidth);
+    }
+
+    @Override
     public void beginScissor(double x, double y, double width, double height) {
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         y += height;

@@ -42,6 +42,7 @@ public class DefaultTheme extends Theme {
 
   private final Setting<Color> backgroundLayerColor;
   private final Setting<Color> medgroundLayerColor;
+  private final Setting<Color> medforegroundLayerColor;
   private final Setting<Color> foregroundLayerColor;
   private final Setting<Color> foregroundLessLayerColor;
   private final Setting<Color> shadowStartColor;
@@ -65,6 +66,8 @@ public class DefaultTheme extends Theme {
     this.register(
         medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
     this.register(
+            medforegroundLayerColor = new Setting<>("medgroundLayerColor", new Color(50, 50, 50)));
+    this.register(
         foregroundLayerColor = new Setting<>("foregroundLayerColor", new Color(215, 215, 215)));
     this.register(
         foregroundLessLayerColor =
@@ -77,6 +80,7 @@ public class DefaultTheme extends Theme {
   public void addConfigComponents(Collection collection) {
     collection.add(new ColorPicker(backgroundLayerColor, "Background Layer"));
     collection.add(new ColorPicker(medgroundLayerColor, "Medground Layer"));
+    collection.add(new ColorPicker(medforegroundLayerColor, "Medforeground Layer"));
     collection.add(new ColorPicker(foregroundLayerColor, "Foreground Layer"));
     collection.add(new ColorPicker(foregroundLessLayerColor, "Foreground Less Layer"));
     collection.add(new ColorPicker(shadowStartColor, "Shadow Start"));
@@ -102,6 +106,14 @@ public class DefaultTheme extends Theme {
         .getTheme(DefaultTheme.class)
         .medgroundLayerColor
         .getValue();
+  }
+
+  public static Color getMedforegroundLayerColor() {
+    return Sorus.getSorus()
+            .getThemeManager()
+            .getTheme(DefaultTheme.class)
+            .medforegroundLayerColor
+            .getValue();
   }
 
   public static Color getForegroundLayerColor() {

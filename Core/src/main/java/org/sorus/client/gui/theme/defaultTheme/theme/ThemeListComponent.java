@@ -278,7 +278,9 @@ public class ThemeListComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        Sorus.getSorus().getGUIManager().open(new SettingsScreen(ThemeListComponent.this.themeListScreen.screen, theme));
+        Sorus.getSorus()
+            .getGUIManager()
+            .open(new SettingsScreen(ThemeListComponent.this.themeListScreen.screen, theme));
       }
     }
 

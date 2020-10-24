@@ -56,8 +56,7 @@ public class MusicSlider extends Collection {
     this.add(
         this.selector2 =
             new Rectangle().smooth(3.5).position(0, 6.5).color(new Color(210, 210, 210)));
-    this.add(
-        this.selector = new Arc().angle(0, 360).radius(7, 7).color(new Color(210, 210, 210)));
+    this.add(this.selector = new Arc().angle(0, 360).radius(7, 7).color(new Color(210, 210, 210)));
     Sorus.getSorus().getEventManager().register(this);
   }
 

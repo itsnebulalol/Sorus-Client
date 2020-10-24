@@ -102,9 +102,20 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
       double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
       double hudRight = hud.getRight();
       double hudBottom = hud.getBottom();
-      double minValue = Math.min(Math.min(this.distance(mouseX, mouseY, hudRight, hudTop), this.distance(mouseX, mouseY, hudLeft, hudTop)), Math.min(this.distance(mouseX, mouseY, hudLeft, hudBottom), this.distance(mouseX, mouseY, hudRight, hudBottom)));
+      double minValue =
+          Math.min(
+              Math.min(
+                  this.distance(mouseX, mouseY, hudRight, hudTop),
+                  this.distance(mouseX, mouseY, hudLeft, hudTop)),
+              Math.min(
+                  this.distance(mouseX, mouseY, hudLeft, hudBottom),
+                  this.distance(mouseX, mouseY, hudRight, hudBottom)));
       resizeBoxesColor = new Color(255, 255, 255, (int) Math.max((120 - minValue), 0));
-      if (minValue > 50 && mouseX > hudLeft && mouseX < hudRight && mouseY > hudTop && mouseY < hudBottom) {
+      if (minValue > 50
+          && mouseX > hudLeft
+          && mouseX < hudRight
+          && mouseY > hudTop
+          && mouseY < hudBottom) {
         backgroundColor = new Color(255, 255, 255, 60);
         borderColor = new Color(255, 255, 255, 120);
       }
@@ -387,7 +398,7 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }

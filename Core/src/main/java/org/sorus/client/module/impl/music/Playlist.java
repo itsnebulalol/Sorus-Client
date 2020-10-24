@@ -30,7 +30,7 @@ import org.sorus.client.Sorus;
 
 public class Playlist {
 
-  private final List<ISound> players = new ArrayList<>();
+  private final List<ISound> sounds = new ArrayList<>();
 
   private int currentPosition = 0;
   private double currentPercent;
@@ -45,7 +45,7 @@ public class Playlist {
   }
 
   public void add(ISound player) {
-    this.players.add(player);
+    this.sounds.add(player);
   }
 
   public void resume() {
@@ -54,7 +54,7 @@ public class Playlist {
 
   public void onComplete() {
     int currentPosition = this.currentPosition + 1;
-    if (currentPosition >= players.size()) {
+    if (currentPosition >= sounds.size()) {
       currentPosition = 0;
     }
     this.resume(currentPosition, 0);
@@ -63,7 +63,7 @@ public class Playlist {
   private void resume(int position, double percent) {
     this.currentPosition = position;
     this.currentPercent = percent;
-    ISound sound = this.players.get(currentPosition);
+    ISound sound = this.sounds.get(currentPosition);
     sound.addCompletionHook(this::onComplete);
     sound.play(percent);
     this.music.setCurrent(this, sound);
@@ -72,7 +72,7 @@ public class Playlist {
   }
 
   public void stop() {
-    ISound sound = this.players.get(currentPosition);
+    ISound sound = this.sounds.get(currentPosition);
     this.currentPercent = sound.getPlayPercent();
     sound.stop();
     playing = false;
@@ -89,9 +89,9 @@ public class Playlist {
   }
 
   public void next() {
-    int currentPosition = this.currentPosition + 1 >= players.size() ? 0 : this.currentPosition + 1;
+    int currentPosition = this.currentPosition + 1 >= sounds.size() ? 0 : this.currentPosition + 1;
     double currentPercent = 0;
-    if(this.playing) {
+    if (this.playing) {
       this.stop();
       this.resume(currentPosition, currentPercent);
     } else {
@@ -101,9 +101,10 @@ public class Playlist {
   }
 
   public void back() {
-    int currentPosition = this.currentPosition - 1 < 0 ? players.size() - 1 : this.currentPosition - 1;
+    int currentPosition =
+        this.currentPosition - 1 < 0 ? sounds.size() - 1 : this.currentPosition - 1;
     double currentPercent = 0;
-    if(this.playing) {
+    if (this.playing) {
       this.stop();
       this.resume(currentPosition, currentPercent);
     } else {
@@ -114,5 +115,17 @@ public class Playlist {
 
   public double getPlayPercent() {
     return this.currentSound.playing() ? this.currentSound.getPlayPercent() : this.currentPercent;
+  }
+
+  public List<ISound> getSounds() {
+    return sounds;
+  }
+
+  public int getSongCount() {
+    return this.sounds.size();
+  }
+
+  public boolean isPlaying() {
+    return playing;
   }
 }

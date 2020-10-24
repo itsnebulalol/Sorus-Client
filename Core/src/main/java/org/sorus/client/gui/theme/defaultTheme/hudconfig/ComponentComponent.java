@@ -222,7 +222,9 @@ public class ComponentComponent extends Collection {
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
         Sorus.getSorus().getGUIManager().close(ComponentComponent.this.screen.screen);
-        Sorus.getSorus().getGUIManager().open(new SettingsScreen(ComponentComponent.this.screen.screen, component));
+        Sorus.getSorus()
+            .getGUIManager()
+            .open(new SettingsScreen(ComponentComponent.this.screen.screen, component));
       }
     }
 

@@ -35,43 +35,50 @@ import org.sorus.client.util.MathUtil;
 
 public class ExitButton extends Collection {
 
-    private final Runnable runnable;
-    private final Collection main;
+  private final Runnable runnable;
+  private final Collection main;
 
-    private double hoverPercent;
+  private double hoverPercent;
 
-    public ExitButton(Runnable runnable) {
-        this.runnable = runnable;
-        this.add(main = new Collection());
-        main.add(new Image().resource("sorus/exit_button.png").size(50, 50));
-        Sorus.getSorus().getEventManager().register(this);
+  public ExitButton(Runnable runnable) {
+    this.runnable = runnable;
+    this.add(main = new Collection());
+    main.add(new Image().resource("sorus/exit_button.png").size(50, 50));
+    Sorus.getSorus().getEventManager().register(this);
+  }
+
+  @Override
+  public void onRender() {
+    double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
+    double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+    boolean hovered = this.isHovered(mouseX, mouseY);
+    hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * 0.03, 0, 1);
+    main.color(
+        ColorUtil.getBetween(
+            DefaultTheme.getForegroundLessLayerColor(),
+            DefaultTheme.getForegroundLayerColor(),
+            hoverPercent));
+    main.position(-1 * hoverPercent, -1 * hoverPercent)
+        .scale(1 + hoverPercent * 0.04, 1 + hoverPercent * 0.04);
+    super.onRender();
+  }
+
+  @Override
+  public void onRemove() {
+    Sorus.getSorus().getEventManager().unregister(this);
+  }
+
+  @EventInvoked
+  public void onClick(MousePressEvent e) {
+    if (this.isHovered(e.getX(), e.getY())) {
+      runnable.run();
     }
+  }
 
-    @Override
-    public void onRender() {
-        double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-        double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
-        boolean hovered = this.isHovered(mouseX, mouseY);
-        hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * 0.03, 0, 1);
-        main.color(ColorUtil.getBetween(DefaultTheme.getForegroundLessLayerColor(), DefaultTheme.getForegroundLayerColor(), hoverPercent));
-        main.position(-1 * hoverPercent, -1 * hoverPercent).scale(1 + hoverPercent * 0.04, 1 + hoverPercent * 0.04);
-        super.onRender();
-    }
-
-    @Override
-    public void onRemove() {
-        Sorus.getSorus().getEventManager().unregister(this);
-    }
-
-    @EventInvoked
-    public void onClick(MousePressEvent e) {
-        if(this.isHovered(e.getX(), e.getY())) {
-            runnable.run();
-        }
-    }
-
-    private boolean isHovered(double x, double y) {
-        return x > this.absoluteX() && x < this.absoluteX() + 50 * this.absoluteXScale() &&  y > this.absoluteY() && y < this.absoluteY() + 50 * this.absoluteYScale();
-    }
-
+  private boolean isHovered(double x, double y) {
+    return x > this.absoluteX()
+        && x < this.absoluteX() + 50 * this.absoluteXScale()
+        && y > this.absoluteY()
+        && y < this.absoluteY() + 50 * this.absoluteYScale();
+  }
 }

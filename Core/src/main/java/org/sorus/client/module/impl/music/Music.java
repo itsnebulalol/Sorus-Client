@@ -24,25 +24,11 @@
 
 package org.sorus.client.module.impl.music;
 
-import java.io.*;
-import java.net.URL;
 import java.util.*;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.github.cshubhamrao.MediaConverter.Library.FFMpegLoader;
-import com.github.kiulian.downloader.OnYoutubeDownloadListener;
-import com.github.kiulian.downloader.YoutubeDownloader;
-import com.github.kiulian.downloader.model.VideoDetails;
-import com.github.kiulian.downloader.model.YoutubeVideo;
-import com.github.kiulian.downloader.model.formats.AudioFormat;
-import com.github.kiulian.downloader.model.formats.Format;
-import com.github.kiulian.downloader.model.quality.AudioQuality;
-import com.github.kiulian.downloader.parser.DefaultParser;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.StartEvent;
+import org.sorus.client.event.impl.client.TickEvent;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.impl.music.screen.MainMusicScreen;
@@ -65,10 +51,16 @@ public class Music extends ModuleConfigurable {
   @EventInvoked
   public void onStart(StartEvent e) {
     Playlist playlist = new Playlist();
-    playlist.add(SoundConverter.fromFile(new File("songs/test.m4a")));
-    playlist.add(SoundConverter.fromFile(new File("Boat Horn.mp3")));
-    playlist.add(SoundConverter.fromFile(new File("Actual Song.mp3")));
     this.playlists.add(playlist);
+  }
+
+  @EventInvoked
+  public void onTick(TickEvent e) {
+    if (this.getCurrentSound() != null) {
+      if (this.getCurrentSound().getPlayPercent() > 0.99) {
+        this.getCurrentPlaylist().next();
+      }
+    }
   }
 
   @EventInvoked

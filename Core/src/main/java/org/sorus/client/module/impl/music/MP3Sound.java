@@ -93,6 +93,11 @@ public class MP3Sound extends PlaybackListener implements ISound {
     return name;
   }
 
+  @Override
+  public boolean isComplete() {
+    return false;
+  }
+
   private class InternalPlayer {
 
     private final int length;

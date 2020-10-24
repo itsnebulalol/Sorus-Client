@@ -37,7 +37,6 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.HUD;
-import org.sorus.client.gui.hud.HUDConfigScreen;
 import org.sorus.client.gui.hud.SingleHUD;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.Axis;

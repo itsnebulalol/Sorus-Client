@@ -146,7 +146,7 @@ public class HUD implements ISettingHolder {
    */
   public double getWidth() {
     double width = 0;
-    for(IComponent component : components.getValue()) {
+    for (IComponent component : components.getValue()) {
       width = Math.max(width, component.getWidth());
     }
     return width;
@@ -168,7 +168,7 @@ public class HUD implements ISettingHolder {
    */
   public double getHeight() {
     double height = 0;
-    for(IComponent component : components.getValue()) {
+    for (IComponent component : components.getValue()) {
       height = height + component.getHeight();
     }
     return height;

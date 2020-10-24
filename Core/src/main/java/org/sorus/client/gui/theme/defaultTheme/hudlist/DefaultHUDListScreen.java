@@ -36,7 +36,6 @@ import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.SingleHUD;
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.theme.ExitButton;
@@ -106,10 +105,13 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
-    menu.add(new ExitButton(() -> {
-      Sorus.getSorus().getGUIManager().close(this.screen);
-      Sorus.getSorus().getGUIManager().open(new MenuScreen());
-    }).position(10, 10));
+    menu.add(
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(new MenuScreen());
+                })
+            .position(10, 10));
     menu.add(new Add().position(320, 705));
     Scissor scissor = new Scissor().size(680, 600).position(10, 85);
     this.scroll = new Scroll();
@@ -151,7 +153,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }

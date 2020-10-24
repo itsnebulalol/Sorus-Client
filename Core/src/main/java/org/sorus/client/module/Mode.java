@@ -22,15 +22,28 @@
  * SOFTWARE.
  */
 
-package org.sorus.oneeightnine.injectors.challenges;
+package org.sorus.client.module;
 
-import org.sorus.client.Sorus;
-import org.sorus.client.module.impl.challenges.Challenges;
+import java.util.ArrayList;
+import java.util.List;
+import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.settings.Setting;
 
-public class GuiIngameHook {
+public class Mode {
 
-    public static boolean shouldHideCrosshair() {
-        return Sorus.getSorus().getModuleManager().getModule(Challenges.class).shouldHideCrosshair();
-    }
+  private final List<Setting<?>> settings = new ArrayList<>();
 
+  public void register(Setting<?> setting) {
+    this.settings.add(setting);
+  }
+
+  public List<Setting<?>> getSettings() {
+    return settings;
+  }
+
+  public String getName() {
+    return null;
+  }
+
+  public void addConfigComponents(Collection collection) {}
 }

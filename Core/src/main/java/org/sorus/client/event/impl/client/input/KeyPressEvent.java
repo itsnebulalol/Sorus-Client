@@ -32,11 +32,13 @@ public class KeyPressEvent extends Event {
 
   private final Key key;
   private final char character;
+  private final boolean repeat;
 
   /** @param key the key that was pressed */
-  public KeyPressEvent(Key key, char character) {
+  public KeyPressEvent(Key key, char character, boolean repeat) {
     this.key = key;
     this.character = character;
+    this.repeat = repeat;
   }
 
   public Key getKey() {
@@ -45,5 +47,9 @@ public class KeyPressEvent extends Event {
 
   public char getCharacter() {
     return character;
+  }
+
+  public boolean isRepeat() {
+    return repeat;
   }
 }

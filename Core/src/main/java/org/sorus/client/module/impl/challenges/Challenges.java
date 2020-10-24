@@ -24,6 +24,9 @@
 
 package org.sorus.client.module.impl.challenges;
 
+import org.sorus.client.Sorus;
+import org.sorus.client.event.EventInvoked;
+import org.sorus.client.event.impl.client.render.RenderObjectEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.module.ModuleConfigurable;
@@ -31,20 +34,27 @@ import org.sorus.client.settings.Setting;
 
 public class Challenges extends ModuleConfigurable {
 
-    private final Setting<Boolean> noCrosshair;
+  private final Setting<Boolean> noCrosshair;
 
-    public Challenges() {
-        super("CHALLENGES");
-        this.register(noCrosshair = new Setting<>("noCrosshair", false));
+  public Challenges() {
+    super("CHALLENGES");
+    this.register(noCrosshair = new Setting<>("noCrosshair", false));
+    Sorus.getSorus().getEventManager().register(this);
+  }
+
+  @Override
+  public void addConfigComponents(Collection collection) {
+    collection.add(new Toggle(noCrosshair, "No Crosshair"));
+  }
+
+  @EventInvoked
+  public void onRenderCrosshair(RenderObjectEvent.Crosshair e) {
+    if (this.shouldHideCrosshair()) {
+      e.setCancelled(true);
     }
+  }
 
-    @Override
-    public void addConfigComponents(Collection collection) {
-        collection.add(new Toggle(noCrosshair, "No Crosshair"));
-    }
-
-    public boolean shouldHideCrosshair() {
-        return this.isEnabled() && this.noCrosshair.getValue();
-    }
-
+  public boolean shouldHideCrosshair() {
+    return this.isEnabled() && this.noCrosshair.getValue();
+  }
 }

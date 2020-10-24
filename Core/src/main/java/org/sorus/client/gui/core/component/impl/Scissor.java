@@ -46,13 +46,13 @@ public class Scissor extends Collection {
    * @param width the scissor width
    * @param height the scissor height
    */
-  private static void beginScissor(double x, double y, double width, double height) {
+  public static void beginScissor(double x, double y, double width, double height) {
     currentScissors.add(new GLScissor(x, y, width, height));
     updateCurrentScissor();
   }
 
   /** Removes from the list of current scissors and updates the gl scissor. */
-  private static void endScissor() {
+  public static void endScissor() {
     currentScissors.remove(currentScissors.size() - 1);
     updateCurrentScissor();
   }

@@ -39,6 +39,7 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.HollowRectangle;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.settings.Setting;
@@ -47,7 +48,8 @@ import org.sorus.client.version.input.Key;
 
 public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerScreen> {
 
-  private final Setting<Color> setting;
+  private final Color color;
+  private final Callback<Color> callback;
   private Panel main;
 
   private ColorPickerInner colorPicker;
@@ -55,14 +57,14 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
   private BrightnessSlider brightnessSlider;
   private Rectangle colorViewer;
 
-  public DefaultColorPickerScreen(Setting<Color> setting) {
-    this.setting = setting;
+  public DefaultColorPickerScreen(Color color, Callback<Color> callback) {
+    this.color = color;
+    this.callback = callback;
   }
 
   @Override
   public void init() {
     this.main = new Panel();
-    Color color = setting.getValue();
     main.add(
         new org.sorus.client.gui.core.component.impl.Rectangle()
             .size(290, 290)
@@ -172,7 +174,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }
@@ -181,7 +183,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
   public void updateSetting() {
     this.colorPicker.updateColorWheel(
         this.brightnessSlider.getValue(), this.alphaSlider.getValue());
-    this.setting.setValue(this.getCompleteColor());
+    this.callback.call(this.getCompleteColor());
   }
 
   public Color getCompleteColor() {

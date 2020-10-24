@@ -32,7 +32,6 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.settings.IConfigurableScreen;
 import org.sorus.client.gui.screen.settings.SettingsHolder;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
@@ -103,10 +102,13 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
-    menu.add(new ExitButton(() -> {
-      Sorus.getSorus().getGUIManager().close(this.screen);
-      Sorus.getSorus().getGUIManager().open(this.parent);
-    }).position(10, 10));
+    menu.add(
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(this.parent);
+                })
+            .position(10, 10));
     menu.add(
         new Text()
             .fontRenderer(fontRenderer)
@@ -192,50 +194,13 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(16, 146));
-    /*menu.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(650, 7)
-            .position(25, 770));
-    menu.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(650, 7)
-            .position(25, 143));
-    menu.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(7, 610)
-            .position(13, 155));
-    menu.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(7, 610)
-            .position(680, 155));*/
     Scissor scissor = new Scissor().size(680, 580).position(10, 170);
     this.scroll = new Scroll();
     scroll.position(0, 2);
     scissor.add(scroll);
     menu.add(scissor);
     scissor.add(scroll);
-    settingsHolder = new SettingsHolder();
-    configurable.addConfigComponents(settingsHolder);
+    settingsHolder = new SettingsHolder(configurable);
     scroll.add(settingsHolder);
     menu.add(scissor);
   }
@@ -263,7 +228,7 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE && this.screen.isInteractContainer()) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }

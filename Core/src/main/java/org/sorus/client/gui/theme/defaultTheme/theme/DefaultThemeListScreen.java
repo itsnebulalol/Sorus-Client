@@ -33,7 +33,7 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.theme.SelectThemeScreen;
 import org.sorus.client.gui.screen.theme.ThemeListScreen;
 import org.sorus.client.gui.theme.Theme;
@@ -165,7 +165,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }
@@ -259,10 +259,10 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
       super.onRemove();
     }
 
-    public class ThemeReceiver implements IReceiver<Theme> {
+    public class ThemeReceiver implements Callback<Theme> {
 
       @Override
-      public void select(Theme selected) {
+      public void call(Theme selected) {
         themeManager.add(selected);
         Sorus.getSorus().getGUIManager().open(DefaultThemeListScreen.this.screen);
         DefaultThemeListScreen.this.updateThemes();

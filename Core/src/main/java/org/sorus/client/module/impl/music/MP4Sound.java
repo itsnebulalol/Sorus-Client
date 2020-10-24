@@ -24,45 +24,58 @@
 
 package org.sorus.client.module.impl.music;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.*;
+import javazoom.jl.player.advanced.PlaybackListener;
+import net.sourceforge.jaad.spi.javasound.AACAudioFileReader;
 
-import java.net.URI;
-
-public class M4ASound implements ISound {
+public class MP4Sound extends PlaybackListener implements ISound {
 
   private final String name;
 
-  private InternalPlayer player;
   private ICompletionHook hook;
-  private double percent;
   private boolean playing;
-  private double savedPercent;
-  private final URI uri;
+  private Clip clip;
+  private Thread thread;
 
-  public M4ASound(String name, URI uri) {
+  public MP4Sound(String name, File file) {
     this.name = name;
-    this.uri = uri;
+    new Thread(
+            () -> {
+              try {
+                AACAudioFileReader aacAudioFileReader = new AACAudioFileReader();
+                AudioInputStream stream = aacAudioFileReader.getAudioInputStream(file);
+                this.clip = AudioSystem.getClip();
+                clip.open(stream);
+              } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+                e.printStackTrace();
+              }
+            })
+        .start();
   }
 
   @Override
   public void play(double percent) {
-    this.playing = true;
-    this.percent = percent;
-    try {
-      this.player = new InternalPlayer(uri);
-      this.player.play(this.percent);
-    } catch (Throwable e) {
-      e.printStackTrace();
-    }
+    thread =
+        new Thread(
+            () -> {
+              try {
+                clip.setMicrosecondPosition((long) (clip.getMicrosecondLength() * percent));
+                clip.start();
+                this.playing = true;
+              } catch (Exception e) {
+                e.printStackTrace();
+              }
+            });
+    thread.start();
   }
 
   @Override
   public void stop() {
     this.playing = false;
-    this.player.stop();
-    //this.player.thread.interrupt();
+    this.clip.stop();
+    this.thread.interrupt();
   }
 
   @Override
@@ -72,15 +85,11 @@ public class M4ASound implements ISound {
 
   @Override
   public double getPlayPercent() {
-    /*if (!playing) {
-      return this.savedPercent;
-    }
     try {
-      return (this.player.length - this.player.inputStream.available())
-          / (double) this.player.length;
-    } catch (Exception e) {*/
+      return (double) this.clip.getMicrosecondPosition() / this.clip.getMicrosecondLength();
+    } catch (Exception e) {
       return 0;
-    //}
+    }
   }
 
   @Override
@@ -93,25 +102,8 @@ public class M4ASound implements ISound {
     return name;
   }
 
-  private class InternalPlayer {
-
-    private MediaPlayer player;
-    private boolean playing = false;
-    private Thread thread;
-
-    public InternalPlayer(URI uri) {
-      Media media = new Media(uri.toString());
-      this.player = new MediaPlayer(media);
-    }
-
-    public void play(double percent) {
-      this.player.pause();
-      this.player.seek(this.player.getTotalDuration().multiply(percent));
-      this.player.play();
-    }
-
-    public void stop() {
-      this.player.stop();
-    }
+  @Override
+  public boolean isComplete() {
+    return playing && !this.clip.isRunning();
   }
 }

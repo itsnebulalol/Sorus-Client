@@ -34,6 +34,8 @@ import org.sorus.client.gui.core.component.impl.HollowRectangle;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.screen.settings.Configurable;
+import org.sorus.client.gui.screen.settings.SettingsHolder;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.util.MathUtil;
 
@@ -48,7 +50,7 @@ public class ClickThrough extends Configurable {
     this.setting = setting;
     this.options = options;
     this.value = setting.getValue();
-    this.add(new ClickThroughInner().position(500, 20));
+    this.add(new ClickThroughInner().position(400, 20));
     this.add(
         new Text()
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
@@ -72,6 +74,7 @@ public class ClickThrough extends Configurable {
       this.value = this.options.size() - 1;
     }
     this.setting.setValue(this.value);
+    ((SettingsHolder) this.collection).refresh();
   }
 
   public class ClickThroughInner extends Collection {
@@ -86,15 +89,13 @@ public class ClickThrough extends Configurable {
     private long prevRenderTime;
 
     public ClickThroughInner() {
-      this.add(new Rectangle().smooth(5).size(150, 40).color(new Color(15, 15, 15, 125)));
+      this.add(new Rectangle().size(250, 40).color(DefaultTheme.getMedforegroundLayerColor()));
       this.add(
           new HollowRectangle()
-              .thickness(2)
-              .smooth(5)
-              .size(150, 40)
-              .color(new Color(235, 235, 235, 210)));
-      this.add(new Rectangle().size(2, 36).position(39, 2).color(new Color(235, 235, 235, 210)));
-      this.add(new Rectangle().size(2, 36).position(109, 2).color(new Color(235, 235, 235, 210)));
+              .size(250, 40)
+              .color(DefaultTheme.getForegroundLessLayerColor()));
+      this.add(new Rectangle().size(1, 38).position(40, 1).color(new Color(235, 235, 235, 210)));
+      this.add(new Rectangle().size(1, 38).position(209, 1).color(new Color(235, 235, 235, 210)));
       this.add(
           currentText =
               new Text()
@@ -116,14 +117,14 @@ public class ClickThrough extends Configurable {
                       Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
                   .text(">")
                   .scale(4, 4)
-                  .position(125, 7));
+                  .position(225, 7));
       Sorus.getSorus().getEventManager().register(this);
     }
 
     @Override
     public void onRender() {
       currentText.text(ClickThrough.this.options.get((int) ClickThrough.this.value));
-      currentText.position(75 - currentText.width() / 2 * 3, 20 - currentText.height() / 2 * 3 + 1);
+      currentText.position(125 - currentText.width() / 2 * 3, 20 - currentText.height() / 2 * 3 + 1);
       long renderTime = System.currentTimeMillis();
       long deltaTime = renderTime - prevRenderTime;
       double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
@@ -168,8 +169,8 @@ public class ClickThrough extends Configurable {
     }
 
     private boolean rightHovered(double x, double y) {
-      return x > this.absoluteX() + 110 * this.absoluteXScale()
-          && x < this.absoluteX() + 150 * this.absoluteXScale()
+      return x > this.absoluteX() + 210 * this.absoluteXScale()
+          && x < this.absoluteX() + 250 * this.absoluteXScale()
           && y > this.absoluteY()
           && y < this.absoluteY() + 40 * this.absoluteYScale();
     }

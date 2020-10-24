@@ -24,14 +24,12 @@
 
 package org.sorus.client.gui.theme.defaultTheme.modulelist;
 
-import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
 import org.sorus.client.gui.theme.ExitButton;
@@ -103,10 +101,13 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
-    menu.add(new ExitButton(() -> {
-      Sorus.getSorus().getGUIManager().close(this.screen);
-      Sorus.getSorus().getGUIManager().open(new MenuScreen());
-    }).position(10, 10));
+    menu.add(
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(new MenuScreen());
+                })
+            .position(10, 10));
     Scissor scissor = new Scissor().size(680, 690).position(10, 85);
     this.scroll = new Scroll();
     scroll.position(0, 2);
@@ -148,7 +149,7 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }

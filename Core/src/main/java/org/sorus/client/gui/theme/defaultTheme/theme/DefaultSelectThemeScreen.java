@@ -34,7 +34,7 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.theme.SelectThemeScreen;
 import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.ThemeBase;
@@ -45,7 +45,7 @@ import org.sorus.client.version.input.Key;
 public class DefaultSelectThemeScreen extends ThemeBase<SelectThemeScreen> {
 
   private final ThemeManager themeManager;
-  private final IReceiver<Theme> receiver;
+  private final Callback<Theme> receiver;
 
   private Panel main;
   private Scroll scroll;
@@ -56,7 +56,7 @@ public class DefaultSelectThemeScreen extends ThemeBase<SelectThemeScreen> {
 
   private SelectComponent selected;
 
-  public DefaultSelectThemeScreen(ThemeManager themeManager, IReceiver<Theme> receiver) {
+  public DefaultSelectThemeScreen(ThemeManager themeManager, Callback<Theme> receiver) {
     this.themeManager = themeManager;
     this.receiver = receiver;
   }
@@ -141,7 +141,7 @@ public class DefaultSelectThemeScreen extends ThemeBase<SelectThemeScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }
@@ -181,7 +181,7 @@ public class DefaultSelectThemeScreen extends ThemeBase<SelectThemeScreen> {
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
         Sorus.getSorus().getGUIManager().close((Screen) this.getContainer());
-        receiver.select(DefaultSelectThemeScreen.this.selected.theme);
+        receiver.call(DefaultSelectThemeScreen.this.selected.theme);
       }
     }
 
