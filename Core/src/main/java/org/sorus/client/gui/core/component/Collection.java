@@ -43,7 +43,7 @@ public class Collection extends Component {
   /** Renders all the components stored in the collection to the screen. */
   @Override
   public void onRender() {
-    for (Component component : this.components) {
+    for (Component component : new ArrayList<>(this.components)) {
       component.onRender();
     }
   }

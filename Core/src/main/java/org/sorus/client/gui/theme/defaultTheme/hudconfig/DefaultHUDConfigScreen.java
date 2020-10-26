@@ -35,9 +35,12 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.*;
 import org.sorus.client.gui.hud.Component;
-import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.SelectComponentScreen;
+import org.sorus.client.gui.screen.hudlist.HUDListScreen;
+import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.version.input.Key;
 
 public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
@@ -57,18 +60,35 @@ public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
-    menu.add(new Rectangle().smooth(5).size(700, 720).position(0, 70).color(new Color(18, 18, 18)));
-    menu.add(new Rectangle().size(700, 65).position(0, 5).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(180, 270).position(0, 0).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(90, 180).position(690, 0).color(new Color(30, 30, 30)));
-    menu.add(new Rectangle().size(690, 5).position(5, 0).color(new Color(30, 30, 30)));
+    menu.add(
+        new Rectangle()
+            .smooth(5)
+            .size(700, 720)
+            .position(0, 70)
+            .color(DefaultTheme.getBackgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(700, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(180, 270)
+            .position(0, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(90, 180)
+            .position(690, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(690, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
             .size(700, 7)
             .position(0, 70));
     IFontRenderer fontRenderer =
@@ -79,14 +99,21 @@ public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
             .text("SORUS")
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
-            .color(new Color(215, 215, 215)));
+            .color(DefaultTheme.getForegroundLayerColor()));
+    menu.add(
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(new HUDListScreen());
+                })
+            .position(10, 10));
     menu.add(
         new Text()
             .fontRenderer(fontRenderer)
             .text(hud.getName())
             .position(350 - fontRenderer.getStringWidth(hud.getName()) / 2 * 4.5, 95)
             .scale(4.5, 4.5)
-            .color(new Color(215, 215, 215)));
+            .color(DefaultTheme.getForegroundLayerColor()));
     menu.add(new DefaultHUDConfigScreen.Add().position(320, 705));
     Scissor scissor = new Scissor().size(680, 600).position(10, 150);
     this.scroll = new Scroll();
@@ -122,7 +149,7 @@ public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE && this.screen.isInteractContainer()) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }
@@ -189,12 +216,13 @@ public class DefaultHUDConfigScreen extends ThemeBase<HUDConfigScreen> {
       super.onRemove();
     }
 
-    public class OnAddComponent implements IReceiver<IComponent> {
+    public class OnAddComponent implements Callback<IComponent> {
 
       @Override
-      public void select(IComponent selected) {
+      public void call(IComponent selected) {
         DefaultHUDConfigScreen.this.hud.addComponent(selected);
-        DefaultHUDConfigScreen.this.hud.displaySettings();
+        DefaultHUDConfigScreen.this.hud.displaySettings(
+            new HUDConfigScreen(DefaultHUDConfigScreen.this.hud));
       }
 
       @Override

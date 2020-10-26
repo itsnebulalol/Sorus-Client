@@ -25,9 +25,6 @@
 package org.sorus.client.gui.theme.defaultTheme.theme;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -36,12 +33,13 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.theme.SelectThemeScreen;
 import org.sorus.client.gui.screen.theme.ThemeListScreen;
 import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.gui.theme.ThemeManager;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
 
@@ -70,18 +68,35 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
-    menu.add(new Rectangle().smooth(5).size(700, 720).position(0, 70).color(new Color(18, 18, 18)));
-    menu.add(new Rectangle().size(700, 65).position(0, 5).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(180, 270).position(0, 0).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(90, 180).position(690, 0).color(new Color(30, 30, 30)));
-    menu.add(new Rectangle().size(690, 5).position(5, 0).color(new Color(30, 30, 30)));
+    menu.add(
+        new Rectangle()
+            .smooth(5)
+            .size(700, 720)
+            .position(0, 70)
+            .color(DefaultTheme.getBackgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(700, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(180, 270)
+            .position(0, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(90, 180)
+            .position(690, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(690, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
             .size(700, 7)
             .position(0, 70));
     IFontRenderer fontRenderer =
@@ -92,7 +107,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
             .text("SORUS")
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
-            .color(new Color(215, 215, 215)));
+            .color(DefaultTheme.getForegroundLayerColor()));
     menu.add(new Add().position(320, 705));
     Scissor scissor = new Scissor().size(680, 690).position(10, 85);
     this.scroll = new Scroll();
@@ -108,15 +123,15 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
     double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
     for (Theme theme : this.themeManager.getCurrentThemes()) {
       boolean added = false;
-      while(!added) {
+      while (!added) {
         boolean add = true;
-        if(draggedComponent != null) {
+        if (draggedComponent != null) {
           double y = MathUtil.clamp(draggedComponent.absoluteY(), 225 * yRatio, 1000 * yRatio);
-          if(Math.abs(y - ((themeCount * 135) + 225) * yRatio) < 62.5 * yRatio) {
+          if (Math.abs(y - ((themeCount * 135) + 225) * yRatio) < 62.5 * yRatio) {
             add = false;
           }
         }
-        if(add) {
+        if (add) {
           scroll.add(new ThemeListComponent(this, theme).position(0, themeCount * 135));
           added = true;
         }
@@ -129,10 +144,12 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
   public void render() {
     double xRatio = Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920;
     double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
-    if(draggedComponent != null) {
+    if (draggedComponent != null) {
       double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
       double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
-      draggedComponent.position((mouseX - initialMouseX + initialX) * 1 / xRatio, (mouseY - initialMouseY + initialY) * 1 / yRatio);
+      draggedComponent.position(
+          (mouseX - initialMouseX + initialX) * 1 / xRatio,
+          (mouseY - initialMouseY + initialY) * 1 / yRatio);
       this.updateThemes();
     }
     main.scale(xRatio, yRatio);
@@ -148,7 +165,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }
@@ -170,11 +187,11 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
     int size = themeManager.getCurrentThemes().size();
     int index = 0;
     boolean added = false;
-    while(!added) {
-      if(draggedComponent != null) {
-        double y = MathUtil.clamp(draggedComponent.absoluteY(), 225 * yRatio, (225 + size * 135) * yRatio);
-        if(Math.abs(y - ((index * 135) + 225) * yRatio) < 62.5 * yRatio) {
-          System.out.println(index);
+    while (!added) {
+      if (draggedComponent != null) {
+        double y =
+            MathUtil.clamp(draggedComponent.absoluteY(), 225 * yRatio, (225 + size * 135) * yRatio);
+        if (Math.abs(y - ((index * 135) + 225) * yRatio) < 62.5 * yRatio) {
           themeManager.getCurrentThemes().add(index, component.getTheme());
           added = true;
         }
@@ -242,10 +259,10 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
       super.onRemove();
     }
 
-    public class ThemeReceiver implements IReceiver<Theme> {
+    public class ThemeReceiver implements Callback<Theme> {
 
       @Override
-      public void select(Theme selected) {
+      public void call(Theme selected) {
         themeManager.add(selected);
         Sorus.getSorus().getGUIManager().open(DefaultThemeListScreen.this.screen);
         DefaultThemeListScreen.this.updateThemes();
@@ -255,7 +272,6 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
       public void cancel() {
         Sorus.getSorus().getGUIManager().open(new ThemeListScreen());
       }
-
     }
   }
 }

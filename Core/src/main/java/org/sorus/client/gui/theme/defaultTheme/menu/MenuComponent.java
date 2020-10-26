@@ -123,7 +123,8 @@ public class MenuComponent extends Collection {
     this.text =
         new Text()
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
-            .text(name);
+            .text(name)
+            .color(DefaultTheme.getForegroundLayerColor());
     main.add(text.scale(3, 3).position(83.75 - text.width() * 3 / 2, 145));
     main.add(symbol = new Collection());
     symbol.add(
@@ -142,10 +143,9 @@ public class MenuComponent extends Collection {
             Sorus.getSorus().getVersion().getInput().getMouseX(),
             Sorus.getSorus().getVersion().getInput().getMouseY());
     hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.04, 0, 1);
-    main.position(-5 * hoveredPercent, -5 * hoveredPercent);
-    main.scale(1 + hoveredPercent * 0.05, 1 + hoveredPercent * 0.05);
+    main.position(-2.5 * hoveredPercent, -2.5 * hoveredPercent);
+    main.scale(1 + hoveredPercent * 0.025, 1 + hoveredPercent * 0.025);
     int color = (int) (215 + 40 * hoveredPercent);
-    text.color(new Color(color, color, color));
     symbol.color(new Color(color, color, color));
     super.onRender();
   }

@@ -31,7 +31,7 @@ import java.util.List;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
-import org.sorus.client.gui.core.component.impl.MultiTextComponent;
+import org.sorus.client.gui.core.component.impl.MultiText;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
@@ -88,21 +88,21 @@ public class GPSComponent extends Component {
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
     modPanel.add(
-        new MultiTextComponent()
+        new MultiText()
             .add(xLabelExtraPre = new Text())
             .add(xLabel = new Text())
             .add(xLabelExtraPost = new Text())
             .add(xValue = new Text())
             .position(2, 2));
     modPanel.add(
-        new MultiTextComponent()
+        new MultiText()
             .add(yLabelExtraPre = new Text())
             .add(yLabel = new Text())
             .add(yLabelExtraPost = new Text())
             .add(yValue = new Text())
             .position(2, 12));
     modPanel.add(
-        new MultiTextComponent()
+        new MultiText()
             .add(zLabelExtraPre = new Text())
             .add(zLabel = new Text())
             .add(zLabelExtraPost = new Text())

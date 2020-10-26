@@ -26,14 +26,15 @@ package org.sorus.client.module.impl.cps;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
-import org.sorus.client.gui.core.component.impl.MultiTextComponent;
+import org.sorus.client.gui.core.component.impl.MultiText;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
@@ -42,51 +43,46 @@ import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
-import org.sorus.client.util.ArrayUtil;
 
 public class CPSComponent extends Component {
 
+  private final List<CPSMode> registeredModes = new ArrayList<>();
+  private final List<String> registeredModeNames = new ArrayList<>();
+  private CPSMode currentMode;
+
   private IFontRenderer fontRenderer;
 
-  private final Setting<Long> labelMode;
-  private final Setting<Color> labelMainColor;
-  private final Setting<Color> labelExtraColor;
-  private final Setting<Color> valueColor;
+  private final Setting<Long> mode;
   private final Setting<Boolean> customFont;
   private final Setting<Boolean> tightFit;
   private final Setting<Color> backgroundColor;
 
-  private final List<String> labelOptions = new ArrayList<>(Arrays.asList("<", "[", ":"));
-
   private final Panel modPanel;
   private final Rectangle background;
-  private final MultiTextComponent cpsText;
-  private final Text cpsLabelExtraPre;
-  private final Text cpsLabel;
-  private final Text cpsLabelExtraPost;
-  private final Text cpsValue;
+  private final MultiText cpsText;
+  private final List<Text> cpsTexts = new ArrayList<>();
 
   private final List<Long> prevClickTimes = new ArrayList<>();
-  private String[] cpsString = new String[0];
+  private String cpsString = "";
 
   public CPSComponent() {
     super("CPS");
-    this.register(labelMode = new Setting<>("labelMode", 0L));
-    this.register(labelMainColor = new Setting<>("labelMainColor", Color.WHITE));
-    this.register(labelExtraColor = new Setting<>("labelExtraColor", Color.WHITE));
-    this.register(valueColor = new Setting<>("valueColor", Color.WHITE));
+    this.register(new CPSMode.LabelPreMode());
+    this.register(new CPSMode.LabelPostMode());
+    this.register(mode = new Setting<Long>("mode", 0L) {
+      @Override
+      public void setValue(Long value) {
+        CPSComponent.this.setMode(registeredModes.get(value.intValue()));
+        super.setValue(value);
+      }
+    });
     this.register(customFont = new Setting<>("customFont", false));
     this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
-    modPanel.add(
-        cpsText =
-            new MultiTextComponent()
-                .add(cpsLabelExtraPre = new Text())
-                .add(cpsLabel = new Text())
-                .add(cpsLabelExtraPost = new Text())
-                .add(cpsValue = new Text()));
+    modPanel.add(cpsText = new MultiText());
+    this.currentMode = this.registeredModes.get(0);
     this.updateFontRenderer();
     Sorus.getSorus().getEventManager().register(this);
   }
@@ -97,26 +93,16 @@ public class CPSComponent extends Component {
     long currentTime = System.currentTimeMillis();
     prevClickTimes.removeIf((value) -> currentTime - value > 1000);
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
-    this.cpsString =
-        new String[] {
-          this.getLabelExtraPre(),
-          "CPS",
-          this.getLabelExtraPost(),
-          String.valueOf(prevClickTimes.size())
-        };
-    this.cpsLabelExtraPre
-        .text(cpsString[0])
-        .fontRenderer(fontRenderer)
-        .color(this.labelExtraColor.getValue());
-    this.cpsLabel
-        .text(cpsString[1])
-        .fontRenderer(fontRenderer)
-        .color(this.labelMainColor.getValue());
-    this.cpsLabelExtraPost
-        .text(cpsString[2])
-        .fontRenderer(fontRenderer)
-        .color(this.labelExtraColor.getValue());
-    this.cpsValue.text(cpsString[3]).fontRenderer(fontRenderer).color(this.valueColor.getValue());
+    StringBuilder cpsBuilder = new StringBuilder();
+    int i = 0;
+    for (Pair<String, Color> pair :
+            this.currentMode.format(prevClickTimes.size())) {
+      Text text = this.cpsTexts.get(i);
+      text.text(pair.getKey()).fontRenderer(fontRenderer).color(pair.getValue());
+      i++;
+      cpsBuilder.append(pair.getLeft());
+    }
+    this.cpsString = cpsBuilder.toString();
     this.cpsText.position(
         this.getWidth() / 2 - cpsText.getWidth() / 2,
         this.getHeight() / 2 - cpsText.getHeight() / 2);
@@ -132,33 +118,33 @@ public class CPSComponent extends Component {
     }
   }
 
-  private String getLabelExtraPre() {
-    switch (this.labelMode.getValue().intValue()) {
-      case 0:
-        return "<";
-      case 1:
-        return "[";
-      case 2:
-        return "";
-    }
-    return null;
+  public void register(CPSMode mode) {
+    this.registeredModes.add(mode);
+    this.registeredModeNames.add(mode.getName());
   }
 
-  private String getLabelExtraPost() {
-    switch (this.labelMode.getValue().intValue()) {
-      case 0:
-        return "> ";
-      case 1:
-        return "] ";
-      case 2:
-        return ": ";
+  public void setMode(CPSMode mode) {
+    if(this.currentMode != null) {
+      for(Setting<?> setting : this.currentMode.getSettings()) {
+        this.unregister(setting);
+      }
     }
-    return null;
+    this.currentMode = mode;
+    for (Setting<?> setting : this.currentMode.getSettings()) {
+      this.register(setting);
+    }
+    this.cpsText.clear();
+    this.cpsTexts.clear();
+    for (int i = 0; i < this.currentMode.format(0).size(); i++) {
+      Text text = new Text();
+      this.cpsText.add(text);
+      this.cpsTexts.add(text);
+    }
   }
 
   @Override
   public double getWidth() {
-    return tightFit.getValue() ? fontRenderer.getStringWidth(ArrayUtil.concat(cpsString)) + 4 : 60;
+    return tightFit.getValue() ? fontRenderer.getStringWidth(cpsString) + 4 : 60;
   }
 
   @Override
@@ -173,12 +159,10 @@ public class CPSComponent extends Component {
 
   @Override
   public void addConfigComponents(Collection collection) {
+    collection.add(new ClickThrough(mode, registeredModeNames, "Mode"));
+    this.currentMode.addConfigComponents(collection);
     collection.add(new Toggle(customFont, "Custom Font"));
     collection.add(new Toggle(tightFit, "Tight Fit"));
-    collection.add(new ClickThrough(labelMode, labelOptions, "Label Mode"));
-    collection.add(new ColorPicker(labelMainColor, "Label Color"));
-    collection.add(new ColorPicker(labelExtraColor, "Label Extra Color"));
-    collection.add(new ColorPicker(valueColor, "Value Color"));
     collection.add(new ColorPicker(backgroundColor, "Background Color"));
   }
 

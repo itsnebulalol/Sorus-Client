@@ -14,7 +14,6 @@ repositories {
 }
 
 dependencies {
-    compile project(':Core')
     jarExport group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
     compile files("../../sorus/temp/" + version + ".jar")
 
@@ -25,6 +24,7 @@ dependencies {
             compile files(scanner.nextLine())
         }
     }
+    compile project(':Core')
 }
 
 jar {

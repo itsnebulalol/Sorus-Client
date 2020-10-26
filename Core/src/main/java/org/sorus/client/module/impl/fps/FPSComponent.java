@@ -26,12 +26,12 @@ package org.sorus.client.module.impl.fps;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
-import org.sorus.client.gui.core.component.impl.MultiTextComponent;
+import org.sorus.client.gui.core.component.impl.MultiText;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
@@ -40,50 +40,46 @@ import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
-import org.sorus.client.util.ArrayUtil;
 
 public class FPSComponent extends Component {
 
+  private final List<FPSMode> registeredModes = new ArrayList<>();
+  private final List<String> registeredModeNames = new ArrayList<>();
+  private FPSMode currentMode;
+
   private IFontRenderer fontRenderer;
 
-  private final Setting<Long> labelMode;
-  private final Setting<Color> labelMainColor;
-  private final Setting<Color> labelExtraColor;
-  private final Setting<Color> valueColor;
+  private final Setting<Long> mode;
   private final Setting<Boolean> customFont;
   private final Setting<Boolean> tightFit;
   private final Setting<Color> backgroundColor;
 
-  private final List<String> labelOptions = new ArrayList<>(Arrays.asList("<", "[", ":"));
-
   private final Panel modPanel;
   private final Rectangle background;
-  private final MultiTextComponent fpsText;
-  private final Text fpsLabelExtraPre;
-  private final Text fpsLabel;
-  private final Text fpsLabelExtraPost;
-  private final Text fpsValue;
+  private final MultiText fpsText;
+  private final List<Text> fpsTexts = new ArrayList<>();
 
-  private String[] fpsString = new String[0];
+  private String fpsString = "";
 
   public FPSComponent() {
     super("FPS");
-    this.register(labelMode = new Setting<>("labelMode", 0L));
-    this.register(labelMainColor = new Setting<>("labelMainColor", Color.WHITE));
-    this.register(labelExtraColor = new Setting<>("labelExtraColor", Color.WHITE));
-    this.register(valueColor = new Setting<>("valueColor", Color.WHITE));
+    this.register(new FPSMode.LabelPreMode());
+    this.register(new FPSMode.LabelPostMode());
+    this.register(new FPSMode.CustomMode());
+    this.register(mode = new Setting<Long>("mode", 0L) {
+      @Override
+      public void setValue(Long value) {
+        FPSComponent.this.setMode(registeredModes.get(value.intValue()));
+        super.setValue(value);
+      }
+    });
     this.register(customFont = new Setting<>("customFont", false));
     this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
-    modPanel.add(
-        fpsText =
-            new MultiTextComponent()
-                .add(fpsLabelExtraPre = new Text())
-                .add(fpsLabel = new Text())
-                .add(fpsLabelExtraPost = new Text())
-                .add(fpsValue = new Text()));
+    modPanel.add(fpsText = new MultiText());
+    this.currentMode = this.registeredModes.get(0);
     this.updateFontRenderer();
   }
 
@@ -91,26 +87,26 @@ public class FPSComponent extends Component {
   public void render(double x, double y) {
     this.updateFontRenderer();
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
-    this.fpsString =
-        new String[] {
-          this.getLabelExtraPre(),
-          "FPS",
-          this.getLabelExtraPost(),
-          String.valueOf(Sorus.getSorus().getVersion().getGame().getFPS())
-        };
-    this.fpsLabelExtraPre
-        .text(fpsString[0])
-        .fontRenderer(fontRenderer)
-        .color(this.labelExtraColor.getValue());
-    this.fpsLabel
-        .text(fpsString[1])
-        .fontRenderer(fontRenderer)
-        .color(this.labelMainColor.getValue());
-    this.fpsLabelExtraPost
-        .text(fpsString[2])
-        .fontRenderer(fontRenderer)
-        .color(this.labelExtraColor.getValue());
-    this.fpsValue.text(fpsString[3]).fontRenderer(fontRenderer).color(this.valueColor.getValue());
+    StringBuilder fpsBuilder = new StringBuilder();
+    int i = 0;
+    List<Pair<String, Color>> formatted = this.currentMode.format(Sorus.getSorus().getVersion().getGame().getFPS());
+    for (Pair<String, Color> pair : formatted) {
+      if(i >= this.fpsTexts.size()) {
+        Text text = new Text();
+        this.fpsTexts.add(text);
+        this.fpsText.add(text);
+      }
+      Text text = this.fpsTexts.get(i);
+      text.text(pair.getKey()).fontRenderer(fontRenderer).color(pair.getValue());
+      i++;
+      fpsBuilder.append(pair.getLeft());
+    }
+    if(this.fpsTexts.size() > formatted.size()) {
+      Text text = fpsTexts.get(fpsTexts.size() - 1);
+      fpsTexts.remove(text);
+      fpsText.remove(text);
+    }
+    this.fpsString = fpsBuilder.toString();
     this.fpsText.position(
         this.getWidth() / 2 - fpsText.getWidth() / 2,
         this.getHeight() / 2 - fpsText.getHeight() / 2);
@@ -126,33 +122,33 @@ public class FPSComponent extends Component {
     }
   }
 
-  private String getLabelExtraPre() {
-    switch (this.labelMode.getValue().intValue()) {
-      case 0:
-        return "<";
-      case 1:
-        return "[";
-      case 2:
-        return "";
-    }
-    return null;
+  public void register(FPSMode mode) {
+    this.registeredModes.add(mode);
+    this.registeredModeNames.add(mode.getName());
   }
 
-  private String getLabelExtraPost() {
-    switch (this.labelMode.getValue().intValue()) {
-      case 0:
-        return "> ";
-      case 1:
-        return "] ";
-      case 2:
-        return ": ";
+  public void setMode(FPSMode mode) {
+    if(this.currentMode != null) {
+      for(Setting<?> setting : this.currentMode.getSettings()) {
+        this.unregister(setting);
+      }
     }
-    return null;
+    this.currentMode = mode;
+    for (Setting<?> setting : this.currentMode.getSettings()) {
+      this.register(setting);
+    }
+    this.fpsText.clear();
+    this.fpsTexts.clear();
+    for (int i = 0; i < this.currentMode.format(0).size(); i++) {
+      Text text = new Text();
+      this.fpsText.add(text);
+      this.fpsTexts.add(text);
+    }
   }
 
   @Override
   public double getWidth() {
-    return tightFit.getValue() ? fontRenderer.getStringWidth(ArrayUtil.concat(fpsString)) + 4 : 60;
+    return tightFit.getValue() ? fontRenderer.getStringWidth(fpsString) + 4 : 60;
   }
 
   @Override
@@ -167,12 +163,10 @@ public class FPSComponent extends Component {
 
   @Override
   public void addConfigComponents(Collection collection) {
+    collection.add(new ClickThrough(mode, registeredModeNames, "Mode"));
+    this.currentMode.addConfigComponents(collection);
     collection.add(new Toggle(customFont, "Custom Font"));
     collection.add(new Toggle(tightFit, "Tight Fit"));
-    collection.add(new ClickThrough(labelMode, labelOptions, "Label Mode"));
-    collection.add(new ColorPicker(labelMainColor, "Label Color"));
-    collection.add(new ColorPicker(labelExtraColor, "Label Extra Color"));
-    collection.add(new ColorPicker(valueColor, "Value Color"));
     collection.add(new ColorPicker(backgroundColor, "Background Color"));
   }
 }

@@ -58,6 +58,11 @@ public abstract class Component implements IComponent, IConfigurableScreen {
     this.settings.add(setting);
   }
 
+  /** Unregisters a setting by adding it to the list of settings stored for the component. */
+  protected void unregister(Setting<?> setting) {
+    this.settings.remove(setting);
+  }
+
   @Override
   public String getName() {
     return name;
@@ -91,11 +96,25 @@ public abstract class Component implements IComponent, IConfigurableScreen {
   @Override
   public void setSettings(Object settings) {
     Map<String, Object> settingsMap = (Map<String, Object>) settings;
-    for (Setting<?> setting : this.settings) {
+    boolean continuing = true;
+    int i = 0;
+    while(continuing) {
+      Setting<?> setting = this.settings.get(i);
       if (settingsMap.get(setting.getName()) != null) {
         setting.setValueIgnoreType(settingsMap.get(setting.getName()));
       }
+      i++;
+      if(i == this.settings.size()) {
+        continuing = false;
+      }
     }
+    /*Map<String, Object> settingsMap = (Map<String, Object>) settings;
+    for (Setting<?> setting : new ArrayList<>(this.settings)) {
+      System.out.println(setting.getName());
+      if (settingsMap.get(setting.getName()) != null) {
+        setting.setValueIgnoreType(settingsMap.get(setting.getName()));
+      }
+    }*/
   }
 
   @Override

@@ -27,10 +27,12 @@ package org.sorus.client.module;
 import java.util.ArrayList;
 import java.util.List;
 import org.sorus.client.module.impl.blockoverlay.BlockOverlay;
+import org.sorus.client.module.impl.challenges.Challenges;
 import org.sorus.client.module.impl.chatmacros.ChatMacros;
 import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
+import org.sorus.client.module.impl.music.Music;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
 import org.sorus.client.module.impl.perspective.Perspective;
 import org.sorus.client.module.impl.timechanger.TimeChanger;
@@ -58,10 +60,12 @@ public class ModuleManager {
   /** Handles registering all the modules that come by default with Sorus. */
   public void registerInternalModules() {
     this.register(new BlockOverlay());
+    this.register(new Challenges());
     this.register(new ChatMacros());
     this.register(new DiscordRP());
     this.register(new Enhancements());
     this.register(new ItemPhysics());
+    this.register(new Music());
     this.register(new OldAnimations());
     this.register(new Perspective());
     this.register(new TimeChanger());

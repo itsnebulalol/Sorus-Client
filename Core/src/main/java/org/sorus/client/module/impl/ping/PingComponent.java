@@ -31,7 +31,7 @@ import java.util.List;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
-import org.sorus.client.gui.core.component.impl.MultiTextComponent;
+import org.sorus.client.gui.core.component.impl.MultiText;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
@@ -58,7 +58,7 @@ public class PingComponent extends Component {
 
   private final Panel modPanel;
   private final Rectangle background;
-  private final MultiTextComponent pingText;
+  private final MultiText pingText;
   private final Text pingLabelExtraPre;
   private final Text pingLabel;
   private final Text pingLabelExtraPost;
@@ -79,7 +79,7 @@ public class PingComponent extends Component {
     modPanel.add(background = new Rectangle());
     modPanel.add(
         pingText =
-            new MultiTextComponent()
+            new MultiText()
                 .add(pingLabelExtraPre = new Text().fontRenderer(fontRenderer))
                 .add(pingLabel = new Text().fontRenderer(fontRenderer))
                 .add(pingLabelExtraPost = new Text().fontRenderer(fontRenderer))

@@ -5,6 +5,9 @@
     "GuiScreenInjector",
     "EntityRendererInjector",
     "GuiNewChatInjector",
+    "GuiIngameInjector",
+    "RenderGlobalInjector",
+    "FontRendererInjector",
     "oldanimations.ItemRendererInjector",
     "oldanimations.LayerArmorBaseInjector",
     "oldanimations.MinecraftInjector",
@@ -12,7 +15,6 @@
     "mousedelayfix.EntityLivingBaseInjector",
     "itemphysics.RenderEntityItemInjector",
     "perspective.EntityRendererInjector",
-    "blockoverlay.RenderGlobalInjector",
     "enhancements.InventoryEffectRendererInjector",
     "enhancements.ItemRendererInjector"
   ]

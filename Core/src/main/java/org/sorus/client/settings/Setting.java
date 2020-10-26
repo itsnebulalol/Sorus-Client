@@ -49,6 +49,6 @@ public class Setting<T> {
   }
 
   public void setValueIgnoreType(Object value) {
-    this.value = (T) value;
+    this.setValue((T) value);
   }
 }

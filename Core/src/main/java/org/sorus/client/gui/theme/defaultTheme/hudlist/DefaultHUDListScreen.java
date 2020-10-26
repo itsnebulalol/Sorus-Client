@@ -36,8 +36,11 @@ import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.SingleHUD;
+import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
+import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
 
@@ -62,18 +65,35 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
-    menu.add(new Rectangle().smooth(5).size(700, 720).position(0, 70).color(new Color(18, 18, 18)));
-    menu.add(new Rectangle().size(700, 65).position(0, 5).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(180, 270).position(0, 0).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(90, 180).position(690, 0).color(new Color(30, 30, 30)));
-    menu.add(new Rectangle().size(690, 5).position(5, 0).color(new Color(30, 30, 30)));
+    menu.add(
+        new Rectangle()
+            .smooth(5)
+            .size(700, 720)
+            .position(0, 70)
+            .color(DefaultTheme.getBackgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(700, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(180, 270)
+            .position(0, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(90, 180)
+            .position(690, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(690, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
             .size(700, 7)
             .position(0, 70));
     IFontRenderer fontRenderer =
@@ -84,7 +104,14 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
             .text("SORUS")
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
-            .color(new Color(215, 215, 215)));
+            .color(DefaultTheme.getForegroundLayerColor()));
+    menu.add(
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(new MenuScreen());
+                })
+            .position(10, 10));
     menu.add(new Add().position(320, 705));
     Scissor scissor = new Scissor().size(680, 600).position(10, 85);
     this.scroll = new Scroll();
@@ -126,7 +153,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       Sorus.getSorus().getGUIManager().close(this.screen);
     }

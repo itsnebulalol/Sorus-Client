@@ -66,6 +66,8 @@ public interface IGLHelper {
    */
   void color(double red, double green, double blue, double alpha);
 
+  void lineWidth(double lineWidth);
+
   /**
    * Begins a gl scissor at the specific location.
    *

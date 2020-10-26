@@ -25,8 +25,10 @@
 package org.sorus.client.gui.hud;
 
 import org.sorus.client.Sorus;
-import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.core.Screen;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.SelectComponentScreen;
+import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.screen.settings.IConfigurableScreen;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
 
@@ -53,10 +55,10 @@ public class SingleHUD extends HUD {
   }
 
   @Override
-  public void displaySettings() {
+  public void displaySettings(Screen currentScreen) {
     Sorus.getSorus()
         .getGUIManager()
-        .open(new SettingsScreen((IConfigurableScreen) this.getComponents().get(0)));
+        .open(new SettingsScreen(currentScreen, (IConfigurableScreen) this.getComponents().get(0)));
   }
 
   @Override
@@ -64,13 +66,13 @@ public class SingleHUD extends HUD {
     return ((Component) this.getComponents().get(0)).getDescription();
   }
 
-  public class OnSelectScreenExit implements IReceiver<IComponent> {
+  public class OnSelectScreenExit implements Callback<IComponent> {
 
     @Override
-    public void select(IComponent selected) {
+    public void call(IComponent selected) {
       SingleHUD.this.addComponent(selected);
       SingleHUD.this.setName(selected.getName());
-      SingleHUD.this.displaySettings();
+      SingleHUD.this.displaySettings(new HUDListScreen());
     }
 
     @Override

@@ -51,5 +51,5 @@ public interface IInputReceiver {
    *
    * @param key the key that was typed
    */
-  default void keyTyped(Key key) {}
+  default void keyTyped(Key key, boolean repeat) {}
 }

@@ -82,12 +82,10 @@ public class MinecraftInjector extends Injector<Minecraft> {
     @Inject(name = "dispatchKeypresses", at = @At(value = "INVOKE", target = "org/lwjgl/input/Keyboard;getEventKey()I", shift = At.Shift.BEFORE, ordinal = 0))
     public void dispatchKeypresses() {
         int eventKey = Keyboard.getEventKey();
-        if(!Keyboard.isRepeatEvent()) {
-            if(Keyboard.getEventKeyState()) {
-                Sorus.getSorus().getEventManager().post(new KeyPressEvent(InputMap.getKey(eventKey), Keyboard.getEventCharacter()));
-            } else {
-                Sorus.getSorus().getEventManager().post(new KeyReleaseEvent(InputMap.getKey(eventKey)));
-            }
+        if(Keyboard.getEventKeyState()) {
+            Sorus.getSorus().getEventManager().post(new KeyPressEvent(InputMap.getKey(eventKey), Keyboard.getEventCharacter(), Keyboard.isRepeatEvent()));
+        } else {
+            Sorus.getSorus().getEventManager().post(new KeyReleaseEvent(InputMap.getKey(eventKey), Keyboard.isRepeatEvent()));
         }
     }
 

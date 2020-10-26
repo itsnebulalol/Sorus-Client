@@ -132,7 +132,7 @@ public class GUIManager {
   @EventInvoked
   public void onKeyPress(KeyPressEvent e) {
     List<Screen> currentScreens = new ArrayList<>(this.currentScreens);
-    currentScreens.forEach(screen -> screen.keyTyped(e.getKey()));
+    currentScreens.forEach(screen -> screen.keyTyped(e.getKey(), e.isRepeat()));
   }
 
   /**

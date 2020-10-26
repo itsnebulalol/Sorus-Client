@@ -40,7 +40,7 @@ public class ModuleListScreen extends ThemeableScreen {
 
   public void displayModuleSettings(ModuleConfigurable module) {
     Sorus.getSorus().getGUIManager().close(this);
-    Sorus.getSorus().getGUIManager().open(new SettingsScreen(module));
+    Sorus.getSorus().getGUIManager().open(new SettingsScreen(this, module));
   }
 
   public void enableDisableModule(ModuleConfigurable module, boolean enable) {

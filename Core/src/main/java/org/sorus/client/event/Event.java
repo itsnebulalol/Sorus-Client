@@ -24,5 +24,12 @@
 
 package org.sorus.client.event;
 
+import org.sorus.client.Sorus;
+
 /** Base event class. All events will extend this class. */
-public class Event {}
+public class Event {
+
+  public void post() {
+    Sorus.getSorus().getEventManager().post(this);
+  }
+}

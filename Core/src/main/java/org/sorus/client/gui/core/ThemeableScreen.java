@@ -53,8 +53,8 @@ public class ThemeableScreen extends Screen {
   }
 
   @Override
-  public void keyTyped(Key key) {
-    this.theme.keyTyped(key);
+  public void keyTyped(Key key, boolean repeat) {
+    this.theme.keyTyped(key, repeat);
   }
 
   @Override

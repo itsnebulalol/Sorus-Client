@@ -25,6 +25,9 @@
 package org.sorus.client.module.impl.blockoverlay;
 
 import java.awt.*;
+import org.sorus.client.Sorus;
+import org.sorus.client.event.EventInvoked;
+import org.sorus.client.event.impl.client.render.RenderObjectEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Slider;
@@ -40,12 +43,36 @@ public class BlockOverlay extends ModuleConfigurable {
     super("BLOCK OVERLAY");
     this.register(thickness = new Setting<>("borderThickness", 2.0));
     this.register(color = new Setting<>("color", Color.BLACK));
+    Sorus.getSorus().getEventManager().register(this);
   }
 
   @Override
   public void addConfigComponents(Collection collection) {
     collection.add(new Slider(thickness, 1, 15, "Outline Thickness"));
     collection.add(new ColorPicker(color, "Outline Color"));
+  }
+
+  @EventInvoked
+  public void onRenderBlockOverlay(RenderObjectEvent.BlockOverlay e) {
+    if (this.isEnabled()) {
+      Color color = this.getColor();
+      Sorus.getSorus()
+          .getVersion()
+          .getGLHelper()
+          .color(
+              color.getRed() / 255.0,
+              color.getGreen() / 255.0,
+              color.getBlue() / 255.0,
+              color.getAlpha() / 255.0);
+      Sorus.getSorus().getVersion().getGLHelper().lineWidth(this.getBorderThickness());
+    }
+  }
+
+  @EventInvoked
+  public void onRenderText(RenderObjectEvent.Text e) {
+    if (e.getText().contains("Copyright")) {
+      e.setCancelled(true);
+    }
   }
 
   public double getBorderThickness() {

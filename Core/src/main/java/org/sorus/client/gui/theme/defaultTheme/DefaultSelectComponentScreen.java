@@ -39,7 +39,7 @@ import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.Component;
 import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.IComponent;
-import org.sorus.client.gui.screen.IReceiver;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.SelectComponentScreen;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.MathUtil;
@@ -48,7 +48,7 @@ import org.sorus.client.version.input.Key;
 public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScreen> {
 
   private final HUDManager hudManager;
-  private final IReceiver<IComponent> receiver;
+  private final Callback<IComponent> receiver;
 
   private Panel main;
   private Scroll scroll;
@@ -59,7 +59,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
 
   private SelectComponent selected;
 
-  public DefaultSelectComponentScreen(HUDManager hudManager, IReceiver<IComponent> receiver) {
+  public DefaultSelectComponentScreen(HUDManager hudManager, Callback<IComponent> receiver) {
     this.hudManager = hudManager;
     this.receiver = receiver;
   }
@@ -70,18 +70,35 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
-    menu.add(new Rectangle().smooth(5).size(700, 720).position(0, 70).color(new Color(18, 18, 18)));
-    menu.add(new Rectangle().size(700, 65).position(0, 5).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(180, 270).position(0, 0).color(new Color(30, 30, 30)));
-    menu.add(new Arc().radius(5, 5).angle(90, 180).position(690, 0).color(new Color(30, 30, 30)));
-    menu.add(new Rectangle().size(690, 5).position(5, 0).color(new Color(30, 30, 30)));
+    menu.add(
+        new Rectangle()
+            .smooth(5)
+            .size(700, 720)
+            .position(0, 70)
+            .color(DefaultTheme.getBackgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(700, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(180, 270)
+            .position(0, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Arc()
+            .radius(5, 5)
+            .angle(90, 180)
+            .position(690, 0)
+            .color(DefaultTheme.getMedgroundLayerColor()));
+    menu.add(
+        new Rectangle().size(690, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14, 0),
-                new Color(14, 14, 14),
-                new Color(14, 14, 14))
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
             .size(700, 7)
             .position(0, 70));
     IFontRenderer fontRenderer =
@@ -92,7 +109,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
             .text("SORUS")
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
-            .color(new Color(215, 215, 215)));
+            .color(DefaultTheme.getForegroundLayerColor()));
     menu.add(new Add().position(320, 705));
     Scissor scissor = new Scissor().size(680, 600).position(10, 85);
     this.scroll = new Scroll();
@@ -137,7 +154,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
   }
 
   @Override
-  public void keyTyped(Key key) {
+  public void keyTyped(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
       receiver.cancel();
       Sorus.getSorus().getGUIManager().close(this.screen);
@@ -154,77 +171,81 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
       this.component = component;
       IFontRenderer fontRenderer =
           Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
-      this.add(new Rectangle().size(670, 125).position(5, 4).color(new Color(30, 30, 30)));
+      this.add(
+          new Rectangle()
+              .size(670, 125)
+              .position(5, 4)
+              .color(DefaultTheme.getMedgroundLayerColor()));
       this.add(
           new Rectangle()
               .gradient(
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30))
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor())
               .size(670, 4)
               .position(5, 0));
       this.add(
           new Rectangle()
               .gradient(
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30))
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor())
               .size(4, 4)
               .position(675, 0));
       this.add(
           new Rectangle()
               .gradient(
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 150))
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowEndColor())
               .size(4, 125)
               .position(675, 4));
       this.add(
           new Rectangle()
               .gradient(
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 150))
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowEndColor())
               .size(4, 4)
               .position(675, 129));
       this.add(
           new Rectangle()
               .gradient(
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 150))
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowEndColor())
               .size(670, 4)
               .position(5, 129));
       this.add(
           new Rectangle()
               .gradient(
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 30))
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowStartColor())
               .size(4, 4)
               .position(2, 129));
       this.add(
           new Rectangle()
               .gradient(
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 30))
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowStartColor())
               .size(4, 125)
               .position(2, 4));
       this.add(
           new Rectangle()
               .gradient(
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 150),
-                  new Color(14, 14, 14, 30),
-                  new Color(14, 14, 14, 30))
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowEndColor(),
+                  DefaultTheme.getShadowStartColor(),
+                  DefaultTheme.getShadowStartColor())
               .size(4, 4)
               .position(1, 0));
       this.add(
@@ -240,7 +261,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
               .text(component.getName())
               .position(125, 20)
               .scale(4, 4)
-              .color(new Color(235, 235, 235, 210)));
+              .color(DefaultTheme.getForegroundLayerColor()));
       int i = 0;
       for (String string :
           this.getSplitDescription(
@@ -253,7 +274,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
                 .text(string)
                 .position(125, 65 + i * 23)
                 .scale(2, 2)
-                .color(new Color(190, 190, 190, 210)));
+                .color(DefaultTheme.getForegroundLayerColor()));
         i++;
       }
       Sorus.getSorus().getEventManager().register(this);
@@ -342,7 +363,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
         Sorus.getSorus().getGUIManager().close((Screen) this.getContainer());
-        receiver.select(DefaultSelectComponentScreen.this.selected.component);
+        receiver.call(DefaultSelectComponentScreen.this.selected.component);
       }
     }
 

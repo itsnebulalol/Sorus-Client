@@ -25,26 +25,15 @@
 package org.sorus.client.gui.screen.settings.components;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import javax.imageio.ImageIO;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
-import org.sorus.client.event.impl.client.input.MouseReleaseEvent;
-import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.core.component.Collection;
-import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
-import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
+import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.settings.Configurable;
 import org.sorus.client.settings.Setting;
-import org.sorus.client.util.MathUtil;
-import org.sorus.client.version.input.Key;
 
 public class ColorPicker extends Configurable {
 
@@ -96,9 +85,20 @@ public class ColorPicker extends Configurable {
         e.getY() > this.absoluteY()
             && e.getY() < this.absoluteY() + this.getHeight() * this.absoluteYScale();
     if (expanded && this.getContainer().isInteractContainer()) {
-      Sorus.getSorus()
-          .getGUIManager()
-          .open(new ColorPickerScreen(setting));
+      Sorus.getSorus().getGUIManager().open(new ColorPickerScreen(this.setting.getValue(), new ColorCallback()));
+    }
+  }
+
+  public class ColorCallback implements Callback<Color> {
+
+    @Override
+    public void call(Color selected) {
+      ColorPicker.this.setting.setValue(selected);
+    }
+
+    @Override
+    public void cancel() {
+
     }
   }
 
@@ -113,8 +113,8 @@ public class ColorPicker extends Configurable {
 
   public static class ColorPickerScreen extends ThemeableScreen {
 
-    public ColorPickerScreen(Setting<Color> setting) {
-      super(Sorus.getSorus().getThemeManager().getTheme("settings-color-picker", setting));
+    public ColorPickerScreen(Color color, Callback<Color> callback) {
+      super(Sorus.getSorus().getThemeManager().getTheme("settings-color-picker", color, callback));
     }
 
     @Override

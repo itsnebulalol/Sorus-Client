@@ -14,6 +14,7 @@ public class DiscordRP extends ModuleConfigurable {
 
   private final IPCClient client = new IPCClient(763060164126834729L);
   private final RichPresence.Builder builder = new RichPresence.Builder();
+  private boolean connected;
 
   public DiscordRP() {
     super("DISCORD RPC");
@@ -24,22 +25,35 @@ public class DiscordRP extends ModuleConfigurable {
   public void onLoad() {
     client.setListener(new IPCListener() {});
     builder.setStartTimestamp(OffsetDateTime.now()).setLargeImage("logo_dark", "Sorus Client");
-    Runtime.getRuntime().addShutdownHook(new Thread(client::close));
+    Runtime.getRuntime()
+        .addShutdownHook(
+            new Thread(
+                () -> {
+                  if (connected) {
+                    client.close();
+                  }
+                }));
   }
 
   @Override
   public void onEnable() {
-    try {
-      client.connect();
-      client.sendRichPresence(builder.build());
-    } catch (NoDiscordClientException e) {
-      e.printStackTrace();
+    if (!connected) {
+      try {
+        client.connect();
+        client.sendRichPresence(builder.build());
+        connected = true;
+      } catch (NoDiscordClientException e) {
+        e.printStackTrace();
+      }
     }
   }
 
   @Override
   public void onDisable() {
-    client.close();
+    if (connected) {
+      client.close();
+      connected = false;
+    }
   }
 
   @EventInvoked
@@ -58,7 +72,7 @@ public class DiscordRP extends ModuleConfigurable {
 
   public void setPresence(String firstLine) {
     builder.setDetails(firstLine);
-    if(this.isEnabled()) {
+    if (connected) {
       client.sendRichPresence(builder.build());
     }
   }
