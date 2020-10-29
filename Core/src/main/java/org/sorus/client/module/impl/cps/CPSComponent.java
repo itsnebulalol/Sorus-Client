@@ -35,6 +35,7 @@ import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.MultiText;
+import org.sorus.client.gui.core.component.impl.Paragraph;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
@@ -59,16 +60,16 @@ public class CPSComponent extends Component {
 
   private final Panel modPanel;
   private final Rectangle background;
-  private final MultiText cpsText;
-  private final List<Text> cpsTexts = new ArrayList<>();
+  private final Paragraph cpsText;
 
   private final List<Long> prevClickTimes = new ArrayList<>();
-  private String cpsString = "";
+  private String[] cpsString = new String[0];
 
   public CPSComponent() {
     super("CPS");
     this.register(new CPSMode.LabelPreMode());
     this.register(new CPSMode.LabelPostMode());
+    this.register(new CPSMode.CustomMode());
     this.register(mode = new Setting<Long>("mode", 0L) {
       @Override
       public void setValue(Long value) {
@@ -81,7 +82,7 @@ public class CPSComponent extends Component {
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
-    modPanel.add(cpsText = new MultiText());
+    modPanel.add(cpsText = new Paragraph());
     this.currentMode = this.registeredModes.get(0);
     this.updateFontRenderer();
     Sorus.getSorus().getEventManager().register(this);
@@ -93,19 +94,44 @@ public class CPSComponent extends Component {
     long currentTime = System.currentTimeMillis();
     prevClickTimes.removeIf((value) -> currentTime - value > 1000);
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
-    StringBuilder cpsBuilder = new StringBuilder();
     int i = 0;
-    for (Pair<String, Color> pair :
-            this.currentMode.format(prevClickTimes.size())) {
-      Text text = this.cpsTexts.get(i);
-      text.text(pair.getKey()).fontRenderer(fontRenderer).color(pair.getValue());
+    List<List<Pair<String, Color>>> formatted = this.currentMode.format(prevClickTimes.size());
+    List<String> strings = new ArrayList<>();
+    for(List<Pair<String, Color>> formattedLine : formatted) {
+      StringBuilder cpsBuilder = new StringBuilder();
+      if(i >= this.cpsText.getComponents().size()) {
+        MultiText multiText = new MultiText();
+        this.cpsText.add(multiText);
+      }
+      MultiText multiText = (MultiText) this.cpsText.getComponents().get(i);
+      int j = 0;
+      for(Pair<String, Color> pair : formattedLine) {
+        if(j >= multiText.getComponents().size()) {
+          Text text = new Text();
+          multiText.add(text);
+        }
+        Text text = (Text) multiText.getComponents().get(j);
+        text.text(pair.getKey()).fontRenderer(fontRenderer).color(pair.getValue());
+        j++;
+        cpsBuilder.append(pair.getLeft());
+      }
+      if(multiText.getComponents().size() > formattedLine.size()) {
+        Text text1 = (Text) multiText.getComponents().get(multiText.getComponents().size() - 1);
+        multiText.remove(text1);
+      }
+      double specificHeight = this.getHeight() / this.cpsText.getComponents().size();
+      double textY = specificHeight * i + specificHeight / 2 - multiText.getHeight() / 2;
+      multiText.position(
+              this.getWidth() / 2 - multiText.getWidth() / 2,
+              textY);
+      strings.add(cpsBuilder.toString());
       i++;
-      cpsBuilder.append(pair.getLeft());
     }
-    this.cpsString = cpsBuilder.toString();
-    this.cpsText.position(
-        this.getWidth() / 2 - cpsText.getWidth() / 2,
-        this.getHeight() / 2 - cpsText.getHeight() / 2);
+    if(this.cpsText.getComponents().size() > formatted.size()) {
+      MultiText multiText1 = (MultiText) this.cpsText.getComponents().get(this.cpsText.getComponents().size() - 1);
+      cpsText.remove(multiText1);
+    }
+    this.cpsString = strings.toArray(new String[0]);
     this.modPanel.position(x, y);
     this.modPanel.onRender();
   }
@@ -134,22 +160,23 @@ public class CPSComponent extends Component {
       this.register(setting);
     }
     this.cpsText.clear();
-    this.cpsTexts.clear();
-    for (int i = 0; i < this.currentMode.format(0).size(); i++) {
-      Text text = new Text();
-      this.cpsText.add(text);
-      this.cpsTexts.add(text);
-    }
   }
 
   @Override
   public double getWidth() {
-    return tightFit.getValue() ? fontRenderer.getStringWidth(cpsString) + 4 : 60;
+    if(tightFit.getValue()) {
+      double maxWidth = 0;
+      for(String string : cpsString) {
+        maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
+      }
+      return maxWidth + 4;
+    }
+    return 60;
   }
 
   @Override
   public double getHeight() {
-    return tightFit.getValue() ? fontRenderer.getFontHeight() + 4 : 11;
+    return tightFit.getValue() ? fontRenderer.getFontHeight() * this.cpsText.getComponents().size() + (this.cpsText.getComponents().size() - 1) * 2 + 4 : 11;
   }
 
   @Override

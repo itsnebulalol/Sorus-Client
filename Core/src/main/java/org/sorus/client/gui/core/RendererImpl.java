@@ -31,6 +31,7 @@ import org.sorus.client.event.impl.client.StartEvent;
 import org.sorus.client.gui.core.component.api.IScreenRenderer;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.core.font.MinecraftFontRenderer;
+import org.sorus.client.version.game.IItemStack;
 import org.sorus.client.version.render.IRenderer;
 
 /**
@@ -243,6 +244,11 @@ public class RendererImpl implements IScreenRenderer {
         .getRenderer()
         .drawImage(
             resource, x, y, width, height, textureX, textureY, textureWidth, textureHeight, color);
+  }
+
+  @Override
+  public void drawItem(IItemStack itemStack, double x, double y, Color color) {
+    Sorus.getSorus().getVersion().getRenderer().drawItem(itemStack, x, y, color);
   }
 
   @EventInvoked

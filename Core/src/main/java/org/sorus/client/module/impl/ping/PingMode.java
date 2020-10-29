@@ -22,26 +22,27 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.module.impl.fps;
+package org.sorus.client.module.impl.ping;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.screen.settings.components.ColorPicker;
+import org.sorus.client.gui.screen.settings.components.TextBox;
+import org.sorus.client.module.Mode;
+import org.sorus.client.gui.screen.settings.components.CustomTextColor;
+import org.sorus.client.settings.Setting;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
-import org.sorus.client.gui.core.component.Collection;
-import org.sorus.client.gui.screen.settings.components.ColorPicker;
-import org.sorus.client.gui.screen.settings.components.CustomTextColor;
-import org.sorus.client.gui.screen.settings.components.TextBox;
-import org.sorus.client.module.Mode;
-import org.sorus.client.settings.Setting;
 
-public abstract class FPSMode extends Mode {
+public abstract class PingMode extends Mode {
 
-  public abstract List<List<Pair<String, Color>>> format(int fps);
+  public abstract List<List<Pair<String, Color>>> format(int ping);
 
-  public static class LabelPreMode extends FPSMode {
+  public static class LabelPreMode extends PingMode {
 
     private final Setting<String> preLabel;
     private final Setting<String> postLabel;
@@ -58,13 +59,13 @@ public abstract class FPSMode extends Mode {
     }
 
     @Override
-    public List<List<Pair<String, Color>>> format(int fps) {
+    public List<List<Pair<String, Color>>> format(int ping) {
       return new ArrayList<>(Collections.singletonList(new ArrayList<>(
           Arrays.asList(
               Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
               Pair.of("FPS", this.labelMainColor.getValue()),
               Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
-              Pair.of(" " + fps, this.valueColor.getValue())))));
+              Pair.of(" " + ping, this.valueColor.getValue())))));
     }
 
     @Override
@@ -82,7 +83,7 @@ public abstract class FPSMode extends Mode {
     }
   }
 
-  public static class LabelPostMode extends FPSMode {
+  public static class LabelPostMode extends PingMode {
 
     private final Setting<Color> labelMainColor;
     private final Setting<Color> valueColor;
@@ -93,10 +94,10 @@ public abstract class FPSMode extends Mode {
     }
 
     @Override
-    public List<List<Pair<String, Color>>> format(int fps) {
+    public List<List<Pair<String, Color>>> format(int ping) {
       return new ArrayList<>(Collections.singletonList(new ArrayList<>(
               Arrays.asList(
-                      Pair.of(fps + " ", this.valueColor.getValue()),
+                      Pair.of(ping + " ", this.valueColor.getValue()),
                       Pair.of("FPS", this.labelMainColor.getValue())))));
     }
 
@@ -112,25 +113,24 @@ public abstract class FPSMode extends Mode {
     }
   }
 
-  public static class CustomMode extends FPSMode {
+  public static class CustomMode extends PingMode {
 
     private final Setting<List<List<Pair<String, Color>>>> text;
 
     public CustomMode() {
-      this.register(text = new Setting<>("text", new ArrayList<>(Collections.singletonList(new ArrayList<>(Collections.singletonList(Pair.of("FPS: $FPS", Color.WHITE)))))));
+      this.register(text = new Setting<>("text", new ArrayList<>(Collections.singletonList(new ArrayList<>(Collections.singletonList(Pair.of("Ping: PING", Color.WHITE)))))));
     }
 
     @Override
-    public List<List<Pair<String, Color>>> format(int fps) {
-      List<List<Pair<String, Color>>> formattedList = new ArrayList<>();
+    public List<List<Pair<String, Color>>> format(int ping) {
+      List<List<Pair<String, Color>>> list = new ArrayList<>();
       for(List<Pair<String, Color>> lineList : this.text.getValue()) {
-        List<Pair<String, Color>> formattedLine = new ArrayList<>();
         for(Pair<String, Color> pair : lineList) {
-          formattedLine.add(Pair.of(pair.getLeft().replace("$FPS", String.valueOf(fps)), pair.getRight()));
+          lineList.add(Pair.of(pair.getLeft().replace("PING", String.valueOf(ping)), pair.getRight()));
         }
-        formattedList.add(formattedLine);
+        list.add(lineList);
       }
-      return formattedList;
+      return list;
     }
 
     @Override

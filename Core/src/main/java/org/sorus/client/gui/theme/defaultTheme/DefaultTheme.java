@@ -40,6 +40,8 @@ import org.sorus.client.settings.Setting;
 
 public class DefaultTheme extends Theme {
 
+  private static DefaultTheme instance;
+  
   private final Setting<Color> backgroundLayerColor;
   private final Setting<Color> medgroundLayerColor;
   private final Setting<Color> medforegroundLayerColor;
@@ -66,7 +68,7 @@ public class DefaultTheme extends Theme {
     this.register(
         medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
     this.register(
-            medforegroundLayerColor = new Setting<>("medgroundLayerColor", new Color(50, 50, 50)));
+            medforegroundLayerColor = new Setting<>("medgroundLayerColor", new Color(40, 40, 40)));
     this.register(
         foregroundLayerColor = new Setting<>("foregroundLayerColor", new Color(215, 215, 215)));
     this.register(
@@ -74,6 +76,7 @@ public class DefaultTheme extends Theme {
             new Setting<>("foregroundLessLayerColor", new Color(160, 160, 160)));
     this.register(shadowStartColor = new Setting<>("shadowStartColor", new Color(14, 14, 14)));
     this.register(shadowEndColor = new Setting<>("shadowEndColor", new Color(14, 14, 14, 0)));
+    instance = this;
   }
 
   @Override
@@ -92,58 +95,48 @@ public class DefaultTheme extends Theme {
     return "DEFAULT";
   }
 
+  public static DefaultTheme getInstance() {
+    return instance;
+  }
+  
   public static Color getBackgroundLayerColor() {
-    return Sorus.getSorus()
-        .getThemeManager()
-        .getTheme(DefaultTheme.class)
+    return DefaultTheme.getInstance()
         .backgroundLayerColor
         .getValue();
   }
 
   public static Color getMedgroundLayerColor() {
-    return Sorus.getSorus()
-        .getThemeManager()
-        .getTheme(DefaultTheme.class)
+    return DefaultTheme.getInstance()
         .medgroundLayerColor
         .getValue();
   }
 
   public static Color getMedforegroundLayerColor() {
-    return Sorus.getSorus()
-            .getThemeManager()
-            .getTheme(DefaultTheme.class)
+    return DefaultTheme.getInstance()
             .medforegroundLayerColor
             .getValue();
   }
 
   public static Color getForegroundLayerColor() {
-    return Sorus.getSorus()
-        .getThemeManager()
-        .getTheme(DefaultTheme.class)
+    return DefaultTheme.getInstance()
         .foregroundLayerColor
         .getValue();
   }
 
   public static Color getForegroundLessLayerColor() {
-    return Sorus.getSorus()
-        .getThemeManager()
-        .getTheme(DefaultTheme.class)
+    return DefaultTheme.getInstance()
         .foregroundLessLayerColor
         .getValue();
   }
 
   public static Color getShadowStartColor() {
-    return Sorus.getSorus()
-        .getThemeManager()
-        .getTheme(DefaultTheme.class)
+    return DefaultTheme.getInstance()
         .shadowStartColor
         .getValue();
   }
 
   public static Color getShadowEndColor() {
-    return Sorus.getSorus()
-        .getThemeManager()
-        .getTheme(DefaultTheme.class)
+    return DefaultTheme.getInstance()
         .shadowEndColor
         .getValue();
   }

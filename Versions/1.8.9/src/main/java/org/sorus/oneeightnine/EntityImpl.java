@@ -29,7 +29,7 @@ import org.sorus.client.version.game.IEntity;
 
 public class EntityImpl implements IEntity {
 
-    private final Entity entity;
+    protected final Entity entity;
 
     public EntityImpl(Entity entity) {
         this.entity = entity;

@@ -30,6 +30,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
 import org.sorus.client.version.game.IEntity;
 import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.game.IPlayer;
 import org.sorus.client.version.game.PerspectiveMode;
 
 public class Game implements IGame {
@@ -62,8 +63,8 @@ public class Game implements IGame {
     }
 
     @Override
-    public IEntity getPlayer() {
-        return new EntityImpl(Minecraft.getMinecraft().thePlayer);
+    public IPlayer getPlayer() {
+        return new PlayerImpl(Minecraft.getMinecraft().thePlayer);
     }
 
     @Override

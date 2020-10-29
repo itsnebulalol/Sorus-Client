@@ -32,12 +32,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.SlickException;
 import org.sorus.client.obfuscation.ObfuscationManager;
+import org.sorus.client.version.game.IItemStack;
 import org.sorus.client.version.render.IRenderer;
 import org.sorus.client.version.IVersion;
 import org.sorus.client.version.render.ITTFFontRenderer;
@@ -249,6 +251,19 @@ public class Renderer implements IRenderer {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void drawItem(IItemStack itemStack, double x, double y, Color color) {
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(770, 771);
+        GL11.glTranslated(x, y, 0);
+        GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
+        Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(((ItemStackImpl) itemStack).getItemStack(), 0, 0);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
     }
 
 }

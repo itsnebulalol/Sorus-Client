@@ -22,24 +22,12 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.client.version.game;
 
-import java.io.InputStream;
+import java.util.List;
 
-public interface IScreen {
+public interface IInventoryPlayer {
 
-  double getScaledWidth();
-
-  double getScaledHeight();
-
-  double getScaleFactor();
-
-  double getDisplayWidth();
-
-  double getDisplayHeight();
-
-  void setIcon(InputStream x16);
-
-  void setTitle(String title);
+    List<IItemStack> getArmor();
 
 }

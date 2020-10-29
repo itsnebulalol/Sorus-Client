@@ -24,6 +24,7 @@
 
 package org.sorus.oneeightnine.injectors.enhancements;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;

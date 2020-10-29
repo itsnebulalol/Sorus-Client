@@ -48,7 +48,7 @@ public interface IGame {
    *
    * @return the player
    */
-  IEntity getPlayer();
+  IPlayer getPlayer();
 
   PerspectiveMode getPerspective();
 

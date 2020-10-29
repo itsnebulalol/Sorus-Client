@@ -22,24 +22,34 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.oneeightnine;
 
-import java.io.InputStream;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+import org.sorus.client.version.game.IInventoryPlayer;
+import org.sorus.client.version.game.IItemStack;
 
-public interface IScreen {
+import java.util.ArrayList;
+import java.util.List;
 
-  double getScaledWidth();
+public class InventoryPlayerImpl implements IInventoryPlayer {
 
-  double getScaledHeight();
+    private final InventoryPlayer inventory;
 
-  double getScaleFactor();
+    public InventoryPlayerImpl(InventoryPlayer inventory) {
+        this.inventory = inventory;
+    }
 
-  double getDisplayWidth();
-
-  double getDisplayHeight();
-
-  void setIcon(InputStream x16);
-
-  void setTitle(String title);
+    @Override
+    public List<IItemStack> getArmor() {
+        ItemStack[] itemStacks = this.inventory.armorInventory;
+        List<IItemStack> itemStackList = new ArrayList<>();
+        for(ItemStack itemStack : itemStacks) {
+            if(itemStack != null) {
+                itemStackList.add(new ItemStackImpl(itemStack));
+            }
+        }
+        return itemStackList;
+    }
 
 }
