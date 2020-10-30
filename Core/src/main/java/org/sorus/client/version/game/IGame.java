@@ -48,7 +48,7 @@ public interface IGame {
    *
    * @return the player
    */
-  IEntity getPlayer();
+  IPlayer getPlayer();
 
   PerspectiveMode getPerspective();
 
@@ -57,4 +57,7 @@ public interface IGame {
   void sendChatMessage(String message);
 
   int getPing();
+
+  IItemManager getItemManager();
+
 }

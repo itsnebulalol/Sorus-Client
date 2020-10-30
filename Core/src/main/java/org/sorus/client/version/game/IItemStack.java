@@ -22,23 +22,11 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.client.version.game;
 
-import java.io.InputStream;
+public interface IItemStack {
 
-public interface IScreen {
+  int getDamage();
 
-  double getScaledWidth();
-
-  double getScaledHeight();
-
-  double getScaleFactor();
-
-  double getDisplayWidth();
-
-  double getDisplayHeight();
-
-  void setIcon(InputStream x16);
-
-  void setTitle(String title);
+  int getMaxDamage();
 }

@@ -43,7 +43,7 @@ public class HUDPosition {
     double hudWidth = hud.getWidth() * hud.getScale();
     double leftDistance = Math.abs(0 - (x - hudWidth / 2));
     double centerDistance = Math.abs(screenWidth / 2 - x);
-    double rightDistance = Math.abs(screenWidth - (x + screenWidth / 2));
+    double rightDistance = Math.abs(screenWidth - (x + hudWidth / 2));
     if (leftDistance < centerDistance && leftDistance < rightDistance) {
       this.offsetX = -0.5;
     }

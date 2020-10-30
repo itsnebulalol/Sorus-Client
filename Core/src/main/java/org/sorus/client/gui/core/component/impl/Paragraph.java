@@ -22,23 +22,21 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.client.gui.core.component.impl;
 
-import java.io.InputStream;
+import org.sorus.client.gui.core.component.Collection;
 
-public interface IScreen {
+public class Paragraph extends Collection {
 
-  double getScaledWidth();
+  /*@Override
+  public void onRender() {
+      double y = 0;
+      for (Component component : this.components) {
+          MultiText text = (MultiText) component;
+          text.position(text.rawX(), y);
+          y += text.getHeight() + 1;
+      }
+      super.onRender();
+  }*/
 
-  double getScaledHeight();
-
-  double getScaleFactor();
-
-  double getDisplayWidth();
-
-  double getDisplayHeight();
-
-  void setIcon(InputStream x16);
-
-  void setTitle(String title);
 }

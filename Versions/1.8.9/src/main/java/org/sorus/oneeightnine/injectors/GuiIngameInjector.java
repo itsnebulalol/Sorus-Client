@@ -45,11 +45,12 @@ public class GuiIngameInjector extends Injector<GuiIngame> {
 
     @Modify(name = "renderGameOverlay", desc = "(F)V")
     public static void modifyRenderGameOverlay(MethodNode methodNode) {
+        String showCrosshairClass = ObfuscationManager.getClassName("net/minecraft/client/gui/GuiIngame");
         String showCrosshairMethod = ObfuscationManager.getMethodName("net/minecraft/client/gui/GuiIngame", "showCrosshair", "()Z");
         String drawTexturedModalRect = ObfuscationManager.getMethodName("net/minecraft/client/gui/Gui", "drawTexturedModalRect", "(IIIIII)V");
         LabelNode label = null;
         for(AbstractInsnNode node : methodNode.instructions.toArray()) {
-            if(node instanceof MethodInsnNode && ((MethodInsnNode) node).name.equals(showCrosshairMethod) && ((MethodInsnNode) node).desc.equals("()Z")) {
+            if(node instanceof MethodInsnNode && ((MethodInsnNode) node).owner.equals(showCrosshairClass) && ((MethodInsnNode) node).name.equals(showCrosshairMethod) && ((MethodInsnNode) node).desc.equals("()Z")) {
                 AbstractInsnNode insnNode = node.getNext().getNext();
                 InsnList insnList = new InsnList();
                 insnList.add(new TypeInsnNode(Opcodes.NEW, RenderObjectEvent.Crosshair.class.getName().replace(".", "/")));
@@ -68,14 +69,6 @@ public class GuiIngameInjector extends Injector<GuiIngame> {
                 methodNode.instructions.insert(node, label);
             }
         }
-        /*InsnList insnList = new InsnList();
-        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, GuiIngameHook.class.getCanonicalName().replace(".", "/"), "shouldHideCrosshair", "()Z", false));
-        LabelNode label = new LabelNode();
-        insnList.add(new JumpInsnNode(Opcodes.IFEQ, label));
-        insnList.add(new LdcInsnNode(0));
-        insnList.add(new InsnNode(Opcodes.IRETURN));
-        insnList.add(label);
-        methodNode.instructions.insert(insnList);*/
     }
 
 }

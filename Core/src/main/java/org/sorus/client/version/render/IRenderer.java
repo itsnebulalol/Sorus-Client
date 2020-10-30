@@ -25,6 +25,7 @@
 package org.sorus.client.version.render;
 
 import java.awt.*;
+import org.sorus.client.version.game.IItemStack;
 
 /** Renderer interface, used when rendering objects to the screen. */
 public interface IRenderer {
@@ -144,4 +145,6 @@ public interface IRenderer {
   void disableBlur();
 
   ITTFFontRenderer getFont(String location);
+
+  void drawItem(IItemStack itemStack, double x, double y, Color color);
 }

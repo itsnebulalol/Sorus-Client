@@ -58,5 +58,4 @@ public class SettingsHolder extends Collection {
     this.clear();
     this.configurable.addConfigComponents(this);
   }
-
 }

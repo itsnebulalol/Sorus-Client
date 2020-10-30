@@ -68,6 +68,12 @@ public class Collection extends Component {
     return this.cast();
   }
 
+  public <T extends Collection> T addAtFront(Component component) {
+    this.components.add(0, component);
+    component.setCollection(this);
+    return this.cast();
+  }
+
   /**
    * Removes a component from the list of components.
    *

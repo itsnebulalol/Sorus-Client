@@ -42,7 +42,6 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.ThemeBase;
-import org.sorus.client.settings.Setting;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
 

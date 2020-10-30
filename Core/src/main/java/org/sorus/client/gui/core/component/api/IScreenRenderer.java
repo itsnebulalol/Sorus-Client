@@ -26,6 +26,7 @@ package org.sorus.client.gui.core.component.api;
 
 import java.awt.*;
 import org.sorus.client.gui.core.font.IFontRenderer;
+import org.sorus.client.version.game.IItemStack;
 
 /** Interface used to perform drawing operations. */
 public interface IScreenRenderer {
@@ -184,4 +185,6 @@ public interface IScreenRenderer {
       double textureWidth,
       double textureHeight,
       Color color);
+
+  void drawItem(IItemStack itemStack, double x, double y, Color color);
 }

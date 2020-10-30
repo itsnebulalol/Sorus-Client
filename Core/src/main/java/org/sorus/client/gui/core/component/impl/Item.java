@@ -22,23 +22,26 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.client.gui.core.component.impl;
 
-import java.io.InputStream;
+import org.sorus.client.Sorus;
+import org.sorus.client.gui.core.component.Component;
+import org.sorus.client.version.game.IItemStack;
 
-public interface IScreen {
+public class Item extends Component {
 
-  double getScaledWidth();
+  private IItemStack iItemStack;
 
-  double getScaledHeight();
+  @Override
+  public void onRender() {
+    Sorus.getSorus()
+        .getGUIManager()
+        .getRenderer()
+        .drawItem(this.iItemStack, this.absoluteX(), this.absoluteY(), this.absoluteColor());
+  }
 
-  double getScaleFactor();
-
-  double getDisplayWidth();
-
-  double getDisplayHeight();
-
-  void setIcon(InputStream x16);
-
-  void setTitle(String title);
+  public <T extends Item> T itemStack(IItemStack iItemStack) {
+    this.iItemStack = iItemStack;
+    return this.cast();
+  }
 }

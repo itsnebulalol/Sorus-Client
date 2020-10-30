@@ -22,23 +22,21 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.oneeightnine;
 
-import java.io.InputStream;
+import net.minecraft.entity.player.EntityPlayer;
+import org.sorus.client.version.game.IInventoryPlayer;
+import org.sorus.client.version.game.IPlayer;
 
-public interface IScreen {
+public class PlayerImpl extends EntityImpl implements IPlayer {
 
-  double getScaledWidth();
+    public PlayerImpl(EntityPlayer player) {
+        super(player);
+    }
 
-  double getScaledHeight();
+    @Override
+    public IInventoryPlayer getInventory() {
+        return new InventoryPlayerImpl(((EntityPlayer) this.entity).inventory);
+    }
 
-  double getScaleFactor();
-
-  double getDisplayWidth();
-
-  double getDisplayHeight();
-
-  void setIcon(InputStream x16);
-
-  void setTitle(String title);
 }

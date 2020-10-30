@@ -28,11 +28,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
-import org.sorus.client.version.game.IEntity;
-import org.sorus.client.version.game.IGame;
-import org.sorus.client.version.game.PerspectiveMode;
+import org.sorus.client.version.game.*;
 
 public class Game implements IGame {
+
+    private final ItemManager itemManager = new ItemManager();
 
     @Override
     public boolean isIngame() {
@@ -62,8 +62,8 @@ public class Game implements IGame {
     }
 
     @Override
-    public IEntity getPlayer() {
-        return new EntityImpl(Minecraft.getMinecraft().thePlayer);
+    public IPlayer getPlayer() {
+        return new PlayerImpl(Minecraft.getMinecraft().thePlayer);
     }
 
     @Override
@@ -104,6 +104,11 @@ public class Game implements IGame {
     @Override
     public int getPing() {
         return Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
+    }
+
+    @Override
+    public IItemManager getItemManager() {
+        return this.itemManager;
     }
 
     @Override

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.module.impl.fps;
+package org.sorus.client.module.impl.gps;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -37,11 +37,11 @@ import org.sorus.client.gui.screen.settings.components.TextBox;
 import org.sorus.client.module.Mode;
 import org.sorus.client.settings.Setting;
 
-public abstract class FPSMode extends Mode {
+public abstract class GPSMode extends Mode {
 
-  public abstract List<List<Pair<String, Color>>> format(int fps);
+  public abstract List<List<Pair<String, Color>>> format(int x, int y, int z);
 
-  public static class LabelPreMode extends FPSMode {
+  public static class LabelPreMode extends GPSMode {
 
     private final Setting<String> preLabel;
     private final Setting<String> postLabel;
@@ -58,15 +58,27 @@ public abstract class FPSMode extends Mode {
     }
 
     @Override
-    public List<List<Pair<String, Color>>> format(int fps) {
+    public List<List<Pair<String, Color>>> format(int x, int y, int z) {
       return new ArrayList<>(
-          Collections.singletonList(
+          Arrays.asList(
               new ArrayList<>(
                   Arrays.asList(
                       Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
-                      Pair.of("FPS", this.labelMainColor.getValue()),
+                      Pair.of("X", this.labelMainColor.getValue()),
                       Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
-                      Pair.of(" " + fps, this.valueColor.getValue())))));
+                      Pair.of(" " + x, this.valueColor.getValue()))),
+              new ArrayList<>(
+                  Arrays.asList(
+                      Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
+                      Pair.of("Y", this.labelMainColor.getValue()),
+                      Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
+                      Pair.of(" " + y, this.valueColor.getValue()))),
+              new ArrayList<>(
+                  Arrays.asList(
+                      Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
+                      Pair.of("Z", this.labelMainColor.getValue()),
+                      Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
+                      Pair.of(" " + z, this.valueColor.getValue())))));
     }
 
     @Override
@@ -84,39 +96,7 @@ public abstract class FPSMode extends Mode {
     }
   }
 
-  public static class LabelPostMode extends FPSMode {
-
-    private final Setting<Color> labelMainColor;
-    private final Setting<Color> valueColor;
-
-    public LabelPostMode() {
-      this.register(labelMainColor = new Setting<>("labelMainColor", Color.WHITE));
-      this.register(valueColor = new Setting<>("valueColor", Color.WHITE));
-    }
-
-    @Override
-    public List<List<Pair<String, Color>>> format(int fps) {
-      return new ArrayList<>(
-          Collections.singletonList(
-              new ArrayList<>(
-                  Arrays.asList(
-                      Pair.of(fps + " ", this.valueColor.getValue()),
-                      Pair.of("FPS", this.labelMainColor.getValue())))));
-    }
-
-    @Override
-    public String getName() {
-      return "Post Label";
-    }
-
-    @Override
-    public void addConfigComponents(Collection collection) {
-      collection.add(new ColorPicker(labelMainColor, "Label Color"));
-      collection.add(new ColorPicker(valueColor, "Value Color"));
-    }
-  }
-
-  public static class CustomMode extends FPSMode {
+  public static class CustomMode extends GPSMode {
 
     private final Setting<List<List<Pair<String, Color>>>> text;
 
@@ -126,19 +106,26 @@ public abstract class FPSMode extends Mode {
               new Setting<>(
                   "text",
                   new ArrayList<>(
-                      Collections.singletonList(
+                      Arrays.asList(
+                          new ArrayList<>(Collections.singletonList(Pair.of("X: $X", Color.WHITE))),
+                          new ArrayList<>(Collections.singletonList(Pair.of("Y: $Y", Color.WHITE))),
                           new ArrayList<>(
-                              Collections.singletonList(Pair.of("FPS: $FPS", Color.WHITE)))))));
+                              Collections.singletonList(Pair.of("Z: $Z", Color.WHITE)))))));
     }
 
     @Override
-    public List<List<Pair<String, Color>>> format(int fps) {
+    public List<List<Pair<String, Color>>> format(int x, int y, int z) {
       List<List<Pair<String, Color>>> formattedList = new ArrayList<>();
       for (List<Pair<String, Color>> lineList : this.text.getValue()) {
         List<Pair<String, Color>> formattedLine = new ArrayList<>();
         for (Pair<String, Color> pair : lineList) {
           formattedLine.add(
-              Pair.of(pair.getLeft().replace("$FPS", String.valueOf(fps)), pair.getRight()));
+              Pair.of(
+                  pair.getLeft()
+                      .replace("$X", String.valueOf(x))
+                      .replace("$Y", String.valueOf(y))
+                      .replace("$Z", String.valueOf(z)),
+                  pair.getRight()));
         }
         formattedList.add(formattedLine);
       }

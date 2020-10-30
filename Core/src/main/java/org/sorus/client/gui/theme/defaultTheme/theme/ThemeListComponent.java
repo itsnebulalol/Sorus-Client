@@ -134,7 +134,6 @@ public class ThemeListComponent extends Collection {
             .position(125, 20)
             .scale(4, 4)
             .color(new Color(235, 235, 235, 210)));
-    int i = 0;
     this.add(new SettingsButton(theme).position(615, 22));
     this.add(new RemoveButton(theme).position(555, 22));
     Sorus.getSorus().getEventManager().register(this);
@@ -154,7 +153,12 @@ public class ThemeListComponent extends Collection {
         && e.getY() < this.absoluteX() + 670 * this.absoluteXScale()
         && e.getY() > this.absoluteY()
         && e.getY() < this.absoluteY() + 125 * this.absoluteYScale()) {
-      this.themeListScreen.onComponentDrag(this, e.getX(), e.getY());
+      if (!(e.getX() > this.absoluteX() + 615 * this.absoluteXScale()
+          && e.getX() < this.absoluteX() + 665 * this.absoluteXScale()
+          && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
+          && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
+        this.themeListScreen.onComponentDrag(this, e.getX(), e.getY());
+      }
     }
   }
 
@@ -278,6 +282,7 @@ public class ThemeListComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
+        Sorus.getSorus().getGUIManager().close(themeListScreen.screen);
         Sorus.getSorus()
             .getGUIManager()
             .open(new SettingsScreen(ThemeListComponent.this.themeListScreen.screen, theme));

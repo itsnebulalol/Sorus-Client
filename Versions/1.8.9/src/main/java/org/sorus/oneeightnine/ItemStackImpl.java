@@ -22,23 +22,44 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.oneeightnine;
 
-import java.io.InputStream;
+import net.minecraft.item.ItemStack;
+import org.sorus.client.version.game.IItemStack;
 
-public interface IScreen {
+import java.util.Objects;
 
-  double getScaledWidth();
+public class ItemStackImpl implements IItemStack {
 
-  double getScaledHeight();
+    private final ItemStack itemStack;
 
-  double getScaleFactor();
+    public ItemStackImpl(ItemStack itemStack) {
+        this.itemStack = itemStack;
+    }
 
-  double getDisplayWidth();
+    @Override
+    public int getDamage() {
+        return this.itemStack.getItemDamage();
+    }
 
-  double getDisplayHeight();
+    @Override
+    public int getMaxDamage() {
+        return this.itemStack.getMaxDamage();
+    }
 
-  void setIcon(InputStream x16);
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
 
-  void setTitle(String title);
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }
+        if(o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ItemStackImpl itemStack1 = (ItemStackImpl) o;
+        return Objects.equals(itemStack, itemStack1.itemStack);
+    }
 }

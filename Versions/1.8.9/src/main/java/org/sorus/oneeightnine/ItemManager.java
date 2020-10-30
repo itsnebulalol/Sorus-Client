@@ -24,34 +24,44 @@
 
 package org.sorus.oneeightnine;
 
-import net.minecraft.entity.Entity;
-import org.sorus.client.version.game.IEntity;
+import net.minecraft.item.Item;
+import org.sorus.client.version.game.ArmorType;
+import org.sorus.client.version.game.IItemManager;
+import org.sorus.client.version.game.IItemStack;
 
-public class EntityImpl implements IEntity {
-
-    protected final Entity entity;
-
-    public EntityImpl(Entity entity) {
-        this.entity = entity;
-    }
+public class ItemManager implements IItemManager {
 
     @Override
-    public double getX() {
-        return entity.posX;
+    public ArmorType getArmorType(IItemStack iItemStack) {
+        ItemStackImpl itemStack = (ItemStackImpl) iItemStack;
+        int id = Item.getIdFromItem(itemStack.getItemStack().getItem());
+        switch(id) {
+            case 298:
+            case 302:
+            case 306:
+            case 310:
+            case 314:
+                return ArmorType.HELMET;
+            case 299:
+            case 303:
+            case 307:
+            case 311:
+            case 315:
+                return ArmorType.CHESTPLATE;
+            case 300:
+            case 304:
+            case 308:
+            case 312:
+            case 316:
+                return ArmorType.LEGGINGS;
+            case 301:
+            case 305:
+            case 309:
+            case 313:
+            case 317:
+                return ArmorType.BOOTS;
+        }
+        return null;
     }
 
-    @Override
-    public double getY() {
-        return entity.posY;
-    }
-
-    @Override
-    public double getZ() {
-        return entity.posZ;
-    }
-
-    @Override
-    public boolean isNull() {
-        return entity == null;
-    }
 }

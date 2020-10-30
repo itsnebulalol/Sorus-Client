@@ -85,7 +85,9 @@ public class ColorPicker extends Configurable {
         e.getY() > this.absoluteY()
             && e.getY() < this.absoluteY() + this.getHeight() * this.absoluteYScale();
     if (expanded && this.getContainer().isInteractContainer()) {
-      Sorus.getSorus().getGUIManager().open(new ColorPickerScreen(this.setting.getValue(), new ColorCallback()));
+      Sorus.getSorus()
+          .getGUIManager()
+          .open(new ColorPickerScreen(this.setting.getValue(), new ColorCallback()));
     }
   }
 
@@ -97,9 +99,7 @@ public class ColorPicker extends Configurable {
     }
 
     @Override
-    public void cancel() {
-
-    }
+    public void cancel() {}
   }
 
   @Override

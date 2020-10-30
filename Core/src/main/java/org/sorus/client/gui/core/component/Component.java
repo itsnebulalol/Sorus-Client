@@ -90,6 +90,10 @@ public abstract class Component implements IRenderable {
     return this.collection.absoluteX() + x * this.collection.absoluteXScale();
   }
 
+  public double rawX() {
+    return x;
+  }
+
   /**
    * Gets the absolute y based on the parents state.
    *
@@ -132,6 +136,10 @@ public abstract class Component implements IRenderable {
 
   protected IContainer getContainer() {
     return this.collection.getContainer();
+  }
+
+  public Collection getCollection() {
+    return collection;
   }
 
   protected <T extends Component> T cast() {

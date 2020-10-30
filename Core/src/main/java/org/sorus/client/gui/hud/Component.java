@@ -98,23 +98,19 @@ public abstract class Component implements IComponent, IConfigurableScreen {
     Map<String, Object> settingsMap = (Map<String, Object>) settings;
     boolean continuing = true;
     int i = 0;
-    while(continuing) {
+    if (this.settings.size() == 0) {
+      continuing = false;
+    }
+    while (continuing) {
       Setting<?> setting = this.settings.get(i);
       if (settingsMap.get(setting.getName()) != null) {
         setting.setValueIgnoreType(settingsMap.get(setting.getName()));
       }
       i++;
-      if(i == this.settings.size()) {
+      if (i == this.settings.size()) {
         continuing = false;
       }
     }
-    /*Map<String, Object> settingsMap = (Map<String, Object>) settings;
-    for (Setting<?> setting : new ArrayList<>(this.settings)) {
-      System.out.println(setting.getName());
-      if (settingsMap.get(setting.getName()) != null) {
-        setting.setValueIgnoreType(settingsMap.get(setting.getName()));
-      }
-    }*/
   }
 
   @Override

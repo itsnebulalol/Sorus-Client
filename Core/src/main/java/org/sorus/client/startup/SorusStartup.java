@@ -195,6 +195,7 @@ public class SorusStartup {
         Class<?> injector = Class.forName(fullClassName);
         String hookClass =
             ObfuscationManager.getClassName(injector.getDeclaredAnnotation(Hook.class).value());
+        System.out.println(hookClass);
         injectors.computeIfAbsent(hookClass, k -> new ArrayList<>()).add(injector);
       }
     } catch (IOException | ClassNotFoundException e) {
