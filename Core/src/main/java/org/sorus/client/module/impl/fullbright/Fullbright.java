@@ -7,9 +7,9 @@ import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.settings.Setting;
 
-public class FullBrightModule extends ModuleConfigurable {
+public class Fullbright extends ModuleConfigurable {
 
-    public FullBrightModule() {
+    public Fullbright() {
         super("FULLBRIGHT");
     }
 
