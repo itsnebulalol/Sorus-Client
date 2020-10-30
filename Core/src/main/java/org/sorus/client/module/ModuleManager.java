@@ -34,6 +34,7 @@ import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
 import org.sorus.client.module.impl.music.Music;
+import org.sorus.client.module.impl.fullbright.FullBrightModule;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
 import org.sorus.client.module.impl.perspective.Perspective;
 import org.sorus.client.module.impl.timechanger.TimeChanger;
@@ -66,6 +67,7 @@ public class ModuleManager {
     this.register(new CustomCrosshair());
     this.register(new DiscordRP());
     this.register(new Enhancements());
+    this.register(new FullBrightModule());
     this.register(new ItemPhysics());
     this.register(new Music());
     this.register(new OldAnimations());
