@@ -23,9 +23,9 @@ public class CustomCrosshair extends ModuleConfigurable {
     public CustomCrosshair() {
         super("CUSTOM CROSSHAIR");
 
-        this.register(height = new Setting<>("height", 6D));
-        this.register(width = new Setting<>("width", 6D));
-        this.register(thickness = new Setting<>("thickness", 1D));
+        this.register(height = new Setting<>("height", 6.));
+        this.register(width = new Setting<>("width", 6.));
+        this.register(thickness = new Setting<>("thickness", 1.));
         this.register(color_v = new Setting<>("color_v", Color.white));
         this.register(color_h = new Setting<>("color_h", Color.white));
 
@@ -54,20 +54,18 @@ public class CustomCrosshair extends ModuleConfigurable {
 
     public void render() {
 
-        // Vertical
         Sorus.getSorus().getGUIManager().getRenderer().drawRect(
                 (Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 2),
-                (Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 2) - (height.getValue() / 2),
+                (Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 2) - (height.getValue() / 2) + 0.5,
                 thickness.getValue(),
                 height.getValue(),
                 color_v.getValue()
         );
 
-        // Horizontal
         Sorus.getSorus().getGUIManager().getRenderer().drawRect(
-                (Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 2) - (width.getValue() / 2) + 1,
-                (Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 2) + 1,
-                width.getValue() - 1,
+                (Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 2) - (width.getValue() / 2) + 0.5,
+                (Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 2),
+                width.getValue(),
                 thickness.getValue(),
                 color_h.getValue()
         );
