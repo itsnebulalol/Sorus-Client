@@ -57,4 +57,7 @@ public interface IGame {
   void sendChatMessage(String message);
 
   int getPing();
+
+  IItemManager getItemManager();
+
 }

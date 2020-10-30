@@ -26,6 +26,5 @@ package org.sorus.client.version.game;
 
 public interface IPlayer extends IEntity {
 
-    IInventoryPlayer getInventory();
-
+  IInventoryPlayer getInventory();
 }

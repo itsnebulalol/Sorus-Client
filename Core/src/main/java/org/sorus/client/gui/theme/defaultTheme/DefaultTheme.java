@@ -25,7 +25,6 @@
 package org.sorus.client.gui.theme.defaultTheme;
 
 import java.awt.*;
-import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.Theme;
@@ -41,7 +40,7 @@ import org.sorus.client.settings.Setting;
 public class DefaultTheme extends Theme {
 
   private static DefaultTheme instance;
-  
+
   private final Setting<Color> backgroundLayerColor;
   private final Setting<Color> medgroundLayerColor;
   private final Setting<Color> medforegroundLayerColor;
@@ -68,7 +67,7 @@ public class DefaultTheme extends Theme {
     this.register(
         medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
     this.register(
-            medforegroundLayerColor = new Setting<>("medgroundLayerColor", new Color(40, 40, 40)));
+        medforegroundLayerColor = new Setting<>("medgroundLayerColor", new Color(40, 40, 40)));
     this.register(
         foregroundLayerColor = new Setting<>("foregroundLayerColor", new Color(215, 215, 215)));
     this.register(
@@ -98,46 +97,32 @@ public class DefaultTheme extends Theme {
   public static DefaultTheme getInstance() {
     return instance;
   }
-  
+
   public static Color getBackgroundLayerColor() {
-    return DefaultTheme.getInstance()
-        .backgroundLayerColor
-        .getValue();
+    return DefaultTheme.getInstance().backgroundLayerColor.getValue();
   }
 
   public static Color getMedgroundLayerColor() {
-    return DefaultTheme.getInstance()
-        .medgroundLayerColor
-        .getValue();
+    return DefaultTheme.getInstance().medgroundLayerColor.getValue();
   }
 
   public static Color getMedforegroundLayerColor() {
-    return DefaultTheme.getInstance()
-            .medforegroundLayerColor
-            .getValue();
+    return DefaultTheme.getInstance().medforegroundLayerColor.getValue();
   }
 
   public static Color getForegroundLayerColor() {
-    return DefaultTheme.getInstance()
-        .foregroundLayerColor
-        .getValue();
+    return DefaultTheme.getInstance().foregroundLayerColor.getValue();
   }
 
   public static Color getForegroundLessLayerColor() {
-    return DefaultTheme.getInstance()
-        .foregroundLessLayerColor
-        .getValue();
+    return DefaultTheme.getInstance().foregroundLessLayerColor.getValue();
   }
 
   public static Color getShadowStartColor() {
-    return DefaultTheme.getInstance()
-        .shadowStartColor
-        .getValue();
+    return DefaultTheme.getInstance().shadowStartColor.getValue();
   }
 
   public static Color getShadowEndColor() {
-    return DefaultTheme.getInstance()
-        .shadowEndColor
-        .getValue();
+    return DefaultTheme.getInstance().shadowEndColor.getValue();
   }
 }

@@ -28,8 +28,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
@@ -41,10 +39,7 @@ import org.sorus.client.gui.hud.Component;
 import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
-import org.sorus.client.module.impl.fps.FPSComponent;
-import org.sorus.client.module.impl.fps.FPSMode;
 import org.sorus.client.settings.Setting;
-import org.sorus.client.util.ArrayUtil;
 
 public class PingComponent extends Component {
 
@@ -73,13 +68,15 @@ public class PingComponent extends Component {
     this.register(new PingMode.LabelPreMode());
     this.register(new PingMode.LabelPostMode());
     this.register(new PingMode.CustomMode());
-    this.register(mode = new Setting<Long>("mode", 0L) {
-      @Override
-      public void setValue(Long value) {
-        PingComponent.this.setMode(registeredModes.get(value.intValue()));
-        super.setValue(value);
-      }
-    });
+    this.register(
+        mode =
+            new Setting<Long>("mode", 0L) {
+              @Override
+              public void setValue(Long value) {
+                PingComponent.this.setMode(registeredModes.get(value.intValue()));
+                super.setValue(value);
+              }
+            });
     this.register(customFont = new Setting<>("customFont", false));
     this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
@@ -135,8 +132,8 @@ public class PingComponent extends Component {
   }
 
   public void setMode(PingMode mode) {
-    if(this.currentMode != null) {
-      for(Setting<?> setting : this.currentMode.getSettings()) {
+    if (this.currentMode != null) {
+      for (Setting<?> setting : this.currentMode.getSettings()) {
         this.unregister(setting);
       }
     }

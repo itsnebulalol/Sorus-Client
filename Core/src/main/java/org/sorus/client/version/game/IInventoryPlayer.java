@@ -28,6 +28,5 @@ import java.util.List;
 
 public interface IInventoryPlayer {
 
-    List<IItemStack> getArmor();
-
+  List<IItemStack> getArmor();
 }

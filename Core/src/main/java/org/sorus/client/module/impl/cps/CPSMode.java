@@ -24,19 +24,18 @@
 
 package org.sorus.client.module.impl.cps;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.sorus.client.gui.core.component.Collection;
-import org.sorus.client.gui.screen.settings.components.ColorPicker;
-import org.sorus.client.gui.screen.settings.components.TextBox;
-import org.sorus.client.module.Mode;
-import org.sorus.client.gui.screen.settings.components.CustomTextColor;
-import org.sorus.client.settings.Setting;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
+import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.screen.settings.components.ColorPicker;
+import org.sorus.client.gui.screen.settings.components.CustomTextColor;
+import org.sorus.client.gui.screen.settings.components.TextBox;
+import org.sorus.client.module.Mode;
+import org.sorus.client.settings.Setting;
 
 public abstract class CPSMode extends Mode {
 
@@ -60,12 +59,14 @@ public abstract class CPSMode extends Mode {
 
     @Override
     public List<List<Pair<String, Color>>> format(int fps) {
-      return new ArrayList<>(Collections.singletonList(new ArrayList<>(
-          Arrays.asList(
-              Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
-              Pair.of("CPS", this.labelMainColor.getValue()),
-              Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
-              Pair.of(" " + fps, this.valueColor.getValue())))));
+      return new ArrayList<>(
+          Collections.singletonList(
+              new ArrayList<>(
+                  Arrays.asList(
+                      Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
+                      Pair.of("CPS", this.labelMainColor.getValue()),
+                      Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
+                      Pair.of(" " + fps, this.valueColor.getValue())))));
     }
 
     @Override
@@ -95,8 +96,10 @@ public abstract class CPSMode extends Mode {
 
     @Override
     public List<List<Pair<String, Color>>> format(int fps) {
-      return new ArrayList<>(Collections.singletonList(new ArrayList<>(
-              Arrays.asList(
+      return new ArrayList<>(
+          Collections.singletonList(
+              new ArrayList<>(
+                  Arrays.asList(
                       Pair.of(fps + " ", this.valueColor.getValue()),
                       Pair.of("FPS", this.labelMainColor.getValue())))));
     }
@@ -118,15 +121,23 @@ public abstract class CPSMode extends Mode {
     private final Setting<List<List<Pair<String, Color>>>> text;
 
     public CustomMode() {
-      this.register(text = new Setting<>("text", new ArrayList<>(Collections.singletonList(new ArrayList<>(Collections.singletonList(Pair.of("CPS: $CPS", Color.WHITE)))))));
+      this.register(
+          text =
+              new Setting<>(
+                  "text",
+                  new ArrayList<>(
+                      Collections.singletonList(
+                          new ArrayList<>(
+                              Collections.singletonList(Pair.of("CPS: $CPS", Color.WHITE)))))));
     }
 
     @Override
     public List<List<Pair<String, Color>>> format(int cps) {
       List<List<Pair<String, Color>>> list = new ArrayList<>();
-      for(List<Pair<String, Color>> lineList : this.text.getValue()) {
-        for(Pair<String, Color> pair : lineList) {
-          lineList.add(Pair.of(pair.getLeft().replace("$CPS", String.valueOf(cps)), pair.getRight()));
+      for (List<Pair<String, Color>> lineList : this.text.getValue()) {
+        for (Pair<String, Color> pair : lineList) {
+          lineList.add(
+              Pair.of(pair.getLeft().replace("$CPS", String.valueOf(cps)), pair.getRight()));
         }
         list.add(lineList);
       }
@@ -142,7 +153,5 @@ public abstract class CPSMode extends Mode {
     public void addConfigComponents(Collection collection) {
       collection.add(new CustomTextColor(text, "Custom Text"));
     }
-
   }
-
 }

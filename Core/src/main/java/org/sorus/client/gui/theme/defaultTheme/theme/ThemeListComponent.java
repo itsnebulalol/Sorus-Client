@@ -153,7 +153,10 @@ public class ThemeListComponent extends Collection {
         && e.getY() < this.absoluteX() + 670 * this.absoluteXScale()
         && e.getY() > this.absoluteY()
         && e.getY() < this.absoluteY() + 125 * this.absoluteYScale()) {
-      if(!(e.getX() > this.absoluteX() + 615 * this.absoluteXScale() && e.getX() < this.absoluteX() + 665 * this.absoluteXScale() && e.getY() > this.absoluteY() + 22 * this.absoluteYScale() && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
+      if (!(e.getX() > this.absoluteX() + 615 * this.absoluteXScale()
+          && e.getX() < this.absoluteX() + 665 * this.absoluteXScale()
+          && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
+          && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
         this.themeListScreen.onComponentDrag(this, e.getX(), e.getY());
       }
     }

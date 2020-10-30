@@ -25,9 +25,7 @@
 package org.sorus.client;
 
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.Map;
-
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.EventManager;
 import org.sorus.client.event.impl.client.StartEvent;
@@ -142,9 +140,9 @@ public class Sorus {
 
   @EventInvoked
   public void configureWindow(StartEvent e) {
-    InputStream x16 = Sorus.class.getClassLoader().getResourceAsStream("assets/minecraft/sorus/sorus_icon.png");
+    InputStream x16 =
+        Sorus.class.getClassLoader().getResourceAsStream("assets/minecraft/sorus/sorus_icon.png");
     this.getVersion().getScreen().setIcon(x16);
     this.getVersion().getScreen().setTitle("Sorus Client");
   }
-
 }

@@ -46,12 +46,12 @@ public class TextBox extends Configurable {
     this.setting = setting;
     this.add(new TextBoxInner().position(400, 0));
     this.add(
-            new Text()
-                    .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
-                    .text(description)
-                    .scale(3.5, 3.5)
-                    .position(30, 30)
-                    .color(new Color(170, 170, 170)));
+        new Text()
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
+            .text(description)
+            .scale(3.5, 3.5)
+            .position(30, 30)
+            .color(new Color(170, 170, 170)));
   }
 
   @Override
@@ -72,7 +72,12 @@ public class TextBox extends Configurable {
     public TextBoxInner() {
       this.add(rectangle = new Rectangle().size(250, 50));
       this.add(hollowRectangle = new HollowRectangle().size(250, 50));
-      this.add(text = new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer()).scale(4, 4));
+      this.add(
+          text =
+              new Text()
+                  .fontRenderer(
+                      Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
+                  .scale(4, 4));
       this.message = setting.getValue();
       Sorus.getSorus().getEventManager().register(this);
     }
@@ -91,7 +96,11 @@ public class TextBox extends Configurable {
       this.updateButton(message);
       this.rectangle.onRender();
       this.hollowRectangle.onRender();
-      Scissor.beginScissor(this.absoluteX() + 10 * this.absoluteXScale(), this.absoluteY(), 240 * this.absoluteXScale(), 50 * this.absoluteYScale());
+      Scissor.beginScissor(
+          this.absoluteX() + 10 * this.absoluteXScale(),
+          this.absoluteY(),
+          240 * this.absoluteXScale(),
+          50 * this.absoluteYScale());
       this.text.onRender();
       Scissor.endScissor();
     }
@@ -103,19 +112,23 @@ public class TextBox extends Configurable {
 
     @EventInvoked
     public void onClick(MousePressEvent e) {
-      selected = e.getX() > this.absoluteX() && e.getX() < this.absoluteX() + 250 * this.absoluteXScale() && e.getY() > this.absoluteY() && e.getY() < this.absoluteY() + 40 * this.absoluteYScale();
+      selected =
+          e.getX() > this.absoluteX()
+              && e.getX() < this.absoluteX() + 250 * this.absoluteXScale()
+              && e.getY() > this.absoluteY()
+              && e.getY() < this.absoluteY() + 40 * this.absoluteYScale();
     }
 
     @EventInvoked
     public void keyPressed(KeyPressEvent e) {
-      if(selected) {
+      if (selected) {
         char character = e.getCharacter();
-        switch(e.getKey()) {
+        switch (e.getKey()) {
           case SHIFT_LEFT:
           case SHIFT_RIGHT:
             return;
           case BACKSPACE:
-            if(!message.isEmpty()) {
+            if (!message.isEmpty()) {
               this.message = message.substring(0, message.length() - 1);
             }
             break;
@@ -129,12 +142,14 @@ public class TextBox extends Configurable {
 
     private void updateButton(String string) {
       this.text.text(string + " ");
-      if(this.text.width() > 220 * this.absoluteXScale()) {
-        this.text.position(10 + 220 - (this.text.width() * 1 / this.absoluteXScale()), 25 - this.text.height() / 2 * 4);
+      if (this.text.width() > 220 * this.absoluteXScale()) {
+        this.text.position(
+            10 + 220 - (this.text.width() * 1 / this.absoluteXScale()),
+            25 - this.text.height() / 2 * 4);
       } else {
         this.text.position(10, 25 - this.text.height() / 2 * 4);
       }
-      if(selected) {
+      if (selected) {
         this.text.text(string + (System.currentTimeMillis() % 1000 > 500 ? "_" : ""));
       }
     }

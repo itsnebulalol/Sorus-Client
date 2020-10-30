@@ -103,9 +103,9 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
       double hudRight = hud.getRight();
       double hudBottom = hud.getBottom();
       if (this.distance(mouseX, mouseY, hudRight, hudTop) < 3
-              || this.distance(mouseX, mouseY, hudLeft, hudTop) < 3
-              || this.distance(mouseX, mouseY, hudLeft, hudBottom) < 3
-              || this.distance(mouseX, mouseY, hudRight, hudBottom) < 3) {
+          || this.distance(mouseX, mouseY, hudLeft, hudTop) < 3
+          || this.distance(mouseX, mouseY, hudLeft, hudBottom) < 3
+          || this.distance(mouseX, mouseY, hudRight, hudBottom) < 3) {
         resizeBoxesColor = new Color(255, 255, 255, 120);
       } else if (mouseX > hudLeft && mouseX < hudRight && mouseY > hudTop && mouseY < hudBottom) {
         backgroundColor = new Color(255, 255, 255, 60);
@@ -114,17 +114,17 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     }
     IScreenRenderer renderer = Sorus.getSorus().getGUIManager().getRenderer();
     renderer.drawRect(
-            hudLeft, hudTop, hud.getScaledWidth(), hud.getScaledHeight(), backgroundColor);
+        hudLeft, hudTop, hud.getScaledWidth(), hud.getScaledHeight(), backgroundColor);
     renderer.drawHollowRect(
-            hudLeft, hudTop, hud.getScaledWidth(), hud.getScaledHeight(), 0.5, borderColor);
+        hudLeft, hudTop, hud.getScaledWidth(), hud.getScaledHeight(), 0.5, borderColor);
     for (int i = 0; i < 2; i++) {
       for (int j = 0; j < 2; j++) {
         renderer.drawRect(
-                hudLeft + i * hud.getScaledWidth() - 1.5,
-                hudTop + j * hud.getScaledHeight() - 1.5,
-                3,
-                3,
-                resizeBoxesColor);
+            hudLeft + i * hud.getScaledWidth() - 1.5,
+            hudTop + j * hud.getScaledHeight() - 1.5,
+            3,
+            3,
+            resizeBoxesColor);
       }
     }
   }

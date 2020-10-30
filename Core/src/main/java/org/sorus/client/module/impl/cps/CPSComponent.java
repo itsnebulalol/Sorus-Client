@@ -27,7 +27,6 @@ package org.sorus.client.module.impl.cps;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
@@ -70,13 +69,15 @@ public class CPSComponent extends Component {
     this.register(new CPSMode.LabelPreMode());
     this.register(new CPSMode.LabelPostMode());
     this.register(new CPSMode.CustomMode());
-    this.register(mode = new Setting<Long>("mode", 0L) {
-      @Override
-      public void setValue(Long value) {
-        CPSComponent.this.setMode(registeredModes.get(value.intValue()));
-        super.setValue(value);
-      }
-    });
+    this.register(
+        mode =
+            new Setting<Long>("mode", 0L) {
+              @Override
+              public void setValue(Long value) {
+                CPSComponent.this.setMode(registeredModes.get(value.intValue()));
+                super.setValue(value);
+              }
+            });
     this.register(customFont = new Setting<>("customFont", false));
     this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
@@ -97,16 +98,16 @@ public class CPSComponent extends Component {
     int i = 0;
     List<List<Pair<String, Color>>> formatted = this.currentMode.format(prevClickTimes.size());
     List<String> strings = new ArrayList<>();
-    for(List<Pair<String, Color>> formattedLine : formatted) {
+    for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder cpsBuilder = new StringBuilder();
-      if(i >= this.cpsText.getComponents().size()) {
+      if (i >= this.cpsText.getComponents().size()) {
         MultiText multiText = new MultiText();
         this.cpsText.add(multiText);
       }
       MultiText multiText = (MultiText) this.cpsText.getComponents().get(i);
       int j = 0;
-      for(Pair<String, Color> pair : formattedLine) {
-        if(j >= multiText.getComponents().size()) {
+      for (Pair<String, Color> pair : formattedLine) {
+        if (j >= multiText.getComponents().size()) {
           Text text = new Text();
           multiText.add(text);
         }
@@ -115,20 +116,19 @@ public class CPSComponent extends Component {
         j++;
         cpsBuilder.append(pair.getLeft());
       }
-      if(multiText.getComponents().size() > formattedLine.size()) {
+      if (multiText.getComponents().size() > formattedLine.size()) {
         Text text1 = (Text) multiText.getComponents().get(multiText.getComponents().size() - 1);
         multiText.remove(text1);
       }
       double specificHeight = this.getHeight() / this.cpsText.getComponents().size();
       double textY = specificHeight * i + specificHeight / 2 - multiText.getHeight() / 2;
-      multiText.position(
-              this.getWidth() / 2 - multiText.getWidth() / 2,
-              textY);
+      multiText.position(this.getWidth() / 2 - multiText.getWidth() / 2, textY);
       strings.add(cpsBuilder.toString());
       i++;
     }
-    if(this.cpsText.getComponents().size() > formatted.size()) {
-      MultiText multiText1 = (MultiText) this.cpsText.getComponents().get(this.cpsText.getComponents().size() - 1);
+    if (this.cpsText.getComponents().size() > formatted.size()) {
+      MultiText multiText1 =
+          (MultiText) this.cpsText.getComponents().get(this.cpsText.getComponents().size() - 1);
       cpsText.remove(multiText1);
     }
     this.cpsString = strings.toArray(new String[0]);
@@ -150,8 +150,8 @@ public class CPSComponent extends Component {
   }
 
   public void setMode(CPSMode mode) {
-    if(this.currentMode != null) {
-      for(Setting<?> setting : this.currentMode.getSettings()) {
+    if (this.currentMode != null) {
+      for (Setting<?> setting : this.currentMode.getSettings()) {
         this.unregister(setting);
       }
     }
@@ -164,9 +164,9 @@ public class CPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    if(tightFit.getValue()) {
+    if (tightFit.getValue()) {
       double maxWidth = 0;
-      for(String string : cpsString) {
+      for (String string : cpsString) {
         maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
       }
       return maxWidth + 4;
@@ -176,7 +176,11 @@ public class CPSComponent extends Component {
 
   @Override
   public double getHeight() {
-    return tightFit.getValue() ? fontRenderer.getFontHeight() * this.cpsText.getComponents().size() + (this.cpsText.getComponents().size() - 1) * 2 + 4 : 11;
+    return tightFit.getValue()
+        ? fontRenderer.getFontHeight() * this.cpsText.getComponents().size()
+            + (this.cpsText.getComponents().size() - 1) * 2
+            + 4
+        : 11;
   }
 
   @Override

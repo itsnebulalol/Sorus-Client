@@ -59,12 +59,14 @@ public abstract class FPSMode extends Mode {
 
     @Override
     public List<List<Pair<String, Color>>> format(int fps) {
-      return new ArrayList<>(Collections.singletonList(new ArrayList<>(
-          Arrays.asList(
-              Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
-              Pair.of("FPS", this.labelMainColor.getValue()),
-              Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
-              Pair.of(" " + fps, this.valueColor.getValue())))));
+      return new ArrayList<>(
+          Collections.singletonList(
+              new ArrayList<>(
+                  Arrays.asList(
+                      Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
+                      Pair.of("FPS", this.labelMainColor.getValue()),
+                      Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
+                      Pair.of(" " + fps, this.valueColor.getValue())))));
     }
 
     @Override
@@ -94,8 +96,10 @@ public abstract class FPSMode extends Mode {
 
     @Override
     public List<List<Pair<String, Color>>> format(int fps) {
-      return new ArrayList<>(Collections.singletonList(new ArrayList<>(
-              Arrays.asList(
+      return new ArrayList<>(
+          Collections.singletonList(
+              new ArrayList<>(
+                  Arrays.asList(
                       Pair.of(fps + " ", this.valueColor.getValue()),
                       Pair.of("FPS", this.labelMainColor.getValue())))));
     }
@@ -117,16 +121,24 @@ public abstract class FPSMode extends Mode {
     private final Setting<List<List<Pair<String, Color>>>> text;
 
     public CustomMode() {
-      this.register(text = new Setting<>("text", new ArrayList<>(Collections.singletonList(new ArrayList<>(Collections.singletonList(Pair.of("FPS: $FPS", Color.WHITE)))))));
+      this.register(
+          text =
+              new Setting<>(
+                  "text",
+                  new ArrayList<>(
+                      Collections.singletonList(
+                          new ArrayList<>(
+                              Collections.singletonList(Pair.of("FPS: $FPS", Color.WHITE)))))));
     }
 
     @Override
     public List<List<Pair<String, Color>>> format(int fps) {
       List<List<Pair<String, Color>>> formattedList = new ArrayList<>();
-      for(List<Pair<String, Color>> lineList : this.text.getValue()) {
+      for (List<Pair<String, Color>> lineList : this.text.getValue()) {
         List<Pair<String, Color>> formattedLine = new ArrayList<>();
-        for(Pair<String, Color> pair : lineList) {
-          formattedLine.add(Pair.of(pair.getLeft().replace("$FPS", String.valueOf(fps)), pair.getRight()));
+        for (Pair<String, Color> pair : lineList) {
+          formattedLine.add(
+              Pair.of(pair.getLeft().replace("$FPS", String.valueOf(fps)), pair.getRight()));
         }
         formattedList.add(formattedLine);
       }
@@ -142,7 +154,5 @@ public abstract class FPSMode extends Mode {
     public void addConfigComponents(Collection collection) {
       collection.add(new CustomTextColor(text, "Custom Text"));
     }
-
   }
-
 }

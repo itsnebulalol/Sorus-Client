@@ -66,13 +66,15 @@ public class FPSComponent extends Component {
     this.register(new FPSMode.LabelPreMode());
     this.register(new FPSMode.LabelPostMode());
     this.register(new FPSMode.CustomMode());
-    this.register(mode = new Setting<Long>("mode", 0L) {
-      @Override
-      public void setValue(Long value) {
-        FPSComponent.this.setMode(registeredModes.get(value.intValue()));
-        super.setValue(value);
-      }
-    });
+    this.register(
+        mode =
+            new Setting<Long>("mode", 0L) {
+              @Override
+              public void setValue(Long value) {
+                FPSComponent.this.setMode(registeredModes.get(value.intValue()));
+                super.setValue(value);
+              }
+            });
     this.register(customFont = new Setting<>("customFont", false));
     this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
@@ -88,18 +90,19 @@ public class FPSComponent extends Component {
     this.updateFontRenderer();
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
-    List<List<Pair<String, Color>>> formatted = this.currentMode.format(Sorus.getSorus().getVersion().getGame().getFPS());
+    List<List<Pair<String, Color>>> formatted =
+        this.currentMode.format(Sorus.getSorus().getVersion().getGame().getFPS());
     List<String> strings = new ArrayList<>();
-    for(List<Pair<String, Color>> formattedLine : formatted) {
+    for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder fpsBuilder = new StringBuilder();
-      if(i >= this.fpsText.getComponents().size()) {
+      if (i >= this.fpsText.getComponents().size()) {
         MultiText multiText = new MultiText();
         this.fpsText.add(multiText);
       }
       MultiText multiText = (MultiText) this.fpsText.getComponents().get(i);
       int j = 0;
-      for(Pair<String, Color> pair : formattedLine) {
-        if(j >= multiText.getComponents().size()) {
+      for (Pair<String, Color> pair : formattedLine) {
+        if (j >= multiText.getComponents().size()) {
           Text text = new Text();
           multiText.add(text);
         }
@@ -108,20 +111,19 @@ public class FPSComponent extends Component {
         j++;
         fpsBuilder.append(pair.getLeft());
       }
-      if(multiText.getComponents().size() > formattedLine.size()) {
+      if (multiText.getComponents().size() > formattedLine.size()) {
         Text text1 = (Text) multiText.getComponents().get(multiText.getComponents().size() - 1);
         multiText.remove(text1);
       }
       double specificHeight = this.getHeight() / this.fpsText.getComponents().size();
       double textY = specificHeight * i + specificHeight / 2 - multiText.getHeight() / 2;
-      multiText.position(
-              this.getWidth() / 2 - multiText.getWidth() / 2,
-              textY);
+      multiText.position(this.getWidth() / 2 - multiText.getWidth() / 2, textY);
       strings.add(fpsBuilder.toString());
       i++;
     }
-    if(this.fpsText.getComponents().size() > formatted.size()) {
-      MultiText multiText1 = (MultiText) this.fpsText.getComponents().get(this.fpsText.getComponents().size() - 1);
+    if (this.fpsText.getComponents().size() > formatted.size()) {
+      MultiText multiText1 =
+          (MultiText) this.fpsText.getComponents().get(this.fpsText.getComponents().size() - 1);
       fpsText.remove(multiText1);
     }
     this.fpsString = strings.toArray(new String[0]);
@@ -143,8 +145,8 @@ public class FPSComponent extends Component {
   }
 
   public void setMode(FPSMode mode) {
-    if(this.currentMode != null) {
-      for(Setting<?> setting : this.currentMode.getSettings()) {
+    if (this.currentMode != null) {
+      for (Setting<?> setting : this.currentMode.getSettings()) {
         this.unregister(setting);
       }
     }
@@ -157,9 +159,9 @@ public class FPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    if(tightFit.getValue()) {
+    if (tightFit.getValue()) {
       double maxWidth = 0;
-      for(String string : fpsString) {
+      for (String string : fpsString) {
         maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
       }
       return maxWidth + 4;
@@ -169,7 +171,11 @@ public class FPSComponent extends Component {
 
   @Override
   public double getHeight() {
-    return tightFit.getValue() ? fontRenderer.getFontHeight() * this.fpsText.getComponents().size() + (this.fpsText.getComponents().size() - 1) * 2 + 4 : 11;
+    return tightFit.getValue()
+        ? fontRenderer.getFontHeight() * this.fpsText.getComponents().size()
+            + (this.fpsText.getComponents().size() - 1) * 2
+            + 4
+        : 11;
   }
 
   @Override

@@ -64,11 +64,9 @@ public class GuiIngameInjector extends Injector<GuiIngame> {
                 label = new LabelNode();
                 insnList.add(new JumpInsnNode(Opcodes.IFNE, label));
                 methodNode.instructions.insert(insnNode, insnList);
-                System.out.println("test");
             }
             if(node instanceof MethodInsnNode && ((MethodInsnNode) node).name.equals(drawTexturedModalRect) && ((MethodInsnNode) node).desc.equals("(IIIIII)V")) {
                 methodNode.instructions.insert(node, label);
-                System.out.println("test2");
             }
         }
     }

@@ -26,8 +26,7 @@ package org.sorus.client.version.game;
 
 public interface IItemStack {
 
-    int getDamage();
+  int getDamage();
 
-    int getMaxDamage();
-
+  int getMaxDamage();
 }

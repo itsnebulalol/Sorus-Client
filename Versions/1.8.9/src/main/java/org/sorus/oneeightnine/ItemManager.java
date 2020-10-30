@@ -22,21 +22,46 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.gui.core.component.impl;
+package org.sorus.oneeightnine;
 
-import org.sorus.client.gui.core.component.Collection;
+import net.minecraft.item.Item;
+import org.sorus.client.version.game.ArmorType;
+import org.sorus.client.version.game.IItemManager;
+import org.sorus.client.version.game.IItemStack;
 
-public class Paragraph extends Collection {
+public class ItemManager implements IItemManager {
 
-  /*@Override
-  public void onRender() {
-      double y = 0;
-      for (Component component : this.components) {
-          MultiText text = (MultiText) component;
-          text.position(text.rawX(), y);
-          y += text.getHeight() + 1;
-      }
-      super.onRender();
-  }*/
+    @Override
+    public ArmorType getArmorType(IItemStack iItemStack) {
+        ItemStackImpl itemStack = (ItemStackImpl) iItemStack;
+        int id = Item.getIdFromItem(itemStack.getItemStack().getItem());
+        switch(id) {
+            case 298:
+            case 302:
+            case 306:
+            case 310:
+            case 314:
+                return ArmorType.HELMET;
+            case 299:
+            case 303:
+            case 307:
+            case 311:
+            case 315:
+                return ArmorType.CHESTPLATE;
+            case 300:
+            case 304:
+            case 308:
+            case 312:
+            case 316:
+                return ArmorType.LEGGINGS;
+            case 301:
+            case 305:
+            case 309:
+            case 313:
+            case 317:
+                return ArmorType.BOOTS;
+        }
+        return null;
+    }
 
 }

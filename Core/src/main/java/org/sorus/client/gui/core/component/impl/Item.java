@@ -30,16 +30,18 @@ import org.sorus.client.version.game.IItemStack;
 
 public class Item extends Component {
 
-    private IItemStack iItemStack;
+  private IItemStack iItemStack;
 
-    @Override
-    public void onRender() {
-        Sorus.getSorus().getGUIManager().getRenderer().drawItem(this.iItemStack, this.absoluteX(), this.absoluteY(), this.absoluteColor());
-    }
+  @Override
+  public void onRender() {
+    Sorus.getSorus()
+        .getGUIManager()
+        .getRenderer()
+        .drawItem(this.iItemStack, this.absoluteX(), this.absoluteY(), this.absoluteColor());
+  }
 
-    public <T extends Item> T itemStack(IItemStack iItemStack) {
-        this.iItemStack = iItemStack;
-        return this.cast();
-    }
-
+  public <T extends Item> T itemStack(IItemStack iItemStack) {
+    this.iItemStack = iItemStack;
+    return this.cast();
+  }
 }

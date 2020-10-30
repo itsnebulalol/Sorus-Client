@@ -187,5 +187,4 @@ public interface IScreenRenderer {
       Color color);
 
   void drawItem(IItemStack itemStack, double x, double y, Color color);
-
 }

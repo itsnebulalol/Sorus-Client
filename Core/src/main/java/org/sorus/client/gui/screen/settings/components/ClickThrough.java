@@ -91,9 +91,7 @@ public class ClickThrough extends Configurable {
     public ClickThroughInner() {
       this.add(new Rectangle().size(250, 40).color(DefaultTheme.getMedforegroundLayerColor()));
       this.add(
-          new HollowRectangle()
-              .size(250, 40)
-              .color(DefaultTheme.getForegroundLessLayerColor()));
+          new HollowRectangle().size(250, 40).color(DefaultTheme.getForegroundLessLayerColor()));
       this.add(new Rectangle().size(1, 38).position(40, 1).color(new Color(235, 235, 235, 210)));
       this.add(new Rectangle().size(1, 38).position(209, 1).color(new Color(235, 235, 235, 210)));
       this.add(
@@ -124,7 +122,8 @@ public class ClickThrough extends Configurable {
     @Override
     public void onRender() {
       currentText.text(ClickThrough.this.options.get((int) ClickThrough.this.value));
-      currentText.position(125 - currentText.width() / 2 * 3, 20 - currentText.height() / 2 * 3 + 1);
+      currentText.position(
+          125 - currentText.width() / 2 * 3, 20 - currentText.height() / 2 * 3 + 1);
       long renderTime = System.currentTimeMillis();
       long deltaTime = renderTime - prevRenderTime;
       double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
