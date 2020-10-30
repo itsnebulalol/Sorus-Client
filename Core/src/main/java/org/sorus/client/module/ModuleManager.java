@@ -29,6 +29,7 @@ import java.util.List;
 import org.sorus.client.module.impl.blockoverlay.BlockOverlay;
 import org.sorus.client.module.impl.challenges.Challenges;
 import org.sorus.client.module.impl.chatmacros.ChatMacros;
+import org.sorus.client.module.impl.customcrosshair.CustomCrosshair;
 import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
@@ -62,6 +63,7 @@ public class ModuleManager {
     this.register(new BlockOverlay());
     this.register(new Challenges());
     this.register(new ChatMacros());
+    this.register(new CustomCrosshair());
     this.register(new DiscordRP());
     this.register(new Enhancements());
     this.register(new ItemPhysics());
