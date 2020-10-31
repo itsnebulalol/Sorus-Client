@@ -113,15 +113,17 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
       }
     }
     IScreenRenderer renderer = Sorus.getSorus().getGUIManager().getRenderer();
+    double scaledWidth = hud.getScaledWidth();
+    double scaledHeight = hud.getScaledHeight();
     renderer.drawRect(
-        hudLeft, hudTop, hud.getScaledWidth(), hud.getScaledHeight(), backgroundColor);
+        hudLeft, hudTop, scaledWidth, scaledHeight, backgroundColor);
     renderer.drawHollowRect(
-        hudLeft, hudTop, hud.getScaledWidth(), hud.getScaledHeight(), 0.5, borderColor);
+        hudLeft, hudTop, scaledWidth, scaledHeight, 0.5, borderColor);
     for (int i = 0; i < 2; i++) {
       for (int j = 0; j < 2; j++) {
         renderer.drawRect(
-            hudLeft + i * hud.getScaledWidth() - 1.5,
-            hudTop + j * hud.getScaledHeight() - 1.5,
+            hudLeft + i * scaledWidth - 1.5,
+            hudTop + j * scaledHeight - 1.5,
             3,
             3,
             resizeBoxesColor);
