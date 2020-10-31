@@ -84,6 +84,7 @@ public class Version implements IVersion {
         return game;
     }
 
+
     /**
      * Gets the {@link IInput} which helps receive input from the user.
      * @return the input

@@ -65,33 +65,29 @@ public class SettingsManager {
   }
 
   public void load() {
-    new Thread(
-            () -> {
-              File sorus = new File("sorus");
-              File settings = new File(sorus, "settings");
-              settings.mkdirs();
-              for (ISettingHolder setting : SettingsManager.this.settings) {
-                File file =
-                    new File(
-                        settings,
-                        setting.getSettingsName().toLowerCase().replace(" ", "_") + ".set");
-                if (!file.exists()) {
-                  continue;
-                }
-                try {
-                  Scanner scanner = new Scanner(file);
-                  StringBuilder text = new StringBuilder();
-                  while (scanner.hasNextLine()) {
-                    text.append(scanner.nextLine());
-                  }
-
-                  Object loadedSettings = JsonReader.jsonToJava(text.toString());
-                  setting.setSettings(loadedSettings);
-                } catch (FileNotFoundException e) {
-                  e.printStackTrace();
-                }
+      File sorus = new File("sorus");
+      File settings = new File(sorus, "settings");
+      settings.mkdirs();
+      for (ISettingHolder setting : SettingsManager.this.settings) {
+          File file =
+                  new File(
+                          settings,
+                          setting.getSettingsName().toLowerCase().replace(" ", "_") + ".set");
+          if (!file.exists()) {
+              continue;
+          }
+          try {
+              Scanner scanner = new Scanner(file);
+              StringBuilder text = new StringBuilder();
+              while (scanner.hasNextLine()) {
+                  text.append(scanner.nextLine());
               }
-            })
-        .start();
+
+              Object loadedSettings = JsonReader.jsonToJava(text.toString());
+              setting.setSettings(loadedSettings);
+          } catch (FileNotFoundException e) {
+              e.printStackTrace();
+          }
+      }
   }
 }

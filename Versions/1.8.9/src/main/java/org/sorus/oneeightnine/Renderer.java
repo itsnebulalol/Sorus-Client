@@ -87,7 +87,6 @@ public class Renderer implements IRenderer {
         worldRenderer.pos(x, y, 0).color(topLeftColor.getRed() / 255F, topLeftColor.getGreen() / 255F, topLeftColor.getBlue() / 255F, topLeftColor.getAlpha() / 255F).endVertex();
         tessellator.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
     }
 
     /**
@@ -147,7 +146,6 @@ public class Renderer implements IRenderer {
         GL11.glEnd();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
         GL11.glLineWidth(1);
     }
 
@@ -170,7 +168,6 @@ public class Renderer implements IRenderer {
         GL11.glTranslated(x, y, 0);
         GL11.glScaled(xScale, yScale, 1);
         this.getFontRenderer(fontLocation).drawString(string, 0, 0, color.getRGB(), shadow);
-        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 
@@ -222,7 +219,6 @@ public class Renderer implements IRenderer {
         GL11.glScaled(width / (int) width, height / (int) height, 1);
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, (int) width, (int) height, (int) width, (int) height);
-        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 
@@ -262,7 +258,6 @@ public class Renderer implements IRenderer {
         GL11.glTranslated(x, y, 0);
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(((ItemStackImpl) itemStack).getItemStack(), 0, 0);
-        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 

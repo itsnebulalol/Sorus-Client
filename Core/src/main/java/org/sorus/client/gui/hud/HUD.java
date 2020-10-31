@@ -77,9 +77,7 @@ public class HUD implements ISettingHolder {
     IGLHelper glHelper = Sorus.getSorus().getVersion().getGLHelper();
     glHelper.translate(x, y, 0);
     double scale = this.scale.getValue();
-    double xScale = scale * Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 480;
-    double yScale = scale * Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 264.25;
-    glHelper.scale(xScale, yScale, 1);
+    glHelper.scale(scale, scale, 1);
     glHelper.translate(-x, -y, 0);
     double yOffset = 0;
     for (IComponent component : this.components.getValue()) {
@@ -87,7 +85,7 @@ public class HUD implements ISettingHolder {
       yOffset += component.getHeight();
     }
     glHelper.translate(x, y, 0);
-    glHelper.scale(1 / xScale, 1 / yScale, 1);
+    glHelper.scale(1 / scale, 1 / scale, 1);
     glHelper.translate(-x, -y, 0);
   }
 
@@ -99,14 +97,14 @@ public class HUD implements ISettingHolder {
   public double getX() {
     return this.position
         .getValue()
-        .getX(Sorus.getSorus().getVersion().getScreen().getScaledWidth());
+        .getX(this, Sorus.getSorus().getVersion().getScreen().getScaledWidth());
   }
 
   /** Sets the x position of the hud. */
   public void setX(double x) {
     this.position
         .getValue()
-        .setX(x, Sorus.getSorus().getVersion().getScreen().getScaledWidth());
+        .setX(this, x, Sorus.getSorus().getVersion().getScreen().getScaledWidth());
   }
 
   /**
@@ -117,14 +115,14 @@ public class HUD implements ISettingHolder {
   public double getY() {
     return this.position
         .getValue()
-        .getY(Sorus.getSorus().getVersion().getScreen().getScaledHeight());
+        .getY(this, Sorus.getSorus().getVersion().getScreen().getScaledHeight());
   }
 
   /** Sets the y position of the hud. */
   public void setY(double y) {
     this.position
         .getValue()
-        .setY(y, Sorus.getSorus().getVersion().getScreen().getScaledHeight());
+        .setY(this, y, Sorus.getSorus().getVersion().getScreen().getScaledHeight());
   }
 
   /**
@@ -160,7 +158,7 @@ public class HUD implements ISettingHolder {
    * @return the scaled width
    */
   public double getScaledWidth() {
-    return this.getWidth() * this.getScale() * Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 480;
+    return this.getWidth() * this.getScale();
   }
 
   /**
@@ -182,7 +180,7 @@ public class HUD implements ISettingHolder {
    * @return the scaled width
    */
   public double getScaledHeight() {
-    return this.getHeight() * this.getScale() * Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 264.25;
+    return this.getHeight() * this.getScale();
   }
 
   /**

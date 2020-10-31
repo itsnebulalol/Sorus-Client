@@ -52,6 +52,10 @@ public abstract class ModuleConfigurable extends Module
     this.settings.add(setting);
   }
 
+  protected void unregister(Setting<?> setting) {
+    this.settings.remove(setting);
+  }
+
   /** Overridable method called when the module is enabled. */
   public void onEnable() {}
 
@@ -124,13 +128,20 @@ public abstract class ModuleConfigurable extends Module
   @Override
   public void setSettings(Object settings) {
     Map<String, Object> settingsMap = (Map<String, Object>) settings;
-    for (Setting<Object> setting : (List<Setting<Object>>) (List) this.settings) {
+    boolean continuing = true;
+    int i = 0;
+    if (this.settings.size() == 0) {
+      continuing = false;
+    }
+    while (continuing) {
+      Setting<?> setting = this.settings.get(i);
       if (settingsMap.get(setting.getName()) != null) {
         setting.setValueIgnoreType(settingsMap.get(setting.getName()));
       }
-    }
-    if (this.enabled.getValue()) {
-      this.onEnable();
+      i++;
+      if (i == this.settings.size()) {
+        continuing = false;
+      }
     }
   }
 
