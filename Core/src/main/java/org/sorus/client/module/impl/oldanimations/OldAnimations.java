@@ -28,6 +28,7 @@ import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
 
 public class OldAnimations extends ModuleConfigurable {
@@ -63,5 +64,10 @@ public class OldAnimations extends ModuleConfigurable {
 
   public boolean shouldShowRedArmor() {
     return this.isEnabled() && redArmorFlashAttack.getValue();
+  }
+
+  @Override
+  public VersionDecision getVersions() {
+    return new VersionDecision.AllowCertain("1.8.9");
   }
 }

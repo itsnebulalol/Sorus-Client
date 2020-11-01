@@ -6,6 +6,7 @@ import org.sorus.client.event.impl.client.render.RenderObjectEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
 
 import java.util.ArrayList;
@@ -75,5 +76,10 @@ public class Crosshair extends ModuleConfigurable {
 
     public void renderCrosshair(double xCenter, double yCenter) {
         this.currentMode.render(xCenter, yCenter);
+    }
+
+    @Override
+    public VersionDecision getVersions() {
+        return new VersionDecision.Allow();
     }
 }

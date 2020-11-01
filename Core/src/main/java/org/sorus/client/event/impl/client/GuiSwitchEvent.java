@@ -40,7 +40,10 @@ public class GuiSwitchEvent extends Event {
 
   public enum Type {
     UNDEFINED,
-    NULL,
-    MAIN_MENU
+    NULL, BLANK,
+    MAIN_MENU,
+    INVENTORY,
+    INVENTORY_CREATIVE,
+    CRAFTING
   }
 }

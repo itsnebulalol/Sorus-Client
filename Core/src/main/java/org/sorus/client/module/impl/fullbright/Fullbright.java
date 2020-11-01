@@ -5,6 +5,7 @@ import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.Slider;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
 
 public class Fullbright extends ModuleConfigurable {
@@ -21,5 +22,10 @@ public class Fullbright extends ModuleConfigurable {
     @Override
     public void onDisable() {
         Sorus.getSorus().getVersion().getGame().toggleFullbright(false);
+    }
+
+    @Override
+    public VersionDecision getVersions() {
+        return new VersionDecision.Allow();
     }
 }

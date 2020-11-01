@@ -54,8 +54,12 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
   private final List<Double> ySnaps = new ArrayList<>();
 
   public DefaultHUDPositionScreen(HUDManager hudManager) {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur();
     this.huds = hudManager.getHUDs();
+  }
+
+  @Override
+  public void init() {
+    Sorus.getSorus().getVersion().getRenderer().enableBlur();
     main.add(new PositionScreenButton(this::onButtonClick, "S", 50, 50).position(935, 515));
   }
 

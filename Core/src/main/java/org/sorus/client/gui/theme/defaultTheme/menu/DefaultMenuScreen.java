@@ -35,6 +35,7 @@ import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
+import org.sorus.client.gui.screen.profilelist.ProfileListScreen;
 import org.sorus.client.gui.screen.theme.ThemeListScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
@@ -103,7 +104,7 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
     menu.add(new MenuComponent("Themes", null, ThemeListScreen.class).position(395, 90));
     menu.add(new MenuComponent("Settings", null, null).position(20, 282.5));
     menu.add(new MenuComponent("Plugins", null, null).position(207.5, 282.5));
-    menu.add(new MenuComponent("test", null, null).position(395, 282.5));
+    menu.add(new MenuComponent("Profiles", null, ProfileListScreen.class).position(395, 282.5));
     menu.add(new MenuComponent("test", null, null).position(20, 475));
     menu.add(new MenuComponent("test", null, null).position(207.5, 475));
     menu.add(new MenuComponent("test", null, null).position(395, 475));

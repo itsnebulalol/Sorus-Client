@@ -1,0 +1,18 @@
+{
+  "location": "org.sorus.oneseventen.injectors",
+  "injectors": [
+    "MinecraftInjector",
+    "GuiScreenInjector",
+    "EntityRendererInjector",
+    "GuiNewChatInjector",
+    "GuiIngameInjector",
+    "RenderGlobalInjector",
+    "FontRendererInjector",
+    "GuiInjector",
+    "itemphysics.RenderItemInjector",
+    "timechanger.WorldInjector",
+    "perspective.EntityRendererInjector",
+    "enhancements.InventoryEffectRendererInjector",
+    "enhancements.ItemRendererInjector"
+  ]
+}

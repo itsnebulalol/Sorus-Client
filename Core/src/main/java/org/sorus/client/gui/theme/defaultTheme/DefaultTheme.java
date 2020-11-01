@@ -26,6 +26,7 @@ package org.sorus.client.gui.theme.defaultTheme;
 
 import java.awt.*;
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.screen.profilelist.ProfileListScreen;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.defaultTheme.hudconfig.DefaultHUDConfigScreen;
@@ -33,6 +34,7 @@ import org.sorus.client.gui.theme.defaultTheme.hudlist.DefaultHUDListScreen;
 import org.sorus.client.gui.theme.defaultTheme.menu.DefaultMenuScreen;
 import org.sorus.client.gui.theme.defaultTheme.modulelist.DefaultModuleListScreen;
 import org.sorus.client.gui.theme.defaultTheme.positionscreen.DefaultHUDPositionScreen;
+import org.sorus.client.gui.theme.defaultTheme.profilelist.DefaultProfileListScreen;
 import org.sorus.client.gui.theme.defaultTheme.theme.DefaultSelectThemeScreen;
 import org.sorus.client.gui.theme.defaultTheme.theme.DefaultThemeListScreen;
 import org.sorus.client.settings.Setting;
@@ -62,6 +64,7 @@ public class DefaultTheme extends Theme {
     this.register("component-select", DefaultSelectComponentScreen.class);
     this.register("theme-list", DefaultThemeListScreen.class);
     this.register("theme-select", DefaultSelectThemeScreen.class);
+    this.register("profile-list", DefaultProfileListScreen.class);
     this.register(
         backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
     this.register(

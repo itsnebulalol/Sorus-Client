@@ -122,13 +122,11 @@ public class Game implements IGame {
     }
     
     @Override
-    public boolean toggleFullbright(boolean type) {
-        if(type == true) {
+    public void toggleFullbright(boolean type) {
+        if(type) {
             Minecraft.getMinecraft().gameSettings.gammaSetting = 100.0F;
-            return true;
-        } else if(type == false) {
+        } else {
             Minecraft.getMinecraft().gameSettings.gammaSetting = 0.0F;
         }
-        return false;
     }
 }

@@ -25,7 +25,7 @@
 package org.sorus.client.module;
 
 /** The base class for all modules, all modules will extend this class in some way. */
-public class Module {
+public abstract class Module {
 
   private final String name;
 
@@ -39,4 +39,7 @@ public class Module {
   public String getName() {
     return name;
   }
+
+  public abstract VersionDecision getVersions();
+
 }

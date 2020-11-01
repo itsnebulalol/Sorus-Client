@@ -60,6 +60,6 @@ public interface IGame {
 
   IItemManager getItemManager();
   
-  boolean toggleFullbright(boolean type);
+  void toggleFullbright(boolean type);
 
 }

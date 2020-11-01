@@ -27,6 +27,7 @@ package org.sorus.client.module.impl.timechanger;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
 
 public class TimeChanger extends ModuleConfigurable {
@@ -61,5 +62,10 @@ public class TimeChanger extends ModuleConfigurable {
   @Override
   public String getDescription() {
     return "Change the sky to any time you want.";
+  }
+
+  @Override
+  public VersionDecision getVersions() {
+    return new VersionDecision.Allow();
   }
 }

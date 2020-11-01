@@ -27,6 +27,9 @@ package org.sorus.oneeightnine.injectors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
+import net.minecraft.client.gui.inventory.GuiCrafting;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.sorus.client.Sorus;
@@ -39,6 +42,7 @@ import org.sorus.client.startup.injection.Hook;
 import org.sorus.client.startup.injection.Injector;
 import org.sorus.client.startup.injection.inject.At;
 import org.sorus.client.startup.injection.inject.Inject;
+import org.sorus.oneeightnine.GuiBlank;
 import org.sorus.oneeightnine.util.input.InputMap;
 import org.sorus.oneeightnine.util.input.MouseHandler;
 
@@ -95,8 +99,16 @@ public class MinecraftInjector extends Injector<Minecraft> {
         GuiScreen guiScreen = that.currentScreen;
         if(guiScreen == null) {
             type = GuiSwitchEvent.Type.NULL;
-        } else if(guiScreen instanceof GuiMainMenu) {
+        } else if(guiScreen.getClass().equals(GuiMainMenu.class)) {
             type = GuiSwitchEvent.Type.MAIN_MENU;
+        } else if(guiScreen.getClass().equals(GuiInventory.class)) {
+            type = GuiSwitchEvent.Type.INVENTORY;
+        } else if(guiScreen.getClass().equals(GuiContainerCreative.class)) {
+            type = GuiSwitchEvent.Type.INVENTORY_CREATIVE;
+        } else if(guiScreen.getClass().equals(GuiCrafting.class)) {
+            type = GuiSwitchEvent.Type.CRAFTING;
+        } else if(guiScreen.getClass().equals(GuiBlank.class)) {
+            type = GuiSwitchEvent.Type.BLANK;
         }
         Sorus.getSorus().getEventManager().post(new GuiSwitchEvent(type));
     }

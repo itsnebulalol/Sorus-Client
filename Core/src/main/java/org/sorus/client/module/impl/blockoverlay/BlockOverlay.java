@@ -32,6 +32,7 @@ import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Slider;
 import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
 
 public class BlockOverlay extends ModuleConfigurable {
@@ -82,4 +83,10 @@ public class BlockOverlay extends ModuleConfigurable {
   public Color getColor() {
     return color.getValue();
   }
+
+  @Override
+  public VersionDecision getVersions() {
+    return new VersionDecision.Allow();
+  }
+
 }

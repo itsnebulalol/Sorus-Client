@@ -31,6 +31,7 @@ import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.input.Input;
 import org.sorus.client.version.input.Key;
@@ -61,5 +62,10 @@ public class ChatMacros extends ModuleConfigurable {
   @Override
   public void addConfigComponents(Collection collection) {
     collection.add(new MacrosSetting(macros));
+  }
+
+  @Override
+  public VersionDecision getVersions() {
+    return new VersionDecision.Allow();
   }
 }

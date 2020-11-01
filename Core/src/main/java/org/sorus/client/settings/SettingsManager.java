@@ -35,6 +35,7 @@ import java.util.*;
 public class SettingsManager {
 
   private final List<ISettingHolder> settings = new ArrayList<>();
+  private String currentProfile = "default";
 
   public void register(ISettingHolder settingHolder) {
     this.settings.add(settingHolder);
@@ -45,11 +46,12 @@ public class SettingsManager {
             () -> {
               File sorus = new File("sorus");
               File settings = new File(sorus, "settings");
-              settings.mkdirs();
+              File profile = new File(settings, currentProfile);
+              profile.mkdirs();
               for (ISettingHolder setting : SettingsManager.this.settings) {
                 File file =
                     new File(
-                        settings,
+                        profile,
                         setting.getSettingsName().toLowerCase().replace(" ", "_") + ".set");
                 try {
                   FileWriter fileWriter = new FileWriter(file);
@@ -64,14 +66,16 @@ public class SettingsManager {
         .start();
   }
 
-  public void load() {
+  public void load(String profileName) {
+      this.currentProfile = profileName;
       File sorus = new File("sorus");
       File settings = new File(sorus, "settings");
-      settings.mkdirs();
+      File profile = new File(settings, currentProfile);
+      profile.mkdirs();
       for (ISettingHolder setting : SettingsManager.this.settings) {
           File file =
                   new File(
-                          settings,
+                          profile,
                           setting.getSettingsName().toLowerCase().replace(" ", "_") + ".set");
           if (!file.exists()) {
               continue;
@@ -90,4 +94,8 @@ public class SettingsManager {
           }
       }
   }
+
+    public String getCurrentProfile() {
+        return currentProfile;
+    }
 }

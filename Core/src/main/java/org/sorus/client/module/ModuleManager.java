@@ -34,6 +34,7 @@ import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
 import org.sorus.client.module.impl.fullbright.Fullbright;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
+import org.sorus.client.module.impl.mousedelayfix.MouseDelayFix;
 import org.sorus.client.module.impl.music.Music;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
 import org.sorus.client.module.impl.perspective.Perspective;
@@ -69,6 +70,7 @@ public class ModuleManager {
     this.register(new Enhancements());
     this.register(new Fullbright());
     this.register(new ItemPhysics());
+    this.register(new MouseDelayFix());
     this.register(new Music());
     this.register(new OldAnimations());
     this.register(new Perspective());
