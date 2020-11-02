@@ -61,7 +61,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur();
+    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
@@ -109,7 +109,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
         new ExitButton(
                 () -> {
                   Sorus.getSorus().getGUIManager().close(this.screen);
-                  Sorus.getSorus().getGUIManager().open(new MenuScreen());
+                  Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
                 })
             .position(10, 10));
     menu.add(new Add().position(320, 705));

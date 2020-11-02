@@ -140,7 +140,7 @@ public interface IRenderer {
       double textureHeight,
       Color color);
 
-  void enableBlur();
+  void enableBlur(double amount);
 
   void disableBlur();
 

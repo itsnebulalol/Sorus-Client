@@ -98,7 +98,7 @@ public class HUDManager implements ISettingHolder {
     if (Sorus.getSorus().getVersion().getGame().isIngame()
         && e.getKey() == Key.SHIFT_RIGHT
         && !e.isRepeat()) {
-      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen());
+      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(true));
     }
   }
 

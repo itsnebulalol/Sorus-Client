@@ -64,7 +64,7 @@ public class Enhancements extends ModuleConfigurable {
       case INVENTORY:
       case INVENTORY_CREATIVE:
       case CRAFTING:
-        Sorus.getSorus().getVersion().getRenderer().enableBlur();
+        Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
         blurring = true;
         break;
       default:

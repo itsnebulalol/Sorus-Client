@@ -37,6 +37,7 @@ import org.sorus.client.version.game.IItemStack;
 import org.sorus.client.version.render.IRenderer;
 import org.sorus.client.version.IVersion;
 import org.sorus.client.version.render.ITTFFontRenderer;
+import org.sorus.oneseventen.shaders.BlurShader;
 
 import java.awt.*;
 import java.io.IOException;
@@ -219,20 +220,15 @@ public class Renderer implements IRenderer {
     }
 
     @Override
-    public void enableBlur() {
-        /*try {
-            String methodName = ObfuscationManager.getMethodName("net/minecraft/client/renderer/EntityRenderer", "loadShader", "(Lnet/minecraft/util/ResourceLocation;)V");
-            Method m = EntityRenderer.class.getDeclaredMethod(methodName, ResourceLocation.class);
-            m.setAccessible(true);
-            m.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("blur.json"));
-        } catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }*/
+    public void enableBlur(double amount) {
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.entityRenderer.theShaderGroup = new BlurShader(amount);
+        mc.entityRenderer.theShaderGroup.createBindFramebuffers(mc.displayWidth, mc.displayHeight);
     }
 
     @Override
     public void disableBlur() {
-        //Minecraft.getMinecraft().entityRenderer.loadEntityShader(null);
+        Minecraft.getMinecraft().entityRenderer.deactivateShader();
     }
 
     @Override

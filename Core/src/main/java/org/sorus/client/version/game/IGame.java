@@ -59,7 +59,5 @@ public interface IGame {
   int getPing();
 
   IItemManager getItemManager();
-  
-  void toggleFullbright(boolean type);
 
 }

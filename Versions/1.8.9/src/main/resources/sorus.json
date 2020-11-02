@@ -17,6 +17,7 @@
     "itemphysics.RenderEntityItemInjector",
     "perspective.EntityRendererInjector",
     "enhancements.InventoryEffectRendererInjector",
-    "enhancements.ItemRendererInjector"
+    "enhancements.ItemRendererInjector",
+    "fullbright.EntityRendererInjector"
   ]
 }

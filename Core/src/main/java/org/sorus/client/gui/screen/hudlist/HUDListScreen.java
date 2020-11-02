@@ -25,6 +25,7 @@
 package org.sorus.client.gui.screen.hudlist;
 
 import org.sorus.client.Sorus;
+import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.ThemeableScreen;
 
 public class HUDListScreen extends ThemeableScreen {

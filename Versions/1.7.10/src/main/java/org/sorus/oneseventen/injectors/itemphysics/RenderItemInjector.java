@@ -44,9 +44,6 @@ public class RenderItemInjector extends Injector<RenderItem> {
 
     @Modify(name = "doRender", desc = "(Lnet/minecraft/entity/item/EntityItem;DDDFF)V")
     public static void transformDoRender(MethodNode methodNode) {
-        for(LocalVariableNode node : (List<LocalVariableNode>) methodNode.localVariables) {
-            System.out.println(node.name + " " + node.index);
-        }
         for(AbstractInsnNode node : methodNode.instructions.toArray()) {
             if(node instanceof MethodInsnNode && ((MethodInsnNode) node).name.equals("glTranslatef")) {
                 InsnList insnList = new InsnList();

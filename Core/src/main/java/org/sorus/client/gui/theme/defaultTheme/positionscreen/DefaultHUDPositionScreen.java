@@ -53,14 +53,19 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
   private final List<Double> xSnaps = new ArrayList<>();
   private final List<Double> ySnaps = new ArrayList<>();
 
-  public DefaultHUDPositionScreen(HUDManager hudManager) {
+  private long initTime;
+
+  private final boolean fadeIn;
+
+  public DefaultHUDPositionScreen(HUDManager hudManager, boolean fadeIn) {
     this.huds = hudManager.getHUDs();
+    this.fadeIn = fadeIn;
   }
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur();
-    main.add(new PositionScreenButton(this::onButtonClick, "S", 50, 50).position(935, 515));
+    initTime = fadeIn ? System.currentTimeMillis() : System.currentTimeMillis() - 1000;
+    main.add(new SettingsButton(this::onButtonClick).position(935, 515));
   }
 
   @Override
@@ -73,7 +78,10 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     main.scale(
         Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
         Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
-    this.main.onRender();
+    double fadeInPercent = Math.min((System.currentTimeMillis() - initTime) / 150.0, 1);
+    this.main.color(new Color(255, 255, 255, (int) (fadeInPercent * 255))).onRender();
+    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getRenderer().enableBlur(Math.round(fadeInPercent * 7.5 * 2.0) / 2.0);
   }
 
   @Override
@@ -106,10 +114,10 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
       double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
       double hudRight = hud.getRight();
       double hudBottom = hud.getBottom();
-      if (this.distance(mouseX, mouseY, hudRight, hudTop) < 3
-          || this.distance(mouseX, mouseY, hudLeft, hudTop) < 3
-          || this.distance(mouseX, mouseY, hudLeft, hudBottom) < 3
-          || this.distance(mouseX, mouseY, hudRight, hudBottom) < 3) {
+      if (this.distance(mouseX, mouseY, hudRight, hudTop) < 2.5
+          || this.distance(mouseX, mouseY, hudLeft, hudTop) < 2.5
+          || this.distance(mouseX, mouseY, hudLeft, hudBottom) < 2.5
+          || this.distance(mouseX, mouseY, hudRight, hudBottom) < 2.5) {
         resizeBoxesColor = new Color(255, 255, 255, 120);
       } else if (mouseX > hudLeft && mouseX < hudRight && mouseY > hudTop && mouseY < hudBottom) {
         backgroundColor = new Color(255, 255, 255, 60);
@@ -126,10 +134,10 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     for (int i = 0; i < 2; i++) {
       for (int j = 0; j < 2; j++) {
         renderer.drawRect(
-            hudLeft + i * scaledWidth - 1.5,
-            hudTop + j * scaledHeight - 1.5,
-            3,
-            3,
+            hudLeft + i * scaledWidth - 1.25,
+            hudTop + j * scaledHeight - 1.25,
+            2.5,
+            2.5,
             resizeBoxesColor);
       }
     }
@@ -410,13 +418,13 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
       double top = hud.getTop();
       double bottom = hud.getBottom();
       SelectedHUDState.InteractType interactType = null;
-      if (this.distance(x, y, right, top) < 3) {
+      if (this.distance(x, y, right, top) < 2.5) {
         interactType = SelectedHUDState.InteractType.RESIZE_RIGHT;
-      } else if (this.distance(x, y, left, top) < 3) {
+      } else if (this.distance(x, y, left, top) < 2.5) {
         interactType = SelectedHUDState.InteractType.RESIZE_LEFT;
-      } else if (this.distance(x, y, left, bottom) < 3) {
+      } else if (this.distance(x, y, left, bottom) < 2.5) {
         interactType = SelectedHUDState.InteractType.RESIZE_LEFT;
-      } else if (this.distance(x, y, right, bottom) < 3) {
+      } else if (this.distance(x, y, right, bottom) < 2.5) {
         interactType = SelectedHUDState.InteractType.RESIZE_RIGHT;
       } else if (x > left && x < right && y > top && y < bottom) {
         interactType = SelectedHUDState.InteractType.DRAG;
@@ -461,6 +469,6 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
 
   private void onButtonClick() {
     Sorus.getSorus().getGUIManager().close(DefaultHUDPositionScreen.this.screen);
-    Sorus.getSorus().getGUIManager().open(new MenuScreen());
+    Sorus.getSorus().getGUIManager().open(new MenuScreen(true));
   }
 }

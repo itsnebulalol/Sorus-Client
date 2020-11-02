@@ -41,18 +41,7 @@ public class EntityRendererInjector extends Injector<EntityRenderer> {
 
     @Modify(name = "updateCameraAndRender", desc = "(F)V")
     public static void transformUpdateCameraAndRender(MethodNode methodNode) {
-        int i = 0;
         for(AbstractInsnNode node : methodNode.instructions.toArray()) {
-            if(i < 305) {
-                System.out.println(node);
-                if(node instanceof VarInsnNode) {
-                    System.out.println(node.getOpcode());
-                }
-                if(node instanceof LdcInsnNode) {
-                    System.out.println(((LdcInsnNode) node).cst);
-                }
-                i++;
-            }
             if(node.getOpcode() == Opcodes.IFEQ && node.getPrevious() instanceof VarInsnNode && node.getPrevious().getOpcode() == Opcodes.ILOAD) {
                 InsnList insnList = new InsnList();
                 insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, EntityRendererHook.class.getCanonicalName().replace(".", "/"), "overrideMouse", "()Z", false));

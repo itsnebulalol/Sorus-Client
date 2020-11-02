@@ -22,35 +22,15 @@
  * SOFTWARE.
  */
 
-package org.sorus.oneeightnine.injectors;
+package org.sorus.oneeightnine.injectors.fullbright;
 
-import net.minecraft.client.renderer.EntityRenderer;
-import org.lwjgl.opengl.GL11;
 import org.sorus.client.Sorus;
-import org.sorus.client.event.impl.client.render.Render2DEvent;
-import org.sorus.client.startup.injection.Hook;
-import org.sorus.client.startup.injection.Injector;
-import org.sorus.client.startup.injection.inject.At;
-import org.sorus.client.startup.injection.inject.Inject;
+import org.sorus.client.module.impl.fullbright.Fullbright;
 
-/**
- * Injector for the EntityRenderer class (mcp mappings).
- */
-@Hook("net/minecraft/client/renderer/EntityRenderer")
-public class EntityRendererInjector extends Injector<EntityRenderer> {
+public class EntityRendererHook {
 
-    public EntityRendererInjector(EntityRenderer that) {
-        super(that);
-    }
-
-    /**
-     * Calls the {@link Render2DEvent} at the end of the method.
-     */
-    @Inject(name = "updateCameraAndRender", desc = "(FJ)V", at = @At(value = "RETURN"))
-    public void updateCameraAndRender() {
-        Sorus.getSorus().getEventManager().post(new Render2DEvent());
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+    public static float getBrightness(float initial) {
+        return Sorus.getSorus().getModuleManager().getModule(Fullbright.class).isEnabled() ? 100 : initial;
     }
 
 }

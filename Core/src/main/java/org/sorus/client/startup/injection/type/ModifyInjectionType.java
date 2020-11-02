@@ -61,7 +61,6 @@ public class ModifyInjectionType implements IMethodInjectionType<Modify> {
       if (methodNode.name.equals(name) && methodNode.desc.equals(desc)) {
         method.setAccessible(true);
         try {
-          System.out.println(method);
           method.invoke(null, methodNode);
         } catch (IllegalAccessException | InvocationTargetException e) {
           e.printStackTrace();

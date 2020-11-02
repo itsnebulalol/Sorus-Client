@@ -30,41 +30,25 @@ import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.HollowRectangle;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
 
-public class PositionScreenButton extends Collection {
+public class SettingsButton extends Collection {
 
   private final Runnable runnable;
-  private final double width, height;
   private final Collection main;
 
   private long prevRenderTime;
   private double expandedPercent;
 
-  public PositionScreenButton(Runnable runnable, String textIn, double width, double height) {
+  public SettingsButton(Runnable runnable) {
     this.runnable = runnable;
-    this.width = width;
-    this.height = height;
     this.add(main = new Collection());
-    main.add(new Rectangle().smooth(5).size(width, height).color(new Color(20, 20, 20, 200)));
-    main.add(
-        new HollowRectangle()
-            .thickness(2)
-            .smooth(5)
-            .size(width, height)
-            .color(new Color(235, 235, 235, 210)));
-    Text text;
-    main.add(
-        text =
-            new Text()
-                .fontRenderer(
-                    Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
-                .text(textIn)
-                .scale(4, 4)
-                .color(new Color(235, 235, 235, 210)));
-    text.position(width / 2 - text.width() / 2 * 4, height / 2 - text.height() / 2 * 4);
+    main.add(new Rectangle().smooth(5).size(50, 50).color(DefaultTheme.getMedgroundLayerColor()));
+    main.add(new Image().resource("sorus/gear.png").size(40, 40).position(5, 5).color(DefaultTheme.getForegroundLayerColor()));
     Sorus.getSorus().getEventManager().register(this);
   }
 
@@ -78,7 +62,7 @@ public class PositionScreenButton extends Collection {
             Sorus.getSorus().getVersion().getInput().getMouseY());
     expandedPercent = MathUtil.clamp(expandedPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
     main.scale(1 + 0.05 * expandedPercent, 1 + 0.05 * expandedPercent)
-        .position(-0.02 * width * expandedPercent, -0.02 * height * expandedPercent);
+        .position(-0.02 * 50 * expandedPercent, -0.02 * 50 * expandedPercent);
     prevRenderTime = renderTime;
     super.onRender();
   }
@@ -98,8 +82,8 @@ public class PositionScreenButton extends Collection {
 
   private boolean isHovered(double x, double y) {
     return x > this.absoluteX()
-        && x < this.absoluteX() + width * this.absoluteXScale()
+        && x < this.absoluteX() + 50 * this.absoluteXScale()
         && y > this.absoluteY()
-        && y < this.absoluteY() + height * this.absoluteYScale();
+        && y < this.absoluteY() + 50 * this.absoluteYScale();
   }
 }

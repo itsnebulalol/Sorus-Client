@@ -29,11 +29,11 @@ import org.sorus.client.gui.core.ThemeableScreen;
 
 public class HUDPositionScreen extends ThemeableScreen {
 
-  public HUDPositionScreen() {
+  public HUDPositionScreen(boolean performOpenAnimation) {
     super(
         Sorus.getSorus()
             .getThemeManager()
-            .getTheme("hud-position", Sorus.getSorus().getHUDManager()));
+            .getTheme("hud-position", Sorus.getSorus().getHUDManager(), performOpenAnimation));
   }
 
   @Override
