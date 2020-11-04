@@ -31,6 +31,7 @@ import org.sorus.client.event.impl.client.input.KeyReleaseEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.Keybind;
 import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.game.PerspectiveMode;
 import org.sorus.client.version.input.Input;
@@ -52,6 +53,11 @@ public class Perspective extends ModuleConfigurable {
   @Override
   public void onLoad() {
     Sorus.getSorus().getEventManager().register(this);
+  }
+
+  @Override
+  public VersionDecision getVersions() {
+    return new VersionDecision.Allow();
   }
 
   @EventInvoked

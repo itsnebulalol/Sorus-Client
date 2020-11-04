@@ -85,7 +85,6 @@ public class HUDPosition {
 
   /** Returns the absolute y of the hud for the given screen width. */
   public double getY(HUD hud, double screenHeight) {
-    return (this.y - (this.offsetY * hud.getHeight() * hud.getScale()) / screenHeight)
-        * screenHeight;
+    return (this.y - (this.offsetY * hud.getHeight() * hud.getScale()) / screenHeight) * screenHeight;
   }
 }

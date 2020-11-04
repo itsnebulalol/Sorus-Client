@@ -98,7 +98,7 @@ public class Sorus {
     this.getHUDManager().initialize();
     this.getGUIManager().open(new HUDRenderScreen(this.getHUDManager()));
     this.getPluginManager().initialize(args.get("plugins"));
-    this.getSettingsManager().load();
+    this.getSettingsManager().load("default");
     this.getEventManager().register(this);
   }
 

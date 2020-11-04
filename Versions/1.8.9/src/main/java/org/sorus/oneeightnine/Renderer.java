@@ -33,8 +33,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.SlickException;
@@ -43,11 +42,11 @@ import org.sorus.client.version.game.IItemStack;
 import org.sorus.client.version.render.IRenderer;
 import org.sorus.client.version.IVersion;
 import org.sorus.client.version.render.ITTFFontRenderer;
+import org.sorus.oneeightnine.shaders.BlurShader;
 
 import java.awt.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,8 +59,21 @@ public class Renderer implements IRenderer {
 
     private final IVersion version;
 
+    private Field theShaderGroup;
+    private Field useShader;
+
     public Renderer(IVersion version) {
         this.version = version;
+        try {
+            String theShaderGroupName = ObfuscationManager.getFieldName("net/minecraft/client/renderer/EntityRenderer", "theShaderGroup");
+            theShaderGroup = EntityRenderer.class.getDeclaredField(theShaderGroupName);
+            theShaderGroup.setAccessible(true);
+            String useShaderName = ObfuscationManager.getFieldName("net/minecraft/client/renderer/EntityRenderer", "useShader");
+            useShader = EntityRenderer.class.getDeclaredField(useShaderName);
+            useShader.setAccessible(true);
+        } catch(NoSuchFieldException e) {
+            e.printStackTrace();;
+        }
     }
 
     /**
@@ -115,6 +127,7 @@ public class Renderer implements IRenderer {
         }
         GL11.glEnd();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     /**
@@ -170,8 +183,9 @@ public class Renderer implements IRenderer {
         GL11.glTranslated(x, y, 0);
         GL11.glScaled(xScale, yScale, 1);
         this.getFontRenderer(fontLocation).drawString(string, 0, 0, color.getRGB(), shadow);
-        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     /**
@@ -222,25 +236,27 @@ public class Renderer implements IRenderer {
         GL11.glScaled(width / (int) width, height / (int) height, 1);
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, (int) width, (int) height, (int) width, (int) height);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 
     @Override
-    public void enableBlur() {
+    public void enableBlur(double amount) {
+        Minecraft mc = Minecraft.getMinecraft();
         try {
-            String methodName = ObfuscationManager.getMethodName("net/minecraft/client/renderer/EntityRenderer", "loadShader", "(Lnet/minecraft/util/ResourceLocation;)V");
-            Method m = EntityRenderer.class.getDeclaredMethod(methodName, ResourceLocation.class);
-            m.setAccessible(true);
-            m.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("blur.json"));
-        } catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            ShaderGroup shaderGroup = new BlurShader(amount);
+            theShaderGroup.set(mc.entityRenderer, shaderGroup);
+            shaderGroup.createBindFramebuffers(mc.displayWidth, mc.displayHeight);
+            useShader.set(mc.entityRenderer, true);
+        } catch(IOException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void disableBlur() {
-        Minecraft.getMinecraft().entityRenderer.loadEntityShader(null);
+        Minecraft.getMinecraft().entityRenderer.stopUseShader();
     }
 
     @Override
@@ -262,6 +278,7 @@ public class Renderer implements IRenderer {
         GL11.glTranslated(x, y, 0);
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(((ItemStackImpl) itemStack).getItemStack(), 0, 0);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }

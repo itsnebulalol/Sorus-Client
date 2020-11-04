@@ -61,7 +61,7 @@ public class HUDManager implements ISettingHolder {
   /** Registers all the default available components. */
   public void registerInternalComponents() {
     this.registerComponent(ArmorStatusComponent.class);
-    this.registerComponent(ChatComponent.class);
+    //this.registerComponent(ChatComponent.class);
     this.registerComponent(CPSComponent.class);
     this.registerComponent(FPSComponent.class);
     this.registerComponent(GPSComponent.class);
@@ -98,7 +98,7 @@ public class HUDManager implements ISettingHolder {
     if (Sorus.getSorus().getVersion().getGame().isIngame()
         && e.getKey() == Key.SHIFT_RIGHT
         && !e.isRepeat()) {
-      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen());
+      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(true));
     }
   }
 

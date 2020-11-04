@@ -54,8 +54,6 @@ public class ArmorStatusComponent extends Component {
   private final Collection mainCollection;
   private final Rectangle background;
 
-  private List<IItemStack> prevArmor = new ArrayList<>();
-
   public ArmorStatusComponent() {
     super("ARMOR STATUS");
     this.register(rawDurability = new Setting<>("rawDurability", false));
@@ -85,9 +83,10 @@ public class ArmorStatusComponent extends Component {
         i++;
       }
     }
-    prevArmor = armor;
     this.modPanel.position(x, y);
-    this.modPanel.onRender();
+    if(this.mainCollection.getComponents().size() > 0) {
+      this.modPanel.onRender();
+    }
   }
 
   private boolean showArmor(IItemStack iItemStack) {

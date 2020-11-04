@@ -9,6 +9,7 @@ import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.GuiSwitchEvent;
 import org.sorus.client.module.ModuleConfigurable;
+import org.sorus.client.module.VersionDecision;
 
 public class DiscordRP extends ModuleConfigurable {
 
@@ -33,6 +34,11 @@ public class DiscordRP extends ModuleConfigurable {
                     client.close();
                   }
                 }));
+  }
+
+  @Override
+  public VersionDecision getVersions() {
+    return new VersionDecision.Allow();
   }
 
   @Override

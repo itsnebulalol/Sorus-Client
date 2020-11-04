@@ -40,14 +40,15 @@ public class MenuComponent extends Collection {
   private final Collection main;
   private final Text text;
   private final Collection symbol;
-  private final Class<? extends Screen> screenClass;
+  private final Runnable runnable;
 
   private double hoveredPercent;
 
-  public MenuComponent(String name, ILogoCreator logoCreator, Class<? extends Screen> screenClass) {
-    this.screenClass = screenClass;
+  public MenuComponent(String name, ILogoCreator logoCreator, Runnable runnable) {
+    this.runnable = runnable;
     this.add(main = new Collection());
-    main.add(new Rectangle().size(167.5, 172.5).color(DefaultTheme.getMedgroundLayerColor()));
+    //167.5 172.5
+    main.add(new Rectangle().size(206, 212).color(DefaultTheme.getMedgroundLayerColor()));
     main.add(
         new Rectangle()
             .gradient(
@@ -55,7 +56,7 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(167.5, 4)
+            .size(206, 4)
             .position(0, -4));
     main.add(
         new Rectangle()
@@ -65,7 +66,7 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(167.5, -4));
+            .position(206, -4));
     main.add(
         new Rectangle()
             .gradient(
@@ -73,8 +74,8 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor())
-            .size(4, 172.5)
-            .position(167.5, 0));
+            .size(4, 212)
+            .position(206, 0));
     main.add(
         new Rectangle()
             .gradient(
@@ -83,7 +84,7 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor())
             .size(4, 4)
-            .position(167.5, 172.5));
+            .position(206, 212));
     main.add(
         new Rectangle()
             .gradient(
@@ -91,8 +92,8 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor())
-            .size(167.5, 4)
-            .position(0, 172.5));
+            .size(206, 4)
+            .position(0, 212));
     main.add(
         new Rectangle()
             .gradient(
@@ -101,7 +102,7 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(-4, 172.5));
+            .position(-4, 212));
     main.add(
         new Rectangle()
             .gradient(
@@ -109,7 +110,7 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(4, 172.5)
+            .size(4, 121)
             .position(-4, 0));
     main.add(
         new Rectangle()
@@ -125,14 +126,14 @@ public class MenuComponent extends Collection {
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
             .text(name)
             .color(DefaultTheme.getForegroundLayerColor());
-    main.add(text.scale(3, 3).position(83.75 - text.width() * 3 / 2, 145));
+    main.add(text.scale(3, 3).position(103 - text.width() * 3 / 2, 175));
     main.add(symbol = new Collection());
     symbol.add(
         new Text()
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
             .text("?")
             .scale(12.5, 12.5)
-            .position(60, 10));
+            .position(80, 30));
     Sorus.getSorus().getEventManager().register(this);
   }
 
@@ -143,7 +144,7 @@ public class MenuComponent extends Collection {
             Sorus.getSorus().getVersion().getInput().getMouseX(),
             Sorus.getSorus().getVersion().getInput().getMouseY());
     hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.04, 0, 1);
-    main.position(-2.5 * hoveredPercent, -2.5 * hoveredPercent);
+    main.position(-2 * hoveredPercent, -2 * hoveredPercent);
     main.scale(1 + hoveredPercent * 0.025, 1 + hoveredPercent * 0.025);
     int color = (int) (215 + 40 * hoveredPercent);
     symbol.color(new Color(color, color, color));
@@ -159,19 +160,15 @@ public class MenuComponent extends Collection {
   public void onClick(MousePressEvent e) {
     if (this.isHovered(e.getX(), e.getY())) {
       Sorus.getSorus().getGUIManager().close((Screen) this.getContainer());
-      try {
-        Sorus.getSorus().getGUIManager().open(screenClass.newInstance());
-      } catch (InstantiationException | IllegalAccessException ex) {
-        ex.printStackTrace();
-      }
+      runnable.run();
     }
   }
 
   private boolean isHovered(double x, double y) {
     return x > this.absoluteX()
-        && x < this.absoluteX() + 167.5 * this.absoluteXScale()
+        && x < this.absoluteX() + 206 * this.absoluteXScale()
         && y > this.absoluteY()
-        && y < this.absoluteY() + 172.5 * this.absoluteYScale();
+        && y < this.absoluteY() + 212 * this.absoluteYScale();
   }
 
   public interface ILogoCreator {

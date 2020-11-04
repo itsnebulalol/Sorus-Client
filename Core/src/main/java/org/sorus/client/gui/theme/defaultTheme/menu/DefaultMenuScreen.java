@@ -35,6 +35,7 @@ import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
+import org.sorus.client.gui.screen.profilelist.ProfileListScreen;
 import org.sorus.client.gui.screen.theme.ThemeListScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
@@ -44,21 +45,28 @@ import org.sorus.client.version.input.Key;
 public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
 
   private Panel main;
+  private Collection menu;
+
+  private final boolean performOpenAnimation;
+  private long initTime;
+
+  public DefaultMenuScreen(boolean performOpenAnimation) {
+    this.performOpenAnimation = performOpenAnimation;
+  }
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur();
+    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
     main = new Panel();
-    Collection menu = new Collection().position(690, 200);
-    main.add(menu);
+    main.add(menu = new Collection());
     menu.add(
         new Rectangle()
             .smooth(5)
-            .size(580, 600)
+            .size(700, 720)
             .position(0, 70)
             .color(DefaultTheme.getBackgroundLayerColor()));
     menu.add(
-        new Rectangle().size(580, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(700, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Arc()
             .radius(5, 5)
@@ -69,10 +77,10 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
         new Arc()
             .radius(5, 5)
             .angle(90, 180)
-            .position(570, 0)
+            .position(690, 0)
             .color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
-        new Rectangle().size(570, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(690, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
@@ -80,7 +88,7 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor())
-            .size(580, 7)
+            .size(700, 7)
             .position(0, 70));
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
@@ -88,25 +96,26 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
         new Text()
             .fontRenderer(fontRenderer)
             .text("SORUS")
-            .position(290 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
+            .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
     menu.add(
         new ExitButton(
                 () -> {
                   Sorus.getSorus().getGUIManager().close(this.screen);
-                  Sorus.getSorus().getGUIManager().open(new HUDPositionScreen());
+                  Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(false));
                 })
             .position(10, 10));
-    menu.add(new MenuComponent("HUDs", null, HUDListScreen.class).position(20, 90));
-    menu.add(new MenuComponent("Modules", null, ModuleListScreen.class).position(207.5, 90));
-    menu.add(new MenuComponent("Themes", null, ThemeListScreen.class).position(395, 90));
-    menu.add(new MenuComponent("Settings", null, null).position(20, 282.5));
-    menu.add(new MenuComponent("Plugins", null, null).position(207.5, 282.5));
-    menu.add(new MenuComponent("test", null, null).position(395, 282.5));
-    menu.add(new MenuComponent("test", null, null).position(20, 475));
-    menu.add(new MenuComponent("test", null, null).position(207.5, 475));
-    menu.add(new MenuComponent("test", null, null).position(395, 475));
+    menu.add(new MenuComponent("HUDs", null, () -> Sorus.getSorus().getGUIManager().open(new HUDListScreen())).position(20, 90));
+    menu.add(new MenuComponent("Modules", null, () -> Sorus.getSorus().getGUIManager().open(new ModuleListScreen())).position(246, 90));
+    menu.add(new MenuComponent("Themes", null, () -> Sorus.getSorus().getGUIManager().open(new ThemeListScreen())).position(472, 90));
+    menu.add(new MenuComponent("Settings", null, null).position(20, 322));
+    menu.add(new MenuComponent("Plugins", null, null).position(246, 322));
+    menu.add(new MenuComponent("Profiles", null, () -> Sorus.getSorus().getGUIManager().open(new ProfileListScreen())).position(472, 322));
+    menu.add(new MenuComponent("test", null, null).position(20, 554));
+    menu.add(new MenuComponent("test", null, null).position(246, 554));
+    menu.add(new MenuComponent("test", null, null).position(472, 554));
+    initTime = performOpenAnimation ? System.currentTimeMillis() : System.currentTimeMillis() - 1000;
   }
 
   @Override
@@ -114,6 +123,8 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
     main.scale(
         Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
         Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+    double fadeInPercent = Math.min((System.currentTimeMillis() - initTime) / 150.0, 1);
+    this.menu.position(960 - 350 * fadeInPercent, 540 - 400 * fadeInPercent).scale(fadeInPercent, fadeInPercent);
     this.main.onRender(this.screen);
   }
 

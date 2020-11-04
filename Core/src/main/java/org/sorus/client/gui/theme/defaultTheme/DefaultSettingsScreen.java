@@ -58,7 +58,7 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur();
+    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);

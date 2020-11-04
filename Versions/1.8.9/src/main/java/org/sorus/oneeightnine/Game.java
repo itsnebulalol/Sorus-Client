@@ -120,15 +120,4 @@ public class Game implements IGame {
         return currentServerData.serverIP;
 
     }
-    
-    @Override
-    public boolean toggleFullbright(boolean type) {
-        if(type == true) {
-            Minecraft.getMinecraft().gameSettings.gammaSetting = 100.0F;
-            return true;
-        } else if(type == false) {
-            Minecraft.getMinecraft().gameSettings.gammaSetting = 0.0F;
-        }
-        return false;
-    }
 }

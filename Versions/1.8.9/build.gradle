@@ -17,7 +17,7 @@ dependencies {
     jarExport group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
     compile files("../../sorus/temp/" + version + ".jar")
 
-    File file = new File("${project.parent.parent.projectDir}/sorus/temp/classpath.txt")
+    File file = new File("${project.parent.parent.projectDir}/sorus/temp/classpath_" + version + ".txt")
     if (file.exists()) {
         Scanner scanner = new Scanner(file)
         while (scanner.hasNextLine()) {
@@ -45,7 +45,7 @@ tasks.register('setup') {
     doLast {
         javaexec {
             main = '-jar'
-            args = ["${project.parent.parent.projectDir}/sorus/Sorus-Utils.jar", "outputDependencies", "--minecraftDir", System.getenv('MINECRAFT_HOME'), "--version", version, "--output", project.parent.parent.projectDir.absolutePath + "/sorus/temp/classpath.txt"]
+            args = ["${project.parent.parent.projectDir}/sorus/Sorus-Utils.jar", "outputDependencies", "--minecraftDir", System.getenv('MINECRAFT_HOME'), "--version", version, "--output", project.parent.parent.projectDir.absolutePath + "/sorus/temp/classpath_" + version + ".txt"]
         }
         javaexec {
             main = '-jar'
@@ -64,7 +64,7 @@ tasks.register('export') {
     doLast {
         javaexec {
             main = '-jar'
-            args = ["${project.parent.parent.projectDir}/sorus/Sorus-Utils.jar", "reobfuscateJar", "--input", project.buildDir.absolutePath + "/libs/" + version + ".jar;" + project.parent.parent.projectDir.absolutePath + "/Core/build/libs/Core.jar", "--output", project.buildDir.absolutePath + "/" + version + ".jar", "--mappings", project.projectDir.absolutePath + "/src/main/resources/mappings.txt", "--originalIndex", "1", "--targetIndex", "0"]
+            args = ["${project.parent.parent.projectDir}/sorus/Sorus-Utils.jar", "reobfuscateJar", "--input", project.buildDir.absolutePath + "/libs/" + version + ".jar;" + project.parent.parent.projectDir.absolutePath + "/Core/build/libs/Core.jar", "--output", project.buildDir.absolutePath + "/" + version + ".jar", "--mappings", project.projectDir.absolutePath + "/src/main/resources/mappings.txt", "--originalIndex", "1", "--targetIndex", "0", "--ignored", "lwjgl,newdawn,jcraft"]
         }
     }
     File file = new File(project.buildDir.absolutePath + "/libs/" + version + ".jar")

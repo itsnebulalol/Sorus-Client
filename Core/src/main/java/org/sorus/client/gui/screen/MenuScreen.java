@@ -29,8 +29,8 @@ import org.sorus.client.gui.core.ThemeableScreen;
 
 public class MenuScreen extends ThemeableScreen {
 
-  public MenuScreen() {
-    super(Sorus.getSorus().getThemeManager().getTheme("menu"));
+  public MenuScreen(boolean performOpenAnimation) {
+    super(Sorus.getSorus().getThemeManager().getTheme("menu", performOpenAnimation));
   }
 
   @Override
