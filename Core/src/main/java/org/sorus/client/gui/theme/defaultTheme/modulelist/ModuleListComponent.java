@@ -144,8 +144,68 @@ public class ModuleListComponent extends Collection {
               .color(new Color(190, 190, 190, 210)));
       i++;
     }
-    this.add(new ToggleButton(module).position(450, 15));
-    this.add(new SettingsButton(module).position(615, 15));
+    this.add(new ToggleButton2(module).position(515, 42.5));
+    this.add(new SettingsButton(module).position(615, 42.5));
+  }
+
+  public class ToggleButton2 extends Collection {
+
+    private final ModuleConfigurable module;
+
+    private boolean value;
+    private double switchPercent;
+
+    private final Rectangle background;
+    private final Rectangle selector;
+
+    private long prevRenderTime;
+
+    public ToggleButton2(ModuleConfigurable module) {
+      this.module = module;
+      this.value = module.isEnabled();
+      this.background = new Rectangle().size(80, 45).smooth(22.5).position(0, 0);
+      this.add(background);
+      this.selector = new Rectangle().size(35, 35).smooth(17.5).color(new Color(235, 235, 235));
+      this.add(selector);
+      Sorus.getSorus().getEventManager().register(this);
+    }
+
+    @Override
+    public void onRender() {
+      long renderTime = System.currentTimeMillis();
+      long deltaTime = renderTime - prevRenderTime;
+      switchPercent = Math.max(0, Math.min(1, switchPercent + (value ? 1 : -1) * deltaTime * 0.007));
+      this.background.color(
+              new Color(
+                      (int) (160 - switchPercent * 135),
+                      (int) (35 + switchPercent * 125),
+                      (int) (35 + switchPercent * 30)));
+      this.selector.position(5 + 35 * switchPercent, 5);
+      prevRenderTime = renderTime;
+      super.onRender();
+    }
+
+    @Override
+    public void onRemove() {
+      Sorus.getSorus().getEventManager().unregister(this);
+    }
+
+    /**
+     * Disables or enables the setting based on its value before.
+     *
+     * @param e the mouse press event
+     */
+    @EventInvoked
+    public void onClick(MousePressEvent e) {
+      if (e.getX() > this.absoluteX()
+              && e.getX() < this.absoluteX() + 80 * this.absoluteXScale()
+              && e.getY() > this.absoluteY()
+              && e.getY() < this.absoluteY() + 45 * this.absoluteYScale()) {
+        this.value = !value;
+        this.module.setEnabled(value);
+      }
+    }
+
   }
 
   public class ToggleButton extends Collection {
@@ -231,11 +291,11 @@ public class ModuleListComponent extends Collection {
 
     private final ModuleConfigurable module;
 
-    private final org.sorus.client.gui.core.component.impl.Image image;
+    private final Image image;
 
     public SettingsButton(ModuleConfigurable module) {
       this.module = module;
-      this.add(image = new Image().resource("sorus/gear.png").size(40, 40));
+      this.add(image = new Image().resource("sorus/gear.png").size(45, 45));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -254,8 +314,8 @@ public class ModuleListComponent extends Collection {
       image.position(-2 * hoverPercent, -2 * hoverPercent);
       image.color(new Color(235, 235, 235, (int) (210 + 45 * hoverPercent)));
       prevRenderTime = renderTime;
-      double x = this.absoluteX() + 20 * this.absoluteXScale();
-      double y = this.absoluteY() + 20 * this.absoluteYScale();
+      double x = this.absoluteX() + 22.5 * this.absoluteXScale();
+      double y = this.absoluteY() + 22.5 * this.absoluteYScale();
       IGLHelper glHelper = Sorus.getSorus().getVersion().getGLHelper();
       glHelper.translate(x, y, 0);
       glHelper.rotate(Axis.Z, hoverPercent * 50);

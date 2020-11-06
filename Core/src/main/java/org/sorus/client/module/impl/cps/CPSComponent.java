@@ -26,7 +26,10 @@ package org.sorus.client.module.impl.cps;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
@@ -43,6 +46,7 @@ import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.input.Button;
 
 public class CPSComponent extends Component {
 
@@ -61,7 +65,7 @@ public class CPSComponent extends Component {
   private final Rectangle background;
   private final Paragraph cpsText;
 
-  private final List<Long> prevClickTimes = new ArrayList<>();
+  private final Map<Button, List<Long>> prevClickTimes = new HashMap<>();
   private String[] cpsString = new String[0];
 
   public CPSComponent() {
@@ -87,16 +91,25 @@ public class CPSComponent extends Component {
     this.currentMode = this.registeredModes.get(0);
     this.updateFontRenderer();
     Sorus.getSorus().getEventManager().register(this);
+    for(Button button : Button.values()) {
+      this.prevClickTimes.put(button, new ArrayList<>());
+    }
   }
 
   @Override
   public void render(double x, double y) {
     this.updateFontRenderer();
     long currentTime = System.currentTimeMillis();
-    prevClickTimes.removeIf((value) -> currentTime - value > 1000);
+    for(List<Long> prevClickTimes : this.prevClickTimes.values()) {
+      prevClickTimes.removeIf((value) -> currentTime - value > 1000);
+    }
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
-    List<List<Pair<String, Color>>> formatted = this.currentMode.format(prevClickTimes.size());
+    Map<Integer, Integer> cps = new HashMap<>();
+    for(Button button : this.prevClickTimes.keySet()) {
+      cps.put(button.ordinal(), this.prevClickTimes.get(button).size());
+    }
+    List<List<Pair<String, Color>>> formatted = this.currentMode.format(cps);
     List<String> strings = new ArrayList<>();
     for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder cpsBuilder = new StringBuilder();
@@ -200,6 +213,6 @@ public class CPSComponent extends Component {
   @EventInvoked
   public void onMouseClick(MousePressEvent e) {
     long tick = System.currentTimeMillis();
-    prevClickTimes.add(tick);
+    prevClickTimes.get(e.getButton()).add(tick);
   }
 }

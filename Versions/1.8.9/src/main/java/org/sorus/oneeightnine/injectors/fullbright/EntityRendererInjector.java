@@ -44,11 +44,11 @@ public class EntityRendererInjector extends Injector<EntityRenderer> {
         for(AbstractInsnNode node : methodNode.instructions.toArray()) {
             String fieldName = ObfuscationManager.getFieldName("net/minecraft/client/settings/GameSettings", "gammaSetting");
             if(node instanceof FieldInsnNode && ((FieldInsnNode) node).name.equals(fieldName)) {
-                System.out.println(node.getNext().getOpcode() + " " + ((VarInsnNode) node.getNext()).var);
+                int var = ((VarInsnNode) node.getNext()).var;
                 InsnList insnList = new InsnList();
-                insnList.add(new VarInsnNode(Opcodes.FLOAD, 17));
+                insnList.add(new VarInsnNode(Opcodes.FLOAD, var));
                 insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, EntityRendererHook.class.getName().replace(".", "/"), "getBrightness", "(F)F", false));
-                insnList.add(new VarInsnNode(Opcodes.FSTORE, 17));
+                insnList.add(new VarInsnNode(Opcodes.FSTORE, var));
                 methodNode.instructions.insert(node.getNext(), insnList);
             }
         }

@@ -64,7 +64,7 @@ public abstract class PingMode extends Mode {
               new ArrayList<>(
                   Arrays.asList(
                       Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
-                      Pair.of("FPS", this.labelMainColor.getValue()),
+                      Pair.of("Ping", this.labelMainColor.getValue()),
                       Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
                       Pair.of(" " + ping, this.valueColor.getValue())))));
     }
@@ -101,7 +101,7 @@ public abstract class PingMode extends Mode {
               new ArrayList<>(
                   Arrays.asList(
                       Pair.of(ping + " ", this.valueColor.getValue()),
-                      Pair.of("FPS", this.labelMainColor.getValue())))));
+                      Pair.of("ms", this.labelMainColor.getValue())))));
     }
 
     @Override
@@ -128,20 +128,21 @@ public abstract class PingMode extends Mode {
                   new ArrayList<>(
                       Collections.singletonList(
                           new ArrayList<>(
-                              Collections.singletonList(Pair.of("Ping: PING", Color.WHITE)))))));
+                              Collections.singletonList(Pair.of("Ping: $PING", Color.WHITE)))))));
     }
 
     @Override
     public List<List<Pair<String, Color>>> format(int ping) {
-      List<List<Pair<String, Color>>> list = new ArrayList<>();
+      List<List<Pair<String, Color>>> formattedList = new ArrayList<>();
       for (List<Pair<String, Color>> lineList : this.text.getValue()) {
+        List<Pair<String, Color>> formattedLine = new ArrayList<>();
         for (Pair<String, Color> pair : lineList) {
-          lineList.add(
-              Pair.of(pair.getLeft().replace("PING", String.valueOf(ping)), pair.getRight()));
+          formattedLine.add(
+                  Pair.of(pair.getLeft().replace("$PING", String.valueOf(ping)), pair.getRight()));
         }
-        list.add(lineList);
+        formattedList.add(formattedLine);
       }
-      return list;
+      return formattedList;
     }
 
     @Override

@@ -25,10 +25,9 @@
 package org.sorus.client.module.impl.cps;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
@@ -39,7 +38,7 @@ import org.sorus.client.settings.Setting;
 
 public abstract class CPSMode extends Mode {
 
-  public abstract List<List<Pair<String, Color>>> format(int fps);
+  public abstract List<List<Pair<String, Color>>> format(Map<Integer, Integer> cps);
 
   public static class LabelPreMode extends CPSMode {
 
@@ -58,7 +57,7 @@ public abstract class CPSMode extends Mode {
     }
 
     @Override
-    public List<List<Pair<String, Color>>> format(int fps) {
+    public List<List<Pair<String, Color>>> format(Map<Integer, Integer> cps) {
       return new ArrayList<>(
           Collections.singletonList(
               new ArrayList<>(
@@ -66,7 +65,7 @@ public abstract class CPSMode extends Mode {
                       Pair.of(this.preLabel.getValue(), this.labelExtraColor.getValue()),
                       Pair.of("CPS", this.labelMainColor.getValue()),
                       Pair.of(this.postLabel.getValue(), this.labelExtraColor.getValue()),
-                      Pair.of(" " + fps, this.valueColor.getValue())))));
+                      Pair.of(" " + cps.get(0), this.valueColor.getValue())))));
     }
 
     @Override
@@ -95,12 +94,12 @@ public abstract class CPSMode extends Mode {
     }
 
     @Override
-    public List<List<Pair<String, Color>>> format(int fps) {
+    public List<List<Pair<String, Color>>> format(Map<Integer, Integer> cps) {
       return new ArrayList<>(
           Collections.singletonList(
               new ArrayList<>(
                   Arrays.asList(
-                      Pair.of(fps + " ", this.valueColor.getValue()),
+                      Pair.of(cps.get(0) + " ", this.valueColor.getValue()),
                       Pair.of("FPS", this.labelMainColor.getValue())))));
     }
 
@@ -128,20 +127,25 @@ public abstract class CPSMode extends Mode {
                   new ArrayList<>(
                       Collections.singletonList(
                           new ArrayList<>(
-                              Collections.singletonList(Pair.of("CPS: $CPS", Color.WHITE)))))));
+                              Collections.singletonList(Pair.of("CPS: $0", Color.WHITE)))))));
     }
 
     @Override
-    public List<List<Pair<String, Color>>> format(int cps) {
-      List<List<Pair<String, Color>>> list = new ArrayList<>();
+    public List<List<Pair<String, Color>>> format(Map<Integer, Integer> cps) {
+      List<List<Pair<String, Color>>> formattedList = new ArrayList<>();
       for (List<Pair<String, Color>> lineList : this.text.getValue()) {
+        List<Pair<String, Color>> formattedLine = new ArrayList<>();
         for (Pair<String, Color> pair : lineList) {
-          lineList.add(
-              Pair.of(pair.getLeft().replace("$CPS", String.valueOf(cps)), pair.getRight()));
+          String string = pair.getLeft();
+          for(int integer : cps.keySet()) {
+            string = string.replace("$" + integer, String.valueOf(cps.get(integer)));
+          }
+          formattedLine.add(
+                  Pair.of(string, pair.getRight()));
         }
-        list.add(lineList);
+        formattedList.add(formattedLine);
       }
-      return list;
+      return formattedList;
     }
 
     @Override

@@ -44,6 +44,7 @@ public class DiscordRP extends ModuleConfigurable {
   @Override
   public void onEnable() {
     if (!connected) {
+      new Thread(() -> {
       try {
         client.connect();
         client.sendRichPresence(builder.build());
@@ -51,6 +52,7 @@ public class DiscordRP extends ModuleConfigurable {
       } catch (NoDiscordClientException e) {
         e.printStackTrace();
       }
+      }).start();
     }
   }
 

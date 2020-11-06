@@ -120,12 +120,7 @@ public abstract class GPSMode extends Mode {
         List<Pair<String, Color>> formattedLine = new ArrayList<>();
         for (Pair<String, Color> pair : lineList) {
           formattedLine.add(
-              Pair.of(
-                  pair.getLeft()
-                      .replace("$X", String.valueOf(x))
-                      .replace("$Y", String.valueOf(y))
-                      .replace("$Z", String.valueOf(z)),
-                  pair.getRight()));
+                  Pair.of(pair.getLeft().replace("$X", String.valueOf(x)).replace("$Y", String.valueOf(y)).replace("$Z", String.valueOf(z)), pair.getRight()));
         }
         formattedList.add(formattedLine);
       }

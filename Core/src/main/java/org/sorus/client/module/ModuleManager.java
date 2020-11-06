@@ -89,7 +89,6 @@ public class ModuleManager {
         return (T) module;
       }
     }
-
     return null;
   }
 

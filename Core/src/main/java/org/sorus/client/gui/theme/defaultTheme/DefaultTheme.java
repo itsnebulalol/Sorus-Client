@@ -70,7 +70,7 @@ public class DefaultTheme extends Theme {
     this.register(
         medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
     this.register(
-        medforegroundLayerColor = new Setting<>("medgroundLayerColor", new Color(40, 40, 40)));
+        medforegroundLayerColor = new Setting<>("medforegroundLayerColor", new Color(40, 40, 40)));
     this.register(
         foregroundLayerColor = new Setting<>("foregroundLayerColor", new Color(215, 215, 215)));
     this.register(
