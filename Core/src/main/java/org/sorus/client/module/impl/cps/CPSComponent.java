@@ -72,6 +72,7 @@ public class CPSComponent extends Component {
     super("CPS");
     this.register(new CPSMode.LabelPreMode());
     this.register(new CPSMode.LabelPostMode());
+    this.register(new CPSMode.BothButtonsMode());
     this.register(new CPSMode.CustomMode());
     this.register(
         mode =

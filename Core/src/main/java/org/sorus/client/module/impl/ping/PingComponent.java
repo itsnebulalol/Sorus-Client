@@ -92,7 +92,7 @@ public class PingComponent extends Component {
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
     List<List<Pair<String, Color>>> formatted =
-            this.currentMode.format(Sorus.getSorus().getVersion().getGame().getFPS());
+            this.currentMode.format(Sorus.getSorus().getVersion().getGame().getPing());
     List<String> strings = new ArrayList<>();
     for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder fpsBuilder = new StringBuilder();

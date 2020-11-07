@@ -143,7 +143,8 @@ public class MenuComponent extends Collection {
         this.isHovered(
             Sorus.getSorus().getVersion().getInput().getMouseX(),
             Sorus.getSorus().getVersion().getInput().getMouseY());
-    hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.04, 0, 1);
+    double fps = Math.max(1, Sorus.getSorus().getVersion().getGame().getFPS());
+    hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) / fps * 6, 0, 1);
     main.position(-2 * hoveredPercent, -2 * hoveredPercent);
     main.scale(1 + hoveredPercent * 0.025, 1 + hoveredPercent * 0.025);
     int color = (int) (215 + 40 * hoveredPercent);

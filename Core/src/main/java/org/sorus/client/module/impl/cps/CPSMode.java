@@ -115,6 +115,36 @@ public abstract class CPSMode extends Mode {
     }
   }
 
+  public static class BothButtonsMode extends CPSMode {
+
+    private final Setting<Color> leftValueColor;
+    private final Setting<Color> dividerColor;
+    private final Setting<Color> rightValueColor;
+
+    public BothButtonsMode() {
+      this.register(leftValueColor = new Setting<>("leftValueColor", Color.WHITE));
+      this.register(dividerColor = new Setting<>("dividerColor", Color.WHITE));
+      this.register(rightValueColor = new Setting<>("rightValueColor", Color.WHITE));
+    }
+
+    @Override
+    public List<List<Pair<String, Color>>> format(Map<Integer, Integer> cps) {
+      return new ArrayList<>(
+              Collections.singletonList(
+                      new ArrayList<>(
+                              Arrays.asList(
+                                      Pair.of(String.valueOf(cps.get(0)), this.leftValueColor.getValue()),
+                                      Pair.of(" : ", this.dividerColor.getValue()),
+                                      Pair.of(String.valueOf(cps.get(1)), this.rightValueColor.getValue())))));
+    }
+
+    @Override
+    public String getName() {
+      return "Both Buttons";
+    }
+
+  }
+
   public static class CustomMode extends CPSMode {
 
     private final Setting<List<List<Pair<String, Color>>>> text;

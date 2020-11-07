@@ -8,8 +8,10 @@ import java.time.OffsetDateTime;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.GuiSwitchEvent;
+import org.sorus.client.event.impl.client.TickEvent;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
+import org.sorus.client.settings.Setting;
 
 public class DiscordRP extends ModuleConfigurable {
 
@@ -17,8 +19,13 @@ public class DiscordRP extends ModuleConfigurable {
   private final RichPresence.Builder builder = new RichPresence.Builder();
   private boolean connected;
 
+  private final Setting<String> status;
+
+  private String details = "";
+
   public DiscordRP() {
     super("DISCORD RPC");
+    this.register(status = new Setting<>("status", ""));
     Sorus.getSorus().getEventManager().register(this);
   }
 
@@ -45,13 +52,13 @@ public class DiscordRP extends ModuleConfigurable {
   public void onEnable() {
     if (!connected) {
       new Thread(() -> {
-      try {
-        client.connect();
-        client.sendRichPresence(builder.build());
-        connected = true;
-      } catch (NoDiscordClientException e) {
-        e.printStackTrace();
-      }
+        try {
+          client.connect();
+          client.sendRichPresence(builder.build());
+          connected = true;
+        } catch (NoDiscordClientException e) {
+          e.printStackTrace();
+        }
       }).start();
     }
   }
@@ -69,19 +76,37 @@ public class DiscordRP extends ModuleConfigurable {
     if (!Sorus.getSorus().getVersion().getGame().getPlayer().isNull()) {
       String serverIP = Sorus.getSorus().getVersion().getGame().getCurrentServerIP();
       if (serverIP == null) {
-        this.setPresence("Playing Singleplayer");
+        this.updateState("Playing Singleplayer");
       } else {
-        this.setPresence("Playing " + serverIP);
+        this.updateState("Playing " + serverIP);
       }
     } else {
-      this.setPresence("In Menus");
+      this.updateState("In Menus");
     }
   }
 
-  public void setPresence(String firstLine) {
-    builder.setDetails(firstLine);
+  @EventInvoked
+  public void onTick(TickEvent e) {
+    if(status.getValue().equals(details)) {
+      details = status.getValue();
+      this.updateDetails(details);
+    }
+  }
+
+  public void updateState(String state) {
+    builder.setState(state);
+    this.update();
+  }
+
+  public void updateDetails(String details) {
+    builder.setDetails(details);
+    this.update();
+  }
+
+  private void update() {
     if (connected) {
       client.sendRichPresence(builder.build());
     }
   }
+
 }
