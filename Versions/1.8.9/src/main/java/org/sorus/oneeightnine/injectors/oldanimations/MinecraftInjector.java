@@ -37,10 +37,8 @@ public class MinecraftInjector extends Injector<Minecraft> {
     }
 
     @Inject(name = "runTick", at = @At("HEAD"))
-    public void renderPlayerStats() {
-        GuiIngameHook.runTick();
+    public void runTick() {
+        MinecraftHook.runTick();
     }
-
-
 
 }

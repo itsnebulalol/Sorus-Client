@@ -24,11 +24,22 @@
 
 package org.sorus.oneeightnine;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.scoreboard.Score;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.scoreboard.Scoreboard;
 import org.sorus.client.version.game.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Game implements IGame {
 
@@ -45,8 +56,26 @@ public class Game implements IGame {
     }
 
     @Override
-    public void displayBlankGUI() {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiBlank());
+    public void display(GUIType type) {
+        GuiScreen screen = null;
+        switch(type) {
+            case VIEW_WORLDS:
+                screen = new GuiSelectWorld(new GuiMainMenu());
+                break;
+            case VIEW_SERVERS:
+                screen = new GuiMultiplayer(new GuiMainMenu());
+                break;
+            case LANGUAGES:
+                screen = new GuiLanguage(new GuiMainMenu(), Minecraft.getMinecraft().gameSettings, Minecraft.getMinecraft().getLanguageManager());
+                break;
+            case SETTINGS:
+                screen = new GuiOptions(new GuiMainMenu(), Minecraft.getMinecraft().gameSettings);
+                break;
+            case BLANK:
+                screen = new GuiBlank();
+                break;
+        }
+        Minecraft.getMinecraft().displayGuiScreen(screen);
     }
 
     @Override
@@ -112,12 +141,21 @@ public class Game implements IGame {
     }
 
     @Override
+    public void shutdown() {
+        Minecraft.getMinecraft().shutdown();
+    }
+
+    @Override
+    public IScoreboard getScoreboard() {
+        return new ScoreboardImpl(Minecraft.getMinecraft().theWorld.getScoreboard());
+    }
+
+    @Override
     public String getCurrentServerIP() {
         ServerData currentServerData = Minecraft.getMinecraft().getCurrentServerData();
         if(currentServerData == null) {
             return null;
         }
         return currentServerData.serverIP;
-
     }
 }

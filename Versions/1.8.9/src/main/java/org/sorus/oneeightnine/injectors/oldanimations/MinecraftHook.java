@@ -31,11 +31,11 @@ import net.minecraft.util.MovingObjectPosition;
 import org.sorus.client.Sorus;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
 
-public class GuiIngameHook {
+public class MinecraftHook {
 
     public static void runTick() {
         if(Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Sorus.getSorus().getModuleManager().getModule(OldAnimations.class).shouldShowAnimInteractBreak()) {
-            GuiIngameHook.attemptSwing();
+            MinecraftHook.attemptSwing();
         }
     }
 
@@ -43,7 +43,7 @@ public class GuiIngameHook {
         if (Minecraft.getMinecraft().thePlayer.getItemInUseCount() > 0) {
             final boolean mouseDown = Minecraft.getMinecraft().gameSettings.keyBindAttack.isKeyDown() && Minecraft.getMinecraft().gameSettings.keyBindUseItem.isKeyDown();
             if (mouseDown && Minecraft.getMinecraft().objectMouseOver != null && Minecraft.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                GuiIngameHook.swingItem(Minecraft.getMinecraft().thePlayer);
+                MinecraftHook.swingItem(Minecraft.getMinecraft().thePlayer);
             }
         }
     }

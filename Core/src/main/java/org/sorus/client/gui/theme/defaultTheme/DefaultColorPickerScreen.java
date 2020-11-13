@@ -41,6 +41,7 @@ import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
+import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.Key;
@@ -65,30 +66,34 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
   public void init() {
     this.main = new Panel();
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
-            .size(290, 290)
-            .position(815, 395)
+        new Rectangle()
+            .size(290, 335)
+            .position(815, 350)
             .color(new Color(42, 42, 42)));
+    main.add(new ExitButton(() -> {
+      Sorus.getSorus().getGUIManager().close(this.screen);
+      callback.cancel();
+    }).position(815, 355));
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
+        new Rectangle()
             .gradient(
                 new Color(26, 26, 26, 150),
                 new Color(26, 26, 26, 150),
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 30))
             .size(290, 4)
-            .position(815, 391));
+            .position(815, 346));
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
+        new Rectangle()
             .gradient(
                 new Color(26, 26, 26, 150),
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 30))
             .size(4, 4)
-            .position(1105, 391));
+            .position(1150, 346));
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
+        new Rectangle()
             .gradient(
                 new Color(26, 26, 26, 150),
                 new Color(26, 26, 26, 30),
@@ -97,7 +102,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
             .size(4, 125)
             .position(1105, 395));
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
+        new Rectangle()
             .gradient(
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 30),
@@ -106,7 +111,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
             .size(4, 4)
             .position(1105, 685));
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
+        new Rectangle()
             .gradient(
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 30),
@@ -115,7 +120,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
             .size(290, 4)
             .position(815, 685));
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
+        new Rectangle()
             .gradient(
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 30),
@@ -124,23 +129,23 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
             .size(4, 4)
             .position(811, 685));
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
+        new Rectangle()
             .gradient(
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 150),
                 new Color(26, 26, 26, 150),
                 new Color(26, 26, 26, 30))
-            .size(4, 290)
-            .position(811, 395));
+            .size(4, 335)
+            .position(811, 350));
     main.add(
-        new org.sorus.client.gui.core.component.impl.Rectangle()
+        new Rectangle()
             .gradient(
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 150),
                 new Color(26, 26, 26, 30),
                 new Color(26, 26, 26, 30))
             .size(4, 4)
-            .position(811, 391));
+            .position(811, 346));
     main.add(alphaSlider = new AlphaSlider(color.getAlpha() / 255.0).position(1045, 415));
     int max = Math.max(Math.max(color.getRed(), color.getGreen()), color.getBlue());
     double brightness = max / 255.0;

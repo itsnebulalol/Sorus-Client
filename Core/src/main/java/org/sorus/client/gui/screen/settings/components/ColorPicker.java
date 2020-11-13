@@ -99,7 +99,9 @@ public class ColorPicker extends Configurable {
     }
 
     @Override
-    public void cancel() {}
+    public void cancel() {
+
+    }
   }
 
   @Override

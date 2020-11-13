@@ -51,7 +51,7 @@ public class EntityImpl implements IEntity {
     }
 
     @Override
-    public boolean isNull() {
-        return entity == null;
+    public boolean exists() {
+        return entity != null;
     }
 }

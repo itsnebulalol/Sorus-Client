@@ -73,7 +73,7 @@ public class DiscordRP extends ModuleConfigurable {
 
   @EventInvoked
   public void onGuiSwitch(GuiSwitchEvent e) {
-    if (!Sorus.getSorus().getVersion().getGame().getPlayer().isNull()) {
+    if (Sorus.getSorus().getVersion().getGame().getPlayer().exists()) {
       String serverIP = Sorus.getSorus().getVersion().getGame().getCurrentServerIP();
       if (serverIP == null) {
         this.updateState("Playing Singleplayer");

@@ -24,6 +24,8 @@
 
 package org.sorus.client.version;
 
+import org.sorus.client.event.impl.client.GuiSwitchEvent;
+import org.sorus.client.version.game.GUIType;
 import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.render.IRenderer;

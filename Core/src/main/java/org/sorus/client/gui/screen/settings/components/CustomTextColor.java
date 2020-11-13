@@ -128,7 +128,7 @@ public class CustomTextColor extends Configurable {
           new Rectangle()
               .size(560, 75)
               .position(0, 85 * i)
-              .color(DefaultTheme.getMedforegroundLayerColor());
+              .color(DefaultTheme.getMedbackgroundLayerColor());
       this.collection.addAtFront(rectangle);
       this.backgrounds.put(customTextLine, rectangle);
       i++;
@@ -158,7 +158,7 @@ public class CustomTextColor extends Configurable {
   public class NewButton extends Collection {
 
     public NewButton() {
-      this.add(new Rectangle().size(50, 50).color(DefaultTheme.getMedforegroundLayerColor()));
+      this.add(new Rectangle().size(50, 50).color(DefaultTheme.getMedbackgroundLayerColor()));
       this.add(
           new Rectangle()
               .size(7.5, 40)
@@ -189,6 +189,7 @@ public class CustomTextColor extends Configurable {
               CustomTextColor.this.customTextLines.get(0).addCustomText("", Color.WHITE);
           customText.selected = true;
           customText.textBoxInner.selected = true;
+          CustomTextColor.this.update();
         }
       }
     }
@@ -197,7 +198,7 @@ public class CustomTextColor extends Configurable {
   public class NewLineButton extends Collection {
 
     public NewLineButton() {
-      this.add(new Rectangle().size(50, 50).color(DefaultTheme.getMedforegroundLayerColor()));
+      this.add(new Rectangle().size(50, 50).color(DefaultTheme.getMedbackgroundLayerColor()));
       this.add(
           new Rectangle()
               .size(7.5, 40)
@@ -231,11 +232,12 @@ public class CustomTextColor extends Configurable {
               new Rectangle()
                   .size(560, 75)
                   .position(0, 85 * CustomTextColor.this.customTextLines.size())
-                  .color(DefaultTheme.getMedforegroundLayerColor());
+                  .color(DefaultTheme.getMedbackgroundLayerColor());
           CustomTextColor.this.collection.addAtFront(rectangle);
           CustomTextColor.this.customTextLines.add(customTextLine);
           customTextLine.addCustomText("Test", Color.WHITE);
           CustomTextColor.this.backgrounds.put(customTextLine, rectangle);
+          CustomTextColor.this.update();
         }
       }
     }
@@ -244,7 +246,7 @@ public class CustomTextColor extends Configurable {
   public class RemoveButton extends Collection {
 
     public RemoveButton() {
-      this.add(new Rectangle().size(50, 50).color(DefaultTheme.getMedforegroundLayerColor()));
+      this.add(new Rectangle().size(50, 50).color(DefaultTheme.getMedbackgroundLayerColor()));
       this.add(
           new Rectangle()
               .size(40, 7.5)
@@ -277,6 +279,7 @@ public class CustomTextColor extends Configurable {
               }
             }
           }
+          CustomTextColor.this.update();
         }
       }
     }
@@ -375,7 +378,7 @@ public class CustomTextColor extends Configurable {
     public class RemoveButton extends Collection {
 
       public RemoveButton() {
-        this.add(new Rectangle().size(50, 50).color(DefaultTheme.getMedforegroundLayerColor()));
+        this.add(new Rectangle().size(50, 50).color(DefaultTheme.getMedbackgroundLayerColor()));
         this.add(
             new Rectangle()
                 .size(40, 7.5)
@@ -417,7 +420,7 @@ public class CustomTextColor extends Configurable {
       public CustomTextLine line;
 
       public CustomText(String string, Color color) {
-        this.add(rectangle = new Rectangle().color(DefaultTheme.getMedforegroundLayerColor()));
+        this.add(rectangle = new Rectangle().color(DefaultTheme.getMedbackgroundLayerColor()));
         this.add(hollowRectangle = new HollowRectangle());
         this.add(textBoxInner = new TextBoxInner(string));
         this.add(new ColorSelect().position(7.5, 47));

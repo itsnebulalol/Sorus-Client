@@ -117,7 +117,7 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
                 350 - fontRenderer.getStringWidth(configurable.getDisplayName()) / 2 * 4.5, 95)
             .scale(4.5, 4.5)
             .color(new Color(175, 175, 175)));
-    menu.add(
+    /*menu.add(
         new Rectangle()
             .size(660, 620)
             .position(20, 150)
@@ -193,8 +193,8 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(16, 146));
-    Scissor scissor = new Scissor().size(680, 580).position(10, 170);
+            .position(16, 146));*/
+    Scissor scissor = new Scissor().size(680, 580).position(10, 140);
     this.scroll = new Scroll();
     scroll.position(0, 2);
     scissor.add(scroll);

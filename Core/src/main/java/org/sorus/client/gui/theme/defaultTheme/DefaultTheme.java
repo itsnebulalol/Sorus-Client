@@ -44,10 +44,12 @@ public class DefaultTheme extends Theme {
   private static DefaultTheme instance;
 
   private final Setting<Color> backgroundLayerColor;
+  private final Setting<Color> medbackgroundLayerColor;
   private final Setting<Color> medgroundLayerColor;
   private final Setting<Color> medforegroundLayerColor;
   private final Setting<Color> foregroundLayerColor;
   private final Setting<Color> foregroundLessLayerColor;
+  private final Setting<Color> foregroundLessLessLayerColor;
   private final Setting<Color> shadowStartColor;
   private final Setting<Color> shadowEndColor;
 
@@ -68,6 +70,8 @@ public class DefaultTheme extends Theme {
     this.register(
         backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
     this.register(
+            medbackgroundLayerColor = new Setting<>("medbackgroundLayerColor", new Color(22, 22, 22)));
+    this.register(
         medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
     this.register(
         medforegroundLayerColor = new Setting<>("medforegroundLayerColor", new Color(40, 40, 40)));
@@ -76,6 +80,9 @@ public class DefaultTheme extends Theme {
     this.register(
         foregroundLessLayerColor =
             new Setting<>("foregroundLessLayerColor", new Color(160, 160, 160)));
+    this.register(
+            foregroundLessLessLayerColor =
+                    new Setting<>("foregroundLessLessLayerColor", new Color(130, 130, 130)));
     this.register(shadowStartColor = new Setting<>("shadowStartColor", new Color(14, 14, 14)));
     this.register(shadowEndColor = new Setting<>("shadowEndColor", new Color(14, 14, 14, 0)));
     instance = this;
@@ -105,6 +112,10 @@ public class DefaultTheme extends Theme {
     return DefaultTheme.getInstance().backgroundLayerColor.getValue();
   }
 
+  public static Color getMedbackgroundLayerColor() {
+    return DefaultTheme.getInstance().medbackgroundLayerColor.getValue();
+  }
+
   public static Color getMedgroundLayerColor() {
     return DefaultTheme.getInstance().medgroundLayerColor.getValue();
   }
@@ -119,6 +130,10 @@ public class DefaultTheme extends Theme {
 
   public static Color getForegroundLessLayerColor() {
     return DefaultTheme.getInstance().foregroundLessLayerColor.getValue();
+  }
+
+  public static Color getForegroundLessLessLayerColor() {
+    return DefaultTheme.getInstance().foregroundLessLessLayerColor.getValue();
   }
 
   public static Color getShadowStartColor() {

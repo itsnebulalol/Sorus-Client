@@ -48,7 +48,7 @@ public class MenuComponent extends Collection {
     this.runnable = runnable;
     this.add(main = new Collection());
     //167.5 172.5
-    main.add(new Rectangle().size(206, 212).color(DefaultTheme.getMedgroundLayerColor()));
+    main.add(new Rectangle().size(206, 212).color(DefaultTheme.getMedbackgroundLayerColor()));
     main.add(
         new Rectangle()
             .gradient(
@@ -110,7 +110,7 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(4, 121)
+            .size(4, 212)
             .position(-4, 0));
     main.add(
         new Rectangle()

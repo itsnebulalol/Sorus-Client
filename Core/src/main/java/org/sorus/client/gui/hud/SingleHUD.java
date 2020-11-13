@@ -44,6 +44,7 @@ public class SingleHUD extends HUD {
     this.getComponents().clear();
     this.getComponents().add(component);
     component.setHUD(this);
+    component.onAdd();
   }
 
   @Override

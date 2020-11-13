@@ -45,6 +45,7 @@ public class SlickFontRenderer extends UnicodeFont implements ITTFFontRenderer {
     this.addAsciiGlyphs();
     this.getEffects().add(new ColorEffect(Color.WHITE));
     this.loadGlyphs();
+    this.setDisplayListCaching(false);
   }
 
   @Override

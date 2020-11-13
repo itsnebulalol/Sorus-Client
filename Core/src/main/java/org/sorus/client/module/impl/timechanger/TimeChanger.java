@@ -48,9 +48,9 @@ public class TimeChanger extends ModuleConfigurable {
     collection.add(
         new Image()
             .resource("sorus/modules/timechanger/logo_moon.png")
-            .size(65, 65)
+            .size(50, 50)
             .position(30, 30));
-    collection.add(new Image().resource("sorus/modules/timechanger/logo_sun.png").size(65, 65));
+    collection.add(new Image().resource("sorus/modules/timechanger/logo_sun.png").size(50, 50));
   }
 
   @Override

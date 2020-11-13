@@ -54,7 +54,6 @@ public class RenderItemInjector extends Injector<RenderItem> {
             }
             if(node instanceof MethodInsnNode && ((MethodInsnNode) node).name.equals("glRotatef") && !foundRotate) {
                 foundRotate = true;
-                System.out.println();
                 AbstractInsnNode node1 = node.getPrevious().getPrevious().getPrevious().getPrevious();
                 methodNode.instructions.insert(node1, new MethodInsnNode(Opcodes.INVOKESTATIC, "org/sorus/oneseventen/injectors/itemphysics/RenderItemHook", "getRotate", "(F)F", false));
             }

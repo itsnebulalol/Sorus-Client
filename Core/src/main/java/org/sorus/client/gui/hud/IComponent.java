@@ -63,6 +63,10 @@ public interface IComponent extends ISettingHolder {
    */
   void setHUD(HUD hud);
 
+  default void onAdd() {
+
+  }
+
   @Override
   Map<String, Object> getSettings();
 }

@@ -89,7 +89,7 @@ public class ClickThrough extends Configurable {
     private long prevRenderTime;
 
     public ClickThroughInner() {
-      this.add(new Rectangle().size(250, 40).color(DefaultTheme.getMedforegroundLayerColor()));
+      this.add(new Rectangle().size(250, 40).color(DefaultTheme.getMedbackgroundLayerColor()));
       this.add(
           new HollowRectangle().size(250, 40).color(DefaultTheme.getForegroundLessLayerColor()));
       this.add(new Rectangle().size(1, 38).position(40, 1).color(new Color(235, 235, 235, 210)));

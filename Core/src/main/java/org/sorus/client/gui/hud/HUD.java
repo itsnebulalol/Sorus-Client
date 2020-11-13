@@ -61,10 +61,12 @@ public class HUD implements ISettingHolder {
   public void addComponent(IComponent component) {
     this.components.getValue().add(component);
     component.setHUD(this);
+    component.onAdd();
   }
 
   public void removeComponent(Component component) {
     this.components.getValue().remove(component);
+    component.onRemove();
   }
 
   /**

@@ -39,91 +39,92 @@ import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.hud.SingleHUD;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
+import org.sorus.client.gui.theme.defaultTheme.modulelist.ModuleListComponent;
 import org.sorus.client.util.Axis;
 import org.sorus.client.version.IGLHelper;
 
-public class HUDComponent extends Collection {
+public class HUDListComponent extends Collection {
 
   private final DefaultHUDListScreen screen;
 
-  public HUDComponent(DefaultHUDListScreen screen, HUD hud) {
+  public HUDListComponent(DefaultHUDListScreen screen, HUD hud) {
     this.screen = screen;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
     this.add(
-        new Rectangle().size(670, 125).position(5, 4).color(DefaultTheme.getMedgroundLayerColor()));
+            new Rectangle().size(680, 100).position(4, 4).color(DefaultTheme.getMedbackgroundLayerColor()));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(670, 4)
-            .position(5, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(680, 4)
+                    .position(4, 0));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(675, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4)
+                    .position(684, 0));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 125)
-            .position(675, 4));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(4, 100)
+                    .position(684, 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 4)
-            .position(675, 129));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(4, 4)
+                    .position(684, 104));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(670, 4)
-            .position(5, 129));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(680, 4)
+                    .position(4, 104));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(2, 129));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4)
+                    .position(0, 104));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 125)
-            .position(2, 4));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 100)
+                    .position(0, 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(1, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4)
+                    .position(0, 0));
     Collection collection = new Collection().position(15, 15);
     this.add(collection);
     // hud.addIconElements(collection);
@@ -131,18 +132,18 @@ public class HUDComponent extends Collection {
         new Text()
             .fontRenderer(fontRenderer)
             .text(hud.getName())
-            .position(125, 27)
+            .position(105, 15)
             .scale(4, 4)
             .color(new Color(235, 235, 235, 210)));
-    this.add(new SettingsButton(hud).position(615, 22));
-    this.add(new RemoveButton(hud).position(555, 22));
+    this.add(new SettingsButton(hud).position(615, 32.5));
+    this.add(new RemoveButton(hud).position(545, 32.5));
     if (hud instanceof SingleHUD) {
       this.add(
           new HollowArc()
               .thickness(2)
               .radius(10, 10)
               .angle(0, 360)
-              .position(130 + fontRenderer.getStringWidth(hud.getName()) * 4 + 15, 24.5)
+              .position(110 + fontRenderer.getStringWidth(hud.getName()) * 4 + 15, 14.5)
               .color(new Color(235, 235, 235, 210)));
     } else {
       this.add(
@@ -150,21 +151,21 @@ public class HUDComponent extends Collection {
               .thickness(2)
               .radius(10, 10)
               .angle(0, 360)
-              .position(130 + fontRenderer.getStringWidth(hud.getName()) * 4 + 15, 24.5)
+              .position(110 + fontRenderer.getStringWidth(hud.getName()) * 4 + 15, 14.5)
               .color(new Color(235, 235, 235, 210)));
       this.add(
           new HollowArc()
               .thickness(2)
               .radius(10, 10)
               .angle(0, 360)
-              .position(130 + fontRenderer.getStringWidth(hud.getName()) * 4 + 37.375, 24.5)
+              .position(110 + fontRenderer.getStringWidth(hud.getName()) * 4 + 37.375, 14.5)
               .color(new Color(235, 235, 235, 210)));
       this.add(
           new HollowArc()
               .thickness(2)
               .radius(10, 10)
               .angle(0, 360)
-              .position(130 + fontRenderer.getStringWidth(hud.getName()) * 4 + 60.375, 24.5)
+              .position(110 + fontRenderer.getStringWidth(hud.getName()) * 4 + 60.375, 14.5)
               .color(new Color(235, 235, 235, 210)));
     }
     int i = 0;
@@ -177,14 +178,14 @@ public class HUDComponent extends Collection {
           new Text()
               .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
               .text(string)
-              .position(125, 72 + i * 23)
+              .position(105, 60 + i * 23)
               .scale(2, 2)
               .color(new Color(190, 190, 190, 210)));
       i++;
     }
   }
 
-  public java.util.List<String> getSplitDescription(
+  public List<String> getSplitDescription(
       String description, IFontRenderer fontRenderer, double width) {
     List<String> strings = new ArrayList<>();
     StringBuilder stringBuilder = new StringBuilder();
@@ -213,7 +214,7 @@ public class HUDComponent extends Collection {
 
     public SettingsButton(HUD hud) {
       this.hud = hud;
-      this.add(image = new Image().resource("sorus/gear.png").size(40, 40));
+      this.add(image = new Image().resource("sorus/gear.png").size(45, 45));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -231,8 +232,8 @@ public class HUDComponent extends Collection {
       image.position(-2 * hoverPercent, -2 * hoverPercent);
       image.color(new Color(235, 235, 235, (int) (210 + 45 * hoverPercent)));
       prevRenderTime = renderTime;
-      double x = this.absoluteX() + 20 * this.absoluteXScale();
-      double y = this.absoluteY() + 20 * this.absoluteYScale();
+      double x = this.absoluteX() + 22.5 * this.absoluteXScale();
+      double y = this.absoluteY() + 22.5 * this.absoluteYScale();
       IGLHelper glHelper = Sorus.getSorus().getVersion().getGLHelper();
       glHelper.translate(x, y, 0);
       glHelper.rotate(Axis.Z, hoverPercent * 50);
@@ -252,8 +253,8 @@ public class HUDComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        Sorus.getSorus().getGUIManager().close(HUDComponent.this.screen.screen);
-        hud.displaySettings(HUDComponent.this.screen.screen);
+        Sorus.getSorus().getGUIManager().close(HUDListComponent.this.screen.screen);
+        hud.displaySettings(HUDListComponent.this.screen.screen);
       }
     }
 
@@ -278,9 +279,9 @@ public class HUDComponent extends Collection {
     public RemoveButton(HUD hud) {
       this.hud = hud;
       this.add(main = new Collection());
-      main.add(new Rectangle().size(40, 40).smooth(5).color(new Color(160, 35, 35)));
+      main.add(new Rectangle().size(45, 45).smooth(5).color(new Color(160, 35, 35)));
       main.add(
-          new Rectangle().size(30, 10).smooth(3).position(5, 15).color(new Color(210, 210, 210)));
+              new Rectangle().size(35, 10).smooth(3).position(5, 17.5).color(new Color(210, 210, 210)));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -311,7 +312,7 @@ public class HUDComponent extends Collection {
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
         Sorus.getSorus().getHUDManager().unregister(hud);
-        HUDComponent.this.screen.updateHUDS();
+        HUDListComponent.this.screen.updateHUDS();
       }
     }
 

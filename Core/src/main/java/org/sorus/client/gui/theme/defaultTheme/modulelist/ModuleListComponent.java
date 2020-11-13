@@ -48,7 +48,7 @@ public class ModuleListComponent extends Collection {
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
     this.add(
-        new Rectangle().size(670, 125).position(5, 4).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(680, 100).position(4, 4).color(DefaultTheme.getMedbackgroundLayerColor()));
     this.add(
         new Rectangle()
             .gradient(
@@ -56,8 +56,8 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(670, 4)
-            .position(5, 0));
+            .size(680, 4)
+            .position(4, 0));
     this.add(
         new Rectangle()
             .gradient(
@@ -66,7 +66,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(675, 0));
+            .position(684, 0));
     this.add(
         new Rectangle()
             .gradient(
@@ -74,8 +74,8 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor())
-            .size(4, 125)
-            .position(675, 4));
+            .size(4, 100)
+            .position(684, 4));
     this.add(
         new Rectangle()
             .gradient(
@@ -84,7 +84,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor())
             .size(4, 4)
-            .position(675, 129));
+            .position(684, 104));
     this.add(
         new Rectangle()
             .gradient(
@@ -92,8 +92,8 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor())
-            .size(670, 4)
-            .position(5, 129));
+            .size(680, 4)
+            .position(4, 104));
     this.add(
         new Rectangle()
             .gradient(
@@ -102,7 +102,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(2, 129));
+            .position(0, 104));
     this.add(
         new Rectangle()
             .gradient(
@@ -110,8 +110,8 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(4, 125)
-            .position(2, 4));
+            .size(4, 100)
+            .position(0, 4));
     this.add(
         new Rectangle()
             .gradient(
@@ -119,8 +119,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(1, 0));
+            .size(4, 4));
     Collection collection = new Collection().position(15, 15);
     this.add(collection);
     module.addIconElements(collection);
@@ -128,9 +127,9 @@ public class ModuleListComponent extends Collection {
         new Text()
             .fontRenderer(fontRenderer)
             .text(module.getName())
-            .position(125, 20)
+            .position(105, 15)
             .scale(4, 4)
-            .color(new Color(235, 235, 235, 210)));
+            .color(DefaultTheme.getForegroundLessLayerColor()));
     int i = 0;
     for (String string :
         module.getSplitDescription(
@@ -139,13 +138,13 @@ public class ModuleListComponent extends Collection {
           new Text()
               .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
               .text(string)
-              .position(125, 65 + i * 23)
+              .position(105, 60 + i * 23)
               .scale(2, 2)
-              .color(new Color(190, 190, 190, 210)));
+              .color(DefaultTheme.getForegroundLessLessLayerColor()));
       i++;
     }
-    this.add(new ToggleButton2(module).position(515, 42.5));
-    this.add(new SettingsButton(module).position(615, 42.5));
+    this.add(new ToggleButton2(module).position(515, 32.5));
+    this.add(new SettingsButton(module).position(615, 32.5));
   }
 
   public class ToggleButton2 extends Collection {

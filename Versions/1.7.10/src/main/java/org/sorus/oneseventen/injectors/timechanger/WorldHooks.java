@@ -34,9 +34,9 @@ import sun.reflect.Reflection;
 public class WorldHooks {
 
     public static long getAlteredTime() {
-        Class<?> clazz = Reflection.getCallerClass(4);
         TimeChanger timeChanger = Sorus.getSorus().getModuleManager().getModule(TimeChanger.class);
-        if(timeChanger.isEnabled() && (clazz.equals(EntityRenderer.class) || clazz.equals(RenderGlobal.class))) {
+        String className = new Exception().getStackTrace()[3].getClassName();
+        if(timeChanger.isEnabled() && (className.equals(EntityRenderer.class.getName()) || className.equals(RenderGlobal.class.getName()))) {
             return timeChanger.getTime();
         }
         if(Minecraft.getMinecraft().theWorld == null) {

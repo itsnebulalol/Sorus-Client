@@ -25,14 +25,15 @@
 package org.sorus.oneseventen;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiPlayerInfo;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.settings.GameSettings;
 import org.sorus.client.obfuscation.ObfuscationManager;
 import org.sorus.client.version.game.*;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 public class Game implements IGame {
 
@@ -49,8 +50,26 @@ public class Game implements IGame {
     }
 
     @Override
-    public void displayBlankGUI() {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiBlank());
+    public void display(GUIType type) {
+        GuiScreen screen = null;
+        switch(type) {
+            case VIEW_WORLDS:
+                screen = new GuiSelectWorld(new GuiMainMenu());
+                break;
+            case VIEW_SERVERS:
+                screen = new GuiMultiplayer(new GuiMainMenu());
+                break;
+            case LANGUAGES:
+                screen = new GuiLanguage(new GuiMainMenu(), Minecraft.getMinecraft().gameSettings, Minecraft.getMinecraft().getLanguageManager());
+                break;
+            case SETTINGS:
+                screen = new GuiOptions(new GuiMainMenu(), Minecraft.getMinecraft().gameSettings);
+                break;
+            case BLANK:
+                screen = new GuiBlank();
+                break;
+        }
+        Minecraft.getMinecraft().displayGuiScreen(screen);
     }
 
     @Override
@@ -115,12 +134,27 @@ public class Game implements IGame {
 
     @Override
     public int getPing() {
-        return ((GuiPlayerInfo) Minecraft.getMinecraft().getNetHandler().playerInfoMap.get(Minecraft.getMinecraft().thePlayer.getUniqueID())).responseTime;
+        try {
+            return ((GuiPlayerInfo) ((Map<?, ?>) NetHandlerPlayClient.class.getDeclaredField("playerInfoMap").get(Minecraft.getMinecraft().getNetHandler())).get(Minecraft.getMinecraft().getSession().getUsername())).responseTime;
+        } catch(NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
     public IItemManager getItemManager() {
         return this.itemManager;
+    }
+
+    @Override
+    public void shutdown() {
+        Minecraft.getMinecraft().shutdown();
+    }
+
+    @Override
+    public IScoreboard getScoreboard() {
+        return new ScoreboardImpl(Minecraft.getMinecraft().theWorld.getScoreboard());
     }
 
     @Override

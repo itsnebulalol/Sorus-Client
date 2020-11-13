@@ -25,25 +25,17 @@
 package org.sorus.client.event.impl.client;
 
 import org.sorus.client.event.Event;
+import org.sorus.client.version.game.GUIType;
 
 public class GuiSwitchEvent extends Event {
 
-  private final Type type;
+  private final GUIType type;
 
-  public GuiSwitchEvent(Type type) {
+  public GuiSwitchEvent(GUIType type) {
     this.type = type;
   }
 
-  public Type getType() {
+  public GUIType getType() {
     return type;
-  }
-
-  public enum Type {
-    UNDEFINED,
-    NULL, BLANK,
-    MAIN_MENU,
-    INVENTORY,
-    INVENTORY_CREATIVE,
-    CRAFTING
   }
 }

@@ -108,7 +108,7 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
                   Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
                 })
             .position(10, 10));
-    Scissor scissor = new Scissor().size(680, 690).position(10, 85);
+    Scissor scissor = new Scissor().size(690, 710).position(5, 75);
     this.scroll = new Scroll();
     scroll.position(0, 2);
     scissor.add(scroll);
@@ -120,7 +120,7 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
     scroll.clear();
     moduleCount = 0;
     for (ModuleConfigurable module : this.moduleManager.getModules(ModuleConfigurable.class)) {
-      scroll.add(new ModuleListComponent(this, module).position(0, moduleCount * 135));
+      scroll.add(new ModuleListComponent(this, module).position(0, moduleCount * 110));
       moduleCount++;
     }
   }
@@ -131,7 +131,7 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
     double scrollValue = Sorus.getSorus().getVersion().getInput().getScroll();
     targetScroll = targetScroll + scrollValue * 0.7;
     scroll.setScroll((targetScroll - scroll.getScroll()) * 7 / FPS + scroll.getScroll());
-    double maxScroll = moduleCount * 135 - 690;
+    double maxScroll = moduleCount * 100 + (moduleCount - 1) * 10 - 697.5;
     scroll.addMinMaxScroll(-maxScroll, 0);
     targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
     main.scale(
