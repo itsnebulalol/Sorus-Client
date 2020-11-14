@@ -288,8 +288,8 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
       HUD hud, List<Double> xSnaps, List<Double> ySnaps, double wantedScale) {
     double scaledWidth = Sorus.getSorus().getVersion().getScreen().getScaledWidth();
     double scaledHeight = Sorus.getSorus().getVersion().getScreen().getScaledHeight();
-    double x = hud.getX();
-    double y = hud.getY();
+    double x = selectedHUDState.getInitialX();
+    double y = selectedHUDState.getInitialY();
     Snap[] snaps = {
       this.getSnap(
           xSnaps, x - hud.getWidth() * wantedScale / 2, -hud.getWidth() * wantedScale / 2, Axis.X),
@@ -349,9 +349,9 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     }
     this.xSnaps.addAll(actualXSnaps);
     this.ySnaps.addAll(actualYSnaps);
+    hud.setScale(constrainedScale);
     hud.setX(selectedHUDState.getInitialX());
     hud.setY(selectedHUDState.getInitialY());
-    hud.setScale(constrainedScale);
   }
 
   /**
