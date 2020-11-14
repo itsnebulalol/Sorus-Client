@@ -41,4 +41,9 @@ public class ScoreboardImpl implements IScoreboard {
         return new ScoreObjectiveImpl(this.scoreboard.getObjectiveInDisplaySlot(slot));
     }
 
+    @Override
+    public IScoreObjective getDummyObjective() {
+        return new DummyScoreboardObjective();
+    }
+
 }

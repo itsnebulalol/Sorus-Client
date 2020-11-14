@@ -36,7 +36,7 @@ public interface IComponent extends ISettingHolder {
    * @param x x position to render
    * @param y y position to render
    */
-  void render(double x, double y);
+  void render(double x, double y, boolean dummy);
 
   default void onRemove() {}
 

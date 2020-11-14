@@ -58,7 +58,6 @@ public class CPSComponent extends Component {
 
   private final Setting<Long> mode;
   private final Setting<Boolean> customFont;
-  private final Setting<Boolean> tightFit;
   private final Setting<Color> backgroundColor;
 
   private final Panel modPanel;
@@ -84,7 +83,6 @@ public class CPSComponent extends Component {
               }
             });
     this.register(customFont = new Setting<>("customFont", false));
-    this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
@@ -98,7 +96,7 @@ public class CPSComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y) {
+  public void render(double x, double y, boolean dummy) {
     this.updateFontRenderer();
     long currentTime = System.currentTimeMillis();
     for(List<Long> prevClickTimes : this.prevClickTimes.values()) {
@@ -178,23 +176,12 @@ public class CPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    if (tightFit.getValue()) {
-      double maxWidth = 0;
-      for (String string : cpsString) {
-        maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
-      }
-      return maxWidth + 4;
-    }
-    return 60;
+    return this.currentMode.getWidth(this.cpsString, this.fontRenderer);
   }
 
   @Override
   public double getHeight() {
-    return tightFit.getValue()
-        ? fontRenderer.getFontHeight() * this.cpsText.getComponents().size()
-            + (this.cpsText.getComponents().size() - 1) * 2
-            + 4
-        : 11;
+    return this.currentMode.getHeight(this.cpsString, this.fontRenderer);
   }
 
   @Override
@@ -207,7 +194,6 @@ public class CPSComponent extends Component {
     collection.add(new ClickThrough(mode, registeredModeNames, "Mode"));
     this.currentMode.addConfigComponents(collection);
     collection.add(new Toggle(customFont, "Custom Font"));
-    collection.add(new Toggle(tightFit, "Tight Fit"));
     collection.add(new ColorPicker(backgroundColor, "Background Color"));
   }
 

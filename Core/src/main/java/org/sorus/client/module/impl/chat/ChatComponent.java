@@ -82,7 +82,7 @@ public class ChatComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y) {
+  public void render(double x, double y, boolean dummy) {
     this.x = x;
     this.y = y;
     if (chatWidth.getValue() != prevChatWidth) {

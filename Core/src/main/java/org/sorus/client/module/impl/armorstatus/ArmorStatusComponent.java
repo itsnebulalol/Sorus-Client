@@ -69,7 +69,7 @@ public class ArmorStatusComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y) {
+  public void render(double x, double y, boolean dummy) {
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     List<IItemStack> armor =
         Sorus.getSorus().getVersion().getGame().getPlayer().getInventory().getArmor();

@@ -27,6 +27,7 @@ package org.sorus.client.gui.hud;
 import java.util.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.Screen;
+import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.settings.ISettingHolder;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.IGLHelper;
@@ -83,7 +84,7 @@ public class HUD implements ISettingHolder {
     glHelper.translate(-x, -y, 0);
     double yOffset = 0;
     for (IComponent component : this.components.getValue()) {
-      component.render(x, y + yOffset);
+      component.render(x, y + yOffset, Sorus.getSorus().getGUIManager().isScreenOpen(HUDPositionScreen.class));
       yOffset += component.getHeight();
     }
     glHelper.translate(x, y, 0);

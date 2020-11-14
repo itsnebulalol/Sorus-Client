@@ -60,21 +60,28 @@ public class ScoreboardComponent extends Component {
     }
 
     @Override
-    public void render(double x, double y) {
+    public void render(double x, double y, boolean dummy) {
         Sorus.getSorus().getGUIManager().getRenderer().drawRect(x, y, width, height, backgroundColor.getValue());
         IFontRenderer fontRenderer = Sorus.getSorus().getGUIManager().getRenderer().getMinecraftFontRenderer();
         IScoreboard scoreboard = Sorus.getSorus().getVersion().getGame().getScoreboard();
-        List<IScore> scores = scoreboard.getObjectiveInSlot(1).getScores();
         IScoreObjective scoreObjective = scoreboard.getObjectiveInSlot(1);
-        if(!scoreObjective.exists()) {
+        String scoreObjectiveName;
+        List<IScore> scores;
+        if(!scoreObjective.exists() && dummy) {
+            scoreObjective = Sorus.getSorus().getVersion().getGame().getScoreboard().getDummyObjective();
+        } else if(!dummy) {
+            width = 0;
+            height = 0;
             return;
         }
-        width = fontRenderer.getStringWidth(scoreObjective.getName());
+        scoreObjectiveName = scoreObjective.getName();
+        scores = scoreObjective.getScores();
+        width = fontRenderer.getStringWidth(scoreObjectiveName) + 4;
         for (IScore score : scores) {
             String s = score.getPlayerName() + ((showRedNumbers.getValue()) ? ": " + score.getPoints() : "");
             width = Math.max(width, fontRenderer.getStringWidth(s) + 4);
         }
-        fontRenderer.drawString(scoreObjective.getName(), x + width / 2 - fontRenderer.getStringWidth(scoreObjective.getName()) / 2, y + 1, 1, 1, false, Color.WHITE);
+        fontRenderer.drawString(scoreObjectiveName, x + width / 2 - fontRenderer.getStringWidth(scoreObjectiveName) / 2, y + 1, 1, 1, false, Color.WHITE);
         int i = 1;
         for(IScore score : scores) {
             fontRenderer.drawString(score.getPlayerName(), x + 2, y + i * (fontRenderer.getFontHeight() + 2), 1, 1, false, Color.WHITE);

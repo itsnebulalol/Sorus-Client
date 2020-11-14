@@ -122,7 +122,7 @@ public class Renderer implements IRenderer {
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         GL11.glBegin(GL11.GL_TRIANGLE_FAN);
         GL11.glVertex2d(x, y);
-        for(int i = startAngle; i <= endAngle; i++) {
+        for(int i = startAngle; i <= endAngle; i += 1) {
             GL11.glVertex2d(x + Math.sin(Math.toRadians(i)) * xRadius, y + Math.cos(Math.toRadians(i)) * yRadius);
         }
         GL11.glEnd();
@@ -235,6 +235,7 @@ public class Renderer implements IRenderer {
         GL11.glTranslated(x, y, 0);
         GL11.glScaled(width / (int) width, height / (int) height, 1);
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, (int) width, (int) height, (int) width, (int) height);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);

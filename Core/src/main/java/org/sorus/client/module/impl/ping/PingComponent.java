@@ -87,7 +87,7 @@ public class PingComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y) {
+  public void render(double x, double y, boolean dummy) {
     this.updateFontRenderer();
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
