@@ -24,6 +24,7 @@
 
 package org.sorus.oneeightnine;
 
+import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import org.sorus.client.startup.SorusStartup;
 import org.sorus.client.startup.impl.InstrumentationTransformerUtility;
 import org.sorus.client.version.*;

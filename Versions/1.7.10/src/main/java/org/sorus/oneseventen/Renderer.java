@@ -205,7 +205,7 @@ public class Renderer implements IRenderer {
     }
 
     @Override
-    public void drawImage(String resource, double x, double y, double width, double height, double textureX, double textureY, double textureWidth, double textureHeight, Color color) {
+    public void drawPartialImage(String resource, double x, double y, double width, double height, double textureX, double textureY, double textureWidth, double textureHeight, Color color) {
         ResourceLocation resourceLocation = new ResourceLocation(resource);
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
         GL11.glPushMatrix();

@@ -69,7 +69,7 @@ public class ScoreboardComponent extends Component {
         List<IScore> scores;
         if(!scoreObjective.exists() && dummy) {
             scoreObjective = Sorus.getSorus().getVersion().getGame().getScoreboard().getDummyObjective();
-        } else if(!dummy) {
+        } else if(!scoreObjective.exists() && !dummy) {
             width = 0;
             height = 0;
             return;

@@ -34,8 +34,6 @@ import org.sorus.client.startup.injection.Hook;
 import org.sorus.client.startup.injection.Injector;
 import org.sorus.client.startup.injection.Modify;
 
-import java.util.List;
-
 @Hook("net/minecraft/client/gui/FontRenderer")
 public class FontRendererInjector extends Injector<FontRenderer> {
 

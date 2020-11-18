@@ -28,7 +28,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.sorus.client.version.game.IInventoryPlayer;
 import org.sorus.client.version.game.IPlayer;
 
-public class PlayerImpl extends EntityImpl implements IPlayer {
+public class PlayerImpl extends EntityLivingBaseImpl implements IPlayer {
 
     public PlayerImpl(EntityPlayer player) {
         super(player);

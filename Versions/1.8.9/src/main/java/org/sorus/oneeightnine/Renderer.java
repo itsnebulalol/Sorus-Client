@@ -224,8 +224,27 @@ public class Renderer implements IRenderer {
         return fontRenderer;
     }
 
+    private final Gui gui = new Gui();
+
     @Override
-    public void drawImage(String resource, double x, double y, double width, double height, double textureX, double textureY, double textureWidth, double textureHeight, Color color) {
+    public void drawPartialImage(String resource, double x, double y, double width, double height, double textureX, double textureY, double textureWidth, double textureHeight, Color color) {
+        ResourceLocation resourceLocation = new ResourceLocation(resource);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glTranslated(x, y, 0);
+        GL11.glScaled(width / textureWidth, height / textureHeight, 1);
+        GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
+        gui.drawTexturedModalRect(0, 0, (int) textureX, (int) textureY, (int) textureWidth, (int) textureHeight);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+    }
+
+    @Override
+    public void drawFullImage(String resource, double x, double y, double width, double height, Color color) {
         ResourceLocation resourceLocation = new ResourceLocation(resource);
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
         GL11.glPushMatrix();

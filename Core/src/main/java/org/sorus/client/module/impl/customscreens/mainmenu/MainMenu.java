@@ -34,6 +34,8 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.version.input.Key;
 
+import java.awt.*;
+
 public class MainMenu extends Screen {
 
     private final Panel main;
@@ -41,11 +43,11 @@ public class MainMenu extends Screen {
 
     public MainMenu() {
         main = new Panel();
-        main.add(image = new Image().resource("sorus/modules/custommenus/background.png").size(1920, 1080));
-        main.add(new Rectangle().size(275, 275).smooth(137.5).color(DefaultTheme.getMedbackgroundLayerColor()).position(822.5, 187.5));
-        main.add(new Image().resource("sorus/modules/custommenus/logo.png").size(250, 250).color(DefaultTheme.getForegroundLayerColor()).position(835, 200));
-        main.add(new MainMenuMainElement.Singleplayer().position(610, 500));
-        main.add(new MainMenuMainElement.Multiplayer().position(610, 610));
+        main.add(image = new Image().resource("sorus/modules/custommenus/background.png").size(1940, 1100));
+        main.add(new Rectangle().size(175, 175).smooth(87.5).color(DefaultTheme.getMedbackgroundLayerColor()).position(872.5, 302.5));
+        main.add(new Image().resource("sorus/modules/custommenus/logo.png").size(150, 150).color(DefaultTheme.getForegroundLayerColor()).position(885, 315));
+        main.add(new MainMenuMainElement.Singleplayer().position(735, 500));
+        main.add(new MainMenuMainElement.Multiplayer().position(735, 600));
         Collection bottomBar = new Collection();
         bottomBar.add(new Rectangle().size(300, 100).smooth(50).color(DefaultTheme.getMedbackgroundLayerColor()));
         bottomBar.position(810, 965);
@@ -59,7 +61,7 @@ public class MainMenu extends Screen {
     public void onRender() {
         double xPercent = Sorus.getSorus().getVersion().getInput().getMouseX() / Sorus.getSorus().getVersion().getScreen().getScaledWidth();
         double yPercent = Sorus.getSorus().getVersion().getInput().getMouseY() / Sorus.getSorus().getVersion().getScreen().getScaledHeight();
-        image.position((xPercent - 0.5) * 10, (yPercent - 0.5) * 10);
+        image.position(-5 + (xPercent - 0.5) * 10, -5 + (yPercent - 0.5) * 10);
         this.main.scale(
                 Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
                 Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);

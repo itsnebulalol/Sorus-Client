@@ -174,7 +174,7 @@ public interface IScreenRenderer {
       double thickness,
       Color color);
 
-  void drawImage(
+  void drawPartialImage(
       String resource,
       double x,
       double y,
@@ -185,6 +185,14 @@ public interface IScreenRenderer {
       double textureWidth,
       double textureHeight,
       Color color);
+
+  void drawFullImage(
+          String resource,
+          double x,
+          double y,
+          double width,
+          double height,
+          Color color);
 
   void drawItem(IItemStack itemStack, double x, double y, Color color);
 }

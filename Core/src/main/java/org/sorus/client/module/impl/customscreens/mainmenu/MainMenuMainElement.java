@@ -30,11 +30,14 @@ import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.HollowRectangle;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.game.GUIType;
+
+import java.awt.*;
 
 public abstract class MainMenuMainElement extends Collection {
 
@@ -42,11 +45,12 @@ public abstract class MainMenuMainElement extends Collection {
     private long prevRenderTime;
     private double expandedPercent;
 
-    public MainMenuMainElement(String name) {
-        collection.add(new Rectangle().size(700, 90).color(DefaultTheme.getMedbackgroundLayerColor()));
+    public MainMenuMainElement(String name, String image) {
+        collection.add(new Rectangle().size(450, 90).color(DefaultTheme.getMedbackgroundLayerColor()));
         Text text;
         collection.add(text = new Text().text(name).fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer()).scale(4, 4).color(DefaultTheme.getForegroundLayerColor()));
-        text.position(350 - text.width() * 4 / 2, 45 - text.height() * 4 / 2);
+        text.position(225 - text.width() * 4 / 2 - 15, 45 - text.height() * 4 / 2);
+        collection.add(new Image().resource(image).size(60, 60).position(225 + text.width() * 4 / 2 - 10, 17.5).color(DefaultTheme.getForegroundLayerColor()));
         this.add(collection);
         Sorus.getSorus().getEventManager().register(this);
     }
@@ -57,7 +61,7 @@ public abstract class MainMenuMainElement extends Collection {
         long deltaTime = renderTime - prevRenderTime;
         boolean hovered = this.isHovered(Sorus.getSorus().getVersion().getInput().getMouseX(), Sorus.getSorus().getVersion().getInput().getMouseY());
         expandedPercent = MathUtil.clamp(expandedPercent + (hovered ? 1 : -1) * deltaTime * 0.015, 0, 1);
-        collection.position(-expandedPercent * 4, -expandedPercent * 0.5).scale(1 + 0.01 * expandedPercent, 1 + 0.01 * expandedPercent);
+        collection.position(-expandedPercent * 2, -expandedPercent * 0.5).scale(1 + 0.01 * expandedPercent, 1 + 0.01 * expandedPercent);
         prevRenderTime = renderTime;
         super.onRender();
     }
@@ -69,7 +73,7 @@ public abstract class MainMenuMainElement extends Collection {
     }
 
     private boolean isHovered(double x, double y) {
-        return x > this.absoluteX() && x < this.absoluteX() + 700 * this.absoluteXScale() && y > this.absoluteY() && y < this.absoluteY() + 90 * this.absoluteYScale();
+        return x > this.absoluteX() && x < this.absoluteX() + 450 * this.absoluteXScale() && y > this.absoluteY() && y < this.absoluteY() + 90 * this.absoluteYScale();
     }
 
     @EventInvoked
@@ -84,7 +88,7 @@ public abstract class MainMenuMainElement extends Collection {
     public static class Singleplayer extends MainMenuMainElement {
 
         public Singleplayer() {
-            super("Singleplayer");
+            super("Singleplayer", "sorus/modules/custommenus/solo.png");
         }
 
         @Override
@@ -98,7 +102,7 @@ public abstract class MainMenuMainElement extends Collection {
     public static class Multiplayer extends MainMenuMainElement {
 
         public Multiplayer() {
-            super("Multiplayer");
+            super("Multiplayer", "sorus/modules/custommenus/multi.png");
         }
 
         @Override

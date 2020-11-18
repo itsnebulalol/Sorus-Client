@@ -75,6 +75,11 @@ public class HUD implements ISettingHolder {
    * positions.
    */
   public void render() {
+    List<IComponent> components = this.components.getValue();
+    boolean dummy = Sorus.getSorus().getGUIManager().isScreenOpen(HUDPositionScreen.class);
+    for(IComponent component : components) {
+      component.update(dummy);
+    }
     double x = this.getLeft();
     double y = this.getTop();
     IGLHelper glHelper = Sorus.getSorus().getVersion().getGLHelper();
@@ -84,7 +89,7 @@ public class HUD implements ISettingHolder {
     glHelper.translate(-x, -y, 0);
     double yOffset = 0;
     for (IComponent component : this.components.getValue()) {
-      component.render(x, y + yOffset, Sorus.getSorus().getGUIManager().isScreenOpen(HUDPositionScreen.class));
+      component.render(x, y + yOffset, dummy);
       yOffset += component.getHeight();
     }
     glHelper.translate(x, y, 0);

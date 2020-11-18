@@ -37,6 +37,7 @@ import org.sorus.client.module.impl.fps.FPSComponent;
 import org.sorus.client.module.impl.gps.GPSComponent;
 import org.sorus.client.module.impl.keystrokes.KeystrokesComponent;
 import org.sorus.client.module.impl.ping.PingComponent;
+import org.sorus.client.module.impl.potionstatus.PotionStatusComponent;
 import org.sorus.client.module.impl.scoreboard.ScoreboardComponent;
 import org.sorus.client.settings.ISettingHolder;
 import org.sorus.client.version.input.Key;
@@ -67,6 +68,7 @@ public class HUDManager implements ISettingHolder {
     this.register(GPSComponent.class);
     this.register(KeystrokesComponent.class);
     this.register(PingComponent.class);
+    this.register(PotionStatusComponent.class);
     this.register(ScoreboardComponent.class);
   }
 

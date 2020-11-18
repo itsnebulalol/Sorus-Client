@@ -30,6 +30,10 @@ import org.sorus.client.settings.ISettingHolder;
 /** Base interface for all components, all components will implement this in some way. */
 public interface IComponent extends ISettingHolder {
 
+  default void update(boolean dummy) {
+
+  }
+
   /**
    * Renders the component.
    *

@@ -24,22 +24,11 @@
 
 package org.sorus.oneeightnine;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.scoreboard.Score;
-import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.scoreboard.Scoreboard;
 import org.sorus.client.version.game.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Game implements IGame {
 

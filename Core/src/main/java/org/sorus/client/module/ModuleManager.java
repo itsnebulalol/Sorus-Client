@@ -32,6 +32,7 @@ import org.sorus.client.module.impl.blockoverlay.BlockOverlay;
 import org.sorus.client.module.impl.challenges.Challenges;
 import org.sorus.client.module.impl.chatmacros.ChatMacros;
 import org.sorus.client.module.impl.crosshair.Crosshair;
+import org.sorus.client.module.impl.names.Names;
 import org.sorus.client.module.impl.customscreens.SorusMainMenuVisibler;
 import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
@@ -71,6 +72,7 @@ public class ModuleManager {
     this.register(new Challenges());
     this.register(new ChatMacros());
     this.register(new Crosshair());
+    this.register(new Names());
     this.register(new DiscordRP());
     this.register(new Enhancements());
     this.register(new Fullbright());

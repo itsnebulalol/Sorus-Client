@@ -228,7 +228,7 @@ public class RendererImpl implements IScreenRenderer {
   }
 
   @Override
-  public void drawImage(
+  public void drawPartialImage(
       String resource,
       double x,
       double y,
@@ -242,8 +242,23 @@ public class RendererImpl implements IScreenRenderer {
     Sorus.getSorus()
         .getVersion()
         .getRenderer()
-        .drawImage(
+        .drawPartialImage(
             resource, x, y, width, height, textureX, textureY, textureWidth, textureHeight, color);
+  }
+
+  @Override
+  public void drawFullImage(
+          String resource,
+          double x,
+          double y,
+          double width,
+          double height,
+          Color color) {
+    Sorus.getSorus()
+            .getVersion()
+            .getRenderer()
+            .drawFullImage(
+                    resource, x, y, width, height, color);
   }
 
   @Override
