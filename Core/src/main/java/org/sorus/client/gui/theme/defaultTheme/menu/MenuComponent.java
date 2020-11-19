@@ -34,6 +34,9 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.input.IInput;
 
 public class MenuComponent extends Collection {
 
@@ -141,9 +144,9 @@ public class MenuComponent extends Collection {
   public void onRender() {
     boolean hovered =
         this.isHovered(
-            Sorus.getSorus().getVersion().getInput().getMouseX(),
-            Sorus.getSorus().getVersion().getInput().getMouseY());
-    double fps = Math.max(1, Sorus.getSorus().getVersion().getGame().getFPS());
+            Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+            Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
+    double fps = Math.max(1, Sorus.getSorus().getVersion().getData(IGame.class).getFPS());
     hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) / fps * 6, 0, 1);
     main.position(-2 * hoveredPercent, -2 * hoveredPercent);
     main.scale(1 + hoveredPercent * 0.025, 1 + hoveredPercent * 0.025);

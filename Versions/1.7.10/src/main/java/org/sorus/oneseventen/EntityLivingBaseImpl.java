@@ -22,13 +22,31 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.oneseventen;
 
-/**
- * Base version interface, each version will implement this so Core can render and get data from the
- * game.
- */
-public interface IVersion {
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.potion.PotionEffect;
+import org.sorus.client.version.game.ILivingEntity;
+import org.sorus.client.version.game.IPotionEffect;
 
-  <T> T getData(Class<T> clazz);
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class EntityLivingBaseImpl extends EntityImpl implements ILivingEntity {
+
+    public EntityLivingBaseImpl(Entity entity) {
+        super(entity);
+    }
+
+    @Override
+    public List<IPotionEffect> getActivePotionEffects() {
+        List<IPotionEffect> potionEffects = new ArrayList<>();
+        for(PotionEffect potionEffect : (Collection<PotionEffect>) ((EntityLivingBase) this.entity).getActivePotionEffects()) {
+            potionEffects.add(new PotionEffectImpl(potionEffect));
+        }
+        return potionEffects;
+    }
+
 }

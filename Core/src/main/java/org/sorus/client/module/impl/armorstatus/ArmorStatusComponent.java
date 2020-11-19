@@ -38,6 +38,7 @@ import org.sorus.client.gui.hud.Component;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.game.IItemStack;
 
 public class ArmorStatusComponent extends Component {
@@ -72,7 +73,7 @@ public class ArmorStatusComponent extends Component {
   public void render(double x, double y, boolean dummy) {
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     List<IItemStack> armor =
-        Sorus.getSorus().getVersion().getGame().getPlayer().getInventory().getArmor();
+        Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getInventory().getArmor();
     List<IItemStack> reversedArmor = new ArrayList<>(armor);
     Collections.reverse(reversedArmor);
     this.mainCollection.clear();
@@ -90,7 +91,7 @@ public class ArmorStatusComponent extends Component {
   }
 
   private boolean showArmor(IItemStack iItemStack) {
-    switch(Sorus.getSorus().getVersion().getGame().getItemManager().getArmorType(iItemStack)) {
+    switch(Sorus.getSorus().getVersion().getData(IGame.class).getItemManager().getArmorType(iItemStack)) {
       case HELMET:
         return this.showHelmet.getValue();
       case CHESTPLATE:

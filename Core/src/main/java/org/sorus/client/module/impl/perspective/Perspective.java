@@ -33,6 +33,7 @@ import org.sorus.client.gui.screen.settings.components.Keybind;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.game.PerspectiveMode;
 import org.sorus.client.version.input.Input;
 import org.sorus.client.version.input.Key;
@@ -65,10 +66,10 @@ public class Perspective extends ModuleConfigurable {
     if (this.isEnabled()
         && e.getKey().equals(keybind.getValue())
         && !toggled
-        && Sorus.getSorus().getVersion().getGame().isIngame()) {
+        && Sorus.getSorus().getVersion().getData(IGame.class).isIngame()) {
       toggled = true;
-      savedPerspective = Sorus.getSorus().getVersion().getGame().getPerspective();
-      Sorus.getSorus().getVersion().getGame().setPerspective(PerspectiveMode.THIRD_PERSON_BACK);
+      savedPerspective = Sorus.getSorus().getVersion().getData(IGame.class).getPerspective();
+      Sorus.getSorus().getVersion().getData(IGame.class).setPerspective(PerspectiveMode.THIRD_PERSON_BACK);
       if (savedPerspective == PerspectiveMode.THIRD_PERSON_FRONT) {
         rotationYaw += 180;
         rotationPitch = -rotationPitch;
@@ -80,7 +81,7 @@ public class Perspective extends ModuleConfigurable {
   public void onKeyRelease(KeyReleaseEvent e) {
     if (this.isEnabled() && e.getKey().equals(keybind.getValue()) && toggled) {
       toggled = false;
-      Sorus.getSorus().getVersion().getGame().setPerspective(savedPerspective);
+      Sorus.getSorus().getVersion().getData(IGame.class).setPerspective(savedPerspective);
     }
   }
 

@@ -43,6 +43,8 @@ import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Keybind;
 import org.sorus.client.gui.screen.settings.components.Slider;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.Input;
 import org.sorus.client.version.input.Key;
 
@@ -100,14 +102,14 @@ public class ChatComponent extends Component {
     this.background.onRender();
     Sorus.getSorus()
         .getVersion()
-        .getGLHelper()
+        .getData(IGLHelper.class)
         .beginScissor(x, y, this.getWidth(), (this.getHeight() - 6) * this.getScale());
     for (int i = (int) ((-chatScrollOffset - chatScroll.getScroll()) / 4);
         i < chatComponents.size();
         i++) {
       chatComponents.get(i).onRender();
     }
-    Sorus.getSorus().getVersion().getGLHelper().endScissor();
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).endScissor();
   }
 
   @Override
@@ -234,7 +236,7 @@ public class ChatComponent extends Component {
 
   @EventInvoked
   public void onKeyPress(KeyPressEvent e) {
-    if (Sorus.getSorus().getVersion().getGame().isIngame()
+    if (Sorus.getSorus().getVersion().getData(IGame.class).isIngame()
         && e.getKey() == this.chatKeybind.getValue()
         && !e.isRepeat()) {
       Sorus.getSorus().getGUIManager().open(new ChatScreen(this));

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.version.IGLHelper;
 
 /**
  * Implementation of {@link Collection} using gl scissor to only render inside of the component's
@@ -63,7 +64,7 @@ public class Scissor extends Collection {
    */
   private static void updateCurrentScissor() {
     if (currentScissors.size() == 0) {
-      Sorus.getSorus().getVersion().getGLHelper().endScissor();
+      Sorus.getSorus().getVersion().getData(IGLHelper.class).endScissor();
       return;
     }
     double left = Double.MIN_VALUE;
@@ -77,10 +78,10 @@ public class Scissor extends Collection {
       bottom = Math.min(scissor.getY() + scissor.getHeight(), bottom);
     }
     if (left > right || top > bottom) {
-      Sorus.getSorus().getVersion().getGLHelper().beginScissor(0, 0, 0, 0);
+      Sorus.getSorus().getVersion().getData(IGLHelper.class).beginScissor(0, 0, 0, 0);
       return;
     }
-    Sorus.getSorus().getVersion().getGLHelper().beginScissor(left, top, right - left, bottom - top);
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).beginScissor(left, top, right - left, bottom - top);
   }
 
   /** Class used to store components such as location of a scissor. */

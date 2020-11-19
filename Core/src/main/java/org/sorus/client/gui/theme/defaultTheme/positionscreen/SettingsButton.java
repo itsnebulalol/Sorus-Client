@@ -35,6 +35,7 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.input.IInput;
 
 public class SettingsButton extends Collection {
 
@@ -58,8 +59,8 @@ public class SettingsButton extends Collection {
     long deltaTime = renderTime - prevRenderTime;
     boolean hovered =
         this.isHovered(
-            Sorus.getSorus().getVersion().getInput().getMouseX(),
-            Sorus.getSorus().getVersion().getInput().getMouseY());
+            Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+            Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
     expandedPercent = MathUtil.clamp(expandedPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
     main.scale(1 + 0.05 * expandedPercent, 1 + 0.05 * expandedPercent)
         .position(-0.02 * 50 * expandedPercent, -0.02 * 50 * expandedPercent);

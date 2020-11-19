@@ -42,6 +42,7 @@ import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.game.IGame;
 
 public class PingComponent extends Component {
 
@@ -92,7 +93,7 @@ public class PingComponent extends Component {
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
     List<List<Pair<String, Color>>> formatted =
-            this.currentMode.format(Sorus.getSorus().getVersion().getGame().getPing());
+            this.currentMode.format(Sorus.getSorus().getVersion().getData(IGame.class).getPing());
     List<String> strings = new ArrayList<>();
     for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder fpsBuilder = new StringBuilder();

@@ -33,6 +33,7 @@ import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Arc;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.input.IInput;
 
 public class MusicSlider extends Collection {
 
@@ -63,7 +64,7 @@ public class MusicSlider extends Collection {
   @Override
   public void onRender() {
     if (this.selected) {
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
       editing = mouseX != prevMouseX;
       if (this.editing) {
         double baseValue =

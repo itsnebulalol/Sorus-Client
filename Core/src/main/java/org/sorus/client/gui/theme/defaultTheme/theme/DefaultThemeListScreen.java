@@ -25,6 +25,8 @@
 package org.sorus.client.gui.theme.defaultTheme.theme;
 
 import java.awt.*;
+
+import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -43,7 +45,10 @@ import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.gui.theme.ThemeManager;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
+import org.sorus.client.version.render.IRenderer;
 
 public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
@@ -66,7 +71,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(7.5);
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
@@ -129,7 +134,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
   public void updateThemes() {
     scroll.clear();
     themeCount = 0;
-    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    double yRatio = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080;
     for (Theme theme : this.themeManager.getCurrentThemes()) {
       boolean added = false;
       while (!added) {
@@ -151,11 +156,11 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
   @Override
   public void render() {
-    double xRatio = Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920;
-    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    double xRatio = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920;
+    double yRatio = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080;
     if (draggedComponent != null) {
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       draggedComponent.position(
           (mouseX - initialMouseX + initialX) * 1 / xRatio,
           (mouseY - initialMouseY + initialY) * 1 / yRatio);
@@ -167,7 +172,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
   @Override
   public void exit() {
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     main.onRemove();
     super.exit();
@@ -192,7 +197,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
   }
 
   public void onComponentRelease(ThemeListComponent component) {
-    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    double yRatio = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080;
     int size = themeManager.getCurrentThemes().size();
     int index = 0;
     boolean added = false;
@@ -235,8 +240,8 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
     public void onRender() {
       long renderTime = System.currentTimeMillis();
       long deltaTime = System.currentTimeMillis() - prevRenderTime;
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       boolean hovered = this.isHovered(mouseX, mouseY);
       expandedPercent =
           Math.min(Math.max(0, expandedPercent + (hovered ? 1 : -1) * deltaTime / 100.0), 1);

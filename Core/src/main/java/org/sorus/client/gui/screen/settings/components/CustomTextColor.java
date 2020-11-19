@@ -44,6 +44,7 @@ import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.settings.Configurable;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.input.IInput;
 
 public class CustomTextColor extends Configurable {
 
@@ -81,8 +82,8 @@ public class CustomTextColor extends Configurable {
     this.removeButton.position(90, 70 + 85 * this.customTextLines.size());
     this.newLineButton.position(285, 70 + 85 * this.customTextLines.size());
     if (this.draggedText != null) {
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       this.draggedText.position(
           (mouseX - originalMouseX) * 4 + originalX, (mouseY - originalMouseY) * 4 + originalY);
     }

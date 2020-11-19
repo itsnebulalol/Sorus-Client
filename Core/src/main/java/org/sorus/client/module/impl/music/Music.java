@@ -33,6 +33,7 @@ import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.module.impl.music.screen.MainMusicScreen;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.Key;
 
 public class Music extends ModuleConfigurable {
@@ -66,7 +67,7 @@ public class Music extends ModuleConfigurable {
 
   @EventInvoked
   public void onKeyPress(KeyPressEvent e) {
-    if (e.getKey() == Key.M && Sorus.getSorus().getVersion().getGame().isIngame()) {
+    if (e.getKey() == Key.M && Sorus.getSorus().getVersion().getData(IGame.class).isIngame()) {
       Sorus.getSorus().getGUIManager().open(new MainMusicScreen());
     }
   }

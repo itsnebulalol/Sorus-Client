@@ -33,6 +33,7 @@ import org.sorus.client.gui.hud.Component;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.game.IScore;
 import org.sorus.client.version.game.IScoreObjective;
 import org.sorus.client.version.game.IScoreboard;
@@ -63,12 +64,12 @@ public class ScoreboardComponent extends Component {
     public void render(double x, double y, boolean dummy) {
         Sorus.getSorus().getGUIManager().getRenderer().drawRect(x, y, width, height, backgroundColor.getValue());
         IFontRenderer fontRenderer = Sorus.getSorus().getGUIManager().getRenderer().getMinecraftFontRenderer();
-        IScoreboard scoreboard = Sorus.getSorus().getVersion().getGame().getScoreboard();
+        IScoreboard scoreboard = Sorus.getSorus().getVersion().getData(IGame.class).getScoreboard();
         IScoreObjective scoreObjective = scoreboard.getObjectiveInSlot(1);
         String scoreObjectiveName;
         List<IScore> scores;
         if(!scoreObjective.exists() && dummy) {
-            scoreObjective = Sorus.getSorus().getVersion().getGame().getScoreboard().getDummyObjective();
+            scoreObjective = Sorus.getSorus().getVersion().getData(IGame.class).getScoreboard().getDummyObjective();
         } else if(!scoreObjective.exists() && !dummy) {
             width = 0;
             height = 0;

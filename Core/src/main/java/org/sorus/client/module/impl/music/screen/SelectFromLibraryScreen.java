@@ -26,6 +26,8 @@ package org.sorus.client.module.impl.music.screen;
 
 import java.io.File;
 import java.util.Objects;
+
+import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -44,6 +46,8 @@ import org.sorus.client.module.impl.music.ISound;
 import org.sorus.client.module.impl.music.SoundConverter;
 import org.sorus.client.util.ColorUtil;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
 public class SelectFromLibraryScreen extends Screen {
@@ -202,8 +206,8 @@ public class SelectFromLibraryScreen extends Screen {
   @Override
   public void onRender() {
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender();
   }
 
@@ -265,8 +269,8 @@ public class SelectFromLibraryScreen extends Screen {
       public void onRender() {
         boolean hovered =
             this.isHovered(
-                Sorus.getSorus().getVersion().getInput().getMouseX(),
-                Sorus.getSorus().getVersion().getInput().getMouseY());
+                Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+                Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
         this.hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.05, 0, 1);
         this.color(
             ColorUtil.getBetween(

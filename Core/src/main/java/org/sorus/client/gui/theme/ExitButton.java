@@ -32,6 +32,7 @@ import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.ColorUtil;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.input.IInput;
 
 public class ExitButton extends Collection {
 
@@ -49,8 +50,8 @@ public class ExitButton extends Collection {
 
   @Override
   public void onRender() {
-    double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-    double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+    double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+    double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
     boolean hovered = this.isHovered(mouseX, mouseY);
     hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * 0.03, 0, 1);
     main.color(

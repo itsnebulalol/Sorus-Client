@@ -27,6 +27,7 @@ package org.sorus.client.module.impl.potionstatus;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.hud.Component;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.game.IPotionEffect;
 
 import java.awt.*;
@@ -51,7 +52,7 @@ public class PotionStatusComponent extends Component {
 
     @Override
     public void update(boolean dummy) {
-        this.potionEffects = Sorus.getSorus().getVersion().getGame().getPlayer().getActivePotionEffects();
+        this.potionEffects = Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getActivePotionEffects();
     }
 
     @Override

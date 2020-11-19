@@ -42,6 +42,7 @@ import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.game.IEntity;
+import org.sorus.client.version.game.IGame;
 
 public class GPSComponent extends Component {
 
@@ -90,7 +91,7 @@ public class GPSComponent extends Component {
     this.updateFontRenderer();
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
-    IEntity player = Sorus.getSorus().getVersion().getGame().getPlayer();
+    IEntity player = Sorus.getSorus().getVersion().getData(IGame.class).getPlayer();
     List<List<Pair<String, Color>>> formatted =
         this.currentMode.format(
             (int) Math.round(player.getX()),

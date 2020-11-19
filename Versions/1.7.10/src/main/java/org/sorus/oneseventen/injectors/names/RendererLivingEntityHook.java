@@ -22,13 +22,29 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.oneseventen.injectors.names;
 
-/**
- * Base version interface, each version will implement this so Core can render and get data from the
- * game.
- */
-public interface IVersion {
+import net.minecraft.client.entity.EntityPlayerSP;
+import org.sorus.client.Sorus;
+import org.sorus.client.module.impl.names.Names;
 
-  <T> T getData(Class<T> clazz);
+public class RendererLivingEntityHook {
+
+    public static String getName(EntityPlayerSP player) {
+        Names names = Sorus.getSorus().getModuleManager().getModule(Names.class);
+        if(names.customName()) {
+            String customName = names.getCustomName().replace("&", "§");
+            if(names.overrideNameTag()) {
+                return customName;
+            } else {
+                return player.getFormattedCommandSenderName().getFormattedText().replace(player.getGameProfile().getName(), customName);
+            }
+        }
+        return player.getFormattedCommandSenderName().getFormattedText();
+    }
+
+    public static boolean renderSelfName() {
+        return Sorus.getSorus().getModuleManager().getModule(Names.class).renderSelfName();
+    }
+
 }

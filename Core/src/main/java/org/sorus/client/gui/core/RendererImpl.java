@@ -69,7 +69,7 @@ public class RendererImpl implements IScreenRenderer {
       Color topLeftColor) {
     Sorus.getSorus()
         .getVersion()
-        .getRenderer()
+        .getData(IRenderer.class)
         .drawRect(
             x, y, width, height, bottomLeftColor, bottomRightColor, topRightColor, topLeftColor);
   }
@@ -96,7 +96,7 @@ public class RendererImpl implements IScreenRenderer {
       double yCornerRadius,
       Color color) {
     org.sorus.client.version.render.IRenderer renderer =
-        Sorus.getSorus().getVersion().getRenderer();
+        Sorus.getSorus().getVersion().getData(IRenderer.class);
     if (xCornerRadius > 0 && yCornerRadius > 0) {
       renderer.drawHollowArc(x, y, xCornerRadius, yCornerRadius, 180, 270, thickness, color);
       renderer.drawHollowArc(
@@ -207,7 +207,7 @@ public class RendererImpl implements IScreenRenderer {
       Color color) {
     Sorus.getSorus()
         .getVersion()
-        .getRenderer()
+            .getData(IRenderer.class)
         .drawArc(x, y, xRadius, yRadius, startAngle, endAngle, color);
   }
 
@@ -223,7 +223,7 @@ public class RendererImpl implements IScreenRenderer {
       Color color) {
     Sorus.getSorus()
         .getVersion()
-        .getRenderer()
+            .getData(IRenderer.class)
         .drawHollowArc(x, y, xRadius, yRadius, startAngle, endAngle, thickness, color);
   }
 
@@ -241,7 +241,7 @@ public class RendererImpl implements IScreenRenderer {
       Color color) {
     Sorus.getSorus()
         .getVersion()
-        .getRenderer()
+            .getData(IRenderer.class)
         .drawPartialImage(
             resource, x, y, width, height, textureX, textureY, textureWidth, textureHeight, color);
   }
@@ -256,19 +256,19 @@ public class RendererImpl implements IScreenRenderer {
           Color color) {
     Sorus.getSorus()
             .getVersion()
-            .getRenderer()
+            .getData(IRenderer.class)
             .drawFullImage(
                     resource, x, y, width, height, color);
   }
 
   @Override
   public void drawItem(IItemStack itemStack, double x, double y, Color color) {
-    Sorus.getSorus().getVersion().getRenderer().drawItem(itemStack, x, y, color);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).drawItem(itemStack, x, y, color);
   }
 
   @EventInvoked
   public void onStart(StartEvent e) {
-    IRenderer renderer = Sorus.getSorus().getVersion().getRenderer();
+    IRenderer renderer = Sorus.getSorus().getVersion().getData(IRenderer.class);
     abelFontRenderer = renderer.getFont("Abel.ttf");
     rubikFontRenderer = renderer.getFont("Rubik.ttf");
     gidoleFontRenderer = renderer.getFont("Gidole.ttf");

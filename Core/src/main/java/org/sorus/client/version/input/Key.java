@@ -109,7 +109,7 @@ public enum Key implements Input {
 
   @Override
   public boolean isDown() {
-    return Sorus.getSorus().getVersion().getInput().isKeyDown(this);
+    return Sorus.getSorus().getVersion().getData(IInput.class).isKeyDown(this);
   }
 
   @Override

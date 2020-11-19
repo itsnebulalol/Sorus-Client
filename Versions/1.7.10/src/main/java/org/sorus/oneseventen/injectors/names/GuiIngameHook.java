@@ -22,13 +22,20 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.version;
+package org.sorus.oneseventen.injectors.names;
 
-/**
- * Base version interface, each version will implement this so Core can render and get data from the
- * game.
- */
-public interface IVersion {
+import net.minecraft.client.Minecraft;
+import org.sorus.client.Sorus;
+import org.sorus.client.module.impl.names.Names;
 
-  <T> T getData(Class<T> clazz);
+public class GuiIngameHook {
+
+    public static String getName(String name) {
+        Names names = Sorus.getSorus().getModuleManager().getModule(Names.class);
+        if(name.equals(Minecraft.getMinecraft().getSession().getUsername()) && names.customName()) {
+            return names.getCustomName();
+        }
+        return name;
+    }
+
 }

@@ -34,6 +34,7 @@ import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.render.IRenderer;
 
 public class Enhancements extends ModuleConfigurable {
 
@@ -64,11 +65,11 @@ public class Enhancements extends ModuleConfigurable {
       case INVENTORY:
       case INVENTORY_CREATIVE:
       case CRAFTING:
-        Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
+        Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(7.5);
         blurring = true;
         break;
       default:
-        Sorus.getSorus().getVersion().getRenderer().disableBlur();
+        Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
         blurring = false;
         break;
     }

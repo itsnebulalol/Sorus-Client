@@ -42,6 +42,8 @@ import org.sorus.client.module.impl.music.ISound;
 import org.sorus.client.module.impl.music.Playlist;
 import org.sorus.client.util.ColorUtil;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
 public class PlaylistEditScreen extends Screen {
@@ -200,8 +202,8 @@ public class PlaylistEditScreen extends Screen {
   public void onRender() {
     songButton.position(175, 100 + 85 * playlist.getSongCount());
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender();
   }
 
@@ -253,8 +255,8 @@ public class PlaylistEditScreen extends Screen {
     public void onRender() {
       boolean hovered =
           this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       this.hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.05, 0, 1);
       cross.color(
           ColorUtil.getBetween(

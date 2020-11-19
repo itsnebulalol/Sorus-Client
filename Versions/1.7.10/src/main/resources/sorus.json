@@ -13,6 +13,9 @@
     "timechanger.WorldInjector",
     "perspective.EntityRendererInjector",
     "enhancements.InventoryEffectRendererInjector",
-    "enhancements.ItemRendererInjector"
+    "enhancements.ItemRendererInjector",
+    "names.RendererLivingEntityInjector",
+    "names.GuiNewChatInjector",
+    "names.GuiIngameInjector"
   ]
 }

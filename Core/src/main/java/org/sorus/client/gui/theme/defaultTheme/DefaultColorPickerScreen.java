@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import javax.imageio.ImageIO;
+
+import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -44,6 +46,8 @@ import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
 public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerScreen> {
@@ -172,8 +176,8 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
   public void render() {
     this.colorViewer.color(this.getCompleteColor());
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender(this.screen);
   }
 
@@ -248,8 +252,8 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
 
     @Override
     public void onRender() {
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       if (selected) {
         double imageMouseX = (mouseX - this.absoluteX()) * 200 / (200 * this.absoluteXScale());
         double imageMouseY = (mouseY - this.absoluteY()) * 200 / (200 * this.absoluteYScale());
@@ -316,7 +320,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
     @Override
     public void onRender() {
       if (selected) {
-        double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+        double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
         this.value =
             MathUtil.clamp((mouseY - this.absoluteY()) / (200 * this.absoluteYScale()), 0, 1);
         DefaultColorPickerScreen.this.updateSetting();
@@ -372,7 +376,7 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
     @Override
     public void onRender() {
       if (selected) {
-        double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
+        double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
         this.value =
             MathUtil.clamp((mouseX - this.absoluteX()) / (200 * this.absoluteXScale()), 0, 1);
         DefaultColorPickerScreen.this.updateSetting();

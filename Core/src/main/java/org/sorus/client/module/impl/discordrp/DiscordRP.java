@@ -12,6 +12,7 @@ import org.sorus.client.event.impl.client.TickEvent;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.game.IGame;
 
 public class DiscordRP extends ModuleConfigurable {
 
@@ -73,8 +74,8 @@ public class DiscordRP extends ModuleConfigurable {
 
   @EventInvoked
   public void onGuiSwitch(GuiSwitchEvent e) {
-    if (Sorus.getSorus().getVersion().getGame().getPlayer().exists()) {
-      String serverIP = Sorus.getSorus().getVersion().getGame().getCurrentServerIP();
+    if (Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().exists()) {
+      String serverIP = Sorus.getSorus().getVersion().getData(IGame.class).getCurrentServerIP();
       if (serverIP == null) {
         this.updateState("Playing Singleplayer");
       } else {

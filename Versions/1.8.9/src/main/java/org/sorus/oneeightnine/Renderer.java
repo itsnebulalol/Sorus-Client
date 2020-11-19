@@ -38,6 +38,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.SlickException;
 import org.sorus.client.obfuscation.ObfuscationManager;
+import org.sorus.client.version.IScreen;
 import org.sorus.client.version.game.IItemStack;
 import org.sorus.client.version.render.IRenderer;
 import org.sorus.client.version.IVersion;
@@ -151,7 +152,7 @@ public class Renderer implements IRenderer {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glBlendFunc(770, 771);
-        GL11.glLineWidth((float) (thickness * version.getScreen().getScaleFactor()));
+        GL11.glLineWidth((float) (thickness * version.getData(IScreen.class).getScaleFactor()));
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         GL11.glBegin(GL11.GL_LINE_STRIP);
         for(double i = startAngle; i <= endAngle; i += 1) {

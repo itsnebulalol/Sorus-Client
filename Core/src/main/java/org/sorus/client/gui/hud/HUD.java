@@ -25,12 +25,15 @@
 package org.sorus.client.gui.hud;
 
 import java.util.*;
+
+import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.settings.ISettingHolder;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.IScreen;
 
 /** Contains components and it used for rendering in game huds. */
 public class HUD implements ISettingHolder {
@@ -82,7 +85,7 @@ public class HUD implements ISettingHolder {
     }
     double x = this.getLeft();
     double y = this.getTop();
-    IGLHelper glHelper = Sorus.getSorus().getVersion().getGLHelper();
+    IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
     glHelper.translate(x, y, 0);
     double scale = this.scale.getValue();
     glHelper.scale(scale, scale, 1);
@@ -105,14 +108,14 @@ public class HUD implements ISettingHolder {
   public double getX() {
     return this.position
         .getValue()
-        .getX(this, Sorus.getSorus().getVersion().getScreen().getScaledWidth());
+        .getX(this, Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth());
   }
 
   /** Sets the x position of the hud. */
   public void setX(double x) {
     this.position
         .getValue()
-        .setX(this, x, Sorus.getSorus().getVersion().getScreen().getScaledWidth());
+        .setX(this, x, Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth());
   }
 
   /**
@@ -123,14 +126,14 @@ public class HUD implements ISettingHolder {
   public double getY() {
     return this.position
         .getValue()
-        .getY(this, Sorus.getSorus().getVersion().getScreen().getScaledHeight());
+        .getY(this, Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight());
   }
 
   /** Sets the y position of the hud. */
   public void setY(double y) {
     this.position
         .getValue()
-        .setY(this, y, Sorus.getSorus().getVersion().getScreen().getScaledHeight());
+        .setY(this, y, Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight());
   }
 
   /**

@@ -33,7 +33,10 @@ import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.game.GUIType;
+import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.input.IInput;
 
 public abstract class MainMenuBottomElement extends Collection {
 
@@ -51,7 +54,7 @@ public abstract class MainMenuBottomElement extends Collection {
     public void onRender() {
         long renderTime = System.currentTimeMillis();
         long deltaTime = renderTime - prevRenderTime;
-        boolean hovered = this.isHovered(Sorus.getSorus().getVersion().getInput().getMouseX(), Sorus.getSorus().getVersion().getInput().getMouseY());
+        boolean hovered = this.isHovered(Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(), Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
         expandedPercent = MathUtil.clamp(expandedPercent + (hovered ? 1 : -1) * deltaTime * 0.015, 0, 1);
         collection.position(-expandedPercent * 2, -expandedPercent * 2).scale(1 + 0.05 * expandedPercent, 1 + 0.05 * expandedPercent);
         prevRenderTime = renderTime;
@@ -86,7 +89,7 @@ public abstract class MainMenuBottomElement extends Collection {
         @Override
         public void onClick() {
             Sorus.getSorus().getGUIManager().close((Screen) this.getContainer());
-            Sorus.getSorus().getVersion().getGame().display(GUIType.LANGUAGES);
+            Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.LANGUAGES);
         }
 
     }
@@ -100,7 +103,7 @@ public abstract class MainMenuBottomElement extends Collection {
         @Override
         public void onClick() {
             Sorus.getSorus().getGUIManager().close((Screen) this.getContainer());
-            Sorus.getSorus().getVersion().getGame().display(GUIType.SETTINGS);
+            Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.SETTINGS);
         }
 
     }
@@ -114,7 +117,7 @@ public abstract class MainMenuBottomElement extends Collection {
         @Override
         public void onClick() {
             Sorus.getSorus().getGUIManager().close((Screen) this.getContainer());
-            Sorus.getSorus().getVersion().getGame().shutdown();
+            Sorus.getSorus().getVersion().getData(IGame.class).shutdown();
         }
 
     }

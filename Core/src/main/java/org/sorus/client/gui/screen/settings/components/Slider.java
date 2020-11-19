@@ -35,6 +35,7 @@ import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.screen.settings.Configurable;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.input.IInput;
 
 public class Slider extends Configurable {
 
@@ -73,7 +74,7 @@ public class Slider extends Configurable {
   @Override
   public void onRender() {
     if (this.selected) {
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
       double baseValue =
           (MathUtil.clamp(
                       mouseX,

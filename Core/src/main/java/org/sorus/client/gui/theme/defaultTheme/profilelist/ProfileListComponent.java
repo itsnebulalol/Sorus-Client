@@ -34,6 +34,7 @@ import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.Axis;
 import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.input.IInput;
 
 import java.awt.*;
 
@@ -169,8 +170,8 @@ public class ProfileListComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-                  Sorus.getSorus().getVersion().getInput().getMouseX(),
-                  Sorus.getSorus().getVersion().getInput().getMouseY());
+                  Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+                  Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       rectangle.scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);

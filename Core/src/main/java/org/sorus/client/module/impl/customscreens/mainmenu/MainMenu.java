@@ -32,6 +32,8 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
 import java.awt.*;
@@ -59,12 +61,12 @@ public class MainMenu extends Screen {
 
     @Override
     public void onRender() {
-        double xPercent = Sorus.getSorus().getVersion().getInput().getMouseX() / Sorus.getSorus().getVersion().getScreen().getScaledWidth();
-        double yPercent = Sorus.getSorus().getVersion().getInput().getMouseY() / Sorus.getSorus().getVersion().getScreen().getScaledHeight();
+        double xPercent = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX() / Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth();
+        double yPercent = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY() / Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight();
         image.position(-5 + (xPercent - 0.5) * 10, -5 + (yPercent - 0.5) * 10);
         this.main.scale(
-                Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-                Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+                Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+                Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
         this.main.onRender(this);
     }
 

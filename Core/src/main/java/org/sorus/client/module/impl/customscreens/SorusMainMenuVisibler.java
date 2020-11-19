@@ -31,6 +31,7 @@ import org.sorus.client.module.Module;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.module.impl.customscreens.mainmenu.MainMenu;
 import org.sorus.client.version.game.GUIType;
+import org.sorus.client.version.game.IGame;
 
 public class SorusMainMenuVisibler extends Module {
 
@@ -52,7 +53,7 @@ public class SorusMainMenuVisibler extends Module {
     @EventInvoked
     public void override(GuiSwitchEvent e) {
         if(e.getType().equals(GUIType.MAIN_MENU)) {
-            Sorus.getSorus().getVersion().getGame().display(GUIType.BLANK);
+            Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.BLANK);
             Sorus.getSorus().getGUIManager().open(new MainMenu());
         } else {
             if(Sorus.getSorus().getGUIManager().isScreenOpen(MainMenu.class)) {

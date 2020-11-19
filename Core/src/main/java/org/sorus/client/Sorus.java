@@ -26,6 +26,8 @@ package org.sorus.client;
 
 import java.io.InputStream;
 import java.util.Map;
+
+import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.EventManager;
 import org.sorus.client.event.impl.client.StartEvent;
@@ -36,6 +38,7 @@ import org.sorus.client.gui.theme.ThemeManager;
 import org.sorus.client.module.ModuleManager;
 import org.sorus.client.plugin.PluginManager;
 import org.sorus.client.settings.SettingsManager;
+import org.sorus.client.version.IScreen;
 import org.sorus.client.version.IVersion;
 
 public class Sorus {
@@ -142,7 +145,7 @@ public class Sorus {
   public void configureWindow(StartEvent e) {
     InputStream x16 =
         Sorus.class.getClassLoader().getResourceAsStream("assets/minecraft/sorus/sorus_icon.png");
-    this.getVersion().getScreen().setIcon(x16);
-    this.getVersion().getScreen().setTitle("Sorus Client");
+    this.getVersion().getData(IScreen.class).setIcon(x16);
+    this.getVersion().getData(IScreen.class).setTitle("Sorus Client");
   }
 }

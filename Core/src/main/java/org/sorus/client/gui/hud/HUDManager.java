@@ -40,6 +40,7 @@ import org.sorus.client.module.impl.ping.PingComponent;
 import org.sorus.client.module.impl.potionstatus.PotionStatusComponent;
 import org.sorus.client.module.impl.scoreboard.ScoreboardComponent;
 import org.sorus.client.settings.ISettingHolder;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.Key;
 
 public class HUDManager implements ISettingHolder {
@@ -98,7 +99,7 @@ public class HUDManager implements ISettingHolder {
 
   @EventInvoked
   public void onKeyPress(KeyPressEvent e) {
-    if (Sorus.getSorus().getVersion().getGame().isIngame()
+    if (Sorus.getSorus().getVersion().getData(IGame.class).isIngame()
         && e.getKey() == Key.SHIFT_RIGHT
         && !e.isRepeat()) {
       Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(true));

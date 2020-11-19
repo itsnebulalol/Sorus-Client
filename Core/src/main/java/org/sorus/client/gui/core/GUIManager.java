@@ -99,7 +99,7 @@ public class GUIManager {
       }
     }
     if (shouldGuiOpen != guiOpen) {
-      IGame game = Sorus.getSorus().getVersion().getGame();
+      IGame game = Sorus.getSorus().getVersion().getData(IGame.class);
       if (shouldGuiOpen) {
         game.display(GUIType.BLANK);
       } else {

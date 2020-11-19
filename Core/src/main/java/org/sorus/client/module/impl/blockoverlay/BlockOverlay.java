@@ -34,6 +34,7 @@ import org.sorus.client.gui.screen.settings.components.Slider;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.IGLHelper;
 
 public class BlockOverlay extends ModuleConfigurable {
 
@@ -59,13 +60,13 @@ public class BlockOverlay extends ModuleConfigurable {
       Color color = this.getColor();
       Sorus.getSorus()
           .getVersion()
-          .getGLHelper()
+          .getData(IGLHelper.class)
           .color(
               color.getRed() / 255.0,
               color.getGreen() / 255.0,
               color.getBlue() / 255.0,
               color.getAlpha() / 255.0);
-      Sorus.getSorus().getVersion().getGLHelper().lineWidth(this.getBorderThickness());
+      Sorus.getSorus().getVersion().getData(IGLHelper.class).lineWidth(this.getBorderThickness());
     }
   }
 

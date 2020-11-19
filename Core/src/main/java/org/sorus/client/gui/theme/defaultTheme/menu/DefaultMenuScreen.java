@@ -24,6 +24,7 @@
 
 package org.sorus.client.gui.theme.defaultTheme.menu;
 
+import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
@@ -40,7 +41,9 @@ import org.sorus.client.gui.screen.theme.ThemeListScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
+import org.sorus.client.version.IScreen;
 import org.sorus.client.version.input.Key;
+import org.sorus.client.version.render.IRenderer;
 
 public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
 
@@ -56,7 +59,7 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(7.5);
     main = new Panel();
     main.add(menu = new Collection());
     menu.add(
@@ -121,8 +124,8 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
   @Override
   public void render() {
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     double fadeInPercent = Math.min((System.currentTimeMillis() - initTime) / 150.0, 1);
     this.menu.position(960 - 350 * fadeInPercent, 540 - 400 * fadeInPercent).scale(fadeInPercent, fadeInPercent);
     this.main.onRender(this.screen);
@@ -130,7 +133,7 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
 
   @Override
   public void exit() {
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     this.main.onRemove();
   }
 
