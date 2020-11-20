@@ -28,6 +28,8 @@ import net.minecraft.client.Minecraft;
 import org.sorus.client.Sorus;
 import org.sorus.client.module.impl.names.Names;
 
+import java.awt.*;
+
 public class GuiNewChatHook {
 
     public static String formatChatMessage(String message) {
