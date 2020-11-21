@@ -25,8 +25,6 @@
 package org.sorus.client.gui.theme.defaultTheme.theme;
 
 import java.awt.*;
-
-import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -116,12 +114,12 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
     menu.add(
-            new ExitButton(
-                    () -> {
-                      Sorus.getSorus().getGUIManager().close(this.screen);
-                      Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
-                    })
-                    .position(10, 10));
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
+                })
+            .position(10, 10));
     menu.add(new Add().position(320, 705));
     Scissor scissor = new Scissor().size(680, 690).position(10, 85);
     this.scroll = new Scroll();

@@ -26,13 +26,11 @@ package org.sorus.client.module;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.sorus.client.Sorus;
 import org.sorus.client.module.impl.blockoverlay.BlockOverlay;
 import org.sorus.client.module.impl.challenges.Challenges;
 import org.sorus.client.module.impl.chatmacros.ChatMacros;
 import org.sorus.client.module.impl.crosshair.Crosshair;
-import org.sorus.client.module.impl.names.Names;
 import org.sorus.client.module.impl.customscreens.SorusMainMenuVisibler;
 import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
@@ -40,6 +38,7 @@ import org.sorus.client.module.impl.fullbright.Fullbright;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
 import org.sorus.client.module.impl.mousedelayfix.MouseDelayFix;
 import org.sorus.client.module.impl.music.Music;
+import org.sorus.client.module.impl.names.Names;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
 import org.sorus.client.module.impl.perspective.Perspective;
 import org.sorus.client.module.impl.timechanger.TimeChanger;
@@ -61,7 +60,7 @@ public class ModuleManager {
    * @param module module to register
    */
   public void register(Module module) {
-    if(module.getVersions().allow(Sorus.getSorus().getArgs().get("version"))) {
+    if (module.getVersions().allow(Sorus.getSorus().getArgs().get("version"))) {
       this.modules.add(module);
     }
   }

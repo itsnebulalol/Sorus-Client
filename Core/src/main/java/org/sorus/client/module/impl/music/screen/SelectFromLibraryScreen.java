@@ -26,8 +26,6 @@ package org.sorus.client.module.impl.music.screen;
 
 import java.io.File;
 import java.util.Objects;
-
-import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;

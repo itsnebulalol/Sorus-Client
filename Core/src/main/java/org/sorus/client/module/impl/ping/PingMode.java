@@ -138,7 +138,7 @@ public abstract class PingMode extends Mode {
         List<Pair<String, Color>> formattedLine = new ArrayList<>();
         for (Pair<String, Color> pair : lineList) {
           formattedLine.add(
-                  Pair.of(pair.getLeft().replace("$PING", String.valueOf(ping)), pair.getRight()));
+              Pair.of(pair.getLeft().replace("$PING", String.valueOf(ping)), pair.getRight()));
         }
         formattedList.add(formattedLine);
       }

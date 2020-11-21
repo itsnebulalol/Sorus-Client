@@ -126,7 +126,8 @@ public class GUIManager {
   }
 
   /**
-   * Calls the {@link Screen#keyTyped(Key, boolean)} (Key)} method for all currently displayed screens.
+   * Calls the {@link Screen#keyTyped(Key, boolean)} (Key)} method for all currently displayed
+   * screens.
    *
    * @param e the {@link KeyPressEvent}.
    */
@@ -168,12 +169,11 @@ public class GUIManager {
   }
 
   public <T extends Screen> T getCurrentScreen(Class<T> clazz) {
-    for(Screen screen : this.getCurrentScreens()) {
-      if(clazz.isAssignableFrom(screen.getClass())) {
+    for (Screen screen : this.getCurrentScreens()) {
+      if (clazz.isAssignableFrom(screen.getClass())) {
         return (T) screen;
       }
     }
     return null;
   }
-
 }

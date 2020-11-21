@@ -25,7 +25,6 @@
 package org.sorus.client.gui.screen.modulelist;
 
 import org.sorus.client.Sorus;
-import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.ThemeableScreen;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
 import org.sorus.client.module.ModuleConfigurable;

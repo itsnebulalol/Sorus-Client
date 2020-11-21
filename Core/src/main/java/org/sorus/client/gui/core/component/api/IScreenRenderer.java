@@ -186,13 +186,7 @@ public interface IScreenRenderer {
       double textureHeight,
       Color color);
 
-  void drawFullImage(
-          String resource,
-          double x,
-          double y,
-          double width,
-          double height,
-          Color color);
+  void drawFullImage(String resource, double x, double y, double width, double height, Color color);
 
   void drawItem(IItemStack itemStack, double x, double y, Color color);
 }

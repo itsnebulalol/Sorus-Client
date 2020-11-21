@@ -81,7 +81,10 @@ public class Scissor extends Collection {
       Sorus.getSorus().getVersion().getData(IGLHelper.class).beginScissor(0, 0, 0, 0);
       return;
     }
-    Sorus.getSorus().getVersion().getData(IGLHelper.class).beginScissor(left, top, right - left, bottom - top);
+    Sorus.getSorus()
+        .getVersion()
+        .getData(IGLHelper.class)
+        .beginScissor(left, top, right - left, bottom - top);
   }
 
   /** Class used to store components such as location of a scissor. */

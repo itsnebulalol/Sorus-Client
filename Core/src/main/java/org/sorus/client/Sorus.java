@@ -26,8 +26,6 @@ package org.sorus.client;
 
 import java.io.InputStream;
 import java.util.Map;
-
-import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.EventManager;
 import org.sorus.client.event.impl.client.StartEvent;

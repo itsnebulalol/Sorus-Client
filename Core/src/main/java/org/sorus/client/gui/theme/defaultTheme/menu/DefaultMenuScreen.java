@@ -24,7 +24,6 @@
 
 package org.sorus.client.gui.theme.defaultTheme.menu;
 
-import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
@@ -109,16 +108,33 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
                   Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(false));
                 })
             .position(10, 10));
-    menu.add(new MenuComponent("HUDs", null, () -> Sorus.getSorus().getGUIManager().open(new HUDListScreen())).position(20, 90));
-    menu.add(new MenuComponent("Modules", null, () -> Sorus.getSorus().getGUIManager().open(new ModuleListScreen())).position(246, 90));
-    menu.add(new MenuComponent("Themes", null, () -> Sorus.getSorus().getGUIManager().open(new ThemeListScreen())).position(472, 90));
+    menu.add(
+        new MenuComponent(
+                "HUDs", null, () -> Sorus.getSorus().getGUIManager().open(new HUDListScreen()))
+            .position(20, 90));
+    menu.add(
+        new MenuComponent(
+                "Modules",
+                null,
+                () -> Sorus.getSorus().getGUIManager().open(new ModuleListScreen()))
+            .position(246, 90));
+    menu.add(
+        new MenuComponent(
+                "Themes", null, () -> Sorus.getSorus().getGUIManager().open(new ThemeListScreen()))
+            .position(472, 90));
     menu.add(new MenuComponent("Settings", null, null).position(20, 322));
     menu.add(new MenuComponent("Plugins", null, null).position(246, 322));
-    menu.add(new MenuComponent("Profiles", null, () -> Sorus.getSorus().getGUIManager().open(new ProfileListScreen())).position(472, 322));
+    menu.add(
+        new MenuComponent(
+                "Profiles",
+                null,
+                () -> Sorus.getSorus().getGUIManager().open(new ProfileListScreen()))
+            .position(472, 322));
     menu.add(new MenuComponent("test", null, null).position(20, 554));
     menu.add(new MenuComponent("test", null, null).position(246, 554));
     menu.add(new MenuComponent("test", null, null).position(472, 554));
-    initTime = performOpenAnimation ? System.currentTimeMillis() : System.currentTimeMillis() - 1000;
+    initTime =
+        performOpenAnimation ? System.currentTimeMillis() : System.currentTimeMillis() - 1000;
   }
 
   @Override
@@ -127,7 +143,9 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
         Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
         Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     double fadeInPercent = Math.min((System.currentTimeMillis() - initTime) / 150.0, 1);
-    this.menu.position(960 - 350 * fadeInPercent, 540 - 400 * fadeInPercent).scale(fadeInPercent, fadeInPercent);
+    this.menu
+        .position(960 - 350 * fadeInPercent, 540 - 400 * fadeInPercent)
+        .scale(fadeInPercent, fadeInPercent);
     this.main.onRender(this.screen);
   }
 

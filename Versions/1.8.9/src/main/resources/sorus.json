@@ -16,6 +16,7 @@
     "mousedelayfix.EntityLivingBaseInjector",
     "itemphysics.RenderEntityItemInjector",
     "perspective.EntityRendererInjector",
+    "perspective.RenderInjector",
     "enhancements.InventoryEffectRendererInjector",
     "enhancements.ItemRendererInjector",
     "fullbright.EntityRendererInjector",

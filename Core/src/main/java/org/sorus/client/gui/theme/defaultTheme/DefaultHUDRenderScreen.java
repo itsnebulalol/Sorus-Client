@@ -54,6 +54,7 @@ public class DefaultHUDRenderScreen extends ThemeBase<HUDRenderScreen> {
     Sorus sorus = Sorus.getSorus();
     GUIManager guiManager = sorus.getGUIManager();
     return sorus.getVersion().getData(IGame.class).shouldRenderHUDS()
-        && !guiManager.isScreenOpen(HUDPositionScreen.class) && sorus.getVersion().getData(IGame.class).getPlayer().exists();
+        && !guiManager.isScreenOpen(HUDPositionScreen.class)
+        && sorus.getVersion().getData(IGame.class).getPlayer().exists();
   }
 }

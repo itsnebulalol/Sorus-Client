@@ -35,31 +35,32 @@ import org.sorus.client.version.game.IGame;
 
 public class SorusMainMenuVisibler extends Module {
 
-    public SorusMainMenuVisibler() {
-        super("Custom Main Menu");
-    }
+  public SorusMainMenuVisibler() {
+    super("Custom Main Menu");
+  }
 
-    @Override
-    public void onLoad() {
-        Sorus.getSorus().getEventManager().register(this);
-        super.onLoad();
-    }
+  @Override
+  public void onLoad() {
+    Sorus.getSorus().getEventManager().register(this);
+    super.onLoad();
+  }
 
-    @Override
-    public VersionDecision getVersions() {
-        return new VersionDecision.Allow();
-    }
+  @Override
+  public VersionDecision getVersions() {
+    return new VersionDecision.Allow();
+  }
 
-    @EventInvoked
-    public void override(GuiSwitchEvent e) {
-        if(e.getType().equals(GUIType.MAIN_MENU)) {
-            Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.BLANK);
-            Sorus.getSorus().getGUIManager().open(new MainMenu());
-        } else {
-            if(Sorus.getSorus().getGUIManager().isScreenOpen(MainMenu.class)) {
-                Sorus.getSorus().getGUIManager().close(Sorus.getSorus().getGUIManager().getCurrentScreen(MainMenu.class));
-            }
-        }
+  @EventInvoked
+  public void override(GuiSwitchEvent e) {
+    if (e.getType().equals(GUIType.MAIN_MENU)) {
+      Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.BLANK);
+      Sorus.getSorus().getGUIManager().open(new MainMenu());
+    } else {
+      if (Sorus.getSorus().getGUIManager().isScreenOpen(MainMenu.class)) {
+        Sorus.getSorus()
+            .getGUIManager()
+            .close(Sorus.getSorus().getGUIManager().getCurrentScreen(MainMenu.class));
+      }
     }
-
+  }
 }

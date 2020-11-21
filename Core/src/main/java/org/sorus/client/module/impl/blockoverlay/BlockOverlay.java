@@ -89,5 +89,4 @@ public class BlockOverlay extends ModuleConfigurable {
   public VersionDecision getVersions() {
     return new VersionDecision.Allow();
   }
-
 }

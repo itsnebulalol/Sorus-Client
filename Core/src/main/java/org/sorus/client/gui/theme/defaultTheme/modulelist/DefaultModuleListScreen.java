@@ -24,7 +24,6 @@
 
 package org.sorus.client.gui.theme.defaultTheme.modulelist;
 
-import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;

@@ -52,15 +52,17 @@ public class DiscordRP extends ModuleConfigurable {
   @Override
   public void onEnable() {
     if (!connected) {
-      new Thread(() -> {
-        try {
-          client.connect();
-          client.sendRichPresence(builder.build());
-          connected = true;
-        } catch (NoDiscordClientException e) {
-          e.printStackTrace();
-        }
-      }).start();
+      new Thread(
+              () -> {
+                try {
+                  client.connect();
+                  client.sendRichPresence(builder.build());
+                  connected = true;
+                } catch (NoDiscordClientException e) {
+                  e.printStackTrace();
+                }
+              })
+          .start();
     }
   }
 
@@ -88,7 +90,7 @@ public class DiscordRP extends ModuleConfigurable {
 
   @EventInvoked
   public void onTick(TickEvent e) {
-    if(status.getValue().equals(details)) {
+    if (status.getValue().equals(details)) {
       details = status.getValue();
       this.updateDetails(details);
     }
@@ -109,5 +111,4 @@ public class DiscordRP extends ModuleConfigurable {
       client.sendRichPresence(builder.build());
     }
   }
-
 }

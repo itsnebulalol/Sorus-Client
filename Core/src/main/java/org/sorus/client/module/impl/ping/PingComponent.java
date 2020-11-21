@@ -27,7 +27,6 @@ package org.sorus.client.module.impl.ping;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
@@ -93,7 +92,7 @@ public class PingComponent extends Component {
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
     List<List<Pair<String, Color>>> formatted =
-            this.currentMode.format(Sorus.getSorus().getVersion().getData(IGame.class).getPing());
+        this.currentMode.format(Sorus.getSorus().getVersion().getData(IGame.class).getPing());
     List<String> strings = new ArrayList<>();
     for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder fpsBuilder = new StringBuilder();
@@ -125,7 +124,7 @@ public class PingComponent extends Component {
     }
     if (this.pingText.getComponents().size() > formatted.size()) {
       MultiText multiText1 =
-              (MultiText) this.pingText.getComponents().get(this.pingText.getComponents().size() - 1);
+          (MultiText) this.pingText.getComponents().get(this.pingText.getComponents().size() - 1);
       pingText.remove(multiText1);
     }
     this.pingString = strings.toArray(new String[0]);
@@ -174,10 +173,10 @@ public class PingComponent extends Component {
   @Override
   public double getHeight() {
     return tightFit.getValue()
-            ? fontRenderer.getFontHeight() * this.pingText.getComponents().size()
+        ? fontRenderer.getFontHeight() * this.pingText.getComponents().size()
             + (this.pingText.getComponents().size() - 1) * 2
             + 4
-            : 11;
+        : 11;
   }
 
   @Override

@@ -69,7 +69,10 @@ public class Perspective extends ModuleConfigurable {
         && Sorus.getSorus().getVersion().getData(IGame.class).isIngame()) {
       toggled = true;
       savedPerspective = Sorus.getSorus().getVersion().getData(IGame.class).getPerspective();
-      Sorus.getSorus().getVersion().getData(IGame.class).setPerspective(PerspectiveMode.THIRD_PERSON_BACK);
+      Sorus.getSorus()
+          .getVersion()
+          .getData(IGame.class)
+          .setPerspective(PerspectiveMode.THIRD_PERSON_BACK);
       if (savedPerspective == PerspectiveMode.THIRD_PERSON_FRONT) {
         rotationYaw += 180;
         rotationPitch = -rotationPitch;

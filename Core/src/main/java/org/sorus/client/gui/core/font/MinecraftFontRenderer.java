@@ -69,7 +69,10 @@ public class MinecraftFontRenderer implements IFontRenderer {
    */
   @Override
   public double getStringWidth(String string) {
-    return Sorus.getSorus().getVersion().getData(IRenderer.class).getStringWidth(fontLocation, string);
+    return Sorus.getSorus()
+        .getVersion()
+        .getData(IRenderer.class)
+        .getStringWidth(fontLocation, string);
   }
 
   /**

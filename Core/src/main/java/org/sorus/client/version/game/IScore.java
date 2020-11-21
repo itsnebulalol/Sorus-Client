@@ -26,8 +26,7 @@ package org.sorus.client.version.game;
 
 public interface IScore {
 
-    String getPlayerName();
+  String getPlayerName();
 
-    int getPoints();
-
+  int getPoints();
 }

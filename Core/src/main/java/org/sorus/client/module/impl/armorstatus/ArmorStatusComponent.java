@@ -79,19 +79,23 @@ public class ArmorStatusComponent extends Component {
     this.mainCollection.clear();
     int i = 0;
     for (IItemStack iItemStack : reversedArmor) {
-      if(this.showArmor(iItemStack)) {
+      if (this.showArmor(iItemStack)) {
         mainCollection.add(new SingleArmorComponent(iItemStack).position(2, 2 + i * 18));
         i++;
       }
     }
     this.modPanel.position(x, y);
-    if(this.mainCollection.getComponents().size() > 0) {
+    if (this.mainCollection.getComponents().size() > 0) {
       this.modPanel.onRender();
     }
   }
 
   private boolean showArmor(IItemStack iItemStack) {
-    switch(Sorus.getSorus().getVersion().getData(IGame.class).getItemManager().getArmorType(iItemStack)) {
+    switch (Sorus.getSorus()
+        .getVersion()
+        .getData(IGame.class)
+        .getItemManager()
+        .getArmorType(iItemStack)) {
       case HELMET:
         return this.showHelmet.getValue();
       case CHESTPLATE:

@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import javax.imageio.ImageIO;
-
-import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -69,15 +67,14 @@ public class DefaultColorPickerScreen extends ThemeBase<ColorPicker.ColorPickerS
   @Override
   public void init() {
     this.main = new Panel();
+    main.add(new Rectangle().size(290, 335).position(815, 350).color(new Color(42, 42, 42)));
     main.add(
-        new Rectangle()
-            .size(290, 335)
-            .position(815, 350)
-            .color(new Color(42, 42, 42)));
-    main.add(new ExitButton(() -> {
-      Sorus.getSorus().getGUIManager().close(this.screen);
-      callback.cancel();
-    }).position(815, 355));
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  callback.cancel();
+                })
+            .position(815, 355));
     main.add(
         new Rectangle()
             .gradient(

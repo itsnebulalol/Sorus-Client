@@ -26,7 +26,6 @@ package org.sorus.client.gui.theme.defaultTheme;
 
 import java.awt.*;
 import org.sorus.client.gui.core.component.Collection;
-import org.sorus.client.gui.screen.profilelist.ProfileListScreen;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.defaultTheme.hudconfig.DefaultHUDConfigScreen;
@@ -70,7 +69,7 @@ public class DefaultTheme extends Theme {
     this.register(
         backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
     this.register(
-            medbackgroundLayerColor = new Setting<>("medbackgroundLayerColor", new Color(22, 22, 22)));
+        medbackgroundLayerColor = new Setting<>("medbackgroundLayerColor", new Color(22, 22, 22)));
     this.register(
         medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
     this.register(
@@ -81,8 +80,8 @@ public class DefaultTheme extends Theme {
         foregroundLessLayerColor =
             new Setting<>("foregroundLessLayerColor", new Color(160, 160, 160)));
     this.register(
-            foregroundLessLessLayerColor =
-                    new Setting<>("foregroundLessLessLayerColor", new Color(130, 130, 130)));
+        foregroundLessLessLayerColor =
+            new Setting<>("foregroundLessLessLayerColor", new Color(130, 130, 130)));
     this.register(shadowStartColor = new Setting<>("shadowStartColor", new Color(14, 14, 14)));
     this.register(shadowEndColor = new Setting<>("shadowEndColor", new Color(14, 14, 14, 0)));
     instance = this;

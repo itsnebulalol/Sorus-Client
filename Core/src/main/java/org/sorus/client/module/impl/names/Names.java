@@ -33,46 +33,45 @@ import org.sorus.client.settings.Setting;
 
 public class Names extends ModuleConfigurable {
 
-    private final Setting<Boolean> selfNameTag;
-    private final Setting<Boolean> customName;
-    private final Setting<String> customNameText;
-    private final Setting<Boolean> overrideNameTag;
+  private final Setting<Boolean> selfNameTag;
+  private final Setting<Boolean> customName;
+  private final Setting<String> customNameText;
+  private final Setting<Boolean> overrideNameTag;
 
-    public Names() {
-        super("CUSTOM NAME");
-        this.register(selfNameTag = new Setting<>("selfNameTag", false));
-        this.register(customName = new Setting<>("customName", false));
-        this.register(customNameText = new Setting<>("customNameText", ""));
-        this.register(overrideNameTag = new Setting<>("overrideNameTag", false));
-    }
+  public Names() {
+    super("CUSTOM NAME");
+    this.register(selfNameTag = new Setting<>("selfNameTag", false));
+    this.register(customName = new Setting<>("customName", false));
+    this.register(customNameText = new Setting<>("customNameText", ""));
+    this.register(overrideNameTag = new Setting<>("overrideNameTag", false));
+  }
 
-    @Override
-    public void addConfigComponents(Collection collection) {
-        collection.add(new Toggle(selfNameTag, "Show Own Name Tag"));
-        collection.add(new Toggle(customName, "Custom Name"));
-        collection.add(new TextBox(customNameText, "Custom Name"));
-        collection.add(new Toggle(overrideNameTag, "Override Name Tag"));
-    }
+  @Override
+  public void addConfigComponents(Collection collection) {
+    collection.add(new Toggle(selfNameTag, "Show Own Name Tag"));
+    collection.add(new Toggle(customName, "Custom Name"));
+    collection.add(new TextBox(customNameText, "Custom Name"));
+    collection.add(new Toggle(overrideNameTag, "Override Name Tag"));
+  }
 
-    @Override
-    public VersionDecision getVersions() {
-        return new VersionDecision.Allow();
-    }
+  @Override
+  public VersionDecision getVersions() {
+    return new VersionDecision.Allow();
+  }
 
-    public boolean renderSelfName() {
-        return this.isEnabled() && selfNameTag.getValue();
-    }
+  public boolean renderSelfName() {
+    return this.isEnabled() && selfNameTag.getValue();
+  }
 
-    public boolean customName() {
-        return this.isEnabled() && customName.getValue();
-    }
+  public boolean customName() {
+    return this.isEnabled() && customName.getValue();
+  }
 
-    public boolean overrideNameTag() {
-        return this.overrideNameTag.getValue();
-    }
+  public boolean overrideNameTag() {
+    return this.overrideNameTag.getValue();
+  }
 
-    public String getCustomName() {
-        return this.customNameText.getValue();
-    }
-
+  public String getCustomName() {
+    return this.customNameText.getValue();
+  }
 }

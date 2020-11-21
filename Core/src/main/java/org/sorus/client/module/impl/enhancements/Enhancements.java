@@ -56,10 +56,10 @@ public class Enhancements extends ModuleConfigurable {
 
   @EventInvoked
   public void onGuiSwitch(GuiSwitchEvent e) {
-    if(!this.guiBlur.getValue() || !this.isEnabled()) {
+    if (!this.guiBlur.getValue() || !this.isEnabled()) {
       return;
     }
-    switch(e.getType()) {
+    switch (e.getType()) {
       case BLANK:
         break;
       case INVENTORY:
@@ -77,7 +77,7 @@ public class Enhancements extends ModuleConfigurable {
 
   @EventInvoked
   public void onDrawGradientRect(RenderObjectEvent.GradientRectangle e) {
-    if(blurring && e.getLeft() == 0 && e.getTop() == 0) {
+    if (blurring && e.getLeft() == 0 && e.getTop() == 0) {
       e.setCancelled(true);
     }
   }

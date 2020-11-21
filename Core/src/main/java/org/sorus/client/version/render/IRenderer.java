@@ -140,13 +140,7 @@ public interface IRenderer {
       double textureHeight,
       Color color);
 
-  void drawFullImage(
-          String resource,
-          double x,
-          double y,
-          double width,
-          double height,
-          Color color);
+  void drawFullImage(String resource, double x, double y, double width, double height, Color color);
 
   void enableBlur(double amount);
 

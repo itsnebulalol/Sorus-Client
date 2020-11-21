@@ -90,5 +90,4 @@ public class RenderObjectEvent extends EventCancelable {
   }
 
   public static class Sidebar extends RenderObjectEvent {}
-
 }

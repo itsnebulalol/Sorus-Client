@@ -49,7 +49,10 @@ public class ModuleListComponent extends Collection {
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
     this.add(
-        new Rectangle().size(680, 100).position(4, 4).color(DefaultTheme.getMedbackgroundLayerColor()));
+        new Rectangle()
+            .size(680, 100)
+            .position(4, 4)
+            .color(DefaultTheme.getMedbackgroundLayerColor()));
     this.add(
         new Rectangle()
             .gradient(
@@ -174,12 +177,13 @@ public class ModuleListComponent extends Collection {
     public void onRender() {
       long renderTime = System.currentTimeMillis();
       long deltaTime = renderTime - prevRenderTime;
-      switchPercent = Math.max(0, Math.min(1, switchPercent + (value ? 1 : -1) * deltaTime * 0.007));
+      switchPercent =
+          Math.max(0, Math.min(1, switchPercent + (value ? 1 : -1) * deltaTime * 0.007));
       this.background.color(
-              new Color(
-                      (int) (160 - switchPercent * 135),
-                      (int) (35 + switchPercent * 125),
-                      (int) (35 + switchPercent * 30)));
+          new Color(
+              (int) (160 - switchPercent * 135),
+              (int) (35 + switchPercent * 125),
+              (int) (35 + switchPercent * 30)));
       this.selector.position(5 + 35 * switchPercent, 5);
       prevRenderTime = renderTime;
       super.onRender();
@@ -198,14 +202,13 @@ public class ModuleListComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (e.getX() > this.absoluteX()
-              && e.getX() < this.absoluteX() + 80 * this.absoluteXScale()
-              && e.getY() > this.absoluteY()
-              && e.getY() < this.absoluteY() + 45 * this.absoluteYScale()) {
+          && e.getX() < this.absoluteX() + 80 * this.absoluteXScale()
+          && e.getY() > this.absoluteY()
+          && e.getY() < this.absoluteY() + 45 * this.absoluteYScale()) {
         this.value = !value;
         this.module.setEnabled(value);
       }
     }
-
   }
 
   public class ToggleButton extends Collection {

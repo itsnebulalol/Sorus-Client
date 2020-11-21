@@ -28,10 +28,9 @@ import java.util.List;
 
 public interface IScoreObjective {
 
-    boolean exists();
+  boolean exists();
 
-    String getName();
+  String getName();
 
-    List<IScore> getScores();
-
+  List<IScore> getScores();
 }

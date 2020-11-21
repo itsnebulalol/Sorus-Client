@@ -160,9 +160,9 @@ public class ThemeListComponent extends Collection {
           && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
           && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
         if (!(e.getX() > this.absoluteX() + 555 * this.absoluteXScale()
-                && e.getX() < this.absoluteX() + 605 * this.absoluteXScale()
-                && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
-                && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
+            && e.getX() < this.absoluteX() + 605 * this.absoluteXScale()
+            && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
+            && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
           this.themeListScreen.onComponentDrag(this, e.getX(), e.getY());
         }
       }
@@ -225,7 +225,7 @@ public class ThemeListComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        if(Sorus.getSorus().getThemeManager().getCurrentThemes().size() <= 1) {
+        if (Sorus.getSorus().getThemeManager().getCurrentThemes().size() <= 1) {
           return;
         }
         Sorus.getSorus().getThemeManager().remove(theme);

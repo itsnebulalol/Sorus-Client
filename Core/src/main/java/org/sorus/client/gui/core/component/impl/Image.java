@@ -45,10 +45,11 @@ public class Image extends Component {
     double height = this.height * this.absoluteYScale();
     Color color = this.absoluteColor();
     IScreenRenderer renderer = Sorus.getSorus().getGUIManager().getRenderer();
-    if(this.fullImage) {
+    if (this.fullImage) {
       renderer.drawFullImage(resource, x, y, width, height, color);
     } else {
-      renderer.drawPartialImage(resource, x, y, width, height, textureX, textureY, textureWidth, textureHeight, color);
+      renderer.drawPartialImage(
+          resource, x, y, width, height, textureX, textureY, textureWidth, textureHeight, color);
     }
   }
 
@@ -76,5 +77,4 @@ public class Image extends Component {
     this.fullImage = false;
     return this.cast();
   }
-
 }

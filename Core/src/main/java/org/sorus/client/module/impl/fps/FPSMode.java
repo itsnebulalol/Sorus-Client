@@ -44,6 +44,7 @@ public abstract class FPSMode extends Mode {
   public abstract List<List<Pair<String, Color>>> format(int fps);
 
   public abstract double getWidth(String[] fpsString, IFontRenderer fontRenderer);
+
   public abstract double getHeight(String[] fpsString, IFontRenderer fontRenderer);
 
   public static class LabelPreMode extends FPSMode {
@@ -91,10 +92,8 @@ public abstract class FPSMode extends Mode {
     @Override
     public double getHeight(String[] fpsString, IFontRenderer fontRenderer) {
       return tightFit.getValue()
-              ? fontRenderer.getFontHeight() * fpsString.length
-              + (fpsString.length - 1) * 2
-              + 4
-              : 11;
+          ? fontRenderer.getFontHeight() * fpsString.length + (fpsString.length - 1) * 2 + 4
+          : 11;
     }
 
     @Override
@@ -150,10 +149,8 @@ public abstract class FPSMode extends Mode {
     @Override
     public double getHeight(String[] fpsString, IFontRenderer fontRenderer) {
       return tightFit.getValue()
-              ? fontRenderer.getFontHeight() * fpsString.length
-              + (fpsString.length - 1) * 2
-              + 4
-              : 11;
+          ? fontRenderer.getFontHeight() * fpsString.length + (fpsString.length - 1) * 2 + 4
+          : 11;
     }
 
     @Override
@@ -209,9 +206,7 @@ public abstract class FPSMode extends Mode {
 
     @Override
     public double getHeight(String[] fpsString, IFontRenderer fontRenderer) {
-      return fontRenderer.getFontHeight() * fpsString.length
-              + (fpsString.length - 1) * 2
-              + 4;
+      return fontRenderer.getFontHeight() * fpsString.length + (fpsString.length - 1) * 2 + 4;
     }
 
     @Override

@@ -84,7 +84,10 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     double fadeInPercent = Math.min((System.currentTimeMillis() - initTime) / 150.0, 1);
     this.main.color(new Color(255, 255, 255, (int) (fadeInPercent * 255))).onRender();
     Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
-    Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(Math.round(fadeInPercent * 7.5 * 2.0) / 2.0);
+    Sorus.getSorus()
+        .getVersion()
+        .getData(IRenderer.class)
+        .enableBlur(Math.round(fadeInPercent * 7.5 * 2.0) / 2.0);
   }
 
   @Override
@@ -130,10 +133,8 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     IScreenRenderer renderer = Sorus.getSorus().getGUIManager().getRenderer();
     double scaledWidth = hud.getScaledWidth();
     double scaledHeight = hud.getScaledHeight();
-    renderer.drawRect(
-        hudLeft, hudTop, scaledWidth, scaledHeight, backgroundColor);
-    renderer.drawHollowRect(
-        hudLeft, hudTop, scaledWidth, scaledHeight, 0.5, borderColor);
+    renderer.drawRect(hudLeft, hudTop, scaledWidth, scaledHeight, backgroundColor);
+    renderer.drawHollowRect(hudLeft, hudTop, scaledWidth, scaledHeight, 0.5, borderColor);
     for (int i = 0; i < 2; i++) {
       for (int j = 0; j < 2; j++) {
         renderer.drawRect(

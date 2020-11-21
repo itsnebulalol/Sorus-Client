@@ -26,16 +26,11 @@ package org.sorus.client.gui.screen.profilelist;
 
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.ThemeableScreen;
-import org.sorus.client.gui.screen.settings.SettingsScreen;
-import org.sorus.client.module.ModuleConfigurable;
 
 public class ProfileListScreen extends ThemeableScreen {
 
   public ProfileListScreen() {
-    super(
-        Sorus.getSorus()
-            .getThemeManager()
-            .getTheme("profile-list"));
+    super(Sorus.getSorus().getThemeManager().getTheme("profile-list"));
   }
 
   public void loadProfile(String profileName) {

@@ -27,7 +27,6 @@ package org.sorus.client.module.impl.cps;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.font.IFontRenderer;
@@ -43,6 +42,7 @@ public abstract class CPSMode extends Mode {
   public abstract List<List<Pair<String, Color>>> format(Map<Integer, Integer> cps);
 
   public abstract double getWidth(String[] cpsString, IFontRenderer fontRenderer);
+
   public abstract double getHeight(String[] cpsString, IFontRenderer fontRenderer);
 
   public static class LabelPreMode extends CPSMode {
@@ -90,10 +90,8 @@ public abstract class CPSMode extends Mode {
     @Override
     public double getHeight(String[] fpsString, IFontRenderer fontRenderer) {
       return tightFit.getValue()
-              ? fontRenderer.getFontHeight() * fpsString.length
-              + (fpsString.length - 1) * 2
-              + 4
-              : 11;
+          ? fontRenderer.getFontHeight() * fpsString.length + (fpsString.length - 1) * 2 + 4
+          : 11;
     }
 
     @Override
@@ -154,10 +152,8 @@ public abstract class CPSMode extends Mode {
     @Override
     public double getHeight(String[] fpsString, IFontRenderer fontRenderer) {
       return tightFit.getValue()
-              ? fontRenderer.getFontHeight() * fpsString.length
-              + (fpsString.length - 1) * 2
-              + 4
-              : 11;
+          ? fontRenderer.getFontHeight() * fpsString.length + (fpsString.length - 1) * 2 + 4
+          : 11;
     }
 
     @Override
@@ -185,12 +181,12 @@ public abstract class CPSMode extends Mode {
     @Override
     public List<List<Pair<String, Color>>> format(Map<Integer, Integer> cps) {
       return new ArrayList<>(
-              Collections.singletonList(
-                      new ArrayList<>(
-                              Arrays.asList(
-                                      Pair.of(String.valueOf(cps.get(0)), this.leftValueColor.getValue()),
-                                      Pair.of(" : ", this.dividerColor.getValue()),
-                                      Pair.of(String.valueOf(cps.get(1)), this.rightValueColor.getValue())))));
+          Collections.singletonList(
+              new ArrayList<>(
+                  Arrays.asList(
+                      Pair.of(String.valueOf(cps.get(0)), this.leftValueColor.getValue()),
+                      Pair.of(" : ", this.dividerColor.getValue()),
+                      Pair.of(String.valueOf(cps.get(1)), this.rightValueColor.getValue())))));
     }
 
     @Override
@@ -213,10 +209,8 @@ public abstract class CPSMode extends Mode {
     @Override
     public double getHeight(String[] fpsString, IFontRenderer fontRenderer) {
       return tightFit.getValue()
-              ? fontRenderer.getFontHeight() * fpsString.length
-              + (fpsString.length - 1) * 2
-              + 4
-              : 11;
+          ? fontRenderer.getFontHeight() * fpsString.length + (fpsString.length - 1) * 2 + 4
+          : 11;
     }
 
     @Override
@@ -226,7 +220,6 @@ public abstract class CPSMode extends Mode {
       collection.add(new ColorPicker(dividerColor, "Divider Color"));
       collection.add(new ColorPicker(rightValueColor, "Right Value Color"));
     }
-
   }
 
   public static class CustomMode extends CPSMode {
@@ -251,11 +244,10 @@ public abstract class CPSMode extends Mode {
         List<Pair<String, Color>> formattedLine = new ArrayList<>();
         for (Pair<String, Color> pair : lineList) {
           String string = pair.getLeft();
-          for(int integer : cps.keySet()) {
+          for (int integer : cps.keySet()) {
             string = string.replace("$" + integer, String.valueOf(cps.get(integer)));
           }
-          formattedLine.add(
-                  Pair.of(string, pair.getRight()));
+          formattedLine.add(Pair.of(string, pair.getRight()));
         }
         formattedList.add(formattedLine);
       }
@@ -273,9 +265,7 @@ public abstract class CPSMode extends Mode {
 
     @Override
     public double getHeight(String[] fpsString, IFontRenderer fontRenderer) {
-      return fontRenderer.getFontHeight() * fpsString.length
-              + (fpsString.length - 1) * 2
-              + 4;
+      return fontRenderer.getFontHeight() * fpsString.length + (fpsString.length - 1) * 2 + 4;
     }
 
     @Override

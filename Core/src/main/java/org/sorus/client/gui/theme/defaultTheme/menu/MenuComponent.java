@@ -34,7 +34,6 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
-import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.IInput;
 
@@ -50,7 +49,7 @@ public class MenuComponent extends Collection {
   public MenuComponent(String name, ILogoCreator logoCreator, Runnable runnable) {
     this.runnable = runnable;
     this.add(main = new Collection());
-    //167.5 172.5
+    // 167.5 172.5
     main.add(new Rectangle().size(206, 212).color(DefaultTheme.getMedbackgroundLayerColor()));
     main.add(
         new Rectangle()

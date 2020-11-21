@@ -54,8 +54,8 @@ public class ModifyInjectionType implements IMethodInjectionType<Modify> {
     ClassNode classNode = new ClassNode();
     classReader.accept(classNode, 0);
     String name =
-            ObfuscationManager.getMethodName(
-                    injector.getDeclaredAnnotation(Hook.class).value(), modify.name(), modify.desc());
+        ObfuscationManager.getMethodName(
+            injector.getDeclaredAnnotation(Hook.class).value(), modify.name(), modify.desc());
     String desc = ObfuscationManager.getDesc(modify.desc());
     for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
       if (methodNode.name.equals(name) && methodNode.desc.equals(desc)) {

@@ -63,7 +63,7 @@ public class HUDManager implements ISettingHolder {
   /** Registers all the default available components. */
   public void registerInternalComponents() {
     this.register(ArmorStatusComponent.class);
-    //this.registerComponent(ChatComponent.class);
+    // this.registerComponent(ChatComponent.class);
     this.register(CPSComponent.class);
     this.register(FPSComponent.class);
     this.register(GPSComponent.class);

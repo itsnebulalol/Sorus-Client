@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
@@ -90,7 +89,7 @@ public class CPSComponent extends Component {
     this.currentMode = this.registeredModes.get(0);
     this.updateFontRenderer();
     Sorus.getSorus().getEventManager().register(this);
-    for(Button button : Button.values()) {
+    for (Button button : Button.values()) {
       this.prevClickTimes.put(button, new ArrayList<>());
     }
   }
@@ -99,13 +98,13 @@ public class CPSComponent extends Component {
   public void render(double x, double y, boolean dummy) {
     this.updateFontRenderer();
     long currentTime = System.currentTimeMillis();
-    for(List<Long> prevClickTimes : this.prevClickTimes.values()) {
+    for (List<Long> prevClickTimes : this.prevClickTimes.values()) {
       prevClickTimes.removeIf((value) -> currentTime - value > 1000);
     }
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
     Map<Integer, Integer> cps = new HashMap<>();
-    for(Button button : this.prevClickTimes.keySet()) {
+    for (Button button : this.prevClickTimes.keySet()) {
       cps.put(button.ordinal(), this.prevClickTimes.get(button).size());
     }
     List<List<Pair<String, Color>>> formatted = this.currentMode.format(cps);

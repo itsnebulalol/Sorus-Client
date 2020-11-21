@@ -27,8 +27,6 @@ package org.sorus.client.gui.theme.defaultTheme;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;

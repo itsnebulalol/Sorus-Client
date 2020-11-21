@@ -207,7 +207,7 @@ public class RendererImpl implements IScreenRenderer {
       Color color) {
     Sorus.getSorus()
         .getVersion()
-            .getData(IRenderer.class)
+        .getData(IRenderer.class)
         .drawArc(x, y, xRadius, yRadius, startAngle, endAngle, color);
   }
 
@@ -223,7 +223,7 @@ public class RendererImpl implements IScreenRenderer {
       Color color) {
     Sorus.getSorus()
         .getVersion()
-            .getData(IRenderer.class)
+        .getData(IRenderer.class)
         .drawHollowArc(x, y, xRadius, yRadius, startAngle, endAngle, thickness, color);
   }
 
@@ -241,24 +241,18 @@ public class RendererImpl implements IScreenRenderer {
       Color color) {
     Sorus.getSorus()
         .getVersion()
-            .getData(IRenderer.class)
+        .getData(IRenderer.class)
         .drawPartialImage(
             resource, x, y, width, height, textureX, textureY, textureWidth, textureHeight, color);
   }
 
   @Override
   public void drawFullImage(
-          String resource,
-          double x,
-          double y,
-          double width,
-          double height,
-          Color color) {
+      String resource, double x, double y, double width, double height, Color color) {
     Sorus.getSorus()
-            .getVersion()
-            .getData(IRenderer.class)
-            .drawFullImage(
-                    resource, x, y, width, height, color);
+        .getVersion()
+        .getData(IRenderer.class)
+        .drawFullImage(resource, x, y, width, height, color);
   }
 
   @Override

@@ -25,8 +25,6 @@
 package org.sorus.client.gui.hud;
 
 import java.util.*;
-
-import net.sourceforge.jaad.aac.tools.IS;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
@@ -80,7 +78,7 @@ public class HUD implements ISettingHolder {
   public void render() {
     List<IComponent> components = this.components.getValue();
     boolean dummy = Sorus.getSorus().getGUIManager().isScreenOpen(HUDPositionScreen.class);
-    for(IComponent component : components) {
+    for (IComponent component : components) {
       component.update(dummy);
     }
     double x = this.getLeft();
