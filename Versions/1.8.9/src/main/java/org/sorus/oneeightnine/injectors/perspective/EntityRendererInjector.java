@@ -41,12 +41,17 @@ public class EntityRendererInjector extends Injector<EntityRenderer> {
 
     @Modify(name = "updateCameraAndRender", desc = "(FJ)V")
     public static void transformUpdateCameraAndRender(MethodNode methodNode) {
+        String setAnglesClass = ObfuscationManager.getClassName("net/minecraft/client/entity/EntityPlayerSP");
+        String setAnglesMethod = ObfuscationManager.getMethodName("net/minecraft/entity/Entity", "setAngles", "(FF)V");
         for(AbstractInsnNode node : methodNode.instructions.toArray()) {
-            if(node.getOpcode() == Opcodes.IFEQ && node.getPrevious() instanceof VarInsnNode && ((VarInsnNode) node.getPrevious()).var == 4) {
-                InsnList insnList = new InsnList();
-                insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, EntityRendererHook.class.getCanonicalName().replace(".", "/"), "overrideMouse", "()Z", false));
-                insnList.add(new JumpInsnNode(Opcodes.IFEQ, ((JumpInsnNode) node).label));
-                methodNode.instructions.insert(node, insnList);
+            if(node instanceof MethodInsnNode && ((MethodInsnNode) node).owner.equals(setAnglesClass) && ((MethodInsnNode) node).name.equals(setAnglesMethod)) {
+                AbstractInsnNode node1 = node.getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious();
+                methodNode.instructions.remove(node1.getPrevious().getPrevious());
+                methodNode.instructions.remove(node1.getPrevious());
+                methodNode.instructions.remove(node1);
+                AbstractInsnNode node2 = node.getPrevious();
+                methodNode.instructions.insert(node2, new MethodInsnNode(Opcodes.INVOKESTATIC, EntityRendererHook.class.getName().replace(".", "/"), "setAngles", "(FF)V", false));
+                methodNode.instructions.remove(node);
             }
         }
     }
