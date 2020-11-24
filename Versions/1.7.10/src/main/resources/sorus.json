@@ -14,6 +14,7 @@
     "perspective.EntityRendererInjector",
     "enhancements.InventoryEffectRendererInjector",
     "enhancements.ItemRendererInjector",
+    "enhancements.EntityRendererInjector",
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
     "names.GuiIngameInjector"

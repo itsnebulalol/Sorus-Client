@@ -135,7 +135,9 @@ public class Game implements IGame {
     @Override
     public int getPing() {
         try {
-            return ((GuiPlayerInfo) ((Map<?, ?>) NetHandlerPlayClient.class.getDeclaredField("playerInfoMap").get(Minecraft.getMinecraft().getNetHandler())).get(Minecraft.getMinecraft().getSession().getUsername())).responseTime;
+            Field field = NetHandlerPlayClient.class.getDeclaredField("playerInfoMap");
+            field.setAccessible(true);
+            return ((GuiPlayerInfo) ((Map<?, ?>) field.get(Minecraft.getMinecraft().getNetHandler())).get(Minecraft.getMinecraft().getSession().getUsername())).responseTime;
         } catch(NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
