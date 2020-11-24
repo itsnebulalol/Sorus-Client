@@ -27,6 +27,7 @@ package org.sorus.client.gui.hud;
 import java.util.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.Screen;
+import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.settings.ISettingHolder;
 import org.sorus.client.settings.Setting;
@@ -300,4 +301,9 @@ public class HUD implements ISettingHolder {
   public List<IComponent> getHUDComponents() {
     return this.components.getValue();
   }
+
+  public void addIconElements(Collection collection) {
+    this.components.getValue().get(0).addIconElements(collection);
+  }
+
 }

@@ -54,7 +54,6 @@ public class GPSComponent extends Component {
 
   private final Setting<Long> mode;
   private final Setting<Boolean> customFont;
-  private final Setting<Boolean> tightFit;
   private final Setting<Color> backgroundColor;
 
   private final Panel modPanel;
@@ -77,7 +76,6 @@ public class GPSComponent extends Component {
               }
             });
     this.register(customFont = new Setting<>("customFont", false));
-    this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
@@ -164,23 +162,12 @@ public class GPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    if (tightFit.getValue()) {
-      double maxWidth = 0;
-      for (String string : gpsString) {
-        maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
-      }
-      return maxWidth + 4;
-    }
-    return 60;
+    return this.currentMode.getWidth(this.gpsString, this.fontRenderer);
   }
 
   @Override
   public double getHeight() {
-    return tightFit.getValue()
-        ? fontRenderer.getFontHeight() * this.gpsText.getComponents().size()
-            + (this.gpsText.getComponents().size() - 1) * 2
-            + 4
-        : 11;
+    return this.currentMode.getHeight(this.gpsString, this.fontRenderer);
   }
 
   @Override
@@ -193,7 +180,6 @@ public class GPSComponent extends Component {
     collection.add(new ClickThrough(mode, registeredModeNames, "Mode"));
     this.currentMode.addConfigComponents(collection);
     collection.add(new Toggle(customFont, "Custom Font"));
-    collection.add(new Toggle(tightFit, "Tight Fit"));
     collection.add(new ColorPicker(backgroundColor, "Background Color"));
   }
 }

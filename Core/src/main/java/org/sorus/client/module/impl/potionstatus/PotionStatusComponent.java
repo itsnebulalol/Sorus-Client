@@ -27,6 +27,8 @@ package org.sorus.client.module.impl.potionstatus;
 import java.awt.*;
 import java.util.List;
 import org.sorus.client.Sorus;
+import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.hud.Component;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.game.IGame;
@@ -113,4 +115,10 @@ public class PotionStatusComponent extends Component {
   public double getHeight() {
     return this.height = potionEffects.size() * 19 + 4;
   }
+
+  @Override
+  public void addIconElements(Collection collection) {
+    collection.add(new Image().resource("sorus/modules/potionstatus/logo.png").size(80, 80));
+  }
+
 }

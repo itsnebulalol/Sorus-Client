@@ -31,6 +31,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.MultiText;
 import org.sorus.client.gui.core.component.impl.Paragraph;
 import org.sorus.client.gui.core.component.impl.Rectangle;
@@ -191,5 +192,10 @@ public class PingComponent extends Component {
     collection.add(new Toggle(customFont, "Custom Font"));
     collection.add(new Toggle(tightFit, "Tight Fit"));
     collection.add(new ColorPicker(backgroundColor, "Background Color"));
+  }
+
+  @Override
+  public void addIconElements(Collection collection) {
+    collection.add(new Image().resource("sorus/modules/ping/logo.png").size(80, 80));
   }
 }

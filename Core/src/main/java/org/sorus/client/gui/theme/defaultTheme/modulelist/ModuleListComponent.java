@@ -48,9 +48,11 @@ public class ModuleListComponent extends Collection {
     this.moduleListScreenTheme = moduleListScreenTheme;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
+    final double WIDTH = 685;
+    final double HEIGHT = 100;
     this.add(
         new Rectangle()
-            .size(680, 100)
+            .size(WIDTH, HEIGHT)
             .position(4, 4)
             .color(DefaultTheme.getMedbackgroundLayerColor()));
     this.add(
@@ -60,7 +62,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(680, 4)
+            .size(WIDTH, 4)
             .position(4, 0));
     this.add(
         new Rectangle()
@@ -70,7 +72,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(684, 0));
+            .position(WIDTH + 4, 0));
     this.add(
         new Rectangle()
             .gradient(
@@ -78,8 +80,8 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor())
-            .size(4, 100)
-            .position(684, 4));
+            .size(4, HEIGHT)
+            .position(WIDTH + 4, 4));
     this.add(
         new Rectangle()
             .gradient(
@@ -88,7 +90,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor())
             .size(4, 4)
-            .position(684, 104));
+            .position(WIDTH + 4, HEIGHT + 4));
     this.add(
         new Rectangle()
             .gradient(
@@ -96,8 +98,8 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor())
-            .size(680, 4)
-            .position(4, 104));
+            .size(WIDTH, 4)
+            .position(4, HEIGHT + 4));
     this.add(
         new Rectangle()
             .gradient(
@@ -106,7 +108,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(0, 104));
+            .position(0, HEIGHT + 4));
     this.add(
         new Rectangle()
             .gradient(
@@ -114,7 +116,7 @@ public class ModuleListComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(4, 100)
+            .size(4, HEIGHT)
             .position(0, 4));
     this.add(
         new Rectangle()

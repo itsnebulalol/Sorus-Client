@@ -51,86 +51,87 @@ public class HUDListComponent extends Collection {
     this.screen = screen;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
+    final double WIDTH = 685;
+    final double HEIGHT = 100;
     this.add(
-        new Rectangle()
-            .size(680, 100)
-            .position(4, 4)
-            .color(DefaultTheme.getMedbackgroundLayerColor()));
+            new Rectangle()
+                    .size(WIDTH, HEIGHT)
+                    .position(4, 4)
+                    .color(DefaultTheme.getMedbackgroundLayerColor()));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(680, 4)
-            .position(4, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(WIDTH, 4)
+                    .position(4, 0));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(684, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4)
+                    .position(WIDTH + 4, 0));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 100)
-            .position(684, 4));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(4, HEIGHT)
+                    .position(WIDTH + 4, 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 4)
-            .position(684, 104));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(4, 4)
+                    .position(WIDTH + 4, HEIGHT + 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(680, 4)
-            .position(4, 104));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(WIDTH, 4)
+                    .position(4, HEIGHT + 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(0, 104));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4)
+                    .position(0, HEIGHT + 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 100)
-            .position(0, 4));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, HEIGHT)
+                    .position(0, 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(0, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4));
     Collection collection = new Collection().position(15, 15);
     this.add(collection);
-    // hud.addIconElements(collection);
+    hud.addIconElements(collection);
     this.add(
         new Text()
             .fontRenderer(fontRenderer)

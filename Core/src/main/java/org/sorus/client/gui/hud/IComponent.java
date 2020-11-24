@@ -25,6 +25,8 @@
 package org.sorus.client.gui.hud;
 
 import java.util.Map;
+
+import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.settings.ISettingHolder;
 
 /** Base interface for all components, all components will implement this in some way. */
@@ -69,4 +71,7 @@ public interface IComponent extends ISettingHolder {
 
   @Override
   Map<String, Object> getSettings();
+
+  default void addIconElements(Collection collection) {}
+
 }

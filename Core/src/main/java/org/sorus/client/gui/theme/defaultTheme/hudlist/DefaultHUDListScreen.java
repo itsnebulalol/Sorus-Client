@@ -117,9 +117,8 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
                 })
             .position(10, 10));
     menu.add(new Add().position(320, 705));
-    Scissor scissor = new Scissor().size(690, 600).position(5, 75);
+    Scissor scissor = new Scissor().size(700, 600).position(3, 74);
     this.scroll = new Scroll();
-    scroll.position(0, 0);
     scissor.add(scroll);
     menu.add(scissor);
     this.updateHUDS();

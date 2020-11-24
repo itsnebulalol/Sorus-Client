@@ -34,7 +34,6 @@ import org.sorus.client.module.impl.crosshair.Crosshair;
 import org.sorus.client.module.impl.customscreens.SorusMainMenuVisibler;
 import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
-import org.sorus.client.module.impl.fullbright.Fullbright;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
 import org.sorus.client.module.impl.mousedelayfix.MouseDelayFix;
 import org.sorus.client.module.impl.music.Music;
@@ -74,7 +73,6 @@ public class ModuleManager {
     this.register(new Names());
     this.register(new DiscordRP());
     this.register(new Enhancements());
-    this.register(new Fullbright());
     this.register(new ItemPhysics());
     this.register(new MouseDelayFix());
     this.register(new Music());

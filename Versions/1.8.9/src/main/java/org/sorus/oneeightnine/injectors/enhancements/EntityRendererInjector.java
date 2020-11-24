@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package org.sorus.oneeightnine.injectors.fullbright;
+package org.sorus.oneeightnine.injectors.enhancements;
 
 import net.minecraft.client.renderer.EntityRenderer;
 import org.objectweb.asm.Opcodes;

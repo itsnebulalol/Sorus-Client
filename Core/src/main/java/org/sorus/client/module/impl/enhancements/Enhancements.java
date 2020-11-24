@@ -38,6 +38,7 @@ import org.sorus.client.version.render.IRenderer;
 
 public class Enhancements extends ModuleConfigurable {
 
+  private final Setting<Boolean> fullBright;
   private final Setting<Boolean> centeredInventory;
   private final Setting<Boolean> guiBlur;
   private final Setting<Double> customFireHeight;
@@ -47,6 +48,7 @@ public class Enhancements extends ModuleConfigurable {
 
   public Enhancements() {
     super("ENHANCEMENTS");
+    this.register(fullBright = new Setting<>("fullBright", false));
     this.register(centeredInventory = new Setting<>("centeredInventory", false));
     this.register(guiBlur = new Setting<>("guiBlur", false));
     this.register(customFireHeight = new Setting<>("customFireHeight", 0.0));
@@ -84,6 +86,7 @@ public class Enhancements extends ModuleConfigurable {
 
   @Override
   public void addConfigComponents(Collection collection) {
+    collection.add(new Toggle(fullBright, "Fullbright"));
     collection.add(new Toggle(centeredInventory, "Centered Inventory"));
     collection.add(new Toggle(guiBlur, "Gui Blur"));
     collection.add(new Slider(customFireHeight, -0.5, 0, "Custom Fire Height"));
@@ -100,6 +103,10 @@ public class Enhancements extends ModuleConfigurable {
 
   public double getCustomFireOpacity() {
     return this.customFireOpacity.getValue();
+  }
+
+  public boolean fullBright() {
+    return this.isEnabled() && this.fullBright.getValue();
   }
 
   @Override

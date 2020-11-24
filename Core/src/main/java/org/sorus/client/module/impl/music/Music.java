@@ -24,12 +24,17 @@
 
 package org.sorus.client.module.impl.music;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
+
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.StartEvent;
 import org.sorus.client.event.impl.client.TickEvent;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
+import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.module.impl.music.screen.MainMusicScreen;
@@ -101,4 +106,10 @@ public class Music extends ModuleConfigurable {
   public VersionDecision getVersions() {
     return new VersionDecision.Allow();
   }
+
+  @Override
+  public void addIconElements(Collection collection) {
+    collection.add(new Image().resource("sorus/modules/music/logo.png").size(80, 80).color(new Color(175, 175, 175)));
+  }
+
 }

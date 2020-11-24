@@ -20,7 +20,7 @@
     "perspective.RendererLivingEntityInjector",
     "enhancements.InventoryEffectRendererInjector",
     "enhancements.ItemRendererInjector",
-    "fullbright.EntityRendererInjector",
+    "enhancements.EntityRendererInjector",
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
     "names.GuiPlayerTabOverlayInjector"
