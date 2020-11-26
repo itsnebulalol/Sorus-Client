@@ -23,6 +23,9 @@
     "enhancements.EntityRendererInjector",
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
-    "names.GuiPlayerTabOverlayInjector"
+    "names.GuiPlayerTabOverlayInjector",
+    "optimisations.EntityRendererInjector",
+    "optimisations.S21PacketChunkDataInjector",
+    "optimisations.NetHandlerPlayClientInjector"
   ]
 }

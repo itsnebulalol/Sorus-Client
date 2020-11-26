@@ -116,7 +116,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
                   Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
                 })
             .position(10, 10));
-    menu.add(new Add().position(240, 705));
+    menu.add(new Add().position(240, 702.5));
     Scissor scissor = new Scissor().size(700, 600).position(3, 74);
     this.scroll = new Scroll();
     scissor.add(scroll);
@@ -139,7 +139,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
     double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll = targetScroll + scrollValue * 0.7;
     scroll.setScroll((targetScroll - scroll.getScroll()) * 7 / FPS + scroll.getScroll());
-    double maxScroll = hudCount * 100 + (hudCount - 1) * 10 - 690;
+    double maxScroll = hudCount * 100 + (hudCount - 1) * 10 - 590;
     scroll.addMinMaxScroll(-maxScroll, 0);
     targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
     main.scale(
@@ -234,7 +234,6 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
         } else {
           hud = new SingleHUD();
         }
-        Sorus.getSorus().getHUDManager().register(hud);
         Sorus.getSorus().getGUIManager().close(DefaultHUDListScreen.this.screen);
         hud.onCreation();
       }

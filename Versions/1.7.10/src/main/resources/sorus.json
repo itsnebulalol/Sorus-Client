@@ -17,6 +17,7 @@
     "enhancements.EntityRendererInjector",
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
-    "names.GuiIngameInjector"
+    "names.GuiIngameInjector",
+    "optimisations.S21PacketChunkDataInjector"
   ]
 }
