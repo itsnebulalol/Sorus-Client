@@ -116,7 +116,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
                   Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
                 })
             .position(10, 10));
-    menu.add(new Add().position(320, 705));
+    menu.add(new Add().position(240, 705));
     Scissor scissor = new Scissor().size(700, 600).position(3, 74);
     this.scroll = new Scroll();
     scissor.add(scroll);
@@ -165,23 +165,17 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
   public class Add extends Collection {
 
     private final Collection collection;
-    private final Rectangle rectangle;
     private final Scissor scissor;
-    private final Collection centerCross;
     private double expandedPercent;
 
     private long prevRenderTime;
 
     public Add() {
       Sorus.getSorus().getEventManager().register(this);
-      this.add(rectangle = new Rectangle().smooth(4).color(new Color(35, 160, 65)));
-      collection = new Collection();
+      this.add(new Rectangle().smooth(4).size(220, 60).color(new Color(35, 160, 65)));
       this.scissor = new Scissor();
       this.add(scissor);
-      this.centerCross = new Collection();
-      this.centerCross.add(new Rectangle().smooth(3).size(10, 40).position(25, 10));
-      this.centerCross.add(new Rectangle().smooth(3).size(40, 10).position(10, 25));
-      this.add(centerCross);
+      this.add(collection = new Collection());
     }
 
     @Override
@@ -191,49 +185,43 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
       double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
       double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       boolean hovered = this.isHovered(mouseX, mouseY);
-      double x = -80 * expandedPercent;
       expandedPercent =
           Math.min(Math.max(0, expandedPercent + (hovered ? 1 : -1) * deltaTime / 100.0), 1);
-      rectangle.size(60 + 160 * expandedPercent, 60).position(x, 0);
       scissor
-          .size(60 + 160 * expandedPercent, 60)
-          .position(x, 0)
-          .color(new Color(235, 235, 235, (int) (255 * expandedPercent)));
-      centerCross.color(new Color(235, 235, 235, (int) (Math.max(0, 255 - 400 * expandedPercent))));
+          .size(220, 60)
+          .color(new Color(235, 235, 235, 255));
       prevRenderTime = renderTime;
-      this.remove(collection);
       if (hovered) {
         this.collection.clear();
         Rectangle selectedSide =
-            new Rectangle().size(30 + 80 * expandedPercent, 60).color(new Color(0, 0, 0, 30));
+            new Rectangle().size(110, 60).color(new Color(0, 0, 0, 30));
         this.collection.add(selectedSide);
-        if (mouseX > this.absoluteX() + 30 * this.absoluteXScale()) {
-          selectedSide.position(30, 0);
+        if (mouseX > this.absoluteX() + 110 * this.absoluteXScale()) {
+          selectedSide.position(110, 0);
         } else {
-          selectedSide.position(-80 * expandedPercent, 0);
+          selectedSide.position(0, 0);
         }
-        this.add(collection);
       }
       scissor.clear();
-      scissor.add(new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(-x - 35, 10));
+      scissor.add(new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(45, 10));
       scissor.add(
           new Text()
               .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
               .text("SINGLE")
               .scale(2, 2)
-              .position(-x - 50, 40));
+              .position(30, 40));
       scissor.add(
-          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(-x + 51.25, 10));
+          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(130, 10));//22.375
       scissor.add(
-          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(-x + 73.625, 10));
+          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(152.375, 10));
       scissor.add(
-          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(-x + 96.625, 10));
+          new HollowArc().thickness(2).radius(10, 10).angle(0, 360).position(174.75, 10));
       scissor.add(
           new Text()
               .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
               .text("MULTI")
               .scale(2, 2)
-              .position(-x + 64, 40));
+              .position(137.5, 40));
       super.onRender();
     }
 
@@ -241,7 +229,7 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
         HUD hud;
-        if (e.getX() > this.absoluteX() + 30 * this.absoluteXScale()) {
+        if (e.getX() > this.absoluteX() + 110 * this.absoluteXScale()) {
           hud = new HUD();
         } else {
           hud = new SingleHUD();
@@ -253,9 +241,9 @@ public class DefaultHUDListScreen extends ThemeBase<HUDListScreen> {
     }
 
     private boolean isHovered(double mouseX, double mouseY) {
-      double x = this.absoluteX() - 80 * expandedPercent * this.absoluteXScale();
+      double x = this.absoluteX();
       double y = this.absoluteY();
-      double width = (60 + 160 * expandedPercent) * this.absoluteXScale();
+      double width = 220 * this.absoluteXScale();
       double height = 60 * this.absoluteYScale();
       return mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
     }

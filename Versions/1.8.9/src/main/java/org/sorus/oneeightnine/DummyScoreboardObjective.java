@@ -45,9 +45,8 @@ public class DummyScoreboardObjective implements IScoreObjective {
     @Override
     public List<IScore> getScores() {
         List<IScore> scores = new ArrayList<>();
-        scores.add(new Score("Pog Pog", 15));
-        scores.add(new Score("", 14));
-        scores.add(new Score("Peet", 13));
+        scores.add(new Score("", 15));
+        scores.add(new Score("Discord: §6jUnkASC", 14));
         return scores;
     }
 

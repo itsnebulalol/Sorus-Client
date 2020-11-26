@@ -303,7 +303,9 @@ public class HUD implements ISettingHolder {
   }
 
   public void addIconElements(Collection collection) {
-    this.components.getValue().get(0).addIconElements(collection);
+    if(this.components.getValue().size() > 0) {
+      this.components.getValue().get(0).addIconElements(collection);
+    }
   }
 
 }
