@@ -26,8 +26,7 @@ package org.sorus.onesixteenfour;
 
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
+import org.sorus.client.version.IScreen;
 import org.sorus.client.version.IVersion;
 import org.sorus.client.version.input.*;
 import org.sorus.onesixteenfour.util.input.InputMap;
@@ -42,27 +41,27 @@ public class Input implements IInput {
 
     @Override
     public double getMouseX() {
-        return Mouse.getX() / version.getScreen().getDisplayWidth() * version.getScreen().getScaledWidth();
+        return 0;//Mouse.getX() / version.getData(IScreen.class).getDisplayWidth() * version.getData(IScreen.class).getScaledWidth();
     }
 
     @Override
     public double getMouseY() {
-        return version.getScreen().getScaledHeight() - (Mouse.getY() / version.getScreen().getDisplayHeight() * version.getScreen().getScaledHeight());
+        return 0;//version.getData(IScreen.class).getScaledHeight() - (Mouse.getY() / version.getData(IScreen.class).getDisplayHeight() * version.getData(IScreen.class).getScaledHeight());
     }
 
     @Override
     public boolean isButtonDown(Button button) {
-        return Mouse.isButtonDown(InputMap.getButtonCode(button));
+        return false;//Mouse.isButtonDown(InputMap.getButtonCode(button));
     }
 
     @Override
     public boolean isKeyDown(Key key) {
-        return Keyboard.isKeyDown(InputMap.getKeyCode(key));
+        return false;//Keyboard.isKeyDown(InputMap.getKeyCode(key));
     }
 
     @Override
     public double getScroll() {
-        return Mouse.getDWheel();
+        return 0;//Mouse.getDWheel();
     }
 
     @Override

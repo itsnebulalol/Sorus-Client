@@ -109,9 +109,8 @@ public class DefaultProfileListScreen extends ThemeBase<ProfileListScreen> {
                   Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
                 })
             .position(10, 10));
-    Scissor scissor = new Scissor().size(680, 690).position(10, 85);
+    Scissor scissor = new Scissor().size(700, 710).position(3, 74);
     this.scroll = new Scroll();
-    scroll.position(0, 2);
     scissor.add(scroll);
     menu.add(scissor);
     menu.add(new Add().position(320, 705));
@@ -123,7 +122,7 @@ public class DefaultProfileListScreen extends ThemeBase<ProfileListScreen> {
     moduleCount = 0;
     File file = new File("sorus/settings");
     for (File file1 : Objects.requireNonNull(file.listFiles())) {
-      scroll.add(new ProfileListComponent(this, file1.getName()).position(0, moduleCount * 135));
+      scroll.add(new ProfileListComponent(this, file1.getName()).position(0, moduleCount * 107));
       moduleCount++;
     }
   }
@@ -134,7 +133,7 @@ public class DefaultProfileListScreen extends ThemeBase<ProfileListScreen> {
     double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll = targetScroll + scrollValue * 0.7;
     scroll.setScroll((targetScroll - scroll.getScroll()) * 7 / FPS + scroll.getScroll());
-    double maxScroll = moduleCount * 135 - 690;
+    double maxScroll = moduleCount * 100 + (moduleCount - 1) * 7 - 690;
     scroll.addMinMaxScroll(-maxScroll, 0);
     targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
     main.scale(

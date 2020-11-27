@@ -78,7 +78,7 @@ public class Game implements IGame {
 
     @Override
     public int getFPS() {
-        return Integer.parseInt(Minecraft.getInstance().debug);
+        return Integer.parseInt(Minecraft.getInstance().debug.split(" ")[0]);
     }
 
     @Override

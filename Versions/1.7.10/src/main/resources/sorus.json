@@ -12,12 +12,16 @@
     "itemphysics.RenderItemInjector",
     "timechanger.WorldInjector",
     "perspective.EntityRendererInjector",
+    "perspective.RenderInjector",
+    "perspective.RendererLivingEntityInjector",
     "enhancements.InventoryEffectRendererInjector",
     "enhancements.ItemRendererInjector",
     "enhancements.EntityRendererInjector",
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
     "names.GuiIngameInjector",
-    "optimisations.S21PacketChunkDataInjector"
+    "optimisations.S21PacketChunkDataInjector",
+    "optimisations.ChunkProviderClientInjector",
+    "optimisations.ClippingHelperImplInjector"
   ]
 }

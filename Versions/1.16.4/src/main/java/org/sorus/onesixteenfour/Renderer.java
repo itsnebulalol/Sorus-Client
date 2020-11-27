@@ -30,16 +30,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.fonts.Font;
+import net.minecraft.client.gui.fonts.FontResourceManager;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.TransformationMatrix;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.SlickException;
-import org.sorus.client.obfuscation.ObfuscationManager;
+import org.sorus.client.version.IScreen;
 import org.sorus.client.version.IVersion;
 import org.sorus.client.version.game.IItemStack;
 import org.sorus.client.version.render.IRenderer;
@@ -86,7 +85,7 @@ public class Renderer implements IRenderer {
      */
     @Override
     public void drawRect(double x, double y, double width, double height, Color bottomLeftColor, Color bottomRightColor, Color topRightColor, Color topLeftColor) {
-        GL11.glEnable(GL11.GL_BLEND);
+        /*GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GL11.glBlendFunc(770, 771);
@@ -97,10 +96,11 @@ public class Renderer implements IRenderer {
         bufferBuilder.pos(x + width, y + height, 0).color(bottomRightColor.getRed() / 255F, bottomRightColor.getGreen() / 255F, bottomRightColor.getBlue() / 255F, bottomRightColor.getAlpha() / 255F).endVertex();
         bufferBuilder.pos(x + width, y, 0).color(topRightColor.getRed() / 255F, topRightColor.getGreen() / 255F, topRightColor.getBlue() / 255F, topRightColor.getAlpha() / 255F).endVertex();
         bufferBuilder.pos(x, y, 0).color(topLeftColor.getRed() / 255F, topLeftColor.getGreen() / 255F, topLeftColor.getBlue() / 255F, topLeftColor.getAlpha() / 255F).endVertex();
-        bufferBuilder.endVertex();
+        bufferBuilder.finishDrawing();
         WorldVertexBufferUploader.draw(bufferBuilder);
+        System.out.println(bufferBuilder.isDrawing());
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_BLEND);*/
     }
 
     /**
@@ -152,7 +152,7 @@ public class Renderer implements IRenderer {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glBlendFunc(770, 771);
-        GL11.glLineWidth((float) (thickness * version.getScreen().getScaleFactor()));
+        GL11.glLineWidth((float) (thickness * version.getData(IScreen.class).getScaleFactor()));
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         GL11.glBegin(GL11.GL_LINE_STRIP);
         for(double i = startAngle; i <= endAngle; i += 1) {
@@ -177,7 +177,7 @@ public class Renderer implements IRenderer {
      */
     @Override
     public void drawString(String fontLocation, String string, double x, double y, double xScale, double yScale, boolean shadow, Color color) {
-        GL11.glPushMatrix();
+        /*GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(770, 771);
@@ -186,7 +186,7 @@ public class Renderer implements IRenderer {
         this.getFontRenderer(fontLocation).renderString(string, 0, 0, color.getRGB(), shadow, TransformationMatrix.identity().getMatrix(), IRenderTypeBuffer.getImpl(Tessellator.getInstance().getBuffer()), true, 0, 15728880);
         GL11.glPopMatrix();
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_BLEND);*/
     }
 
     /**
@@ -222,7 +222,7 @@ public class Renderer implements IRenderer {
             try {
                 Field field = Minecraft.class.getDeclaredField("fontResourceMananger");
                 field.setAccessible(true);
-                ((IReloadableResourceManager) Minecraft.getInstance().getResourceManager()).addReloadListener((IFutureReloadListener) field.get(Minecraft.getInstance()));
+                ((IReloadableResourceManager) Minecraft.getInstance().getResourceManager()).addReloadListener(((FontResourceManager) field.get(Minecraft.getInstance())).getReloadListener());
             } catch(NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -286,11 +286,11 @@ public class Renderer implements IRenderer {
 
     @Override
     public ITTFFontRenderer getFont(String location) {
-        try {
+        /*try {
             return new SlickFontRenderer(location);
         } catch(FontFormatException | IOException | SlickException e) {
             e.printStackTrace();
-        }
+        }*/
         return null;
     }
 

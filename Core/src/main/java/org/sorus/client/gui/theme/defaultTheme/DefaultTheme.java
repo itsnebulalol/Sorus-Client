@@ -90,10 +90,12 @@ public class DefaultTheme extends Theme {
   @Override
   public void addConfigComponents(Collection collection) {
     collection.add(new ColorPicker(backgroundLayerColor, "Background Layer"));
+    collection.add(new ColorPicker(medbackgroundLayerColor, "Medbackgroundground Layer"));
     collection.add(new ColorPicker(medgroundLayerColor, "Medground Layer"));
     collection.add(new ColorPicker(medforegroundLayerColor, "Medforeground Layer"));
     collection.add(new ColorPicker(foregroundLayerColor, "Foreground Layer"));
     collection.add(new ColorPicker(foregroundLessLayerColor, "Foreground Less Layer"));
+    collection.add(new ColorPicker(foregroundLessLessLayerColor, "Foreground Less Less Layer"));
     collection.add(new ColorPicker(shadowStartColor, "Shadow Start"));
     collection.add(new ColorPicker(shadowEndColor, "Shadow End"));
   }

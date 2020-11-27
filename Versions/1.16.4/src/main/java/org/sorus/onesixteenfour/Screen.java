@@ -25,7 +25,6 @@
 package org.sorus.onesixteenfour;
 
 import net.minecraft.client.Minecraft;
-import org.lwjgl.opengl.Display;
 import org.sorus.client.version.IScreen;
 
 import javax.imageio.ImageIO;
@@ -62,16 +61,16 @@ public class Screen implements IScreen {
 
     @Override
     public void setIcon(InputStream x16) {
-        try {
-            Display.setIcon(new ByteBuffer[] {this.readImageToBuffer(x16)});
+        /*try {
+            //Display.setIcon(new ByteBuffer[] {this.readImageToBuffer(x16)});
         } catch(IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
     public void setTitle(String title) {
-        Display.setTitle(title);
+        //Display.setTitle(title);
     }
 
     private ByteBuffer readImageToBuffer(InputStream var1) throws IOException {

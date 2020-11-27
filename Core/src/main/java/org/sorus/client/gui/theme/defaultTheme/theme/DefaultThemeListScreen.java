@@ -121,9 +121,8 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
                 })
             .position(10, 10));
     menu.add(new Add().position(320, 705));
-    Scissor scissor = new Scissor().size(680, 690).position(10, 85);
+    Scissor scissor = new Scissor().size(700, 710).position(3, 74);
     this.scroll = new Scroll();
-    scroll.position(0, 2);
     scissor.add(scroll);
     menu.add(scissor);
     this.updateThemes();
@@ -144,7 +143,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
           }
         }
         if (add) {
-          scroll.add(new ThemeListComponent(this, theme).position(0, themeCount * 135));
+          scroll.add(new ThemeListComponent(this, theme).position(0, themeCount * 107));
           added = true;
         }
         themeCount++;

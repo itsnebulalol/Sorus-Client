@@ -141,7 +141,7 @@ public class InjectInjectionType implements IMethodInjectionType<Inject> {
    */
   private InsnList getList(MethodNode methodNode, Class<?> injector, Method method) {
     InsnList insnList = new InsnList();
-    if ((methodNode.access & Opcodes.ACC_STATIC) != 0) {
+    if ((method.getModifiers() & Opcodes.ACC_STATIC) != 0) {
       insnList.add(
           new MethodInsnNode(
               Opcodes.INVOKESTATIC,

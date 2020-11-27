@@ -24,8 +24,9 @@
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
     "names.GuiPlayerTabOverlayInjector",
-    "optimisations.EntityRendererInjector",
+    "optimisations.ClippingHelperImplInjector",
     "optimisations.S21PacketChunkDataInjector",
-    "optimisations.NetHandlerPlayClientInjector"
+    "optimisations.NetHandlerPlayClientInjector",
+    "optimisations.ChunkProviderClientInjector"
   ]
 }

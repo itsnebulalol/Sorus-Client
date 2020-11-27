@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    jarExport group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
+    //jarExport group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
     compile files("../../sorus/temp/" + version + ".jar")
 
     File file = new File("${project.parent.parent.projectDir}/sorus/temp/classpath_" + version + ".txt")
@@ -29,7 +29,7 @@ dependencies {
 
 jar {
     manifest.attributes(
-            'PreMain-Class': 'org.sorus.oneeightnine.Version',
+            'PreMain-Class': 'org.sorus.onesixteenfour.Version',
             'Can-Retransform-Classes': true,
             'Can-Redefine-Classes': true
     )

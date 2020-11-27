@@ -90,7 +90,7 @@ public class MinecraftInjector extends Injector<Minecraft> {
         if(Keyboard.getEventKeyState()) {
             Sorus.getSorus().getEventManager().post(new KeyPressEvent(InputMap.getKey(eventKey), Keyboard.getEventCharacter(), Keyboard.isRepeatEvent()));
         } else {
-            Sorus.getSorus().getEventManager().post(new KeyReleaseEvent(InputMap.getKey(eventKey), Keyboard.isRepeatEvent()));
+            Sorus.getSorus().getEventManager().post(new KeyReleaseEvent(InputMap.getKey(eventKey)));
         }
     }
 

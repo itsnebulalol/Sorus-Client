@@ -24,19 +24,17 @@
 
 package org.sorus.onesixteenfour;
 
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 import org.sorus.client.Sorus;
+import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.render.ITTFFontRenderer;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class SlickFontRenderer extends UnicodeFont implements ITTFFontRenderer {
+public class SlickFontRenderer implements ITTFFontRenderer {
 
-  public SlickFontRenderer(String fontPath)
+  /*public SlickFontRenderer(String fontPath)
       throws FontFormatException, IOException, SlickException {
     super(
         Font.createFont(
@@ -46,7 +44,7 @@ public class SlickFontRenderer extends UnicodeFont implements ITTFFontRenderer {
     this.getEffects().add(new ColorEffect(Color.WHITE));
     this.loadGlyphs();
     this.setDisplayListCaching(false);
-  }
+  }*/
 
   @Override
   public void drawString(
@@ -60,35 +58,35 @@ public class SlickFontRenderer extends UnicodeFont implements ITTFFontRenderer {
     if(string.trim().isEmpty()) {
       return;
     }
-    Sorus.getSorus().getVersion().getGLHelper().translate(x - 0.25, y - 2, 0);
-    Sorus.getSorus().getVersion().getGLHelper().scale(1.0 / 9 * xScale, 1.0 / 9 * yScale, 1);
-    Sorus.getSorus().getVersion().getGLHelper().blend(true);
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).translate(x - 0.25, y - 2, 0);
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).scale(1.0 / 9 * xScale, 1.0 / 9 * yScale, 1);
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).blend(true);
     Sorus.getSorus()
         .getVersion()
-        .getGLHelper()
+            .getData(IGLHelper.class)
         .color(
             color.getRed() / 255.0,
             color.getGreen() / 255.0,
             color.getBlue() / 255.0,
             color.getAlpha() / 255.0);
-    org.newdawn.slick.Color color1 =
+    /*org.newdawn.slick.Color color1 =
         new org.newdawn.slick.Color(
-            color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-    super.drawString(0, 0, string, color1);
-    Sorus.getSorus().getVersion().getGLHelper().blend(false);
-    Sorus.getSorus().getVersion().getGLHelper().scale(9 / xScale, 9 / yScale, 1);
-    Sorus.getSorus().getVersion().getGLHelper().translate(-x + 0.25, -y + 2, 0);
-    Sorus.getSorus().getVersion().getGLHelper().unbindTexture();
+            color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());*/
+    //super.drawString(0, 0, string, color1);
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).blend(false);
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).scale(9 / xScale, 9 / yScale, 1);
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).translate(-x + 0.25, -y + 2, 0);
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).unbindTexture();
   }
 
   @Override
   public double getStringWidth(String string) {
-    return super.getWidth(string) / 9.0;
+    return 0;//super.getWidth(string) / 9.0;
   }
 
   @Override
   public double getFontHeight() {
-    return super.getLineHeight() / 15.0;
+    return 0;//super.getLineHeight() / 15.0;
   }
 
   @Override
