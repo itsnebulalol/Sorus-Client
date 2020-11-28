@@ -41,5 +41,4 @@ public abstract class Module {
   }
 
   public abstract VersionDecision getVersions();
-
 }

@@ -27,11 +27,10 @@ package org.sorus.oneeightnine;
 import org.sorus.client.startup.SorusStartup;
 import org.sorus.client.startup.impl.InstrumentationTransformerUtility;
 import org.sorus.client.version.*;
-import org.sorus.client.version.game.IGame;
-import org.sorus.client.version.input.IInput;
-import org.sorus.client.version.render.IRenderer;
 
 import java.lang.instrument.Instrumentation;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the {@link IVersion} for 1.8.9.
@@ -42,56 +41,23 @@ public class Version implements IVersion {
         SorusStartup.start(Version.class, new InstrumentationTransformerUtility(inst), null, args, false);
     }
 
-    private final IRenderer renderer = new Renderer(this);
-    private final IGLHelper glHelper = new GLHelper();
-    private final IScreen screen = new Screen();
-    private final IGame game = new Game();
-    private final IInput input = new Input(this);
+    private final List<Object> datas = new ArrayList<>();
 
-    /**
-     * Gets the {@link IRenderer} which handles drawing objects to the screen.
-     * @return the renderer
-     */
-    @Override
-    public IRenderer getRenderer() {
-        return renderer;
+    public Version() {
+        this.datas.add(new Renderer(this));
+        this.datas.add(new GLHelper());
+        this.datas.add(new Screen());
+        this.datas.add(new Game());
+        this.datas.add(new Input(this));
     }
 
-    /**
-     * Gets the {@link IGLHelper} which helps with performing opengl functions.
-     * @return the gl helper
-     */
     @Override
-    public IGLHelper getGLHelper() {
-        return glHelper;
+    public <T> T getData(Class<T> clazz) {
+        for(Object object : this.datas) {
+            if(clazz.isAssignableFrom(object.getClass())) {
+                return (T) object;
+            }
+        }
+        return null;
     }
-
-    /**
-     * Gets the {@link IScreen} which helps get screen width, and scaled width.
-     * @return the screen
-     */
-    @Override
-    public IScreen getScreen() {
-        return screen;
-    }
-
-    /**
-     * Gets the {@link IGame} which helps get details about the current game.
-     * @return the game
-     */
-    @Override
-    public IGame getGame() {
-        return game;
-    }
-
-
-    /**
-     * Gets the {@link IInput} which helps receive input from the user.
-     * @return the input
-     */
-    @Override
-    public IInput getInput() {
-        return input;
-    }
-
 }

@@ -46,6 +46,10 @@ import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.ColorUtil;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
 public class SearchMusicScreen extends Screen {
@@ -200,16 +204,16 @@ public class SearchMusicScreen extends Screen {
 
   @Override
   public void onRender() {
-    final int FPS = Math.max(Sorus.getSorus().getVersion().getGame().getFPS(), 1);
-    double scrollValue = Sorus.getSorus().getVersion().getInput().getScroll();
+    final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
+    double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll = targetScroll + scrollValue * 0.7;
     scroll.setScroll((targetScroll - scroll.getScroll()) * 7 / FPS + scroll.getScroll());
     double maxScroll = resultCount * 85 - 775;
     scroll.addMinMaxScroll(-maxScroll, 0);
     targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender();
   }
 
@@ -277,8 +281,8 @@ public class SearchMusicScreen extends Screen {
       public void onRender() {
         boolean hovered =
             this.isHovered(
-                Sorus.getSorus().getVersion().getInput().getMouseX(),
-                Sorus.getSorus().getVersion().getInput().getMouseY());
+                Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+                Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
         this.hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.05, 0, 1);
         this.color(
             ColorUtil.getBetween(
@@ -351,14 +355,14 @@ public class SearchMusicScreen extends Screen {
       this.hollowRectangle.onRender();
       Sorus.getSorus()
           .getVersion()
-          .getGLHelper()
+          .getData(IGLHelper.class)
           .beginScissor(
               this.absoluteX() + 10 * this.absoluteXScale(),
               this.absoluteY(),
               360 * this.absoluteXScale(),
               50 * this.absoluteYScale());
       this.text.onRender();
-      Sorus.getSorus().getVersion().getGLHelper().endScissor();
+      Sorus.getSorus().getVersion().getData(IGLHelper.class).endScissor();
     }
 
     @Override
@@ -392,7 +396,7 @@ public class SearchMusicScreen extends Screen {
             SearchMusicScreen.this.search(message);
             break;
           case V:
-            if (Sorus.getSorus().getVersion().getInput().isKeyDown(Key.CONTROL_LEFT)) {
+            if (Sorus.getSorus().getVersion().getData(IInput.class).isKeyDown(Key.CONTROL_LEFT)) {
               Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
               Transferable t = c.getContents(this);
               if (t == null) {

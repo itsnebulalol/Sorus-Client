@@ -38,6 +38,7 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.screen.settings.Configurable;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.input.Input;
 import org.sorus.client.version.input.Key;
 
@@ -324,14 +325,14 @@ public class MacrosSetting extends Configurable {
         this.hollowRectangle.onRender();
         Sorus.getSorus()
             .getVersion()
-            .getGLHelper()
+            .getData(IGLHelper.class)
             .beginScissor(
                 this.absoluteX() + 10 * this.absoluteXScale(),
                 this.absoluteY(),
                 240 * this.absoluteXScale(),
                 50 * this.absoluteYScale());
         this.text.onRender();
-        Sorus.getSorus().getVersion().getGLHelper().endScissor();
+        Sorus.getSorus().getVersion().getData(IGLHelper.class).endScissor();
       }
 
       @Override

@@ -1,0 +1,7 @@
+{
+  "location": "org.sorus.onesixteenfour.injectors",
+  "injectors": [
+    "KeyboardListenerInjector",
+    "GameRendererInjector"
+  ]
+}

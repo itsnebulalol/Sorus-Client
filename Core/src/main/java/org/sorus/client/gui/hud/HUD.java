@@ -27,9 +27,12 @@ package org.sorus.client.gui.hud;
 import java.util.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.Screen;
+import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.settings.ISettingHolder;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.IScreen;
 
 /** Contains components and it used for rendering in game huds. */
 public class HUD implements ISettingHolder {
@@ -61,10 +64,12 @@ public class HUD implements ISettingHolder {
   public void addComponent(IComponent component) {
     this.components.getValue().add(component);
     component.setHUD(this);
+    component.onAdd();
   }
 
   public void removeComponent(Component component) {
     this.components.getValue().remove(component);
+    component.onRemove();
   }
 
   /**
@@ -72,16 +77,21 @@ public class HUD implements ISettingHolder {
    * positions.
    */
   public void render() {
+    List<IComponent> components = this.components.getValue();
+    boolean dummy = Sorus.getSorus().getGUIManager().isScreenOpen(HUDPositionScreen.class);
+    for (IComponent component : components) {
+      component.update(dummy);
+    }
     double x = this.getLeft();
     double y = this.getTop();
-    IGLHelper glHelper = Sorus.getSorus().getVersion().getGLHelper();
+    IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
     glHelper.translate(x, y, 0);
     double scale = this.scale.getValue();
     glHelper.scale(scale, scale, 1);
     glHelper.translate(-x, -y, 0);
     double yOffset = 0;
     for (IComponent component : this.components.getValue()) {
-      component.render(x, y + yOffset);
+      component.render(x, y + yOffset, dummy);
       yOffset += component.getHeight();
     }
     glHelper.translate(x, y, 0);
@@ -97,14 +107,14 @@ public class HUD implements ISettingHolder {
   public double getX() {
     return this.position
         .getValue()
-        .getX(this, Sorus.getSorus().getVersion().getScreen().getScaledWidth());
+        .getX(this, Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth());
   }
 
   /** Sets the x position of the hud. */
   public void setX(double x) {
     this.position
         .getValue()
-        .setX(this, x, Sorus.getSorus().getVersion().getScreen().getScaledWidth());
+        .setX(this, x, Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth());
   }
 
   /**
@@ -115,14 +125,14 @@ public class HUD implements ISettingHolder {
   public double getY() {
     return this.position
         .getValue()
-        .getY(this, Sorus.getSorus().getVersion().getScreen().getScaledHeight());
+        .getY(this, Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight());
   }
 
   /** Sets the y position of the hud. */
   public void setY(double y) {
     this.position
         .getValue()
-        .setY(this, y, Sorus.getSorus().getVersion().getScreen().getScaledHeight());
+        .setY(this, y, Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight());
   }
 
   /**
@@ -291,4 +301,11 @@ public class HUD implements ISettingHolder {
   public List<IComponent> getHUDComponents() {
     return this.components.getValue();
   }
+
+  public void addIconElements(Collection collection) {
+    if(this.components.getValue().size() > 0) {
+      this.components.getValue().get(0).addIconElements(collection);
+    }
+  }
+
 }

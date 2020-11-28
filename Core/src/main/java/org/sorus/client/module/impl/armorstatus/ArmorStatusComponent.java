@@ -31,6 +31,7 @@ import java.util.List;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Item;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
@@ -38,6 +39,7 @@ import org.sorus.client.gui.hud.Component;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.game.IItemStack;
 
 public class ArmorStatusComponent extends Component {
@@ -54,6 +56,8 @@ public class ArmorStatusComponent extends Component {
   private final Collection mainCollection;
   private final Rectangle background;
 
+  private List<IItemStack> armor;
+
   public ArmorStatusComponent() {
     super("ARMOR STATUS");
     this.register(rawDurability = new Setting<>("rawDurability", false));
@@ -69,28 +73,37 @@ public class ArmorStatusComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y) {
+  public void update(boolean dummy) {
+    armor = Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getInventory().getArmor();;
+    if(armor.isEmpty()) {
+      armor = Sorus.getSorus().getVersion().getData(IGame.class).getDummyArmor();
+    }
+    Collections.reverse(armor);
+  }
+
+  @Override
+  public void render(double x, double y, boolean dummy) {
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
-    List<IItemStack> armor =
-        Sorus.getSorus().getVersion().getGame().getPlayer().getInventory().getArmor();
-    List<IItemStack> reversedArmor = new ArrayList<>(armor);
-    Collections.reverse(reversedArmor);
     this.mainCollection.clear();
     int i = 0;
-    for (IItemStack iItemStack : reversedArmor) {
-      if(this.showArmor(iItemStack)) {
+    for (IItemStack iItemStack : armor) {
+      if (this.showArmor(iItemStack)) {
         mainCollection.add(new SingleArmorComponent(iItemStack).position(2, 2 + i * 18));
         i++;
       }
     }
     this.modPanel.position(x, y);
-    if(this.mainCollection.getComponents().size() > 0) {
+    if (this.mainCollection.getComponents().size() > 0) {
       this.modPanel.onRender();
     }
   }
 
   private boolean showArmor(IItemStack iItemStack) {
-    switch(Sorus.getSorus().getVersion().getGame().getItemManager().getArmorType(iItemStack)) {
+    switch (Sorus.getSorus()
+        .getVersion()
+        .getData(IGame.class)
+        .getItemManager()
+        .getArmorType(iItemStack)) {
       case HELMET:
         return this.showHelmet.getValue();
       case CHESTPLATE:
@@ -164,4 +177,10 @@ public class ArmorStatusComponent extends Component {
       super.onRender();
     }
   }
+
+  @Override
+  public void addIconElements(Collection collection) {
+    collection.add(new Image().resource("sorus/modules/armorstatus/logo.png").size(80, 80));
+  }
+
 }

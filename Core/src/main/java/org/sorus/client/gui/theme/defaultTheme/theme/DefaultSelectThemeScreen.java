@@ -40,7 +40,10 @@ import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.gui.theme.ThemeManager;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
+import org.sorus.client.version.render.IRenderer;
 
 public class DefaultSelectThemeScreen extends ThemeBase<SelectThemeScreen> {
 
@@ -63,7 +66,7 @@ public class DefaultSelectThemeScreen extends ThemeBase<SelectThemeScreen> {
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(7.5);
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
@@ -128,14 +131,14 @@ public class DefaultSelectThemeScreen extends ThemeBase<SelectThemeScreen> {
   @Override
   public void render() {
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender(this.screen);
   }
 
   @Override
   public void exit() {
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     main.onRemove();
   }
@@ -166,8 +169,8 @@ public class DefaultSelectThemeScreen extends ThemeBase<SelectThemeScreen> {
     public void onRender() {
       long renderTime = System.currentTimeMillis();
       long deltaTime = System.currentTimeMillis() - prevRenderTime;
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       boolean hovered = this.isHovered(mouseX, mouseY);
       expandedPercent =
           Math.min(Math.max(0, expandedPercent + (hovered ? 1 : -1) * deltaTime / 100.0), 1);

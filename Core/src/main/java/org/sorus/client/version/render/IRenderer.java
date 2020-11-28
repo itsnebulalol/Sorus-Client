@@ -128,7 +128,7 @@ public interface IRenderer {
    */
   double getFontHeight(String fontLocation);
 
-  void drawImage(
+  void drawPartialImage(
       String resource,
       double x,
       double y,
@@ -139,6 +139,8 @@ public interface IRenderer {
       double textureWidth,
       double textureHeight,
       Color color);
+
+  void drawFullImage(String resource, double x, double y, double width, double height, Color color);
 
   void enableBlur(double amount);
 

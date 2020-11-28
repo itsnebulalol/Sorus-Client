@@ -117,4 +117,5 @@ public abstract class Component implements IComponent, IConfigurableScreen {
   public String getSettingsName() {
     return this.getName();
   }
+
 }

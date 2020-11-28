@@ -26,16 +26,18 @@ package org.sorus.client.module;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.sorus.client.Sorus;
 import org.sorus.client.module.impl.blockoverlay.BlockOverlay;
 import org.sorus.client.module.impl.challenges.Challenges;
 import org.sorus.client.module.impl.chatmacros.ChatMacros;
 import org.sorus.client.module.impl.crosshair.Crosshair;
+import org.sorus.client.module.impl.customscreens.SorusMainMenuVisibler;
 import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
-import org.sorus.client.module.impl.fullbright.Fullbright;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
 import org.sorus.client.module.impl.mousedelayfix.MouseDelayFix;
 import org.sorus.client.module.impl.music.Music;
+import org.sorus.client.module.impl.names.Names;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
 import org.sorus.client.module.impl.perspective.Perspective;
 import org.sorus.client.module.impl.timechanger.TimeChanger;
@@ -54,10 +56,12 @@ public class ModuleManager {
   /**
    * Registers a modules by adding it to the list of registered modules.
    *
-   * @param modules modules to register
+   * @param module module to register
    */
-  public void register(Module modules) {
-    this.modules.add(modules);
+  public void register(Module module) {
+    if (module.getVersions().allow(Sorus.getSorus().getArgs().get("version"))) {
+      this.modules.add(module);
+    }
   }
 
   /** Handles registering all the modules that come by default with Sorus. */
@@ -66,14 +70,15 @@ public class ModuleManager {
     this.register(new Challenges());
     this.register(new ChatMacros());
     this.register(new Crosshair());
+    this.register(new Names());
     this.register(new DiscordRP());
     this.register(new Enhancements());
-    this.register(new Fullbright());
     this.register(new ItemPhysics());
     this.register(new MouseDelayFix());
     this.register(new Music());
     this.register(new OldAnimations());
     this.register(new Perspective());
+    this.register(new SorusMainMenuVisibler());
     this.register(new TimeChanger());
     this.register(new ToggleSprint());
   }
@@ -89,7 +94,6 @@ public class ModuleManager {
         return (T) module;
       }
     }
-
     return null;
   }
 

@@ -43,7 +43,11 @@ import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.SelectComponentScreen;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
+import org.sorus.client.version.render.IRenderer;
 
 public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScreen> {
 
@@ -66,7 +70,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(7.5);
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
@@ -111,9 +115,8 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
     menu.add(new Add().position(320, 705));
-    Scissor scissor = new Scissor().size(680, 600).position(10, 85);
+    Scissor scissor = new Scissor().size(700, 600).position(3, 74);
     this.scroll = new Scroll();
-    scroll.position(0, 2);
     scissor.add(scroll);
     menu.add(scissor);
     componentCount = 0;
@@ -121,7 +124,7 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
       try {
         Component component = componentClass.newInstance();
         SelectComponent selectComponent =
-            new SelectComponent(component).position(0, componentCount * 135);
+            new SelectComponent(component).position(0, componentCount * 107);
         scroll.add(selectComponent);
         componentCount++;
       } catch (InstantiationException | IllegalAccessException e) {
@@ -132,22 +135,22 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
 
   @Override
   public void render() {
-    final int FPS = Math.max(Sorus.getSorus().getVersion().getGame().getFPS(), 1);
-    double scrollValue = Sorus.getSorus().getVersion().getInput().getScroll();
+    final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
+    double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll = targetScroll + scrollValue * 0.7;
     scroll.setScroll((targetScroll - scroll.getScroll()) * 7 / FPS + scroll.getScroll());
-    double maxScroll = componentCount * 135 - 600;
+    double maxScroll = componentCount * 100 + (componentCount - 1) * 7 - 592.5;
     scroll.addMinMaxScroll(-maxScroll, 0);
     targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender(this.screen);
   }
 
   @Override
   public void exit() {
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     main.onRemove();
     Sorus.getSorus().getSettingsManager().save();
     super.exit();
@@ -171,89 +174,93 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
       this.component = component;
       IFontRenderer fontRenderer =
           Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
+      final double WIDTH = 685;
+      final double HEIGHT = 100;
       this.add(
-          new Rectangle()
-              .size(670, 125)
-              .position(5, 4)
-              .color(DefaultTheme.getMedgroundLayerColor()));
+              new Rectangle()
+                      .size(WIDTH, HEIGHT)
+                      .position(4, 4)
+                      .color(DefaultTheme.getMedbackgroundLayerColor()));
       this.add(
-          new Rectangle()
-              .gradient(
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor())
-              .size(670, 4)
-              .position(5, 0));
+              new Rectangle()
+                      .gradient(
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor())
+                      .size(WIDTH, 4)
+                      .position(4, 0));
       this.add(
-          new Rectangle()
-              .gradient(
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor())
-              .size(4, 4)
-              .position(675, 0));
+              new Rectangle()
+                      .gradient(
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor())
+                      .size(4, 4)
+                      .position(WIDTH + 4, 0));
       this.add(
-          new Rectangle()
-              .gradient(
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowEndColor())
-              .size(4, 125)
-              .position(675, 4));
+              new Rectangle()
+                      .gradient(
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowStartColor())
+                      .size(4, HEIGHT)
+                      .position(WIDTH + 4, 4));
       this.add(
-          new Rectangle()
-              .gradient(
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowEndColor())
-              .size(4, 4)
-              .position(675, 129));
+              new Rectangle()
+                      .gradient(
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowStartColor())
+                      .size(4, 4)
+                      .position(WIDTH + 4, HEIGHT + 4));
       this.add(
-          new Rectangle()
-              .gradient(
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowEndColor())
-              .size(670, 4)
-              .position(5, 129));
+              new Rectangle()
+                      .gradient(
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowStartColor())
+                      .size(WIDTH, 4)
+                      .position(4, HEIGHT + 4));
       this.add(
-          new Rectangle()
-              .gradient(
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowStartColor())
-              .size(4, 4)
-              .position(2, 129));
+              new Rectangle()
+                      .gradient(
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowEndColor())
+                      .size(4, 4)
+                      .position(0, HEIGHT + 4));
       this.add(
-          new Rectangle()
-              .gradient(
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowStartColor())
-              .size(4, 125)
-              .position(2, 4));
+              new Rectangle()
+                      .gradient(
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowEndColor())
+                      .size(4, HEIGHT)
+                      .position(0, 4));
       this.add(
-          new Rectangle()
-              .gradient(
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowEndColor(),
-                  DefaultTheme.getShadowStartColor(),
-                  DefaultTheme.getShadowStartColor())
-              .size(4, 4)
-              .position(1, 0));
+              new Rectangle()
+                      .gradient(
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowStartColor(),
+                              DefaultTheme.getShadowEndColor(),
+                              DefaultTheme.getShadowEndColor())
+                      .size(4, 4));
+      Collection collection = new Collection().position(15, 15);
+      this.add(collection);
+      this.component.addIconElements(collection);
       this.add(
           hollowRectangle =
               new HollowRectangle()
                   .thickness(2)
-                  .size(670, 125)
-                  .position(5, 4)
+                  .size(WIDTH, HEIGHT)
+                  .position(4, 4)
                   .color(new Color(180, 180, 180, 0)));
       this.add(
           new Text()
@@ -348,8 +355,8 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
     public void onRender() {
       long renderTime = System.currentTimeMillis();
       long deltaTime = System.currentTimeMillis() - prevRenderTime;
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       boolean hovered = this.isHovered(mouseX, mouseY);
       expandedPercent =
           Math.min(Math.max(0, expandedPercent + (hovered ? 1 : -1) * deltaTime / 100.0), 1);

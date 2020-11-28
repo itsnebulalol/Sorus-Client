@@ -26,6 +26,7 @@ package org.sorus.client.gui.core.font;
 
 import java.awt.*;
 import org.sorus.client.Sorus;
+import org.sorus.client.version.render.IRenderer;
 
 /** Implementation of the {@link IFontRenderer} for a default minecraft font renderer. */
 public class MinecraftFontRenderer implements IFontRenderer {
@@ -56,7 +57,7 @@ public class MinecraftFontRenderer implements IFontRenderer {
       Color color) {
     Sorus.getSorus()
         .getVersion()
-        .getRenderer()
+        .getData(IRenderer.class)
         .drawString(fontLocation, string, x, y, xScale, yScale, shadow, color);
   }
 
@@ -68,7 +69,10 @@ public class MinecraftFontRenderer implements IFontRenderer {
    */
   @Override
   public double getStringWidth(String string) {
-    return Sorus.getSorus().getVersion().getRenderer().getStringWidth(fontLocation, string);
+    return Sorus.getSorus()
+        .getVersion()
+        .getData(IRenderer.class)
+        .getStringWidth(fontLocation, string);
   }
 
   /**
@@ -78,7 +82,7 @@ public class MinecraftFontRenderer implements IFontRenderer {
    */
   @Override
   public double getFontHeight() {
-    return Sorus.getSorus().getVersion().getRenderer().getFontHeight(fontLocation);
+    return Sorus.getSorus().getVersion().getData(IRenderer.class).getFontHeight(fontLocation);
   }
 
   @Override

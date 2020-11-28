@@ -36,7 +36,7 @@ public enum Button implements Input {
 
   @Override
   public boolean isDown() {
-    return Sorus.getSorus().getVersion().getInput().isButtonDown(this);
+    return Sorus.getSorus().getVersion().getData(IInput.class).isButtonDown(this);
   }
 
   @Override

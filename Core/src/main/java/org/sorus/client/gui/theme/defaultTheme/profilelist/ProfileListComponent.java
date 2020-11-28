@@ -24,6 +24,7 @@
 
 package org.sorus.client.gui.theme.defaultTheme.profilelist;
 
+import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -32,24 +33,25 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
-import org.sorus.client.util.Axis;
-import org.sorus.client.version.IGLHelper;
-
-import java.awt.*;
+import org.sorus.client.version.input.IInput;
 
 public class ProfileListComponent extends Collection {
 
   private final DefaultProfileListScreen profileListScreenTheme;
   private final String profile;
 
-  public ProfileListComponent(
-      DefaultProfileListScreen profileListScreenTheme, String profile) {
+  public ProfileListComponent(DefaultProfileListScreen profileListScreenTheme, String profile) {
     this.profileListScreenTheme = profileListScreenTheme;
     this.profile = profile;
     IFontRenderer fontRenderer =
-            Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
+        Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
+    final double WIDTH = 685;
+    final double HEIGHT = 100;
     this.add(
-            new Rectangle().size(670, 125).position(5, 4).color(DefaultTheme.getMedgroundLayerColor()));
+            new Rectangle()
+                    .size(WIDTH, HEIGHT)
+                    .position(4, 4)
+                    .color(DefaultTheme.getMedbackgroundLayerColor()));
     this.add(
             new Rectangle()
                     .gradient(
@@ -57,8 +59,8 @@ public class ProfileListComponent extends Collection {
                             DefaultTheme.getShadowStartColor(),
                             DefaultTheme.getShadowEndColor(),
                             DefaultTheme.getShadowEndColor())
-                    .size(670, 4)
-                    .position(5, 0));
+                    .size(WIDTH, 4)
+                    .position(4, 0));
     this.add(
             new Rectangle()
                     .gradient(
@@ -67,7 +69,7 @@ public class ProfileListComponent extends Collection {
                             DefaultTheme.getShadowEndColor(),
                             DefaultTheme.getShadowEndColor())
                     .size(4, 4)
-                    .position(675, 0));
+                    .position(WIDTH + 4, 0));
     this.add(
             new Rectangle()
                     .gradient(
@@ -75,8 +77,8 @@ public class ProfileListComponent extends Collection {
                             DefaultTheme.getShadowEndColor(),
                             DefaultTheme.getShadowEndColor(),
                             DefaultTheme.getShadowStartColor())
-                    .size(4, 125)
-                    .position(675, 4));
+                    .size(4, HEIGHT)
+                    .position(WIDTH + 4, 4));
     this.add(
             new Rectangle()
                     .gradient(
@@ -85,7 +87,7 @@ public class ProfileListComponent extends Collection {
                             DefaultTheme.getShadowEndColor(),
                             DefaultTheme.getShadowStartColor())
                     .size(4, 4)
-                    .position(675, 129));
+                    .position(WIDTH + 4, HEIGHT + 4));
     this.add(
             new Rectangle()
                     .gradient(
@@ -93,8 +95,8 @@ public class ProfileListComponent extends Collection {
                             DefaultTheme.getShadowEndColor(),
                             DefaultTheme.getShadowStartColor(),
                             DefaultTheme.getShadowStartColor())
-                    .size(670, 4)
-                    .position(5, 129));
+                    .size(WIDTH, 4)
+                    .position(4, HEIGHT + 4));
     this.add(
             new Rectangle()
                     .gradient(
@@ -103,7 +105,7 @@ public class ProfileListComponent extends Collection {
                             DefaultTheme.getShadowStartColor(),
                             DefaultTheme.getShadowEndColor())
                     .size(4, 4)
-                    .position(2, 129));
+                    .position(0, HEIGHT + 4));
     this.add(
             new Rectangle()
                     .gradient(
@@ -111,8 +113,8 @@ public class ProfileListComponent extends Collection {
                             DefaultTheme.getShadowStartColor(),
                             DefaultTheme.getShadowStartColor(),
                             DefaultTheme.getShadowEndColor())
-                    .size(4, 125)
-                    .position(2, 4));
+                    .size(4, HEIGHT)
+                    .position(0, 4));
     this.add(
             new Rectangle()
                     .gradient(
@@ -120,33 +122,19 @@ public class ProfileListComponent extends Collection {
                             DefaultTheme.getShadowStartColor(),
                             DefaultTheme.getShadowEndColor(),
                             DefaultTheme.getShadowEndColor())
-                    .size(4, 4)
-                    .position(1, 0));
+                    .size(4, 4));
     Collection collection = new Collection().position(15, 15);
     this.add(collection);
     this.add(
-            new Text()
-                    .fontRenderer(fontRenderer)
-                    .text(profile)
-                    .position(125, 20)
-                    .scale(4, 4)
-                    .color(new Color(235, 235, 235, 210)));
-    if(Sorus.getSorus().getSettingsManager().getCurrentProfile().equals(this.profile)) {
-      this.add(new Rectangle().size(40, 40).position(125, 70));
+        new Text()
+            .fontRenderer(fontRenderer)
+            .text(profile)
+            .position(125, 20)
+            .scale(4, 4)
+            .color(DefaultTheme.getForegroundLessLayerColor()));
+    if (Sorus.getSorus().getSettingsManager().getCurrentProfile().equals(this.profile)) {
+      this.add(new Rectangle().size(200, 5).position(125, 90).color(DefaultTheme.getForegroundLessLayerColor()));
     }
-    /*int i = 0;
-    for (String string :
-        module.getSplitDescription(
-            Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer(), 150)) {
-      this.add(
-          new Text()
-              .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
-              .text(string)
-              .position(125, 65 + i * 23)
-              .scale(2, 2)
-              .color(new Color(190, 190, 190, 210)));
-      i++;
-    }*/
     this.add(new LoadButton().position(615, 15));
   }
 
@@ -169,8 +157,8 @@ public class ProfileListComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-                  Sorus.getSorus().getVersion().getInput().getMouseX(),
-                  Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       rectangle.scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
@@ -191,9 +179,9 @@ public class ProfileListComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        ProfileListComponent.this.profileListScreenTheme.screen.loadProfile(ProfileListComponent.this.profile);
+        ProfileListComponent.this.profileListScreenTheme.screen.loadProfile(
+            ProfileListComponent.this.profile);
         ProfileListComponent.this.profileListScreenTheme.updateProfiles();
-        //ProfileListComponent.this.moduleListScreenTheme.screen.displayModuleSettings(module);
       }
     }
 

@@ -51,9 +51,9 @@ public class RenderObjectEvent extends EventCancelable {
 
   public static class GradientRectangle extends RenderObjectEvent {
 
-    private int left, right;
-    private int top, bottom;
-    private int color1, color2;
+    private final int left, right;
+    private final int top, bottom;
+    private final int color1, color2;
 
     public GradientRectangle(int left, int top, int right, int bottom, int color1, int color2) {
       this.left = left;
@@ -89,4 +89,5 @@ public class RenderObjectEvent extends EventCancelable {
     }
   }
 
+  public static class Sidebar extends RenderObjectEvent {}
 }

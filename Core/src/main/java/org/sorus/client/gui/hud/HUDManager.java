@@ -32,13 +32,15 @@ import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.module.impl.armorstatus.ArmorStatusComponent;
-import org.sorus.client.module.impl.chat.ChatComponent;
 import org.sorus.client.module.impl.cps.CPSComponent;
 import org.sorus.client.module.impl.fps.FPSComponent;
 import org.sorus.client.module.impl.gps.GPSComponent;
 import org.sorus.client.module.impl.keystrokes.KeystrokesComponent;
 import org.sorus.client.module.impl.ping.PingComponent;
+import org.sorus.client.module.impl.potionstatus.PotionStatusComponent;
+import org.sorus.client.module.impl.scoreboard.ScoreboardComponent;
 import org.sorus.client.settings.ISettingHolder;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.Key;
 
 public class HUDManager implements ISettingHolder {
@@ -60,17 +62,19 @@ public class HUDManager implements ISettingHolder {
 
   /** Registers all the default available components. */
   public void registerInternalComponents() {
-    this.registerComponent(ArmorStatusComponent.class);
-    //this.registerComponent(ChatComponent.class);
-    this.registerComponent(CPSComponent.class);
-    this.registerComponent(FPSComponent.class);
-    this.registerComponent(GPSComponent.class);
-    this.registerComponent(KeystrokesComponent.class);
-    this.registerComponent(PingComponent.class);
+    this.register(ArmorStatusComponent.class);
+    // this.registerComponent(ChatComponent.class);
+    this.register(CPSComponent.class);
+    this.register(FPSComponent.class);
+    this.register(GPSComponent.class);
+    this.register(KeystrokesComponent.class);
+    this.register(PingComponent.class);
+    this.register(PotionStatusComponent.class);
+    this.register(ScoreboardComponent.class);
   }
 
   /** Adds a component as one of the available components for adding to a hud. */
-  public void registerComponent(Class<? extends Component> component) {
+  public void register(Class<? extends Component> component) {
     this.registeredComponents.add(component);
   }
 
@@ -95,7 +99,7 @@ public class HUDManager implements ISettingHolder {
 
   @EventInvoked
   public void onKeyPress(KeyPressEvent e) {
-    if (Sorus.getSorus().getVersion().getGame().isIngame()
+    if (Sorus.getSorus().getVersion().getData(IGame.class).isIngame()
         && e.getKey() == Key.SHIFT_RIGHT
         && !e.isRepeat()) {
       Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(true));
@@ -113,6 +117,7 @@ public class HUDManager implements ISettingHolder {
 
   @Override
   public void setSettings(Object settings) {
+    this.huds.clear();
     List<Pair<Class<? extends HUD>, ?>> settingsList =
         (List<Pair<Class<? extends HUD>, ?>>) settings;
     for (Pair<Class<? extends HUD>, ?> pair : settingsList) {

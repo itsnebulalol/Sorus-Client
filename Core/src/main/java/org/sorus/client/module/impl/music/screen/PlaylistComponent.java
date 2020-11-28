@@ -33,6 +33,7 @@ import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.module.impl.music.Playlist;
+import org.sorus.client.version.input.IInput;
 
 public class PlaylistComponent extends Collection {
 
@@ -146,8 +147,8 @@ public class PlaylistComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       this.main
@@ -203,8 +204,8 @@ public class PlaylistComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       this.main

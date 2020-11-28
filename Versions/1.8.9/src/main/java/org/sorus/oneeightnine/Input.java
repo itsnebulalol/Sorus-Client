@@ -26,8 +26,11 @@ package org.sorus.oneeightnine;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
+import net.sourceforge.jaad.aac.tools.IS;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.*;
 import org.sorus.client.version.IVersion;
 import org.sorus.client.version.input.KeybindType;
@@ -43,12 +46,12 @@ public class Input implements IInput {
 
     @Override
     public double getMouseX() {
-        return Mouse.getX() / version.getScreen().getDisplayWidth() * version.getScreen().getScaledWidth();
+        return Mouse.getX() / version.getData(IScreen.class).getDisplayWidth() * version.getData(IScreen.class).getScaledWidth();
     }
 
     @Override
     public double getMouseY() {
-        return version.getScreen().getScaledHeight() - (Mouse.getY() / version.getScreen().getDisplayHeight() * version.getScreen().getScaledHeight());
+        return version.getData(IScreen.class).getScaledHeight() - (Mouse.getY() / version.getData(IScreen.class).getDisplayHeight() * version.getData(IScreen.class).getScaledHeight());
     }
 
     @Override

@@ -77,7 +77,7 @@ public class KeystrokesComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y) {
+  public void render(double x, double y, boolean dummy) {
     this.updateFontRenderer();
     if (currentMode == null || mode.getValue() != currentMode.ordinal()) {
       this.modPanel.clear();

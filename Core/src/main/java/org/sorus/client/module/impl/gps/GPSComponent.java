@@ -31,6 +31,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.MultiText;
 import org.sorus.client.gui.core.component.impl.Paragraph;
 import org.sorus.client.gui.core.component.impl.Rectangle;
@@ -42,6 +43,7 @@ import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.game.IEntity;
+import org.sorus.client.version.game.IGame;
 
 public class GPSComponent extends Component {
 
@@ -53,7 +55,6 @@ public class GPSComponent extends Component {
 
   private final Setting<Long> mode;
   private final Setting<Boolean> customFont;
-  private final Setting<Boolean> tightFit;
   private final Setting<Color> backgroundColor;
 
   private final Panel modPanel;
@@ -76,7 +77,6 @@ public class GPSComponent extends Component {
               }
             });
     this.register(customFont = new Setting<>("customFont", false));
-    this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
@@ -86,11 +86,11 @@ public class GPSComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y) {
+  public void render(double x, double y, boolean dummy) {
     this.updateFontRenderer();
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
-    IEntity player = Sorus.getSorus().getVersion().getGame().getPlayer();
+    IEntity player = Sorus.getSorus().getVersion().getData(IGame.class).getPlayer();
     List<List<Pair<String, Color>>> formatted =
         this.currentMode.format(
             (int) Math.round(player.getX()),
@@ -163,23 +163,12 @@ public class GPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    if (tightFit.getValue()) {
-      double maxWidth = 0;
-      for (String string : gpsString) {
-        maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
-      }
-      return maxWidth + 4;
-    }
-    return 60;
+    return this.currentMode.getWidth(this.gpsString, this.fontRenderer);
   }
 
   @Override
   public double getHeight() {
-    return tightFit.getValue()
-        ? fontRenderer.getFontHeight() * this.gpsText.getComponents().size()
-            + (this.gpsText.getComponents().size() - 1) * 2
-            + 4
-        : 11;
+    return this.currentMode.getHeight(this.gpsString, this.fontRenderer);
   }
 
   @Override
@@ -192,7 +181,12 @@ public class GPSComponent extends Component {
     collection.add(new ClickThrough(mode, registeredModeNames, "Mode"));
     this.currentMode.addConfigComponents(collection);
     collection.add(new Toggle(customFont, "Custom Font"));
-    collection.add(new Toggle(tightFit, "Tight Fit"));
     collection.add(new ColorPicker(backgroundColor, "Background Color"));
   }
+
+  @Override
+  public void addIconElements(Collection collection) {
+    collection.add(new Image().resource("sorus/modules/gps/logo.png").size(80, 80));
+  }
+
 }

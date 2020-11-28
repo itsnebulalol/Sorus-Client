@@ -25,10 +25,14 @@
 package org.sorus.client.gui.hud;
 
 import java.util.Map;
+
+import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.settings.ISettingHolder;
 
 /** Base interface for all components, all components will implement this in some way. */
 public interface IComponent extends ISettingHolder {
+
+  default void update(boolean dummy) {}
 
   /**
    * Renders the component.
@@ -36,7 +40,7 @@ public interface IComponent extends ISettingHolder {
    * @param x x position to render
    * @param y y position to render
    */
-  void render(double x, double y);
+  void render(double x, double y, boolean dummy);
 
   default void onRemove() {}
 
@@ -63,6 +67,11 @@ public interface IComponent extends ISettingHolder {
    */
   void setHUD(HUD hud);
 
+  default void onAdd() {}
+
   @Override
   Map<String, Object> getSettings();
+
+  default void addIconElements(Collection collection) {}
+
 }

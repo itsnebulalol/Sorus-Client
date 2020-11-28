@@ -33,5 +33,5 @@ public interface IEntity {
 
   double getZ();
 
-  boolean isNull();
+  boolean exists();
 }

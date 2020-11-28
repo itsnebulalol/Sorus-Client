@@ -67,35 +67,33 @@ public class SettingsManager {
   }
 
   public void load(String profileName) {
-      this.currentProfile = profileName;
-      File sorus = new File("sorus");
-      File settings = new File(sorus, "settings");
-      File profile = new File(settings, currentProfile);
-      profile.mkdirs();
-      for (ISettingHolder setting : SettingsManager.this.settings) {
-          File file =
-                  new File(
-                          profile,
-                          setting.getSettingsName().toLowerCase().replace(" ", "_") + ".set");
-          if (!file.exists()) {
-              continue;
-          }
-          try {
-              Scanner scanner = new Scanner(file);
-              StringBuilder text = new StringBuilder();
-              while (scanner.hasNextLine()) {
-                  text.append(scanner.nextLine());
-              }
-
-              Object loadedSettings = JsonReader.jsonToJava(text.toString());
-              setting.setSettings(loadedSettings);
-          } catch (FileNotFoundException e) {
-              e.printStackTrace();
-          }
+    this.currentProfile = profileName;
+    File sorus = new File("sorus");
+    File settings = new File(sorus, "settings");
+    File profile = new File(settings, currentProfile);
+    profile.mkdirs();
+    for (ISettingHolder setting : SettingsManager.this.settings) {
+      File file =
+          new File(profile, setting.getSettingsName().toLowerCase().replace(" ", "_") + ".set");
+      if (!file.exists()) {
+        continue;
       }
+      try {
+        Scanner scanner = new Scanner(file);
+        StringBuilder text = new StringBuilder();
+        while (scanner.hasNextLine()) {
+          text.append(scanner.nextLine());
+        }
+
+        Object loadedSettings = JsonReader.jsonToJava(text.toString());
+        setting.setSettings(loadedSettings);
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
-    public String getCurrentProfile() {
-        return currentProfile;
-    }
+  public String getCurrentProfile() {
+    return currentProfile;
+  }
 }

@@ -24,48 +24,11 @@
 
 package org.sorus.client.version;
 
-import org.sorus.client.version.game.IGame;
-import org.sorus.client.version.input.IInput;
-import org.sorus.client.version.render.IRenderer;
-
 /**
  * Base version interface, each version will implement this so Core can render and get data from the
  * game.
  */
 public interface IVersion {
 
-  /**
-   * Gets the {@link IRenderer} which handles drawing objects to the screen.
-   *
-   * @return the renderer
-   */
-  IRenderer getRenderer();
-
-  /**
-   * Gets the {@link IGLHelper} which helps with performing opengl functions.
-   *
-   * @return the gl helper
-   */
-  IGLHelper getGLHelper();
-
-  /**
-   * Gets the {@link IScreen} which helps get screen width, and scaled width.
-   *
-   * @return the screen
-   */
-  IScreen getScreen();
-
-  /**
-   * Gets the {@link IGame} which helps get details about the current game.
-   *
-   * @return the game
-   */
-  IGame getGame();
-
-  /**
-   * Gets the {@link IInput} which helps receive input from the user.
-   *
-   * @return the input
-   */
-  IInput getInput();
+  <T> T getData(Class<T> clazz);
 }

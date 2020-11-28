@@ -31,6 +31,9 @@ import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.input.IInput;
 
 public class ChatScreen extends Screen {
 
@@ -47,8 +50,8 @@ public class ChatScreen extends Screen {
 
   @Override
   public void onRender() {
-    final int FPS = Math.max(Sorus.getSorus().getVersion().getGame().getFPS(), 1);
-    double scrollValue = Sorus.getSorus().getVersion().getInput().getScroll();
+    final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
+    double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     double scale = this.chatComponent.getScale();
     targetScroll = targetScroll + scrollValue * 0.1;
     chatComponent
@@ -78,7 +81,7 @@ public class ChatScreen extends Screen {
         Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
     Sorus.getSorus()
         .getVersion()
-        .getGLHelper()
+        .getData(IGLHelper.class)
         .beginScissor(
             chatComponent.getInputX() + 2,
             chatComponent.getInputY() + 0.5,
@@ -103,7 +106,7 @@ public class ChatScreen extends Screen {
             0.5 * scale,
             true,
             Color.WHITE);
-    Sorus.getSorus().getVersion().getGLHelper().endScissor();
+    Sorus.getSorus().getVersion().getData(IGLHelper.class).endScissor();
   }
 
   @EventInvoked
@@ -112,7 +115,7 @@ public class ChatScreen extends Screen {
     switch (e.getKey()) {
       case ENTER:
         if (!message.isEmpty()) {
-          Sorus.getSorus().getVersion().getGame().sendChatMessage(message);
+          Sorus.getSorus().getVersion().getData(IGame.class).sendChatMessage(message);
         }
       case ESCAPE:
         Sorus.getSorus().getGUIManager().close(this);

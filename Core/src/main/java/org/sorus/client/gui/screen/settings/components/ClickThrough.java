@@ -38,6 +38,7 @@ import org.sorus.client.gui.screen.settings.SettingsHolder;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.input.IInput;
 
 public class ClickThrough extends Configurable {
 
@@ -89,7 +90,7 @@ public class ClickThrough extends Configurable {
     private long prevRenderTime;
 
     public ClickThroughInner() {
-      this.add(new Rectangle().size(250, 40).color(DefaultTheme.getMedforegroundLayerColor()));
+      this.add(new Rectangle().size(250, 40).color(DefaultTheme.getMedbackgroundLayerColor()));
       this.add(
           new HollowRectangle().size(250, 40).color(DefaultTheme.getForegroundLessLayerColor()));
       this.add(new Rectangle().size(1, 38).position(40, 1).color(new Color(235, 235, 235, 210)));
@@ -126,8 +127,8 @@ public class ClickThrough extends Configurable {
           125 - currentText.width() / 2 * 3, 20 - currentText.height() / 2 * 3 + 1);
       long renderTime = System.currentTimeMillis();
       long deltaTime = renderTime - prevRenderTime;
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       this.leftHoveredPercent =
           MathUtil.clamp(
               leftHoveredPercent + (this.leftHovered(mouseX, mouseY) ? 1 : -1) * deltaTime * 0.01,

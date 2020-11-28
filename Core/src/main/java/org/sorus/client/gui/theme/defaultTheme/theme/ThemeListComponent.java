@@ -39,6 +39,7 @@ import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.Axis;
 import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.input.IInput;
 
 public class ThemeListComponent extends Collection {
 
@@ -50,80 +51,84 @@ public class ThemeListComponent extends Collection {
     this.theme = theme;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
+    final double WIDTH = 685;
+    final double HEIGHT = 100;
     this.add(
-        new Rectangle().size(670, 125).position(5, 4).color(DefaultTheme.getMedgroundLayerColor()));
+            new Rectangle()
+                    .size(WIDTH, HEIGHT)
+                    .position(4, 4)
+                    .color(DefaultTheme.getMedbackgroundLayerColor()));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(670, 4)
-            .position(5, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(WIDTH, 4)
+                    .position(4, 0));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(675, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4)
+                    .position(WIDTH + 4, 0));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 125)
-            .position(675, 4));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(4, HEIGHT)
+                    .position(WIDTH + 4, 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 4)
-            .position(675, 129));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(4, 4)
+                    .position(WIDTH + 4, HEIGHT + 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(670, 4)
-            .position(5, 129));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor())
+                    .size(WIDTH, 4)
+                    .position(4, HEIGHT + 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(2, 129));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4)
+                    .position(0, HEIGHT + 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 125)
-            .position(2, 4));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, HEIGHT)
+                    .position(0, 4));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(1, 0));
+            new Rectangle()
+                    .gradient(
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowStartColor(),
+                            DefaultTheme.getShadowEndColor(),
+                            DefaultTheme.getShadowEndColor())
+                    .size(4, 4));
     Collection collection = new Collection().position(15, 15);
     this.add(collection);
     // module.addIconElements(collection);
@@ -142,6 +147,7 @@ public class ThemeListComponent extends Collection {
   @Override
   public void onRemove() {
     Sorus.getSorus().getEventManager().unregister(this);
+    super.onRemove();
   }
 
   @EventInvoked
@@ -157,7 +163,12 @@ public class ThemeListComponent extends Collection {
           && e.getX() < this.absoluteX() + 665 * this.absoluteXScale()
           && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
           && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
-        this.themeListScreen.onComponentDrag(this, e.getX(), e.getY());
+        if (!(e.getX() > this.absoluteX() + 555 * this.absoluteXScale()
+            && e.getX() < this.absoluteX() + 605 * this.absoluteXScale()
+            && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
+            && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
+          this.themeListScreen.onComponentDrag(this, e.getX(), e.getY());
+        }
       }
     }
   }
@@ -198,8 +209,8 @@ public class ThemeListComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       this.main
@@ -218,6 +229,9 @@ public class ThemeListComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
+        if (Sorus.getSorus().getThemeManager().getCurrentThemes().size() <= 1) {
+          return;
+        }
         Sorus.getSorus().getThemeManager().remove(theme);
         ThemeListComponent.this.themeListScreen.updateThemes();
       }
@@ -253,8 +267,8 @@ public class ThemeListComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       image.scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
@@ -263,7 +277,7 @@ public class ThemeListComponent extends Collection {
       prevRenderTime = renderTime;
       double x = this.absoluteX() + 20 * this.absoluteXScale();
       double y = this.absoluteY() + 20 * this.absoluteYScale();
-      IGLHelper glHelper = Sorus.getSorus().getVersion().getGLHelper();
+      IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
       glHelper.translate(x, y, 0);
       glHelper.rotate(Axis.Z, hoverPercent * 50);
       glHelper.translate(-x, -y, 0);

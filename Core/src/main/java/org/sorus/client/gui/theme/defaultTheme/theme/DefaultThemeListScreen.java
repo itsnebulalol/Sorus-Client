@@ -34,14 +34,19 @@ import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.screen.Callback;
+import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.screen.theme.SelectThemeScreen;
 import org.sorus.client.gui.screen.theme.ThemeListScreen;
+import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.gui.theme.ThemeManager;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
+import org.sorus.client.version.render.IRenderer;
 
 public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
@@ -64,7 +69,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(7.5);
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
@@ -108,10 +113,16 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
             .position(350 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 17.5)
             .scale(5.5, 5.5)
             .color(DefaultTheme.getForegroundLayerColor()));
+    menu.add(
+        new ExitButton(
+                () -> {
+                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
+                })
+            .position(10, 10));
     menu.add(new Add().position(320, 705));
-    Scissor scissor = new Scissor().size(680, 690).position(10, 85);
+    Scissor scissor = new Scissor().size(700, 710).position(3, 74);
     this.scroll = new Scroll();
-    scroll.position(0, 2);
     scissor.add(scroll);
     menu.add(scissor);
     this.updateThemes();
@@ -120,7 +131,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
   public void updateThemes() {
     scroll.clear();
     themeCount = 0;
-    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    double yRatio = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080;
     for (Theme theme : this.themeManager.getCurrentThemes()) {
       boolean added = false;
       while (!added) {
@@ -132,7 +143,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
           }
         }
         if (add) {
-          scroll.add(new ThemeListComponent(this, theme).position(0, themeCount * 135));
+          scroll.add(new ThemeListComponent(this, theme).position(0, themeCount * 107));
           added = true;
         }
         themeCount++;
@@ -142,11 +153,11 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
   @Override
   public void render() {
-    double xRatio = Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920;
-    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    double xRatio = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920;
+    double yRatio = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080;
     if (draggedComponent != null) {
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       draggedComponent.position(
           (mouseX - initialMouseX + initialX) * 1 / xRatio,
           (mouseY - initialMouseY + initialY) * 1 / yRatio);
@@ -158,7 +169,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
 
   @Override
   public void exit() {
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     main.onRemove();
     super.exit();
@@ -183,7 +194,7 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
   }
 
   public void onComponentRelease(ThemeListComponent component) {
-    double yRatio = Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080;
+    double yRatio = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080;
     int size = themeManager.getCurrentThemes().size();
     int index = 0;
     boolean added = false;
@@ -226,8 +237,8 @@ public class DefaultThemeListScreen extends ThemeBase<ThemeListScreen> {
     public void onRender() {
       long renderTime = System.currentTimeMillis();
       long deltaTime = System.currentTimeMillis() - prevRenderTime;
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       boolean hovered = this.isHovered(mouseX, mouseY);
       expandedPercent =
           Math.min(Math.max(0, expandedPercent + (hovered ? 1 : -1) * deltaTime / 100.0), 1);

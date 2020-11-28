@@ -31,19 +31,13 @@ import org.sorus.client.version.input.Key;
 public class KeyReleaseEvent extends Event {
 
   private final Key key;
-  private final boolean repeat;
 
   /** @param key the key that was released */
-  public KeyReleaseEvent(Key key, boolean repeat) {
+  public KeyReleaseEvent(Key key) {
     this.key = key;
-    this.repeat = repeat;
   }
 
   public Key getKey() {
     return key;
-  }
-
-  public boolean isRepeat() {
-    return repeat;
   }
 }

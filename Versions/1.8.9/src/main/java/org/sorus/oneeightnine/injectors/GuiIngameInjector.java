@@ -71,4 +71,22 @@ public class GuiIngameInjector extends Injector<GuiIngame> {
         }
     }
 
+    @Modify(name = "renderScoreboard", desc = "(Lnet/minecraft/scoreboard/ScoreObjective;Lnet/minecraft/client/gui/ScaledResolution;)V")
+    public static void modifyRenderScoreboard(MethodNode methodNode) {
+        InsnList insnList = new InsnList();
+        insnList.add(new TypeInsnNode(Opcodes.NEW, RenderObjectEvent.Sidebar.class.getName().replace(".", "/")));
+        insnList.add(new InsnNode(Opcodes.DUP));
+        insnList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, RenderObjectEvent.Sidebar.class.getName().replace(".", "/"), "<init>", "()V", false));
+        insnList.add(new VarInsnNode(Opcodes.ASTORE, 100));
+        insnList.add(new VarInsnNode(Opcodes.ALOAD, 100));
+        insnList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, Event.class.getName().replace(".", "/"), "post", "()V", false));
+        insnList.add(new VarInsnNode(Opcodes.ALOAD, 100));
+        insnList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, EventCancelable.class.getName().replace(".", "/"), "isCancelled", "()Z", false));
+        LabelNode label = new LabelNode();
+        insnList.add(new JumpInsnNode(Opcodes.IFEQ, label));
+        insnList.add(new InsnNode(Opcodes.RETURN));
+        insnList.add(label);
+        methodNode.instructions.insert(insnList);
+    }
+
 }

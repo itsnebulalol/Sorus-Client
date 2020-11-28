@@ -24,13 +24,15 @@
 
 package org.sorus.client.version.game;
 
+import java.util.List;
+
 public interface IGame {
 
   boolean isIngame();
 
   boolean shouldRenderHUDS();
 
-  void displayBlankGUI();
+  void display(GUIType type);
 
   void removeBlankGUI();
 
@@ -59,5 +61,13 @@ public interface IGame {
   int getPing();
 
   IItemManager getItemManager();
+
+  void shutdown();
+
+  IScoreboard getScoreboard();
+
+  List<IPotionEffect> getDummyEffects();
+
+  List<IItemStack> getDummyArmor();
 
 }

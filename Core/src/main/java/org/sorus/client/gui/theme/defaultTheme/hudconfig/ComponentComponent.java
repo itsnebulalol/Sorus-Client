@@ -40,6 +40,7 @@ import org.sorus.client.gui.screen.settings.SettingsScreen;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.Axis;
 import org.sorus.client.version.IGLHelper;
+import org.sorus.client.version.input.IInput;
 
 public class ComponentComponent extends Collection {
 
@@ -192,8 +193,8 @@ public class ComponentComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       image.scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
@@ -202,7 +203,7 @@ public class ComponentComponent extends Collection {
       prevRenderTime = renderTime;
       double x = this.absoluteX() + 20 * this.absoluteXScale();
       double y = this.absoluteY() + 20 * this.absoluteYScale();
-      IGLHelper glHelper = Sorus.getSorus().getVersion().getGLHelper();
+      IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
       glHelper.translate(x, y, 0);
       glHelper.rotate(Axis.Z, hoverPercent * 50);
       glHelper.translate(-x, -y, 0);
@@ -261,8 +262,8 @@ public class ComponentComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
       this.main

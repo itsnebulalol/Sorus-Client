@@ -35,6 +35,7 @@ public class Image extends Component {
   private double width, height;
   private double textureX, textureY;
   private double textureWidth, textureHeight;
+  private boolean fullImage = true;
 
   @Override
   public void onRender() {
@@ -44,8 +45,12 @@ public class Image extends Component {
     double height = this.height * this.absoluteYScale();
     Color color = this.absoluteColor();
     IScreenRenderer renderer = Sorus.getSorus().getGUIManager().getRenderer();
-    renderer.drawImage(
-        resource, x, y, width, height, textureX, textureY, textureWidth, textureHeight, color);
+    if (this.fullImage) {
+      renderer.drawFullImage(resource, x, y, width, height, color);
+    } else {
+      renderer.drawPartialImage(
+          resource, x, y, width, height, textureX, textureY, textureWidth, textureHeight, color);
+    }
   }
 
   public <T extends Image> T size(double width, double height) {
@@ -62,12 +67,14 @@ public class Image extends Component {
   public <T extends Image> T texturePosition(double textureX, double textureY) {
     this.textureX = textureX;
     this.textureY = textureY;
+    this.fullImage = false;
     return this.cast();
   }
 
   public <T extends Image> T textureSize(double textureWidth, double textureHeight) {
     this.textureWidth = textureWidth;
     this.textureHeight = textureHeight;
+    this.fullImage = false;
     return this.cast();
   }
 }

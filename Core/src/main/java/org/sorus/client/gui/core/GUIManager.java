@@ -33,6 +33,7 @@ import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.event.impl.client.input.MouseReleaseEvent;
 import org.sorus.client.event.impl.client.render.Render2DEvent;
 import org.sorus.client.gui.theme.ThemeManager;
+import org.sorus.client.version.game.GUIType;
 import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.Button;
 import org.sorus.client.version.input.Key;
@@ -98,9 +99,9 @@ public class GUIManager {
       }
     }
     if (shouldGuiOpen != guiOpen) {
-      IGame game = Sorus.getSorus().getVersion().getGame();
+      IGame game = Sorus.getSorus().getVersion().getData(IGame.class);
       if (shouldGuiOpen) {
-        game.displayBlankGUI();
+        game.display(GUIType.BLANK);
       } else {
         game.removeBlankGUI();
       }
@@ -125,7 +126,8 @@ public class GUIManager {
   }
 
   /**
-   * Calls the {@link Screen#keyTyped(Key)} method for all currently displayed screens.
+   * Calls the {@link Screen#keyTyped(Key, boolean)} (Key)} method for all currently displayed
+   * screens.
    *
    * @param e the {@link KeyPressEvent}.
    */
@@ -164,5 +166,14 @@ public class GUIManager {
 
   public List<Screen> getCurrentScreens() {
     return currentScreens;
+  }
+
+  public <T extends Screen> T getCurrentScreen(Class<T> clazz) {
+    for (Screen screen : this.getCurrentScreens()) {
+      if (clazz.isAssignableFrom(screen.getClass())) {
+        return (T) screen;
+      }
+    }
+    return null;
   }
 }

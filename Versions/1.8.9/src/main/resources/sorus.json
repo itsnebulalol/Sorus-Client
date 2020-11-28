@@ -16,8 +16,17 @@
     "mousedelayfix.EntityLivingBaseInjector",
     "itemphysics.RenderEntityItemInjector",
     "perspective.EntityRendererInjector",
+    "perspective.RenderInjector",
+    "perspective.RendererLivingEntityInjector",
     "enhancements.InventoryEffectRendererInjector",
     "enhancements.ItemRendererInjector",
-    "fullbright.EntityRendererInjector"
+    "enhancements.EntityRendererInjector",
+    "names.RendererLivingEntityInjector",
+    "names.GuiNewChatInjector",
+    "names.GuiPlayerTabOverlayInjector",
+    "optimisations.ClippingHelperImplInjector",
+    "optimisations.S21PacketChunkDataInjector",
+    "optimisations.NetHandlerPlayClientInjector",
+    "optimisations.ChunkProviderClientInjector"
   ]
 }

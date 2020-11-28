@@ -40,6 +40,8 @@ import org.sorus.client.module.impl.music.ISound;
 import org.sorus.client.module.impl.music.Music;
 import org.sorus.client.module.impl.music.Playlist;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
 public class MainMusicScreen extends Screen {
@@ -217,8 +219,8 @@ public class MainMusicScreen extends Screen {
       slider.setValue(sound != null ? playlist.getPlayPercent() : 0);
     }
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender();
   }
 
@@ -268,8 +270,8 @@ public class MainMusicScreen extends Screen {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-                  Sorus.getSorus().getVersion().getInput().getMouseX(),
-                  Sorus.getSorus().getVersion().getInput().getMouseY())
+                  Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+                  Sorus.getSorus().getVersion().getData(IInput.class).getMouseY())
               && music.getCurrentSound() != null;
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
@@ -342,8 +344,8 @@ public class MainMusicScreen extends Screen {
       long deltaTime = renderTime - prevRenderTime;
       boolean hovered =
           this.isHovered(
-                  Sorus.getSorus().getVersion().getInput().getMouseX(),
-                  Sorus.getSorus().getVersion().getInput().getMouseY())
+                  Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+                  Sorus.getSorus().getVersion().getData(IInput.class).getMouseY())
               && music.getCurrentSound() != null;
       hoverPercent =
           Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
@@ -406,8 +408,8 @@ public class MainMusicScreen extends Screen {
     public void onRender() {
       boolean hovered =
           this.isHovered(
-              Sorus.getSorus().getVersion().getInput().getMouseX(),
-              Sorus.getSorus().getVersion().getInput().getMouseY());
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
       hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.05, 0, 1);
       main.position(-1 * hoveredPercent, -1 * hoveredPercent)
           .scale(1 + 0.05 * hoveredPercent, 1 + 0.05 * hoveredPercent);

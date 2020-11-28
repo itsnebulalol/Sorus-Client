@@ -38,7 +38,11 @@ import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.ModuleManager;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
+import org.sorus.client.version.render.IRenderer;
 
 public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
 
@@ -57,7 +61,7 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(7.5);
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
@@ -108,9 +112,8 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
                   Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
                 })
             .position(10, 10));
-    Scissor scissor = new Scissor().size(680, 690).position(10, 85);
+    Scissor scissor = new Scissor().size(700, 710).position(3, 74);
     this.scroll = new Scroll();
-    scroll.position(0, 2);
     scissor.add(scroll);
     menu.add(scissor);
     this.updateHUDS();
@@ -120,29 +123,29 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
     scroll.clear();
     moduleCount = 0;
     for (ModuleConfigurable module : this.moduleManager.getModules(ModuleConfigurable.class)) {
-      scroll.add(new ModuleListComponent(this, module).position(0, moduleCount * 135));
+      scroll.add(new ModuleListComponent(this, module).position(0, moduleCount * 107));
       moduleCount++;
     }
   }
 
   @Override
   public void render() {
-    final int FPS = Math.max(Sorus.getSorus().getVersion().getGame().getFPS(), 1);
-    double scrollValue = Sorus.getSorus().getVersion().getInput().getScroll();
+    final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
+    double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll = targetScroll + scrollValue * 0.7;
     scroll.setScroll((targetScroll - scroll.getScroll()) * 7 / FPS + scroll.getScroll());
-    double maxScroll = moduleCount * 135 - 690;
+    double maxScroll = moduleCount * 100 + (moduleCount - 1) * 7 - 697.5;
     scroll.addMinMaxScroll(-maxScroll, 0);
     targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender();
   }
 
   @Override
   public void exit() {
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     main.onRemove();
     super.exit();

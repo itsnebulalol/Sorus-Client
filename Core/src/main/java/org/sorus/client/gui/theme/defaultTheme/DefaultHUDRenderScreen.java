@@ -31,6 +31,7 @@ import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.HUDRenderScreen;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.version.game.IGame;
 
 public class DefaultHUDRenderScreen extends ThemeBase<HUDRenderScreen> {
 
@@ -52,7 +53,8 @@ public class DefaultHUDRenderScreen extends ThemeBase<HUDRenderScreen> {
   private boolean shouldRenderHUDS() {
     Sorus sorus = Sorus.getSorus();
     GUIManager guiManager = sorus.getGUIManager();
-    return sorus.getVersion().getGame().shouldRenderHUDS()
-        && !guiManager.isScreenOpen(HUDPositionScreen.class);
+    return sorus.getVersion().getData(IGame.class).shouldRenderHUDS()
+        && !guiManager.isScreenOpen(HUDPositionScreen.class)
+        && sorus.getVersion().getData(IGame.class).getPlayer().exists();
   }
 }

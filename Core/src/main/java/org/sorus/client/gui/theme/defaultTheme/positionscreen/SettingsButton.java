@@ -29,12 +29,11 @@ import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.component.Collection;
-import org.sorus.client.gui.core.component.impl.HollowRectangle;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
-import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.input.IInput;
 
 public class SettingsButton extends Collection {
 
@@ -48,7 +47,12 @@ public class SettingsButton extends Collection {
     this.runnable = runnable;
     this.add(main = new Collection());
     main.add(new Rectangle().smooth(5).size(50, 50).color(DefaultTheme.getMedgroundLayerColor()));
-    main.add(new Image().resource("sorus/gear.png").size(40, 40).position(5, 5).color(DefaultTheme.getForegroundLayerColor()));
+    main.add(
+        new Image()
+            .resource("sorus/gear.png")
+            .size(40, 40)
+            .position(5, 5)
+            .color(DefaultTheme.getForegroundLayerColor()));
     Sorus.getSorus().getEventManager().register(this);
   }
 
@@ -58,8 +62,8 @@ public class SettingsButton extends Collection {
     long deltaTime = renderTime - prevRenderTime;
     boolean hovered =
         this.isHovered(
-            Sorus.getSorus().getVersion().getInput().getMouseX(),
-            Sorus.getSorus().getVersion().getInput().getMouseY());
+            Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+            Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
     expandedPercent = MathUtil.clamp(expandedPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
     main.scale(1 + 0.05 * expandedPercent, 1 + 0.05 * expandedPercent)
         .position(-0.02 * 50 * expandedPercent, -0.02 * 50 * expandedPercent);

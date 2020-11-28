@@ -39,8 +39,11 @@ import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.Axis;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
 import org.sorus.client.version.input.Button;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
+import org.sorus.client.version.render.IRenderer;
 
 public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
 
@@ -76,17 +79,20 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     }
     this.updateMods();
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     double fadeInPercent = Math.min((System.currentTimeMillis() - initTime) / 150.0, 1);
     this.main.color(new Color(255, 255, 255, (int) (fadeInPercent * 255))).onRender();
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
-    Sorus.getSorus().getVersion().getRenderer().enableBlur(Math.round(fadeInPercent * 7.5 * 2.0) / 2.0);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
+    Sorus.getSorus()
+        .getVersion()
+        .getData(IRenderer.class)
+        .enableBlur(Math.round(fadeInPercent * 7.5 * 2.0) / 2.0);
   }
 
   @Override
   public void exit() {
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     this.main.onRemove();
   }
@@ -110,8 +116,8 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
           break;
       }
     } else {
-      double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-      double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+      double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+      double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
       double hudRight = hud.getRight();
       double hudBottom = hud.getBottom();
       if (this.distance(mouseX, mouseY, hudRight, hudTop) < 2.5
@@ -127,10 +133,8 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     IScreenRenderer renderer = Sorus.getSorus().getGUIManager().getRenderer();
     double scaledWidth = hud.getScaledWidth();
     double scaledHeight = hud.getScaledHeight();
-    renderer.drawRect(
-        hudLeft, hudTop, scaledWidth, scaledHeight, backgroundColor);
-    renderer.drawHollowRect(
-        hudLeft, hudTop, scaledWidth, scaledHeight, 0.5, borderColor);
+    renderer.drawRect(hudLeft, hudTop, scaledWidth, scaledHeight, backgroundColor);
+    renderer.drawHollowRect(hudLeft, hudTop, scaledWidth, scaledHeight, 0.5, borderColor);
     for (int i = 0; i < 2; i++) {
       for (int j = 0; j < 2; j++) {
         renderer.drawRect(
@@ -146,8 +150,8 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
   /** Handles dragging / resizing. Updates the mod's position based on user interaction. */
   public void updateMods() {
     boolean mouseDown = Button.ONE.isDown();
-    double mouseX = Sorus.getSorus().getVersion().getInput().getMouseX();
-    double mouseY = Sorus.getSorus().getVersion().getInput().getMouseY();
+    double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
+    double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
     if (mouseDown && selectedHUD != null) {
       List<Double> xSnaps = this.getXSnaps();
       List<Double> ySnaps = this.getYSnaps();
@@ -189,14 +193,14 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
           dub - 0.25,
           0,
           0.5,
-          Sorus.getSorus().getVersion().getScreen().getScaledHeight(),
+          Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight(),
           new Color(255, 255, 255, 150));
     }
     for (double dub : ySnaps) {
       renderer.drawRect(
           0,
           dub - 0.25,
-          Sorus.getSorus().getVersion().getScreen().getScaledWidth(),
+          Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth(),
           0.5,
           new Color(255, 255, 255, 150));
     }
@@ -215,8 +219,8 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
    */
   public void applyCorrectionsAndMove(
       HUD hud, List<Double> xSnaps, List<Double> ySnaps, double wantedX, double wantedY) {
-    double scaledWidth = Sorus.getSorus().getVersion().getScreen().getScaledWidth();
-    double scaledHeight = Sorus.getSorus().getVersion().getScreen().getScaledHeight();
+    double scaledWidth = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth();
+    double scaledHeight = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight();
     Snap[] snaps = {
       this.getSnap(
           xSnaps, wantedX - hud.getScaledWidth() / 2, -selectedHUD.getScaledWidth() / 2, Axis.X),
@@ -286,10 +290,10 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
    */
   public void applyCorrectionsAndResize(
       HUD hud, List<Double> xSnaps, List<Double> ySnaps, double wantedScale) {
-    double scaledWidth = Sorus.getSorus().getVersion().getScreen().getScaledWidth();
-    double scaledHeight = Sorus.getSorus().getVersion().getScreen().getScaledHeight();
-    double x = hud.getX();
-    double y = hud.getY();
+    double scaledWidth = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth();
+    double scaledHeight = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight();
+    double x = selectedHUDState.getInitialX();
+    double y = selectedHUDState.getInitialY();
     Snap[] snaps = {
       this.getSnap(
           xSnaps, x - hud.getWidth() * wantedScale / 2, -hud.getWidth() * wantedScale / 2, Axis.X),
@@ -349,9 +353,9 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
     }
     this.xSnaps.addAll(actualXSnaps);
     this.ySnaps.addAll(actualYSnaps);
+    hud.setScale(constrainedScale);
     hud.setX(selectedHUDState.getInitialX());
     hud.setY(selectedHUDState.getInitialY());
-    hud.setScale(constrainedScale);
   }
 
   /**
@@ -383,7 +387,7 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
         xSnaps.add(hud.getRight());
       }
     }
-    double scaledWidth = Sorus.getSorus().getVersion().getScreen().getScaledWidth();
+    double scaledWidth = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth();
     xSnaps.add(scaledWidth / 2);
     return xSnaps;
   }
@@ -398,7 +402,7 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
         ySnaps.add(hud.getBottom());
       }
     }
-    double scaledHeight = Sorus.getSorus().getVersion().getScreen().getScaledHeight();
+    double scaledHeight = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight();
     ySnaps.add(scaledHeight / 2);
     return ySnaps;
   }

@@ -34,6 +34,8 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.input.IInput;
 
 public class MenuComponent extends Collection {
 
@@ -47,8 +49,8 @@ public class MenuComponent extends Collection {
   public MenuComponent(String name, ILogoCreator logoCreator, Runnable runnable) {
     this.runnable = runnable;
     this.add(main = new Collection());
-    //167.5 172.5
-    main.add(new Rectangle().size(206, 212).color(DefaultTheme.getMedgroundLayerColor()));
+    // 167.5 172.5
+    main.add(new Rectangle().size(206, 212).color(DefaultTheme.getMedbackgroundLayerColor()));
     main.add(
         new Rectangle()
             .gradient(
@@ -110,7 +112,7 @@ public class MenuComponent extends Collection {
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowStartColor(),
                 DefaultTheme.getShadowEndColor())
-            .size(4, 121)
+            .size(4, 212)
             .position(-4, 0));
     main.add(
         new Rectangle()
@@ -141,9 +143,10 @@ public class MenuComponent extends Collection {
   public void onRender() {
     boolean hovered =
         this.isHovered(
-            Sorus.getSorus().getVersion().getInput().getMouseX(),
-            Sorus.getSorus().getVersion().getInput().getMouseY());
-    hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.04, 0, 1);
+            Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
+            Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
+    double fps = Math.max(1, Sorus.getSorus().getVersion().getData(IGame.class).getFPS());
+    hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) / fps * 6, 0, 1);
     main.position(-2 * hoveredPercent, -2 * hoveredPercent);
     main.scale(1 + hoveredPercent * 0.025, 1 + hoveredPercent * 0.025);
     int color = (int) (215 + 40 * hoveredPercent);

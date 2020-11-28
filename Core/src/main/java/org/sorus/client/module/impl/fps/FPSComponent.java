@@ -41,6 +41,7 @@ import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.game.IGame;
 
 public class FPSComponent extends Component {
 
@@ -52,7 +53,6 @@ public class FPSComponent extends Component {
 
   private final Setting<Long> mode;
   private final Setting<Boolean> customFont;
-  private final Setting<Boolean> tightFit;
   private final Setting<Color> backgroundColor;
 
   private final Panel modPanel;
@@ -76,7 +76,6 @@ public class FPSComponent extends Component {
               }
             });
     this.register(customFont = new Setting<>("customFont", false));
-    this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
@@ -86,12 +85,12 @@ public class FPSComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y) {
+  public void render(double x, double y, boolean dummy) {
     this.updateFontRenderer();
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
     List<List<Pair<String, Color>>> formatted =
-        this.currentMode.format(Sorus.getSorus().getVersion().getGame().getFPS());
+        this.currentMode.format(Sorus.getSorus().getVersion().getData(IGame.class).getFPS());
     List<String> strings = new ArrayList<>();
     for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder fpsBuilder = new StringBuilder();
@@ -159,23 +158,12 @@ public class FPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    if (tightFit.getValue()) {
-      double maxWidth = 0;
-      for (String string : fpsString) {
-        maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
-      }
-      return maxWidth + 4;
-    }
-    return 60;
+    return this.currentMode.getWidth(this.fpsString, this.fontRenderer);
   }
 
   @Override
   public double getHeight() {
-    return tightFit.getValue()
-        ? fontRenderer.getFontHeight() * this.fpsText.getComponents().size()
-            + (this.fpsText.getComponents().size() - 1) * 2
-            + 4
-        : 11;
+    return this.currentMode.getHeight(this.fpsString, this.fontRenderer);
   }
 
   @Override
@@ -188,7 +176,6 @@ public class FPSComponent extends Component {
     collection.add(new ClickThrough(mode, registeredModeNames, "Mode"));
     this.currentMode.addConfigComponents(collection);
     collection.add(new Toggle(customFont, "Custom Font"));
-    collection.add(new Toggle(tightFit, "Tight Fit"));
     collection.add(new ColorPicker(backgroundColor, "Background Color"));
   }
 }

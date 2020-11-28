@@ -26,7 +26,9 @@ package org.sorus.client.module.impl.cps;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
@@ -43,6 +45,7 @@ import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.input.Button;
 
 public class CPSComponent extends Component {
 
@@ -54,20 +57,20 @@ public class CPSComponent extends Component {
 
   private final Setting<Long> mode;
   private final Setting<Boolean> customFont;
-  private final Setting<Boolean> tightFit;
   private final Setting<Color> backgroundColor;
 
   private final Panel modPanel;
   private final Rectangle background;
   private final Paragraph cpsText;
 
-  private final List<Long> prevClickTimes = new ArrayList<>();
+  private final Map<Button, List<Long>> prevClickTimes = new HashMap<>();
   private String[] cpsString = new String[0];
 
   public CPSComponent() {
     super("CPS");
     this.register(new CPSMode.LabelPreMode());
     this.register(new CPSMode.LabelPostMode());
+    this.register(new CPSMode.BothButtonsMode());
     this.register(new CPSMode.CustomMode());
     this.register(
         mode =
@@ -79,7 +82,6 @@ public class CPSComponent extends Component {
               }
             });
     this.register(customFont = new Setting<>("customFont", false));
-    this.register(tightFit = new Setting<>("tightFit", false));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
@@ -87,16 +89,25 @@ public class CPSComponent extends Component {
     this.currentMode = this.registeredModes.get(0);
     this.updateFontRenderer();
     Sorus.getSorus().getEventManager().register(this);
+    for (Button button : Button.values()) {
+      this.prevClickTimes.put(button, new ArrayList<>());
+    }
   }
 
   @Override
-  public void render(double x, double y) {
+  public void render(double x, double y, boolean dummy) {
     this.updateFontRenderer();
     long currentTime = System.currentTimeMillis();
-    prevClickTimes.removeIf((value) -> currentTime - value > 1000);
+    for (List<Long> prevClickTimes : this.prevClickTimes.values()) {
+      prevClickTimes.removeIf((value) -> currentTime - value > 1000);
+    }
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
     int i = 0;
-    List<List<Pair<String, Color>>> formatted = this.currentMode.format(prevClickTimes.size());
+    Map<Integer, Integer> cps = new HashMap<>();
+    for (Button button : this.prevClickTimes.keySet()) {
+      cps.put(button.ordinal(), this.prevClickTimes.get(button).size());
+    }
+    List<List<Pair<String, Color>>> formatted = this.currentMode.format(cps);
     List<String> strings = new ArrayList<>();
     for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder cpsBuilder = new StringBuilder();
@@ -164,23 +175,12 @@ public class CPSComponent extends Component {
 
   @Override
   public double getWidth() {
-    if (tightFit.getValue()) {
-      double maxWidth = 0;
-      for (String string : cpsString) {
-        maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
-      }
-      return maxWidth + 4;
-    }
-    return 60;
+    return this.currentMode.getWidth(this.cpsString, this.fontRenderer);
   }
 
   @Override
   public double getHeight() {
-    return tightFit.getValue()
-        ? fontRenderer.getFontHeight() * this.cpsText.getComponents().size()
-            + (this.cpsText.getComponents().size() - 1) * 2
-            + 4
-        : 11;
+    return this.currentMode.getHeight(this.cpsString, this.fontRenderer);
   }
 
   @Override
@@ -193,13 +193,12 @@ public class CPSComponent extends Component {
     collection.add(new ClickThrough(mode, registeredModeNames, "Mode"));
     this.currentMode.addConfigComponents(collection);
     collection.add(new Toggle(customFont, "Custom Font"));
-    collection.add(new Toggle(tightFit, "Tight Fit"));
     collection.add(new ColorPicker(backgroundColor, "Background Color"));
   }
 
   @EventInvoked
   public void onMouseClick(MousePressEvent e) {
     long tick = System.currentTimeMillis();
-    prevClickTimes.add(tick);
+    prevClickTimes.get(e.getButton()).add(tick);
   }
 }

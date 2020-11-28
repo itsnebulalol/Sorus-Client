@@ -93,30 +93,22 @@ public class MainTransformer implements ITransformer {
   private void reobfClass(ClassNode classNode) {
     Mappings mappings = ObfuscationManager.externalMappings;
     ClassMapping classMapping = mappings.getClassMapping(classNode.name, 0);
-
     if (classMapping != null) {
       classNode.name = classMapping.getClassData(1).getName();
     }
-
     List<String> interfaces = new ArrayList<String>(classNode.interfaces);
-
     for (String string : interfaces) {
       ClassMapping classMapping1 = mappings.getClassMapping(string, 0);
-
       if (classMapping1 != null) {
         classNode.interfaces.remove(string);
         classNode.interfaces.add(classMapping1.getClassData(1).getName());
       }
     }
-
     ClassMapping classMapping1 = mappings.getClassMapping(classNode.superName, 0);
-
     if (classMapping1 != null) {
       classNode.superName = classMapping1.getClassData(1).getName();
     }
-
     classNode.signature = formatSignature(classNode.signature, mappings);
-
     if (classNode.visibleAnnotations != null) {
       for (AnnotationNode node : (List<AnnotationNode>) classNode.visibleAnnotations) {
         if (node.values != null) {
@@ -126,7 +118,6 @@ public class MainTransformer implements ITransformer {
               Type type = (Type) object;
               ClassMapping classMapping2 =
                   mappings.getClassMapping(formatClassName(type.getClassName()), 0);
-
               if (classMapping2 != null) {
                 node.values.remove(object);
                 node.values.add(
@@ -142,33 +133,23 @@ public class MainTransformer implements ITransformer {
         }
       }
     }
-
     for (InnerClassNode innerClassNode : (List<InnerClassNode>) classNode.innerClasses) {
-
       ClassMapping classMapping2 = mappings.getClassMapping(innerClassNode.name, 0);
-
       if (classMapping2 != null) {
         innerClassNode.name = classMapping2.getClassData(1).getName();
       }
-
       ClassMapping classMapping3 = mappings.getClassMapping(innerClassNode.outerName, 0);
-
       if (classMapping3 != null) {
         innerClassNode.outerName = classMapping3.getClassData(1).getName();
       }
-
       innerClassNode.innerName =
           innerClassNode.name.split("\\$")[innerClassNode.name.split("\\$").length - 1];
     }
-
     for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
-
       for (AbstractInsnNode node : methodNode.instructions.toArray()) {
         if (node instanceof MethodInsnNode) {
-
           ClassMapping classMapping4 =
               mappings.getClassMapping(formatClassName(((MethodInsnNode) node).owner), 0);
-
           if (classMapping4 != null) {
             if (classMapping4
                     .getClassData(0)
@@ -191,13 +172,10 @@ public class MainTransformer implements ITransformer {
                       .getName();
             }
           }
-
           Type type = Type.getType(((MethodInsnNode) node).desc);
-
           for (Type type1 : type.getArgumentTypes()) {
             ClassMapping classMapping2 =
                 mappings.getClassMapping(formatClassName(type1.getClassName()), 0);
-
             if (classMapping2 != null) {
               ((MethodInsnNode) node).desc =
                   ((MethodInsnNode) node)
@@ -206,12 +184,9 @@ public class MainTransformer implements ITransformer {
                           "L" + classMapping2.getClassData(1).getName() + ";");
             }
           }
-
           Type type1 = type.getReturnType();
-
           ClassMapping classMapping2 =
               mappings.getClassMapping(formatClassName(type1.getClassName()), 0);
-
           if (classMapping2 != null) {
             ((MethodInsnNode) node).desc =
                 ((MethodInsnNode) node)
@@ -219,10 +194,8 @@ public class MainTransformer implements ITransformer {
                         "L" + formatClassName(type1.getClassName()) + ";",
                         "L" + classMapping2.getClassData(1).getName() + ";");
           }
-
           ClassMapping classMapping3 =
               mappings.getClassMapping(formatClassName(((MethodInsnNode) node).owner), 0);
-
           if (classMapping3 != null) {
             ((MethodInsnNode) node).owner =
                 ((MethodInsnNode) node)
@@ -232,10 +205,8 @@ public class MainTransformer implements ITransformer {
           }
         }
         if (node instanceof FieldInsnNode) {
-
           ClassMapping classMapping4 =
               mappings.getClassMapping(formatClassName(((FieldInsnNode) node).owner), 0);
-
           if (classMapping4 != null) {
             if (classMapping4.getClassData(0).getFieldData(((FieldInsnNode) node).name) != null) {
               ((FieldInsnNode) node).name =
@@ -253,12 +224,9 @@ public class MainTransformer implements ITransformer {
                       .getName();
             }
           }
-
           Type type = Type.getType(((FieldInsnNode) node).desc);
-
           ClassMapping classMapping2 =
               mappings.getClassMapping(formatClassName(type.getClassName()), 0);
-
           if (classMapping2 != null) {
             ((FieldInsnNode) node).desc =
                 ((FieldInsnNode) node)
@@ -266,9 +234,7 @@ public class MainTransformer implements ITransformer {
                         formatClassName(type.getClassName()),
                         classMapping2.getClassData(1).getName());
           }
-
           ClassMapping classMapping3 = mappings.getClassMapping(((FieldInsnNode) node).owner, 0);
-
           if (classMapping3 != null) {
             ((FieldInsnNode) node).owner = classMapping3.getClassData(1).getName();
           }
@@ -276,7 +242,6 @@ public class MainTransformer implements ITransformer {
         if (node instanceof TypeInsnNode) {
           ClassMapping classMapping2 =
               mappings.getClassMapping(formatClassName(((TypeInsnNode) node).desc), 0);
-
           if (classMapping2 != null) {
             ((TypeInsnNode) node).desc =
                 ((TypeInsnNode) node)
@@ -287,11 +252,9 @@ public class MainTransformer implements ITransformer {
         }
         if (node instanceof LdcInsnNode) {
           if (((LdcInsnNode) node).cst instanceof Type) {
-
             ClassMapping classMapping2 =
                 mappings.getClassMapping(
                     formatClassName(((Type) ((LdcInsnNode) node).cst).getClassName()), 0);
-
             if (classMapping2 != null) {
               ((LdcInsnNode) node).cst =
                   Type.getType("L" + classMapping2.getClassData(1).getName() + ";");
@@ -299,13 +262,11 @@ public class MainTransformer implements ITransformer {
           }
         }
         if (node instanceof FrameNode) {
-
           if (((FrameNode) node).stack != null) {
             for (Object object : ((FrameNode) node).stack) {
               if (object instanceof String) {
                 ClassMapping classMapping2 =
                     mappings.getClassMapping(formatClassName((String) object), 0);
-
                 if (classMapping2 != null) {
                   int index = ((FrameNode) node).stack.indexOf(object);
                   ((FrameNode) node)
@@ -319,7 +280,6 @@ public class MainTransformer implements ITransformer {
               }
             }
           }
-
           if (((FrameNode) node).local != null) {
             for (Object object : ((FrameNode) node).local) {
               if (object instanceof String) {
@@ -343,7 +303,6 @@ public class MainTransformer implements ITransformer {
         if (node instanceof MultiANewArrayInsnNode) {
           ClassMapping classMapping2 =
               mappings.getClassMapping(formatClassName(((MultiANewArrayInsnNode) node).desc), 0);
-
           if (classMapping2 != null) {
             ((MultiANewArrayInsnNode) node).desc =
                 ((MultiANewArrayInsnNode) node)
@@ -355,7 +314,6 @@ public class MainTransformer implements ITransformer {
         if (node instanceof InvokeDynamicInsnNode) {
           ArrayList<Object> bsmArgs =
               new ArrayList<>(Arrays.asList(((InvokeDynamicInsnNode) node).bsmArgs));
-
           int i = 0;
           for (Object object : bsmArgs) {
             if (object instanceof Handle) {

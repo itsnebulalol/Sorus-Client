@@ -38,7 +38,11 @@ import org.sorus.client.gui.screen.settings.SettingsScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.util.MathUtil;
+import org.sorus.client.version.IScreen;
+import org.sorus.client.version.game.IGame;
+import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
+import org.sorus.client.version.render.IRenderer;
 
 public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
 
@@ -58,7 +62,7 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
 
   @Override
   public void init() {
-    Sorus.getSorus().getVersion().getRenderer().enableBlur(7.5);
+    Sorus.getSorus().getVersion().getData(IRenderer.class).enableBlur(7.5);
     main = new Panel();
     Collection menu = new Collection().position(610, 140);
     main.add(menu);
@@ -117,7 +121,7 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
                 350 - fontRenderer.getStringWidth(configurable.getDisplayName()) / 2 * 4.5, 95)
             .scale(4.5, 4.5)
             .color(new Color(175, 175, 175)));
-    menu.add(
+    /*menu.add(
         new Rectangle()
             .size(660, 620)
             .position(20, 150)
@@ -193,8 +197,8 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
                 DefaultTheme.getShadowEndColor(),
                 DefaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(16, 146));
-    Scissor scissor = new Scissor().size(680, 580).position(10, 170);
+            .position(16, 146));*/
+    Scissor scissor = new Scissor().size(680, 580).position(10, 140);
     this.scroll = new Scroll();
     scroll.position(0, 2);
     scissor.add(scroll);
@@ -208,10 +212,10 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
   @Override
   public void render() {
     main.scale(
-        Sorus.getSorus().getVersion().getScreen().getScaledWidth() / 1920,
-        Sorus.getSorus().getVersion().getScreen().getScaledHeight() / 1080);
-    final int FPS = Math.max(Sorus.getSorus().getVersion().getGame().getFPS(), 1);
-    double scrollValue = Sorus.getSorus().getVersion().getInput().getScroll();
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
+    final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
+    double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll = targetScroll + scrollValue * 0.7;
     scroll.setScroll((targetScroll - scroll.getScroll()) * 7 / FPS + scroll.getScroll());
     double maxScroll = settingsHolder.getHeight() - 580;
@@ -222,7 +226,7 @@ public class DefaultSettingsScreen extends ThemeBase<SettingsScreen> {
 
   @Override
   public void exit() {
-    Sorus.getSorus().getVersion().getRenderer().disableBlur();
+    Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     main.onRemove();
   }

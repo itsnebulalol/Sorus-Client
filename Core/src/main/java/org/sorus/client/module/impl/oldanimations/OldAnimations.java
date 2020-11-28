@@ -44,7 +44,7 @@ public class OldAnimations extends ModuleConfigurable {
 
   @Override
   public void addIconElements(Collection collection) {
-    collection.add(new Image().resource("sorus/modules/oldanimations/logo.png").size(95, 95));
+    collection.add(new Image().resource("sorus/modules/oldanimations/logo.png").size(80, 80));
   }
 
   @Override

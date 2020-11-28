@@ -25,10 +25,17 @@
 package org.sorus.oneeightnine;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import org.sorus.client.version.game.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game implements IGame {
 
@@ -45,8 +52,26 @@ public class Game implements IGame {
     }
 
     @Override
-    public void displayBlankGUI() {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiBlank());
+    public void display(GUIType type) {
+        GuiScreen screen = null;
+        switch(type) {
+            case VIEW_WORLDS:
+                screen = new GuiSelectWorld(new GuiMainMenu());
+                break;
+            case VIEW_SERVERS:
+                screen = new GuiMultiplayer(new GuiMainMenu());
+                break;
+            case LANGUAGES:
+                screen = new GuiLanguage(new GuiMainMenu(), Minecraft.getMinecraft().gameSettings, Minecraft.getMinecraft().getLanguageManager());
+                break;
+            case SETTINGS:
+                screen = new GuiOptions(new GuiMainMenu(), Minecraft.getMinecraft().gameSettings);
+                break;
+            case BLANK:
+                screen = new GuiBlank();
+                break;
+        }
+        Minecraft.getMinecraft().displayGuiScreen(screen);
     }
 
     @Override
@@ -112,12 +137,38 @@ public class Game implements IGame {
     }
 
     @Override
+    public void shutdown() {
+        Minecraft.getMinecraft().shutdown();
+    }
+
+    @Override
+    public IScoreboard getScoreboard() {
+        return new ScoreboardImpl(Minecraft.getMinecraft().theWorld.getScoreboard());
+    }
+
+    @Override
+    public List<IPotionEffect> getDummyEffects() {
+        List<IPotionEffect> effects = new ArrayList<>();
+        effects.add(new PotionEffectImpl(new PotionEffect(1, 35, 1)));
+        effects.add(new PotionEffectImpl(new PotionEffect(5, 1089, 1)));
+        effects.add(new PotionEffectImpl(new PotionEffect(11, 2046, 1)));
+        return effects;
+    }
+
+    @Override
+    public List<IItemStack> getDummyArmor() {
+        List<IItemStack> armor = new ArrayList<>();
+        armor.add(new ItemStackImpl(new ItemStack(Item.getItemById(313))));
+        armor.add(new ItemStackImpl(new ItemStack(Item.getItemById(311))));
+        return armor;
+    }
+
+    @Override
     public String getCurrentServerIP() {
         ServerData currentServerData = Minecraft.getMinecraft().getCurrentServerData();
         if(currentServerData == null) {
             return null;
         }
         return currentServerData.serverIP;
-
     }
 }

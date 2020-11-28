@@ -103,6 +103,10 @@ public abstract class Component implements IRenderable {
     return this.collection.absoluteY() + y * this.collection.absoluteYScale();
   }
 
+  public double rawY() {
+    return y;
+  }
+
   /**
    * Gets the absolute x scale based on the parents state.
    *

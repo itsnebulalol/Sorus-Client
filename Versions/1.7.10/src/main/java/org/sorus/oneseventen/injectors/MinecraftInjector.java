@@ -42,6 +42,7 @@ import org.sorus.client.startup.injection.Hook;
 import org.sorus.client.startup.injection.Injector;
 import org.sorus.client.startup.injection.inject.At;
 import org.sorus.client.startup.injection.inject.Inject;
+import org.sorus.client.version.game.GUIType;
 import org.sorus.oneseventen.GuiBlank;
 import org.sorus.oneseventen.util.input.InputMap;
 import org.sorus.oneseventen.util.input.MouseHandler;
@@ -59,7 +60,7 @@ public class MinecraftInjector extends Injector<Minecraft> {
     /**
      * Calls the {@link StartEvent} at the end of the method.
      */
-    @Inject(name = "startGame", at = @At("RETURN"))
+    @Inject(name = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/OpenGlHelper;initializeTextures()V", shift = At.Shift.AFTER))
     public void startGame() {
         Sorus.getSorus().getEventManager().post(new StartEvent());
     }
@@ -89,26 +90,26 @@ public class MinecraftInjector extends Injector<Minecraft> {
         if(Keyboard.getEventKeyState()) {
             Sorus.getSorus().getEventManager().post(new KeyPressEvent(InputMap.getKey(eventKey), Keyboard.getEventCharacter(), Keyboard.isRepeatEvent()));
         } else {
-            Sorus.getSorus().getEventManager().post(new KeyReleaseEvent(InputMap.getKey(eventKey), Keyboard.isRepeatEvent()));
+            Sorus.getSorus().getEventManager().post(new KeyReleaseEvent(InputMap.getKey(eventKey)));
         }
     }
 
     @Inject(name = "displayGuiScreen", desc = "(Lnet/minecraft/client/gui/GuiScreen;)V", at = @At(value = "RETURN"))
     public void displayGuiScreen() {
-        GuiSwitchEvent.Type type = GuiSwitchEvent.Type.UNDEFINED;
+        GUIType type = GUIType.UNDEFINED;
         GuiScreen guiScreen = that.currentScreen;
         if(guiScreen == null) {
-            type = GuiSwitchEvent.Type.NULL;
+            type = GUIType.NULL;
         } else if(guiScreen.getClass().equals(GuiMainMenu.class)) {
-            type = GuiSwitchEvent.Type.MAIN_MENU;
+            type = GUIType.MAIN_MENU;
         } else if(guiScreen.getClass().equals(GuiInventory.class)) {
-            type = GuiSwitchEvent.Type.INVENTORY;
+            type = GUIType.INVENTORY;
         } else if(guiScreen.getClass().equals(GuiContainerCreative.class)) {
-            type = GuiSwitchEvent.Type.INVENTORY_CREATIVE;
+            type = GUIType.INVENTORY_CREATIVE;
         } else if(guiScreen.getClass().equals(GuiCrafting.class)) {
-            type = GuiSwitchEvent.Type.CRAFTING;
+            type = GUIType.CRAFTING;
         } else if(guiScreen.getClass().equals(GuiBlank.class)) {
-            type = GuiSwitchEvent.Type.BLANK;
+            type = GUIType.BLANK;
         }
         Sorus.getSorus().getEventManager().post(new GuiSwitchEvent(type));
     }

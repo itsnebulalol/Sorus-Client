@@ -38,6 +38,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.SlickException;
 import org.sorus.client.obfuscation.ObfuscationManager;
+import org.sorus.client.version.IScreen;
 import org.sorus.client.version.game.IItemStack;
 import org.sorus.client.version.render.IRenderer;
 import org.sorus.client.version.IVersion;
@@ -122,7 +123,7 @@ public class Renderer implements IRenderer {
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         GL11.glBegin(GL11.GL_TRIANGLE_FAN);
         GL11.glVertex2d(x, y);
-        for(int i = startAngle; i <= endAngle; i++) {
+        for(int i = startAngle; i <= endAngle; i += 1) {
             GL11.glVertex2d(x + Math.sin(Math.toRadians(i)) * xRadius, y + Math.cos(Math.toRadians(i)) * yRadius);
         }
         GL11.glEnd();
@@ -151,7 +152,7 @@ public class Renderer implements IRenderer {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glBlendFunc(770, 771);
-        GL11.glLineWidth((float) (thickness * version.getScreen().getScaleFactor()));
+        GL11.glLineWidth((float) (thickness * version.getData(IScreen.class).getScaleFactor()));
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
         GL11.glBegin(GL11.GL_LINE_STRIP);
         for(double i = startAngle; i <= endAngle; i += 1) {
@@ -224,17 +225,37 @@ public class Renderer implements IRenderer {
         return fontRenderer;
     }
 
+    private final Gui gui = new Gui();
+
     @Override
-    public void drawImage(String resource, double x, double y, double width, double height, double textureX, double textureY, double textureWidth, double textureHeight, Color color) {
+    public void drawPartialImage(String resource, double x, double y, double width, double height, double textureX, double textureY, double textureWidth, double textureHeight, Color color) {
         ResourceLocation resourceLocation = new ResourceLocation(resource);
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glBlendFunc(770, 771);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glTranslated(x, y, 0);
+        GL11.glScaled(width / textureWidth, height / textureHeight, 1);
+        GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
+        gui.drawTexturedModalRect(0, 0, (int) textureX, (int) textureY, (int) textureWidth, (int) textureHeight);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+    }
+
+    @Override
+    public void drawFullImage(String resource, double x, double y, double width, double height, Color color) {
+        ResourceLocation resourceLocation = new ResourceLocation(resource);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glTranslated(x, y, 0);
         GL11.glScaled(width / (int) width, height / (int) height, 1);
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, (int) width, (int) height, (int) width, (int) height);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);

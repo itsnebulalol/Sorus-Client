@@ -26,7 +26,6 @@ package org.sorus.client.gui.theme.defaultTheme;
 
 import java.awt.*;
 import org.sorus.client.gui.core.component.Collection;
-import org.sorus.client.gui.screen.profilelist.ProfileListScreen;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.defaultTheme.hudconfig.DefaultHUDConfigScreen;
@@ -44,10 +43,12 @@ public class DefaultTheme extends Theme {
   private static DefaultTheme instance;
 
   private final Setting<Color> backgroundLayerColor;
+  private final Setting<Color> medbackgroundLayerColor;
   private final Setting<Color> medgroundLayerColor;
   private final Setting<Color> medforegroundLayerColor;
   private final Setting<Color> foregroundLayerColor;
   private final Setting<Color> foregroundLessLayerColor;
+  private final Setting<Color> foregroundLessLessLayerColor;
   private final Setting<Color> shadowStartColor;
   private final Setting<Color> shadowEndColor;
 
@@ -68,14 +69,19 @@ public class DefaultTheme extends Theme {
     this.register(
         backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
     this.register(
+        medbackgroundLayerColor = new Setting<>("medbackgroundLayerColor", new Color(22, 22, 22)));
+    this.register(
         medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
     this.register(
-        medforegroundLayerColor = new Setting<>("medgroundLayerColor", new Color(40, 40, 40)));
+        medforegroundLayerColor = new Setting<>("medforegroundLayerColor", new Color(40, 40, 40)));
     this.register(
         foregroundLayerColor = new Setting<>("foregroundLayerColor", new Color(215, 215, 215)));
     this.register(
         foregroundLessLayerColor =
             new Setting<>("foregroundLessLayerColor", new Color(160, 160, 160)));
+    this.register(
+        foregroundLessLessLayerColor =
+            new Setting<>("foregroundLessLessLayerColor", new Color(130, 130, 130)));
     this.register(shadowStartColor = new Setting<>("shadowStartColor", new Color(14, 14, 14)));
     this.register(shadowEndColor = new Setting<>("shadowEndColor", new Color(14, 14, 14, 0)));
     instance = this;
@@ -84,10 +90,12 @@ public class DefaultTheme extends Theme {
   @Override
   public void addConfigComponents(Collection collection) {
     collection.add(new ColorPicker(backgroundLayerColor, "Background Layer"));
+    collection.add(new ColorPicker(medbackgroundLayerColor, "Medbackgroundground Layer"));
     collection.add(new ColorPicker(medgroundLayerColor, "Medground Layer"));
     collection.add(new ColorPicker(medforegroundLayerColor, "Medforeground Layer"));
     collection.add(new ColorPicker(foregroundLayerColor, "Foreground Layer"));
     collection.add(new ColorPicker(foregroundLessLayerColor, "Foreground Less Layer"));
+    collection.add(new ColorPicker(foregroundLessLessLayerColor, "Foreground Less Less Layer"));
     collection.add(new ColorPicker(shadowStartColor, "Shadow Start"));
     collection.add(new ColorPicker(shadowEndColor, "Shadow End"));
   }
@@ -105,6 +113,10 @@ public class DefaultTheme extends Theme {
     return DefaultTheme.getInstance().backgroundLayerColor.getValue();
   }
 
+  public static Color getMedbackgroundLayerColor() {
+    return DefaultTheme.getInstance().medbackgroundLayerColor.getValue();
+  }
+
   public static Color getMedgroundLayerColor() {
     return DefaultTheme.getInstance().medgroundLayerColor.getValue();
   }
@@ -119,6 +131,10 @@ public class DefaultTheme extends Theme {
 
   public static Color getForegroundLessLayerColor() {
     return DefaultTheme.getInstance().foregroundLessLayerColor.getValue();
+  }
+
+  public static Color getForegroundLessLessLayerColor() {
+    return DefaultTheme.getInstance().foregroundLessLessLayerColor.getValue();
   }
 
   public static Color getShadowStartColor() {
