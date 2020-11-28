@@ -117,6 +117,7 @@ public class HUDManager implements ISettingHolder {
 
   @Override
   public void setSettings(Object settings) {
+    this.huds.clear();
     List<Pair<Class<? extends HUD>, ?>> settingsList =
         (List<Pair<Class<? extends HUD>, ?>>) settings;
     for (Pair<Class<? extends HUD>, ?> pair : settingsList) {

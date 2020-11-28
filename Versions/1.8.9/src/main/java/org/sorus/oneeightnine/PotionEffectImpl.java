@@ -31,6 +31,7 @@ import org.sorus.client.Sorus;
 import org.sorus.client.version.game.IPotionEffect;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class PotionEffectImpl implements IPotionEffect {
 

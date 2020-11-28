@@ -56,6 +56,8 @@ public class ArmorStatusComponent extends Component {
   private final Collection mainCollection;
   private final Rectangle background;
 
+  private List<IItemStack> armor;
+
   public ArmorStatusComponent() {
     super("ARMOR STATUS");
     this.register(rawDurability = new Setting<>("rawDurability", false));
@@ -71,15 +73,20 @@ public class ArmorStatusComponent extends Component {
   }
 
   @Override
+  public void update(boolean dummy) {
+    armor = Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getInventory().getArmor();;
+    if(armor.isEmpty()) {
+      armor = Sorus.getSorus().getVersion().getData(IGame.class).getDummyArmor();
+    }
+    Collections.reverse(armor);
+  }
+
+  @Override
   public void render(double x, double y, boolean dummy) {
     this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
-    List<IItemStack> armor =
-        Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getInventory().getArmor();
-    List<IItemStack> reversedArmor = new ArrayList<>(armor);
-    Collections.reverse(reversedArmor);
     this.mainCollection.clear();
     int i = 0;
-    for (IItemStack iItemStack : reversedArmor) {
+    for (IItemStack iItemStack : armor) {
       if (this.showArmor(iItemStack)) {
         mainCollection.add(new SingleArmorComponent(iItemStack).position(2, 2 + i * 18));
         i++;

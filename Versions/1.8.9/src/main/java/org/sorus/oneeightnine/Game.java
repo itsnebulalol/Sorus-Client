@@ -28,7 +28,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import org.sorus.client.version.game.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game implements IGame {
 
@@ -137,6 +144,23 @@ public class Game implements IGame {
     @Override
     public IScoreboard getScoreboard() {
         return new ScoreboardImpl(Minecraft.getMinecraft().theWorld.getScoreboard());
+    }
+
+    @Override
+    public List<IPotionEffect> getDummyEffects() {
+        List<IPotionEffect> effects = new ArrayList<>();
+        effects.add(new PotionEffectImpl(new PotionEffect(1, 35, 1)));
+        effects.add(new PotionEffectImpl(new PotionEffect(5, 1089, 1)));
+        effects.add(new PotionEffectImpl(new PotionEffect(11, 2046, 1)));
+        return effects;
+    }
+
+    @Override
+    public List<IItemStack> getDummyArmor() {
+        List<IItemStack> armor = new ArrayList<>();
+        armor.add(new ItemStackImpl(new ItemStack(Item.getItemById(313))));
+        armor.add(new ItemStackImpl(new ItemStack(Item.getItemById(311))));
+        return armor;
     }
 
     @Override

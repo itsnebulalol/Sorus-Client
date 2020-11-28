@@ -259,8 +259,8 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
           hollowRectangle =
               new HollowRectangle()
                   .thickness(2)
-                  .size(WIDTH + 8, HEIGHT + 8)
-                  .position(5, 4)
+                  .size(WIDTH, HEIGHT)
+                  .position(4, 4)
                   .color(new Color(180, 180, 180, 0)));
       this.add(
           new Text()

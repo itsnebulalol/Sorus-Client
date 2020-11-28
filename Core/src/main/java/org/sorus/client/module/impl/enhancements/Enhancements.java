@@ -29,6 +29,7 @@ import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.GuiSwitchEvent;
 import org.sorus.client.event.impl.client.render.RenderObjectEvent;
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.screen.settings.components.Slider;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.module.ModuleConfigurable;
@@ -113,4 +114,10 @@ public class Enhancements extends ModuleConfigurable {
   public VersionDecision getVersions() {
     return new VersionDecision.Allow();
   }
+
+  @Override
+  public void addIconElements(Collection collection) {
+    collection.add(new Image().resource("sorus/modules/enhancements/logo.png").size(80, 80));
+  }
+
 }

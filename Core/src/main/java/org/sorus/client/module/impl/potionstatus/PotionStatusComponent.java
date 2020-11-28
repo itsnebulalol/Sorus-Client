@@ -25,6 +25,7 @@
 package org.sorus.client.module.impl.potionstatus;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
@@ -55,6 +56,9 @@ public class PotionStatusComponent extends Component {
   public void update(boolean dummy) {
     this.potionEffects =
         Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getActivePotionEffects();
+    if(potionEffects.isEmpty()) {
+      potionEffects = Sorus.getSorus().getVersion().getData(IGame.class).getDummyEffects();
+    }
   }
 
   @Override
@@ -65,7 +69,7 @@ public class PotionStatusComponent extends Component {
         .drawRect(x, y, width, height, backgroundColor.getValue());
     int i = 0;
     for (IPotionEffect potionEffect : potionEffects) {
-      potionEffect.drawIcon(x + 2, y + i * 19 + 2, 20, 20);
+      potionEffect.drawIcon(x + 2, y + i * 23 + 4, 20, 20);
       Sorus.getSorus()
           .getGUIManager()
           .getRenderer()
@@ -73,7 +77,7 @@ public class PotionStatusComponent extends Component {
           .drawString(
               potionEffect.getName() + " " + potionEffect.getAmplifier(),
               x + 25,
-              y + i * 19 + 4,
+              y + i * 23 + 5,
               1,
               1,
               false,
@@ -85,7 +89,7 @@ public class PotionStatusComponent extends Component {
           .drawString(
               potionEffect.getDuration(),
               x + 25,
-              y + i * 19 + 13,
+              y + i * 23 + 16,
               1,
               1,
               false,
@@ -113,7 +117,7 @@ public class PotionStatusComponent extends Component {
 
   @Override
   public double getHeight() {
-    return this.height = potionEffects.size() * 19 + 4;
+    return this.height = potionEffects.size() * 23 + 4;
   }
 
   @Override

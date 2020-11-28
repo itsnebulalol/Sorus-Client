@@ -26,6 +26,7 @@ package org.sorus.client.module.impl.togglesprint;
 
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
+import org.sorus.client.event.impl.client.TickEvent;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.Keybind;
@@ -79,6 +80,17 @@ public class ToggleSprint extends ModuleConfigurable {
                 .getKeybind(KeybindType.SPRINT)
                 .getKey())) {
       toggled = false;
+    }
+  }
+
+  @EventInvoked
+  public void onTick(TickEvent e) {
+    if(this.isEnabled() && this.toggled && Sorus.getSorus().getVersion().getData(IGame.class).isIngame()) {
+      Sorus.getSorus()
+              .getVersion()
+              .getData(IInput.class)
+              .getKeybind(KeybindType.SPRINT)
+              .setState(true);
     }
   }
 

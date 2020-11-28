@@ -25,6 +25,7 @@
 package org.sorus.client.module.impl.names;
 
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.screen.settings.components.TextBox;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.module.ModuleConfigurable;
@@ -74,4 +75,10 @@ public class Names extends ModuleConfigurable {
   public String getCustomName() {
     return this.customNameText.getValue();
   }
+
+  @Override
+  public void addIconElements(Collection collection) {
+    collection.add(new Image().resource("sorus/modules/names/logo.png").size(80, 80));
+  }
+
 }

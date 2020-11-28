@@ -182,7 +182,6 @@ public class ProfileListComponent extends Collection {
         ProfileListComponent.this.profileListScreenTheme.screen.loadProfile(
             ProfileListComponent.this.profile);
         ProfileListComponent.this.profileListScreenTheme.updateProfiles();
-        // ProfileListComponent.this.moduleListScreenTheme.screen.displayModuleSettings(module);
       }
     }
 

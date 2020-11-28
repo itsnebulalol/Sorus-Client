@@ -24,6 +24,8 @@
 
 package org.sorus.client.version.game;
 
+import java.util.List;
+
 public interface IGame {
 
   boolean isIngame();
@@ -63,4 +65,9 @@ public interface IGame {
   void shutdown();
 
   IScoreboard getScoreboard();
+
+  List<IPotionEffect> getDummyEffects();
+
+  List<IItemStack> getDummyArmor();
+
 }
