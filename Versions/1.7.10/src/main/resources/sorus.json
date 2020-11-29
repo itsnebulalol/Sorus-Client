@@ -20,8 +20,6 @@
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
     "names.GuiIngameInjector",
-    "optimisations.S21PacketChunkDataInjector",
-    "optimisations.ChunkProviderClientInjector",
     "optimisations.ClippingHelperImplInjector"
   ]
 }
