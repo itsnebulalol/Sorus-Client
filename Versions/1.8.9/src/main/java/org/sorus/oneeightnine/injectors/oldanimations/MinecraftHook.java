@@ -34,9 +34,9 @@ import org.sorus.client.module.impl.oldanimations.OldAnimations;
 public class MinecraftHook {
 
     public static void runTick() {
-        if(Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Sorus.getSorus().getModuleManager().getModule(OldAnimations.class).shouldShowAnimInteractBreak()) {
-            MinecraftHook.attemptSwing();
-        }
+//        if(Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Sorus.getSorus().getModuleManager().getModule(OldAnimations.class).shouldShowAnimInteractBreak()) {
+//            MinecraftHook.attemptSwing();
+//        }
     }
 
     private static void attemptSwing() {
