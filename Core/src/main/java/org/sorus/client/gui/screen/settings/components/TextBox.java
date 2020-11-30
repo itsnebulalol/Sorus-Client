@@ -85,11 +85,11 @@ public class TextBox extends Configurable {
     @Override
     public void onRender() {
       if (selected) {
-        rectangle.color(DefaultTheme.getMedforegroundLayerColor());
+        rectangle.color(DefaultTheme.getMedgroundLayerColor());
         hollowRectangle.color(DefaultTheme.getForegroundLayerColor());
         text.color(DefaultTheme.getForegroundLayerColor());
       } else {
-        rectangle.color(DefaultTheme.getMedforegroundLayerColor());
+        rectangle.color(DefaultTheme.getMedgroundLayerColor());
         hollowRectangle.color(DefaultTheme.getForegroundLessLayerColor());
         text.color(DefaultTheme.getForegroundLessLayerColor());
       }

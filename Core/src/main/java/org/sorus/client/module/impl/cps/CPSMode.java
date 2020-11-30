@@ -129,7 +129,7 @@ public abstract class CPSMode extends Mode {
               new ArrayList<>(
                   Arrays.asList(
                       Pair.of(cps.get(0) + " ", this.valueColor.getValue()),
-                      Pair.of("FPS", this.labelMainColor.getValue())))));
+                      Pair.of("CPS", this.labelMainColor.getValue())))));
     }
 
     @Override

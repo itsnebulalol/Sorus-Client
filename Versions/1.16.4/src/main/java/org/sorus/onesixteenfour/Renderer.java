@@ -98,7 +98,6 @@ public class Renderer implements IRenderer {
         bufferBuilder.pos(x, y, 0).color(topLeftColor.getRed() / 255F, topLeftColor.getGreen() / 255F, topLeftColor.getBlue() / 255F, topLeftColor.getAlpha() / 255F).endVertex();
         bufferBuilder.finishDrawing();
         WorldVertexBufferUploader.draw(bufferBuilder);
-        System.out.println(bufferBuilder.isDrawing());
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);*/
     }

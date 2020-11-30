@@ -48,7 +48,7 @@ public class ModuleListComponent extends Collection {
     this.moduleListScreenTheme = moduleListScreenTheme;
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
-    final double WIDTH = 685;
+    final double WIDTH = 670;
     final double HEIGHT = 100;
     this.add(
         new Rectangle()
@@ -149,11 +149,11 @@ public class ModuleListComponent extends Collection {
               .color(DefaultTheme.getForegroundLessLessLayerColor()));
       i++;
     }
-    this.add(new ToggleButton2(module).position(515, 32.5));
+    this.add(new ToggleButton(module).position(515, 32.5));
     this.add(new SettingsButton(module).position(615, 32.5));
   }
 
-  public class ToggleButton2 extends Collection {
+  public static class ToggleButton extends Collection {
 
     private final ModuleConfigurable module;
 
@@ -165,7 +165,7 @@ public class ModuleListComponent extends Collection {
 
     private long prevRenderTime;
 
-    public ToggleButton2(ModuleConfigurable module) {
+    public ToggleButton(ModuleConfigurable module) {
       this.module = module;
       this.value = module.isEnabled();
       this.background = new Rectangle().size(80, 45).smooth(22.5).position(0, 0);
@@ -194,6 +194,7 @@ public class ModuleListComponent extends Collection {
     @Override
     public void onRemove() {
       Sorus.getSorus().getEventManager().unregister(this);
+      super.onRemove();
     }
 
     /**
@@ -210,81 +211,6 @@ public class ModuleListComponent extends Collection {
         this.value = !value;
         this.module.setEnabled(value);
       }
-    }
-  }
-
-  public class ToggleButton extends Collection {
-
-    private final ModuleConfigurable module;
-    private boolean enabled;
-
-    private final Collection main;
-    private final Rectangle rectangle;
-    private final Text text;
-
-    private double hoverPercent;
-    private double switchPercent;
-
-    private long prevRenderTime;
-
-    public ToggleButton(ModuleConfigurable module) {
-      this.module = module;
-      this.enabled = module.isEnabled();
-      this.add(main = new Collection());
-      main.add(rectangle = new Rectangle().size(150, 40).smooth(4));
-      main.add(
-          text =
-              new Text()
-                  .fontRenderer(
-                      Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
-                  .scale(3, 3));
-      Sorus.getSorus().getEventManager().register(this);
-    }
-
-    @Override
-    public void onRender() {
-      this.text.text(enabled ? "ENABLED" : "DISABLED").position(75 - text.width() / 2 * 3, 12.5);
-      long renderTime = System.currentTimeMillis();
-      long deltaTime = renderTime - prevRenderTime;
-      switchPercent =
-          Math.max(0, Math.min(1, switchPercent + (enabled ? 1 : -1) * deltaTime * 0.005));
-      this.rectangle.color(
-          new Color(
-              (int) (160 - switchPercent * 135),
-              (int) (35 + switchPercent * 125),
-              (int) (35 + switchPercent * 30)));
-      boolean hovered =
-          this.isHovered(
-              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
-              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
-      hoverPercent =
-          Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
-      this.main
-          .position(-hoverPercent * 2.25, -hoverPercent * 0.75)
-          .scale(1 + hoverPercent * 0.035, 1 + hoverPercent * 0.035);
-      prevRenderTime = renderTime;
-      super.onRender();
-    }
-
-    @Override
-    public void onRemove() {
-      Sorus.getSorus().getEventManager().unregister(this);
-      super.onRemove();
-    }
-
-    @EventInvoked
-    public void onClick(MousePressEvent e) {
-      if (this.isHovered(e.getX(), e.getY())) {
-        enabled = !enabled;
-        ModuleListComponent.this.moduleListScreenTheme.screen.enableDisableModule(module, enabled);
-      }
-    }
-
-    private boolean isHovered(double x, double y) {
-      return x > this.absoluteX()
-          && x < this.absoluteX() + 150 * this.absoluteXScale()
-          && y > this.absoluteY()
-          && y < this.absoluteY() + 40 * this.absoluteYScale();
     }
   }
 

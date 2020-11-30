@@ -170,6 +170,8 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
 
     private final HollowRectangle hollowRectangle;
 
+    private long prevClick;
+
     public SelectComponent(Component component) {
       this.component = component;
       IFontRenderer fontRenderer =
@@ -317,7 +319,11 @@ public class DefaultSelectComponentScreen extends ThemeBase<SelectComponentScree
           && e.getY() > this.absoluteY()
           && e.getY() < this.absoluteY() + 125 * this.absoluteYScale()) {
         this.select();
+        if(System.currentTimeMillis() - prevClick < 500) {
+          receiver.call(this.component);
+        }
       }
+      prevClick = System.currentTimeMillis();
     }
 
     public void select() {

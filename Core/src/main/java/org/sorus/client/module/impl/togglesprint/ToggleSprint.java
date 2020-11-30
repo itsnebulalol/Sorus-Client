@@ -72,15 +72,6 @@ public class ToggleSprint extends ModuleConfigurable {
           .getKeybind(KeybindType.SPRINT)
           .setState(toggled);
     }
-    if (e.getKey()
-        .equals(
-            Sorus.getSorus()
-                .getVersion()
-                .getData(IInput.class)
-                .getKeybind(KeybindType.SPRINT)
-                .getKey())) {
-      toggled = false;
-    }
   }
 
   @EventInvoked

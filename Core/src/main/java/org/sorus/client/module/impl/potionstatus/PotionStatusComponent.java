@@ -25,12 +25,12 @@
 package org.sorus.client.module.impl.potionstatus;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.hud.Component;
+import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.game.IPotionEffect;
@@ -56,7 +56,7 @@ public class PotionStatusComponent extends Component {
   public void update(boolean dummy) {
     this.potionEffects =
         Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getActivePotionEffects();
-    if(potionEffects.isEmpty()) {
+    if(potionEffects.isEmpty() && dummy) {
       potionEffects = Sorus.getSorus().getVersion().getData(IGame.class).getDummyEffects();
     }
   }
@@ -125,4 +125,11 @@ public class PotionStatusComponent extends Component {
     collection.add(new Image().resource("sorus/modules/potionstatus/logo.png").size(80, 80));
   }
 
+  @Override
+  public void addConfigComponents(Collection collection) {
+    collection.add(new ColorPicker(backgroundColor, "Background Color"));
+    collection.add(new ColorPicker(nameAmplifierColor, "Name Color"));
+    collection.add(new ColorPicker(durationColor, "Duration Color"));
+    super.addConfigComponents(collection);
+  }
 }

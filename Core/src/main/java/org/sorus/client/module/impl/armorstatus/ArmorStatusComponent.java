@@ -56,7 +56,7 @@ public class ArmorStatusComponent extends Component {
   private final Collection mainCollection;
   private final Rectangle background;
 
-  private List<IItemStack> armor;
+  private double width, height;
 
   public ArmorStatusComponent() {
     super("ARMOR STATUS");
@@ -74,26 +74,33 @@ public class ArmorStatusComponent extends Component {
 
   @Override
   public void update(boolean dummy) {
-    armor = Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getInventory().getArmor();;
-    if(armor.isEmpty()) {
+    List<IItemStack> armor = Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getInventory().getArmor();
+    if(armor.isEmpty() && dummy) {
       armor = Sorus.getSorus().getVersion().getData(IGame.class).getDummyArmor();
     }
     Collections.reverse(armor);
+    this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
+    this.mainCollection.clear();
+    this.width = 0;
+    this.height = 0;
+    int i = 0;
+    for (IItemStack iItemStack : armor) {
+      if (this.showArmor(iItemStack)) {
+        SingleArmorComponent singleArmorComponent = new SingleArmorComponent(iItemStack).position(2, 2 + i * 18);
+        mainCollection.add(singleArmorComponent);
+        width = Math.max(width, singleArmorComponent.width + 2);
+        height += 18;
+        i++;
+      }
+    }
+    width += 4;
+    height += 4;
   }
 
   @Override
   public void render(double x, double y, boolean dummy) {
-    this.background.size(this.hud.getWidth(), this.getHeight()).color(backgroundColor.getValue());
-    this.mainCollection.clear();
-    int i = 0;
-    for (IItemStack iItemStack : armor) {
-      if (this.showArmor(iItemStack)) {
-        mainCollection.add(new SingleArmorComponent(iItemStack).position(2, 2 + i * 18));
-        i++;
-      }
-    }
     this.modPanel.position(x, y);
-    if (this.mainCollection.getComponents().size() > 0) {
+    if(this.mainCollection.getComponents().size() > 0) {
       this.modPanel.onRender();
     }
   }
@@ -118,16 +125,12 @@ public class ArmorStatusComponent extends Component {
 
   @Override
   public double getWidth() {
-    double maxWidth = 0;
-    for (org.sorus.client.gui.core.component.Component component : mainCollection.getComponents()) {
-      maxWidth = Math.max(maxWidth, ((SingleArmorComponent) component).width + 2);
-    }
-    return maxWidth + 4;
+    return this.width;
   }
 
   @Override
   public double getHeight() {
-    return this.mainCollection.getComponents().size() * 18 + 4;
+    return this.height;
   }
 
   @Override
@@ -157,25 +160,32 @@ public class ArmorStatusComponent extends Component {
                   .fontRenderer(
                       Sorus.getSorus().getGUIManager().getRenderer().getMinecraftFontRenderer())
                   .position(20, 6.5));
+      this.updateText();
     }
 
     @Override
     public void onRender() {
+      this.updateText();
+      super.onRender();
+    }
+
+    public void updateText() {
       if (ArmorStatusComponent.this.rawDurability.getValue()) {
         this.text.text(String.valueOf((iItemStack.getMaxDamage() - iItemStack.getDamage())));
       } else {
         this.text.text(
-            String.format(
-                    "%.2f",
-                    (iItemStack.getMaxDamage() - iItemStack.getDamage())
-                        / (double) iItemStack.getMaxDamage()
-                        * 100)
-                + "%");
+                String.format(
+                        "%.2f",
+                        (iItemStack.getMaxDamage() - iItemStack.getDamage())
+                                / (double) iItemStack.getMaxDamage()
+                                * 100)
+                        + "%");
       }
-      this.width = this.text.width() + 20;
+
       this.text.color(ArmorStatusComponent.this.textColor.getValue());
-      super.onRender();
+      this.width = this.text.width() + 20;
     }
+
   }
 
   @Override

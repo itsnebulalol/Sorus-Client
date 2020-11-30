@@ -50,6 +50,7 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
 
   private Panel main;
   private Scroll scroll;
+  private Rectangle scrollBar;
 
   private int moduleCount;
 
@@ -115,7 +116,9 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
     Scissor scissor = new Scissor().size(700, 710).position(3, 74);
     this.scroll = new Scroll();
     scissor.add(scroll);
+    menu.add(new Rectangle().size(12.5, 710).smooth(7.5).position(682.5, 74).color(DefaultTheme.getMedbackgroundLayerColor()));
     menu.add(scissor);
+    menu.add(scrollBar = new Rectangle().color(DefaultTheme.getMedgroundLayerColor()));
     this.updateHUDS();
   }
 
@@ -137,6 +140,9 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
     double maxScroll = moduleCount * 100 + (moduleCount - 1) * 7 - 697.5;
     scroll.addMinMaxScroll(-maxScroll, 0);
     targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
+    double scrollBarSize = 710 / (maxScroll + 710);
+    double scrollBarPosition = -scroll.getScroll() / maxScroll * (1 - scrollBarSize);
+    scrollBar.size(12.5, 710 * scrollBarSize).smooth(7.5).position(682.5, 74 + 710 * scrollBarPosition);
     main.scale(
         Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
         Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
