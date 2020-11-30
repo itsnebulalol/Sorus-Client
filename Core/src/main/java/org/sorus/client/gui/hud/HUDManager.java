@@ -32,7 +32,7 @@ import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.module.impl.armorstatus.ArmorStatusComponent;
-import org.sorus.client.module.impl.clock.ClockMod;
+import org.sorus.client.module.impl.clock.ClockComponent;
 import org.sorus.client.module.impl.cps.CPSComponent;
 import org.sorus.client.module.impl.fps.FPSComponent;
 import org.sorus.client.module.impl.gps.GPSComponent;
@@ -65,7 +65,7 @@ public class HUDManager implements ISettingHolder {
   public void registerInternalComponents() {
     this.register(ArmorStatusComponent.class);
     // this.registerComponent(ChatComponent.class);
-    this.register(ClockMod.class);
+    this.register(ClockComponent.class);
     this.register(CPSComponent.class);
     this.register(FPSComponent.class);
     this.register(GPSComponent.class);

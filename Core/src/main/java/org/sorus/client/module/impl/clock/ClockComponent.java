@@ -31,8 +31,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
-import org.sorus.client.event.EventInvoked;
-import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.MultiText;
@@ -45,10 +43,9 @@ import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
-import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.Button;
 
-public class ClockMod extends Component {
+public class ClockComponent extends Component {
 
     private final List<ClockMode> registeredModes = new ArrayList<>();
     private final List<String> registeredModeNames = new ArrayList<>();
@@ -64,10 +61,9 @@ public class ClockMod extends Component {
     private final Rectangle background;
     private final Paragraph dateText;
 
-    private final Map<Button, List<Long>> prevClickTimes = new HashMap<>();
-    private String dateString = new String();
+    private String dateString = "";
 
-    public ClockMod() {
+    public ClockComponent() {
         super("CLOCK");
         this.register(new ClockMode.Hour12());
         this.register(new ClockMode.Hour24());
@@ -76,7 +72,7 @@ public class ClockMod extends Component {
                         new Setting<Long>("mode", 0L) {
                             @Override
                             public void setValue(Long value) {
-                                ClockMod.this.setMode(registeredModes.get(value.intValue()));
+                                ClockComponent.this.setMode(registeredModes.get(value.intValue()));
                                 super.setValue(value);
                             }
                         });

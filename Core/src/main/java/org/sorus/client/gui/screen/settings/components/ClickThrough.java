@@ -99,7 +99,7 @@ public class ClickThrough extends Configurable {
           currentText =
               new Text()
                   .fontRenderer(
-                      Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
+                      Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
                   .scale(3, 3));
       this.add(
           leftArrow =
