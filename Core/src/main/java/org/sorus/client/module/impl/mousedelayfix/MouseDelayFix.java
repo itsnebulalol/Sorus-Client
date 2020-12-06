@@ -30,7 +30,7 @@ import org.sorus.client.module.VersionDecision;
 public class MouseDelayFix extends Module {
 
   public MouseDelayFix() {
-    super("MOUSE DELAY FIX");
+    super("Mouse Delay Fix");
   }
 
   @Override

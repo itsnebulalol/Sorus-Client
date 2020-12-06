@@ -46,7 +46,7 @@ public class PotionStatusComponent extends Component {
   private double width, height;
 
   public PotionStatusComponent() {
-    super("POTION STATUS");
+    super("Potion Status");
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     this.register(nameAmplifierColor = new Setting<>("nameAmplifierColor", Color.WHITE));
     this.register(durationColor = new Setting<>("durationColor", new Color(175, 175, 175)));
@@ -123,6 +123,11 @@ public class PotionStatusComponent extends Component {
   @Override
   public void addIconElements(Collection collection) {
     collection.add(new Image().resource("sorus/modules/potionstatus/logo.png").size(80, 80));
+  }
+
+  @Override
+  public String getDescription() {
+    return "Displays active potion effects.";
   }
 
   @Override

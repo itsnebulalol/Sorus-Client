@@ -37,7 +37,7 @@ public class OldAnimations extends ModuleConfigurable {
   private final Setting<Boolean> redArmorFlashAttack;
 
   public OldAnimations() {
-    super("OLD ANIMATIONS");
+    super("Old Animations");
     this.register(animInteractBreak = new Setting<>("animInteractBreak", false));
     this.register(redArmorFlashAttack = new Setting<>("redArmorFlashAttack", false));
   }

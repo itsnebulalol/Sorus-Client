@@ -44,7 +44,7 @@ public class ExitButton extends Collection {
   public ExitButton(Runnable runnable) {
     this.runnable = runnable;
     this.add(main = new Collection());
-    main.add(new Image().resource("sorus/exit_button.png").size(50, 50));
+    main.add(new Image().resource("sorus/back_arrow.png").size(50, 50).color(DefaultTheme.getElementColorNew()));
     Sorus.getSorus().getEventManager().register(this);
   }
 
@@ -53,12 +53,7 @@ public class ExitButton extends Collection {
     double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
     double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
     boolean hovered = this.isHovered(mouseX, mouseY);
-    hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * 0.03, 0, 1);
-    main.color(
-        ColorUtil.getBetween(
-            DefaultTheme.getForegroundLessLayerColor(),
-            DefaultTheme.getForegroundLayerColor(),
-            hoverPercent));
+    hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * 0.1, 0, 1);
     main.position(-1 * hoverPercent, -1 * hoverPercent)
         .scale(1 + hoverPercent * 0.04, 1 + hoverPercent * 0.04);
     super.onRender();

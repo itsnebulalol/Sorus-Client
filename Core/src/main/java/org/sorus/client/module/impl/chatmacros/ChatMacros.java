@@ -42,7 +42,7 @@ public class ChatMacros extends ModuleConfigurable {
   private final Setting<Map<Input, String>> macros;
 
   public ChatMacros() {
-    super("CHAT MACROS");
+    super("Chat Macros");
     this.register(macros = new Setting<>("macros", new LinkedHashMap<>()));
     this.macros.getValue().put(Key.U, "Hello World!");
     this.macros.getValue().put(Key.Y, "Hello World2!");
@@ -58,6 +58,11 @@ public class ChatMacros extends ModuleConfigurable {
     if (string != null) {
       Sorus.getSorus().getVersion().getData(IGame.class).sendChatMessage(string);
     }
+  }
+
+  @Override
+  public String getDescription() {
+    return "Quickly send chat messages with a press of a button.";
   }
 
   @Override

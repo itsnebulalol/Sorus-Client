@@ -31,7 +31,7 @@ import org.sorus.client.module.impl.blockoverlay.BlockOverlay;
 import org.sorus.client.module.impl.challenges.Challenges;
 import org.sorus.client.module.impl.chatmacros.ChatMacros;
 import org.sorus.client.module.impl.crosshair.Crosshair;
-import org.sorus.client.module.impl.customscreens.SorusMainMenuVisibler;
+import org.sorus.client.module.impl.customscreens.CustomMenus;
 import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
@@ -78,7 +78,7 @@ public class ModuleManager {
     this.register(new Music());
     this.register(new OldAnimations());
     this.register(new Perspective());
-    this.register(new SorusMainMenuVisibler());
+    this.register(new CustomMenus());
     this.register(new TimeChanger());
     this.register(new ToggleSprint());
   }

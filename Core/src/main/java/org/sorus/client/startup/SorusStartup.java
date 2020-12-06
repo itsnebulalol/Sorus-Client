@@ -48,7 +48,18 @@ public class SorusStartup {
 
   public static TransformerUtility transformer;
 
-  private static final Map<String, String> launchArgs = new HashMap<>();
+  private static Map<String, String> launchArgs = new HashMap<>();
+
+  public static Map<String, String> getLaunchArgs(String args) {
+    Map<String, String> launchArgs = new HashMap<>();
+    if (args != null) {
+      for (String string : args.split(";")) {
+        String[] strings = string.split("=");
+        launchArgs.put(strings[0], strings[1]);
+      }
+    }
+    return launchArgs;
+  }
 
   /**
    * Allows startup of Sorus from any version implementation. Also starts the class data collector
@@ -63,14 +74,9 @@ public class SorusStartup {
       Class<? extends IVersion> version,
       TransformerUtility transformerUtility,
       ClassLoader classLoader,
-      String args,
+      Map<String, String> args,
       boolean dev) {
-    if (args != null) {
-      for (String string : args.split(";")) {
-        String[] strings = string.split("=");
-        launchArgs.put(strings[0], strings[1]);
-      }
-    }
+    launchArgs = args;
     DEV = dev;
     transformer = transformerUtility;
     transformer.initialize();
@@ -91,7 +97,7 @@ public class SorusStartup {
                         false,
                         classLoader1);
                 final Method mainMethod =
-                    clazz.getMethod("start", String.class, String.class, boolean.class);
+                    clazz.getMethod("start", String.class, Map.class, boolean.class);
                 mainMethod.invoke(null, version.getName(), args, dev);
               } catch (ClassNotFoundException
                   | NoSuchMethodException
@@ -204,4 +210,9 @@ public class SorusStartup {
   public static Map<String, String> getLaunchArgs() {
     return launchArgs;
   }
+
+  public static void setLaunchArgs(Map<String, String> args) {
+    launchArgs = args;
+  }
+
 }

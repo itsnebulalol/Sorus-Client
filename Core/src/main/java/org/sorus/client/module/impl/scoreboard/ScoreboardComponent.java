@@ -49,7 +49,7 @@ public class ScoreboardComponent extends Component {
   private double height;
 
   public ScoreboardComponent() {
-    super("SCOREBOARD");
+    super("Scoreboard");
     this.register(showRedNumbers = new Setting<>("showRedNumbers", true));
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
   }
@@ -118,6 +118,11 @@ public class ScoreboardComponent extends Component {
       i++;
     }
     height = i * (fontRenderer.getFontHeight() + 2);
+  }
+
+  @Override
+  public String getDescription() {
+    return "Customizable scoreboard.";
   }
 
   @Override

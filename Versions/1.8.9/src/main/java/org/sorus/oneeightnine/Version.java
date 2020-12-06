@@ -24,11 +24,8 @@
 
 package org.sorus.oneeightnine;
 
-import org.sorus.client.startup.SorusStartup;
-import org.sorus.client.startup.impl.InstrumentationTransformerUtility;
 import org.sorus.client.version.*;
 
-import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +33,6 @@ import java.util.List;
  * Implementation of the {@link IVersion} for 1.8.9.
  */
 public class Version implements IVersion {
-
-    public static void premain(String args, Instrumentation inst) {
-        SorusStartup.start(Version.class, new InstrumentationTransformerUtility(inst), null, args, false);
-    }
 
     private final List<Object> datas = new ArrayList<>();
 

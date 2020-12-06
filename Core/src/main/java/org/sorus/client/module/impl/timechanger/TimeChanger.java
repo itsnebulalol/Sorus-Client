@@ -35,7 +35,7 @@ public class TimeChanger extends ModuleConfigurable {
   private final Setting<Double> time;
 
   public TimeChanger() {
-    super("TIME CHANGER");
+    super("Time Changer");
     this.register(time = new Setting<>("time", 0.25));
   }
 

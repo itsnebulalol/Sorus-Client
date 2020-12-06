@@ -27,6 +27,8 @@ package org.sorus.client.startup;
 import org.sorus.client.Sorus;
 import org.sorus.client.version.IVersion;
 
+import java.util.Map;
+
 /** Used to start Sorus using a specific class loader. */
 public class SorusStartupCustomClassLoader {
 
@@ -35,14 +37,9 @@ public class SorusStartupCustomClassLoader {
    *
    * @param versionClass the version class implementation
    */
-  public static void start(String versionClass, String args, boolean dev) {
+  public static void start(String versionClass, Map<String, String> args, boolean dev) {
     SorusStartup.DEV = dev;
-    if (args != null) {
-      for (String string : args.split(";")) {
-        String[] strings = string.split("=");
-        SorusStartup.getLaunchArgs().put(strings[0], strings[1]);
-      }
-    }
+    SorusStartup.setLaunchArgs(args);
     Sorus sorus = Sorus.getSorus();
     try {
       sorus.initialize(

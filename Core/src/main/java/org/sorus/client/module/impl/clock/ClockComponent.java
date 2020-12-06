@@ -64,7 +64,7 @@ public class ClockComponent extends Component {
     private String dateString = "";
 
     public ClockComponent() {
-        super("CLOCK");
+        super("Clock");
         this.register(new ClockMode.Hour12());
         this.register(new ClockMode.Hour24());
         this.register(
@@ -172,7 +172,7 @@ public class ClockComponent extends Component {
 
     @Override
     public String getDescription() {
-        return "Displays your system time.";
+        return "Displays your current system time.";
     }
 
     @Override

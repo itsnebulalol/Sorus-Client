@@ -24,122 +24,35 @@
 
 package org.sorus.client.gui.theme.defaultTheme.menu;
 
-import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.core.component.impl.HollowRectangle;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
-import org.sorus.client.util.MathUtil;
-import org.sorus.client.version.game.IGame;
-import org.sorus.client.version.input.IInput;
 
 public class MenuComponent extends Collection {
 
-  private final Collection main;
-  private final Text text;
-  private final Collection symbol;
+  public static final double WIDTH = 193, HEIGHT = 193;
+
   private final Runnable runnable;
 
   private double hoveredPercent;
 
   public MenuComponent(String name, ILogoCreator logoCreator, Runnable runnable) {
     this.runnable = runnable;
-    this.add(main = new Collection());
-    // 167.5 172.5
-    main.add(new Rectangle().size(206, 212).color(DefaultTheme.getMedbackgroundLayerColor()));
-    main.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(206, 4)
-            .position(0, -4));
-    main.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(206, -4));
-    main.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 212)
-            .position(206, 0));
-    main.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 4)
-            .position(206, 212));
-    main.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(206, 4)
-            .position(0, 212));
-    main.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(-4, 212));
-    main.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 212)
-            .position(-4, 0));
-    main.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(-4, -4));
-    this.text =
-        new Text()
-            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
-            .text(name)
-            .color(DefaultTheme.getForegroundLayerColor());
-    main.add(text.scale(3, 3).position(103 - text.width() * 3 / 2, 175));
-    main.add(symbol = new Collection());
-    symbol.add(
-        new Text()
-            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
-            .text("?")
-            .scale(12.5, 12.5)
-            .position(80, 30));
+    final double ROUNDING = 10;
+    this.add(new Rectangle().size(WIDTH, HEIGHT).smooth(ROUNDING).color(DefaultTheme.getForegroundColorNew()));
+    this.add(new HollowRectangle().thickness(3).size(WIDTH, HEIGHT).smooth(ROUNDING).color(DefaultTheme.getElementMedgroundColorNew()));
+    Text text = new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer()).text(name).scale(3, 3);
+    this.add(text.position(WIDTH / 2 - text.width() * 3 / 2, HEIGHT - text.height() * 3 * 1.75));
     Sorus.getSorus().getEventManager().register(this);
   }
 
-  @Override
+  /*@Override
   public void onRender() {
     boolean hovered =
         this.isHovered(
@@ -152,7 +65,7 @@ public class MenuComponent extends Collection {
     int color = (int) (215 + 40 * hoveredPercent);
     symbol.color(new Color(color, color, color));
     super.onRender();
-  }
+  }*/
 
   @Override
   public void onRemove() {

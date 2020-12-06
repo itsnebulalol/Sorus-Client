@@ -25,7 +25,7 @@ public class DiscordRP extends ModuleConfigurable {
   private String details = "";
 
   public DiscordRP() {
-    super("DISCORD RPC");
+    super("Discord RPC");
     this.register(status = new Setting<>("status", ""));
     Sorus.getSorus().getEventManager().register(this);
   }
@@ -111,4 +111,10 @@ public class DiscordRP extends ModuleConfigurable {
       client.sendRichPresence(builder.build());
     }
   }
+
+  @Override
+  public String getDescription() {
+    return "Show all your friends that your playing Sorus!";
+  }
+
 }

@@ -33,10 +33,10 @@ import org.sorus.client.module.impl.customscreens.mainmenu.MainMenu;
 import org.sorus.client.version.game.GUIType;
 import org.sorus.client.version.game.IGame;
 
-public class SorusMainMenuVisibler extends Module {
+public class CustomMenus extends Module {
 
-  public SorusMainMenuVisibler() {
-    super("Custom Main Menu");
+  public CustomMenus() {
+    super("Custom Menus");
   }
 
   @Override

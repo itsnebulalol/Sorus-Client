@@ -22,14 +22,13 @@
  * SOFTWARE.
  */
 
-package org.sorus.client.startup.impl;
+import org.sorus.client.startup.SorusStartup;
+import org.sorus.client.startup.TransformerUtility;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
 import java.security.ProtectionDomain;
-import org.sorus.client.startup.SorusStartup;
-import org.sorus.client.startup.TransformerUtility;
 
 /**
  * Implementation of {@link TransformerUtility} for a java agent injection with {@link

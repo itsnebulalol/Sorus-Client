@@ -24,16 +24,8 @@
 
 package org.sorus.onesixteenfour;
 
-import org.sorus.client.startup.SorusStartup;
-import org.sorus.client.startup.impl.InstrumentationTransformerUtility;
-import org.sorus.client.version.IGLHelper;
-import org.sorus.client.version.IScreen;
 import org.sorus.client.version.IVersion;
-import org.sorus.client.version.game.IGame;
-import org.sorus.client.version.input.IInput;
-import org.sorus.client.version.render.IRenderer;
 
-import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +33,6 @@ import java.util.List;
  * Implementation of the {@link IVersion} for 1.16.4.
  */
 public class Version implements IVersion {
-
-    public static void premain(String args, Instrumentation inst) {
-        SorusStartup.start(Version.class, new InstrumentationTransformerUtility(inst), null, args, false);
-    }
 
     private final List<Object> datas = new ArrayList<>();
 

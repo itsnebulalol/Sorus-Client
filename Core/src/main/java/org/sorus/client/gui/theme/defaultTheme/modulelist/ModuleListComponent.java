@@ -144,7 +144,7 @@ public class ModuleListComponent extends Collection {
           new Text()
               .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
               .text(string)
-              .position(105, 60 + i * 23)
+              .position(105, 50 + i * 18)
               .scale(2, 2)
               .color(DefaultTheme.getForegroundLessLessLayerColor()));
       i++;

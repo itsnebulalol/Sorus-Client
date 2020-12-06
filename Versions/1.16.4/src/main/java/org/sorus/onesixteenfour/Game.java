@@ -32,6 +32,8 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.PointOfView;
 import org.sorus.client.version.game.*;
 
+import java.util.List;
+
 public class Game implements IGame {
 
     private final ItemManager itemManager = new ItemManager();
@@ -139,6 +141,16 @@ public class Game implements IGame {
     @Override
     public IScoreboard getScoreboard() {
         return new ScoreboardImpl(Minecraft.getInstance().world.getScoreboard());
+    }
+
+    @Override
+    public List<IPotionEffect> getDummyEffects() {
+        return null;
+    }
+
+    @Override
+    public List<IItemStack> getDummyArmor() {
+        return null;
     }
 
     @Override

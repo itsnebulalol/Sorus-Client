@@ -30,7 +30,7 @@ import org.sorus.client.module.VersionDecision;
 public class ItemPhysics extends ModuleConfigurable {
 
   public ItemPhysics() {
-    super("ITEM PHYSICS");
+    super("Item Physics");
   }
 
   @Override

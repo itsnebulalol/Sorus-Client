@@ -23,7 +23,7 @@ public class Crosshair extends ModuleConfigurable {
   private final Setting<Long> mode;
 
   public Crosshair() {
-    super("CROSSHAIR");
+    super("Crosshair");
     this.register(new CrosshairMode.SplitLinesMode());
     this.register(
         mode =
@@ -83,6 +83,11 @@ public class Crosshair extends ModuleConfigurable {
   @Override
   public VersionDecision getVersions() {
     return new VersionDecision.Allow();
+  }
+
+  @Override
+  public String getDescription() {
+    return "Customize your crosshair without needing to mess with a resource pack!";
   }
 
   @Override

@@ -50,7 +50,7 @@ public class Perspective extends ModuleConfigurable {
   private float rotationPitch, rotationYaw;
 
   public Perspective() {
-    super("PERSPECTIVE");
+    super("Perspective");
     this.register(keybind = new Setting<>("keybind", Key.F));
     this.register(invertYaw = new Setting<>("invertYaw", false));
     this.register(invertPitch = new Setting<>("invertPitch", false));

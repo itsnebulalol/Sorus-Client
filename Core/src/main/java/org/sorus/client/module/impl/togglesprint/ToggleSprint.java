@@ -46,7 +46,7 @@ public class ToggleSprint extends ModuleConfigurable {
   private boolean toggled;
 
   public ToggleSprint() {
-    super("TOGGLE SPRINT");
+    super("Toggle Sprint");
     this.register(toggleSprint = new Setting<>("toggleSprint", Key.R));
   }
 
@@ -83,6 +83,11 @@ public class ToggleSprint extends ModuleConfigurable {
               .getKeybind(KeybindType.SPRINT)
               .setState(true);
     }
+  }
+
+  @Override
+  public String getDescription() {
+    return "Allows toggling... sprint. Pretty self explanatory.";
   }
 
   @Override

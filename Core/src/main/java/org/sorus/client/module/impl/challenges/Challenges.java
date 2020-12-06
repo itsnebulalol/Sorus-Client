@@ -41,7 +41,7 @@ public class Challenges extends ModuleConfigurable {
   private final Setting<Boolean> noCrosshair;
 
   public Challenges() {
-    super("CHALLENGES");
+    super("Challenges");
     this.register(noCrosshair = new Setting<>("noCrosshair", false));
     Sorus.getSorus().getEventManager().register(this);
   }
@@ -65,6 +65,11 @@ public class Challenges extends ModuleConfigurable {
   @Override
   public VersionDecision getVersions() {
     return new VersionDecision.Allow();
+  }
+
+  @Override
+  public String getDescription() {
+    return "Minecraft too easy? Some challenges to make it a little harder.";
   }
 
   @Override

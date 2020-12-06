@@ -58,7 +58,7 @@ public class KeystrokesComponent extends Component {
   private Mode currentMode;
 
   public KeystrokesComponent() {
-    super("KEYSTROKES");
+    super("Keystrokes");
     this.register(mode = new Setting<>("mode", 0L));
     this.register(fadeTime = new Setting<>("fadeTime", 0.0));
     this.register(mainStandardColor = new Setting<>("mainStandardColor", Color.WHITE));

@@ -72,7 +72,7 @@ public class ChatComponent extends Component {
   private double x, y;
 
   public ChatComponent() {
-    super("CHAT");
+    super("Chat");
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     this.register(chatWidth = new Setting<>("chatWidth", 150.0));
     this.register(maxLineCount = new Setting<>("maxLineCount", 25.0));

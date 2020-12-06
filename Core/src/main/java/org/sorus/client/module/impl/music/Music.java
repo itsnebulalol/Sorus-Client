@@ -51,7 +51,7 @@ public class Music extends ModuleConfigurable {
   private boolean playing;
 
   public Music() {
-    super("MUSIC");
+    super("Music");
     Sorus.getSorus().getEventManager().register(this);
   }
 
@@ -105,6 +105,11 @@ public class Music extends ModuleConfigurable {
   @Override
   public VersionDecision getVersions() {
     return new VersionDecision.Allow();
+  }
+
+  @Override
+  public String getDescription() {
+    return "Play your favourite music in minecraft!";
   }
 
   @Override

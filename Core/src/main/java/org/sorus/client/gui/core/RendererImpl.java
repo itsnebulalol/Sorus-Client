@@ -44,14 +44,17 @@ public class RendererImpl implements IScreenRenderer {
   private final IFontRenderer MINECRAFT_FONT_RENDERER =
       new MinecraftFontRenderer("textures/font/ascii.png");
 
-  /** Font renderer for the Abel font using slick2d. */
+  /** Font renderer for the Abel font. */
   private IFontRenderer abelFontRenderer;
 
-  /** Font renderer for the Rubik font using slick2d. */
+  /** Font renderer for the Rubik font. */
   private IFontRenderer rubikFontRenderer;
 
-  /** Font renderer for the Godile font using slick2d. */
+  /** Font renderer for the Godile font. */
   private IFontRenderer gidoleFontRenderer;
+
+  /** Font renderer for the Rawline font. */
+  private IFontRenderer rawLineFontRenderer;
 
   public RendererImpl() {
     Sorus.getSorus().getEventManager().register(this);
@@ -196,6 +199,10 @@ public class RendererImpl implements IScreenRenderer {
     return gidoleFontRenderer;
   }
 
+  public IFontRenderer getRawLineFontRenderer() {
+    return rawLineFontRenderer;
+  }
+
   @Override
   public void drawArc(
       double x,
@@ -266,5 +273,6 @@ public class RendererImpl implements IScreenRenderer {
     abelFontRenderer = renderer.getFont("Abel.ttf");
     rubikFontRenderer = renderer.getFont("Rubik.ttf");
     gidoleFontRenderer = renderer.getFont("Gidole.ttf");
+    rawLineFontRenderer = renderer.getFont("Rawline.ttf");
   }
 }

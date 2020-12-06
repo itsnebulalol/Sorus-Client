@@ -48,7 +48,7 @@ public class Enhancements extends ModuleConfigurable {
   private boolean blurring;
 
   public Enhancements() {
-    super("ENHANCEMENTS");
+    super("Enhancements");
     this.register(fullBright = new Setting<>("fullBright", false));
     this.register(centeredInventory = new Setting<>("centeredInventory", false));
     this.register(guiBlur = new Setting<>("guiBlur", false));
@@ -113,6 +113,11 @@ public class Enhancements extends ModuleConfigurable {
   @Override
   public VersionDecision getVersions() {
     return new VersionDecision.Allow();
+  }
+
+  @Override
+  public String getDescription() {
+    return "Small tweaks that will enhance and better your game.";
   }
 
   @Override

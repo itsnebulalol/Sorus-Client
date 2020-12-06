@@ -59,7 +59,7 @@ public class ArmorStatusComponent extends Component {
   private double width, height;
 
   public ArmorStatusComponent() {
-    super("ARMOR STATUS");
+    super("Armor Status");
     this.register(rawDurability = new Setting<>("rawDurability", false));
     this.register(showHelmet = new Setting<>("showHelment", true));
     this.register(showChestplate = new Setting<>("showChestplate", true));
@@ -131,6 +131,11 @@ public class ArmorStatusComponent extends Component {
   @Override
   public double getHeight() {
     return this.height;
+  }
+
+  @Override
+  public String getDescription() {
+    return "Displays your current armor.";
   }
 
   @Override

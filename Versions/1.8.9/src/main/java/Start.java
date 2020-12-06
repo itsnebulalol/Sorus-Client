@@ -43,7 +43,7 @@ public class Start {
     public static void main(String[] args) {
         ClassLoaderTransformerUtility utility = new ClassLoaderTransformerUtility();
         DevClassLoader loader = new DevClassLoader(((URLClassLoader) Start.class.getClassLoader()).getURLs(), utility);
-        SorusStartup.start(Version.class, utility, loader, System.getProperty("sorus.args"),true);
+        SorusStartup.start(Version.class, utility, loader, SorusStartup.getLaunchArgs(System.getProperty("sorus.args")), true);
         try {
             final Class<?> clazz = Class.forName("net.minecraft.client.main.Main", false, loader);
             final Method mainMethod = clazz.getMethod("main", String[].class);

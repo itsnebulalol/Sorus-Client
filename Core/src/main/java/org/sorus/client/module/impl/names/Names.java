@@ -40,7 +40,7 @@ public class Names extends ModuleConfigurable {
   private final Setting<Boolean> overrideNameTag;
 
   public Names() {
-    super("CUSTOM NAME");
+    super("Custom Name");
     this.register(selfNameTag = new Setting<>("selfNameTag", false));
     this.register(customName = new Setting<>("customName", false));
     this.register(customNameText = new Setting<>("customNameText", ""));
@@ -74,6 +74,11 @@ public class Names extends ModuleConfigurable {
 
   public String getCustomName() {
     return this.customNameText.getValue();
+  }
+
+  @Override
+  public String getDescription() {
+    return "Customize your name (locally) to be whoever you want!";
   }
 
   @Override

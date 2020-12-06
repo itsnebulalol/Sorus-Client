@@ -43,7 +43,7 @@ public class BlockOverlay extends ModuleConfigurable {
   private final Setting<Color> color;
 
   public BlockOverlay() {
-    super("BLOCK OVERLAY");
+    super("Block Overlay");
     this.register(thickness = new Setting<>("borderThickness", 2.0));
     this.register(color = new Setting<>("color", Color.BLACK));
     Sorus.getSorus().getEventManager().register(this);
@@ -89,6 +89,11 @@ public class BlockOverlay extends ModuleConfigurable {
   @Override
   public VersionDecision getVersions() {
     return new VersionDecision.Allow();
+  }
+
+  @Override
+  public String getDescription() {
+    return "Customize the block overlay to be as colorful as you want!";
   }
 
   @Override
