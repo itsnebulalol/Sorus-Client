@@ -52,21 +52,6 @@ public class MenuComponent extends Collection {
     Sorus.getSorus().getEventManager().register(this);
   }
 
-  /*@Override
-  public void onRender() {
-    boolean hovered =
-        this.isHovered(
-            Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
-            Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
-    double fps = Math.max(1, Sorus.getSorus().getVersion().getData(IGame.class).getFPS());
-    hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) / fps * 6, 0, 1);
-    main.position(-2 * hoveredPercent, -2 * hoveredPercent);
-    main.scale(1 + hoveredPercent * 0.025, 1 + hoveredPercent * 0.025);
-    int color = (int) (215 + 40 * hoveredPercent);
-    symbol.color(new Color(color, color, color));
-    super.onRender();
-  }*/
-
   @Override
   public void onRemove() {
     Sorus.getSorus().getEventManager().unregister(this);
@@ -82,9 +67,9 @@ public class MenuComponent extends Collection {
 
   private boolean isHovered(double x, double y) {
     return x > this.absoluteX()
-        && x < this.absoluteX() + 206 * this.absoluteXScale()
+        && x < this.absoluteX() + MenuComponent.WIDTH * this.absoluteXScale()
         && y > this.absoluteY()
-        && y < this.absoluteY() + 212 * this.absoluteYScale();
+        && y < this.absoluteY() + MenuComponent.HEIGHT * this.absoluteYScale();
   }
 
   public interface ILogoCreator {

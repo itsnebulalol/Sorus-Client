@@ -44,7 +44,7 @@ import java.awt.*;
 
 public class ModuleListComponent2 extends Collection {
 
-  public static final double WIDTH = 830, HEIGHT = 110;
+  public static final double WIDTH = 840, HEIGHT = 110;
 
   private final DefaultModuleListScreen2 moduleListScreenTheme;
   private final ModuleConfigurable module;
@@ -57,7 +57,7 @@ public class ModuleListComponent2 extends Collection {
     this.module = module;
     final double ROUNDING = 10;
     this.add(new Rectangle().size(WIDTH, HEIGHT).smooth(ROUNDING).color(DefaultTheme.getForegroundColorNew()));
-    this.add(border = new HollowRectangle().thickness(3).size(WIDTH, HEIGHT).smooth(ROUNDING));
+    this.add(border = new HollowRectangle().thickness(2).size(WIDTH, HEIGHT).smooth(ROUNDING));
     this.add(new Image().resource("sorus/modules/test_icon.png").size(70, 70).position(20, 20));
     this.add(new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer()).text(module.getName()).scale(3, 3).position(110, 25).color(DefaultTheme.getElementColorNew()));
     int i = 0;
@@ -80,7 +80,7 @@ public class ModuleListComponent2 extends Collection {
   @Override
   public void onRender() {
     if(this.module.isEnabled()) {
-      border.color(new Color(47, 138, 3));
+      border.color(new Color(67, 144, 32));
     } else {
       border.color(new Color(170, 29, 29));
     }
@@ -135,7 +135,6 @@ public class ModuleListComponent2 extends Collection {
         Screen current = ModuleListComponent2.this.moduleListScreenTheme.screen;
         Sorus.getSorus().getGUIManager().close(current);
         Sorus.getSorus().getGUIManager().open(new SettingsScreen(current, ModuleListComponent2.this.module));
-        ModuleListComponent2.this.module.setEnabled(!ModuleListComponent2.this.module.isEnabled());
       }
     }
 

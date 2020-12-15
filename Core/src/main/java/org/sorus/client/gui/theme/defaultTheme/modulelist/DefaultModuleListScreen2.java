@@ -51,7 +51,7 @@ import org.sorus.client.version.render.IRenderer;
 
 public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
 
-  private static final double SEPARATION = 20;
+  private static final double SEPARATION = 15;
 
   private final ModuleManager moduleManager;
 
@@ -77,7 +77,7 @@ public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
     this.onSearchUpdate("");
     menu.add(scrollBar = new ScrollBar().position(870, 90));
     this.addGuiPostComponents(menu);
-    Text title = new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer()).text("MODULES").scale(6, 6);
+    Text title = new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer()).text("MODULES").scale(6, 6).color(DefaultTheme.getElementColorNew());
     menu.add(new ExitButton(this::onExit).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     menu.add(new Search().position(20, 535));
@@ -159,7 +159,7 @@ public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
 
     public ScrollBar() {
       this.add(new Rectangle().size(18, 420).smooth(9).color(DefaultTheme.getElementBackgroundColorNew()));
-      this.add(scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementForegroundColorNew()));
+      this.add(scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementMedgroundColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 

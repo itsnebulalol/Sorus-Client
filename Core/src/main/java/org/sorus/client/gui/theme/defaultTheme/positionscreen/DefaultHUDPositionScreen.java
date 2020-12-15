@@ -37,6 +37,7 @@ import org.sorus.client.gui.hud.positonscreen.SelectedHUDState;
 import org.sorus.client.gui.hud.positonscreen.Snap;
 import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.gui.theme.defaultTheme.DefaultSomethingScreen;
 import org.sorus.client.util.Axis;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IScreen;
@@ -45,7 +46,7 @@ import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 import org.sorus.client.version.render.IRenderer;
 
-public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
+public class DefaultHUDPositionScreen extends DefaultSomethingScreen<HUDPositionScreen> {
 
   private final Panel main = new Panel();
   private final List<HUD> huds;
@@ -69,6 +70,7 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
   public void init() {
     initTime = fadeIn ? System.currentTimeMillis() : System.currentTimeMillis() - 1000;
     main.add(new SettingsButton(this::onButtonClick).position(935, 515));
+    super.init();
   }
 
   @Override
@@ -83,6 +85,7 @@ public class DefaultHUDPositionScreen extends ThemeBase<HUDPositionScreen> {
         Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     double fadeInPercent = Math.min((System.currentTimeMillis() - initTime) / 150.0, 1);
     this.main.color(new Color(255, 255, 255, (int) (fadeInPercent * 255))).onRender();
+    super.render();
     Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     Sorus.getSorus()
         .getVersion()

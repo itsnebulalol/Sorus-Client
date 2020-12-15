@@ -33,11 +33,10 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.MenuScreen;
+import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
-import org.sorus.client.gui.theme.defaultTheme.modulelist.ModuleListComponent2;
-import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.game.IGame;
@@ -79,7 +78,9 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
     menu.add(new ExitButton(this::onExit).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     this.addOption("HUDS", null, null);
-    this.addOption("MODULES", null, null);
+    this.addOption("MODULES", null, () -> {
+      Sorus.getSorus().getGUIManager().open(new ModuleListScreen());
+    });
     this.addOption("THEMES", null, null);
     this.addOption("PLUGINS", null, null);
     this.addOption("COSMETICS", null, null);
@@ -111,20 +112,20 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
 
   @Override
   public void render() {
-    int lineCount = scroll.getComponents().size() / 4;
+    int lineCount = (int) Math.ceil(scroll.getComponents().size() / 4.0);
     final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
     double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll = MathUtil.clamp(targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
     currentScroll = (targetScroll - currentScroll) * 12 / FPS + scroll.getScroll();
     scroll.setScroll(currentScroll);
-    maxScroll = lineCount * (ModuleListComponent2.HEIGHT + SEPARATION) - 420;
+    maxScroll = lineCount * (MenuComponent.HEIGHT + SEPARATION) - 420;
     scroll.addMinMaxScroll(-maxScroll, 0);
     double size = Math.min(1, 440 / (maxScroll + 440));
     this.scrollBar.updateScrollBar(-currentScroll / (maxScroll + 440), size);
     main.scale(
             Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
             Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
-    main.onRender();
+    main.onRender(this.screen);
   }
 
   @Override
@@ -161,7 +162,7 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
 
     public ScrollBar() {
       this.add(new Rectangle().size(18, 420).smooth(9).color(DefaultTheme.getElementBackgroundColorNew()));
-      this.add(scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementForegroundColorNew()));
+      this.add(scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementMedgroundColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 

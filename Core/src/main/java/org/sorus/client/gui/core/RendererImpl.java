@@ -56,6 +56,9 @@ public class RendererImpl implements IScreenRenderer {
   /** Font renderer for the Rawline font. */
   private IFontRenderer rawLineFontRenderer;
 
+  /** Font renderer for the Roboto font. */
+  private IFontRenderer robotoFontRenderer;
+
   public RendererImpl() {
     Sorus.getSorus().getEventManager().register(this);
   }
@@ -203,6 +206,10 @@ public class RendererImpl implements IScreenRenderer {
     return rawLineFontRenderer;
   }
 
+  public IFontRenderer getRobotoFontRenderer() {
+    return robotoFontRenderer;
+  }
+
   @Override
   public void drawArc(
       double x,
@@ -274,5 +281,6 @@ public class RendererImpl implements IScreenRenderer {
     rubikFontRenderer = renderer.getFont("Rubik.ttf");
     gidoleFontRenderer = renderer.getFont("Gidole.ttf");
     rawLineFontRenderer = renderer.getFont("Rawline.ttf");
+    robotoFontRenderer = renderer.getFont("Roboto.ttf");
   }
 }

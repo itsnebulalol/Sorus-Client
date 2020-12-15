@@ -33,6 +33,7 @@ import org.sorus.client.gui.core.component.impl.Arc;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.screen.settings.Configurable;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.settings.Setting;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.IInput;
@@ -55,19 +56,19 @@ public class Slider extends Configurable {
     this.maxValue = maxValue;
     this.value = setting.getValue();
     this.add(
-        new Rectangle().smooth(3.5).size(180, 7).position(470, 36.5).color(new Color(80, 80, 80)));
+        new Rectangle().smooth(3.5).size(160, 7).position(670, 36.5).color(DefaultTheme.getElementMedgroundColorNew()));
     this.add(
         this.selector2 =
-            new Rectangle().smooth(3.5).position(470, 36.5).color(new Color(210, 210, 210)));
+            new Rectangle().smooth(3.5).position(670, 36.5).color(DefaultTheme.getElementBackgroundColorNew()));
     this.add(
-        this.selector = new Arc().angle(0, 360).radius(10, 10).color(new Color(210, 210, 210)));
+        this.selector = new Arc().angle(0, 360).radius(10, 10).color(DefaultTheme.getElementBackgroundColorNew()));
     this.add(
         new Text()
-            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer())
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRobotoFontRenderer())
             .text(description)
             .scale(3.5, 3.5)
             .position(30, 30)
-            .color(new Color(170, 170, 170)));
+            .color(DefaultTheme.getElementColorNew()));
     Sorus.getSorus().getEventManager().register(this);
   }
 
@@ -78,15 +79,15 @@ public class Slider extends Configurable {
       double baseValue =
           (MathUtil.clamp(
                       mouseX,
-                      this.absoluteX() + 470 * this.absoluteXScale(),
-                      this.absoluteX() + 650 * this.absoluteXScale())
-                  - (this.absoluteX() + 470 * this.absoluteXScale()))
-              / (180 * this.absoluteXScale());
+                      this.absoluteX() + 670 * this.absoluteXScale(),
+                      this.absoluteX() + 830 * this.absoluteXScale())
+                  - (this.absoluteX() + 670 * this.absoluteXScale()))
+              / (160 * this.absoluteXScale());
       value = minValue + (baseValue * (maxValue - minValue));
       this.setting.setValue(value);
     }
-    this.selector.position(470 + ((value - minValue) / (maxValue - minValue)) * 180 - 10, 30);
-    this.selector2.size(((value - minValue) / (maxValue - minValue)) * 180, 7);
+    this.selector.position(670 + ((value - minValue) / (maxValue - minValue)) * 160 - 10, 30);
+    this.selector2.size(((value - minValue) / (maxValue - minValue)) * 160, 7);
     super.onRender();
   }
 
@@ -103,8 +104,8 @@ public class Slider extends Configurable {
   }
 
   private boolean isHovered(double x, double y) {
-    return x > this.absoluteX() + 470 * this.absoluteXScale()
-        && x < this.absoluteX() + 650 * this.absoluteXScale()
+    return x > this.absoluteX() + 670 * this.absoluteXScale()
+        && x < this.absoluteX() + 830 * this.absoluteXScale()
         && y > this.absoluteY() + 20 * this.absoluteYScale()
         && y < this.absoluteY() + 60 * this.absoluteYScale();
   }

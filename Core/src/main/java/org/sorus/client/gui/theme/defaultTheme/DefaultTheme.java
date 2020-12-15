@@ -100,7 +100,7 @@ public class DefaultTheme extends Theme {
     this.register(elementBackgroundColorNew = new Setting<>("elementBackgroundColor", new Color(40, 40, 40)));
     this.register(elementMedgroundColorNew = new Setting<>("elementMedgroundColor", new Color(55, 55, 55)));
     this.register(elementForegroundColorNew = new Setting<>("elementForegroundColor", new Color(80, 80, 80)));
-    this.register(elementColorNew = new Setting<>("elementColor", Color.WHITE));
+    this.register(elementColorNew = new Setting<>("elementColor", new Color(200, 200, 200)));
     this.register(elementSecondColorNew = new Setting<>("elementSecondColor", new Color(150, 150, 150)));
     instance = this;
   }
