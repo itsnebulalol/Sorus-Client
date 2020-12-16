@@ -54,7 +54,7 @@ public class MainMenu extends Screen {
             .position(872.5, 302.5));
     main.add(
         new Image()
-            .resource("sorus/modules/custommenus/logo.png")
+            .resource("sorus/logo.png")
             .size(150, 150)
             .color(DefaultTheme.getForegroundLayerColor())
             .position(885, 315));

@@ -33,7 +33,7 @@ public class HUDPositionScreen extends ThemeableScreen {
     super(
         Sorus.getSorus()
             .getThemeManager()
-            .getTheme("hud-position", Sorus.getSorus().getHUDManager(), performOpenAnimation));
+            .getTheme("hud-position", performOpenAnimation));
   }
 
   @Override

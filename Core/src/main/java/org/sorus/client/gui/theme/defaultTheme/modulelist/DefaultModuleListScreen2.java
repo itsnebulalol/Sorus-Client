@@ -37,6 +37,7 @@ import org.sorus.client.gui.screen.MenuScreen;
 import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.gui.theme.defaultTheme.DefaultSomethingScreen;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.ModuleManager;
@@ -49,7 +50,7 @@ import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 import org.sorus.client.version.render.IRenderer;
 
-public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
+public class DefaultModuleListScreen2 extends DefaultSomethingScreen<ModuleListScreen> {
 
   private static final double SEPARATION = 15;
 
@@ -62,8 +63,9 @@ public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
   private ScrollBar scrollBar;
   private double maxScroll;
 
-  public DefaultModuleListScreen2(ModuleManager moduleManager) {
-    this.moduleManager = moduleManager;
+  public DefaultModuleListScreen2(int startIndex) {
+    super(startIndex, 0);
+    this.moduleManager = Sorus.getSorus().getModuleManager();
   }
 
   @Override
@@ -81,6 +83,7 @@ public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
     menu.add(new ExitButton(this::onExit).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     menu.add(new Search().position(20, 535));
+    super.init();
   }
 
   private void addGuiPreComponents(Collection collection) {
@@ -102,7 +105,7 @@ public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
     targetScroll = MathUtil.clamp(targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
     currentScroll = (targetScroll - currentScroll) * 12 / FPS + scroll.getScroll();
     scroll.setScroll(currentScroll);
-    maxScroll = moduleCount * (ModuleListComponent2.HEIGHT + SEPARATION) - 420;
+    maxScroll = Math.ceil(moduleCount / 2.0) * (ModuleListComponent2.HEIGHT + SEPARATION) - 420;
     scroll.addMinMaxScroll(-maxScroll, 0);
     double size = Math.min(1, 440 / (maxScroll + 440));
     this.scrollBar.updateScrollBar(-currentScroll / (maxScroll + 440), size);
@@ -110,6 +113,7 @@ public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
             Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
             Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender();
+    super.render();
   }
 
   private void setTargetScroll(double targetScroll) {
@@ -141,7 +145,7 @@ public class DefaultModuleListScreen2 extends ThemeBase<ModuleListScreen> {
     int i = 0;
     for(ModuleConfigurable module : moduleManager.getModules(ModuleConfigurable.class)) {
       if(searchTerm.isEmpty() || module.getName().toLowerCase().contains(searchTerm.toLowerCase())) {
-        this.scroll.add(new ModuleListComponent2(this, module).position(SEPARATION, SEPARATION + i * (ModuleListComponent2.HEIGHT + SEPARATION)));
+        this.scroll.add(new ModuleListComponent2(this, module).position(SEPARATION + ((i % 2) * (ModuleListComponent2.WIDTH + SEPARATION)), SEPARATION + (int) (i / 2) * (ModuleListComponent2.HEIGHT + SEPARATION)));
         i++;
       }
     }

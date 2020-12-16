@@ -19,7 +19,7 @@ dependencies {
     compile group: 'javazoom', name: 'jlayer', version: '1.0.1'
     compile 'com.github.sealedtx:java-youtube-downloader:2.4.1'
     compile group: 'net.sourceforge.jaadec', name: 'jaad', version: '0.8.5'
-    compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
+    compile group: 'com.google.guava', name: 'guava', version: '30.1-jre'
 }
 
 jar {

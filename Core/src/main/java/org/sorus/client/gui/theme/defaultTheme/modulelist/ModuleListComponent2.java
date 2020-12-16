@@ -29,6 +29,7 @@ import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.core.component.Component;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
@@ -44,7 +45,7 @@ import java.awt.*;
 
 public class ModuleListComponent2 extends Collection {
 
-  public static final double WIDTH = 840, HEIGHT = 110;
+  public static final double WIDTH = 410, HEIGHT = 110;
 
   private final DefaultModuleListScreen2 moduleListScreenTheme;
   private final ModuleConfigurable module;
@@ -57,11 +58,11 @@ public class ModuleListComponent2 extends Collection {
     this.module = module;
     final double ROUNDING = 10;
     this.add(new Rectangle().size(WIDTH, HEIGHT).smooth(ROUNDING).color(DefaultTheme.getForegroundColorNew()));
-    this.add(border = new HollowRectangle().thickness(2).size(WIDTH, HEIGHT).smooth(ROUNDING));
+    this.add(border = new HollowRectangle().thickness(2).size(WIDTH, HEIGHT).smooth(ROUNDING).color(DefaultTheme.getElementMedgroundColorNew()));
     this.add(new Image().resource("sorus/modules/test_icon.png").size(70, 70).position(20, 20));
     this.add(new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer()).text(module.getName()).scale(3, 3).position(110, 25).color(DefaultTheme.getElementColorNew()));
     int i = 0;
-    for (String string :
+    /*for (String string :
             module.getSplitDescription(
                     Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer(), 200)) {
       this.add(
@@ -72,17 +73,19 @@ public class ModuleListComponent2 extends Collection {
                       .scale(2, 2)
                       .color(DefaultTheme.getElementSecondColorNew()));
       i++;
-    }
-    this.add(new Settings().position(WIDTH - 60, HEIGHT / 2 - 22.5));
-    this.add(new Toggle().position(WIDTH - 120, HEIGHT / 2 - 22.5));
+    }*/
+    this.add(new Toggle().position(WIDTH - 50, 10));
+    this.add(new Settings().position(WIDTH - 50, HEIGHT - 50));
   }
 
   @Override
   public void onRender() {
     if(this.module.isEnabled()) {
-      border.color(new Color(67, 144, 32));
+      this.color(Color.WHITE);
+      //border.color(new Color(67, 144, 32));
     } else {
-      border.color(new Color(170, 29, 29));
+      this.color(new Color(255, 255, 255, 122));
+      //border.color(new Color(170, 29, 29));
     }
     super.onRender();
   }
@@ -97,8 +100,8 @@ public class ModuleListComponent2 extends Collection {
 
     public Settings() {
       this.add(main = new Collection());
-      main.add(rectangle = new Rectangle().size(45, 45).smooth(22.5).color(DefaultTheme.getBackgroundColorNew()));
-      main.add(image = new Image().resource("sorus/gear.png").size(27.5, 27.5).position(8.75, 8.75));
+      main.add(rectangle = new Rectangle().size(40, 40).smooth(20).color(DefaultTheme.getBackgroundColorNew()));
+      main.add(image = new Image().resource("sorus/gear.png").size(25, 25).position(7.5, 7.5).color(DefaultTheme.getElementColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -113,7 +116,7 @@ public class ModuleListComponent2 extends Collection {
       this.prevRenderTime = renderTime;
       rectangle.onRender();
       IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
-      double x = main.absoluteX() + 22.5 * main.absoluteXScale(), y = main.absoluteY() + 22.5 * main.absoluteYScale();
+      double x = main.absoluteX() + 20 * main.absoluteXScale(), y = main.absoluteY() + 20 * main.absoluteYScale();
       glHelper.translate(x, y, 0);
       glHelper.rotate(Axis.Z, hoverPercent * 40);
       glHelper.translate(-x, -y, 0);
@@ -139,7 +142,7 @@ public class ModuleListComponent2 extends Collection {
     }
 
     private boolean isHovered(double x, double y) {
-      return x > this.absoluteX() && x < this.absoluteX() + 45 * this.absoluteXScale() && y > this.absoluteY() && y < this.absoluteY() + 45 * this.absoluteYScale();
+      return x > this.absoluteX() && x < this.absoluteX() + 40 * this.absoluteXScale() && y > this.absoluteY() && y < this.absoluteY() + 40 * this.absoluteYScale();
     }
 
   }
@@ -147,25 +150,36 @@ public class ModuleListComponent2 extends Collection {
   public class Toggle extends Collection {
 
     private final Collection main;
-    private final Image image;
+    private Component icon;
 
     private double expandedPercent;
     private long prevRenderTime;
 
     public Toggle() {
       this.add(main = new Collection());
-      main.add(new Rectangle().size(45, 45).smooth(22.5).color(DefaultTheme.getBackgroundColorNew()));
-      main.add(image = new Image().size(27.5, 27.5).position(8.75, 8.75));
+      main.add(new Rectangle().size(40, 40).smooth(20).color(DefaultTheme.getBackgroundColorNew()));
       Sorus.getSorus().getEventManager().register(this);
+    }
+
+    private void updateIcon(boolean hovered) {
+      if(icon != null) {
+        main.remove(icon);
+      }
+      if(hovered) {
+        Color newElementColor = DefaultTheme.getElementColorNew();
+        icon = new Rectangle().size(25, 25).smooth(12.5).position(7.5, 7.5).color(new Color(newElementColor.getRed(), newElementColor.getGreen(), newElementColor.getBlue(), 75));
+      } else {
+        if(ModuleListComponent2.this.module.isEnabled()) {
+          icon = new Rectangle().size(25, 25).smooth(12.5).position(7.5, 7.5).color(DefaultTheme.getElementColorNew());
+        } else {
+          icon = new HollowRectangle().thickness(2).size(25, 25).smooth(12.5).position(7.5, 7.5).color(DefaultTheme.getElementColorNew());
+        }
+      }
+      main.add(icon);
     }
 
     @Override
     public void onRender() {
-      if(ModuleListComponent2.this.module.isEnabled()) {
-        image.resource("sorus/modules/enabled.png");
-      } else {
-        image.resource("sorus/modules/disabled.png");
-      }
       IInput input = Sorus.getSorus().getVersion().getData(IInput.class);
       boolean hovered = this.isHovered(input.getMouseX(), input.getMouseY());
       long renderTime = System.currentTimeMillis();
@@ -173,6 +187,7 @@ public class ModuleListComponent2 extends Collection {
       expandedPercent = MathUtil.clamp(expandedPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
       main.position(-expandedPercent, -expandedPercent).scale(1 + expandedPercent * 0.05, 1 + expandedPercent * 0.05);
       this.prevRenderTime = renderTime;
+      this.updateIcon(hovered);
       super.onRender();
     }
 
@@ -186,11 +201,12 @@ public class ModuleListComponent2 extends Collection {
     public void onClick(MousePressEvent e) {
       if(this.isHovered(e.getX(), e.getY())) {
         ModuleListComponent2.this.module.setEnabled(!ModuleListComponent2.this.module.isEnabled());
+        System.out.println("Test");
       }
     }
 
     private boolean isHovered(double x, double y) {
-      return x > this.absoluteX() && x < this.absoluteX() + 45 * this.absoluteXScale() && y > this.absoluteY() && y < this.absoluteY() + 45 * this.absoluteYScale();
+      return x > this.absoluteX() && x < this.absoluteX() + 40 * this.absoluteXScale() && y > this.absoluteY() && y < this.absoluteY() + 40 * this.absoluteYScale();
     }
 
   }

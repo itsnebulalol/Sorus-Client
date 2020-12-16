@@ -78,9 +78,9 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
     menu.add(new ExitButton(this::onExit).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     this.addOption("HUDS", null, null);
-    this.addOption("MODULES", null, () -> {
+    /*this.addOption("MODULES", null, () -> {
       Sorus.getSorus().getGUIManager().open(new ModuleListScreen());
-    });
+    });*/
     this.addOption("THEMES", null, null);
     this.addOption("PLUGINS", null, null);
     this.addOption("COSMETICS", null, null);

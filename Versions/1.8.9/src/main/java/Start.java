@@ -27,9 +27,13 @@ import org.sorus.client.startup.dev.DevClassLoader;
 import org.sorus.client.startup.impl.ClassLoaderTransformerUtility;
 import org.sorus.oneeightnine.Version;
 
+import net.minecraft.client.Minecraft;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLClassLoader;
+
+import com.google.common.collect.Queues;
 
 /**
  * Used in a dev environment to run Sorus with a class loader transformer instead of java agents.

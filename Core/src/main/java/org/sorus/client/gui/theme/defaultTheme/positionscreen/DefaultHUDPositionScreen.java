@@ -61,8 +61,9 @@ public class DefaultHUDPositionScreen extends DefaultSomethingScreen<HUDPosition
 
   private final boolean fadeIn;
 
-  public DefaultHUDPositionScreen(HUDManager hudManager, boolean fadeIn) {
-    this.huds = hudManager.getHUDs();
+  public DefaultHUDPositionScreen(boolean fadeIn) {
+    super(-1, -1);
+    this.huds = Sorus.getSorus().getHUDManager().getHUDs();
     this.fadeIn = fadeIn;
   }
 
@@ -98,6 +99,7 @@ public class DefaultHUDPositionScreen extends DefaultSomethingScreen<HUDPosition
     Sorus.getSorus().getVersion().getData(IRenderer.class).disableBlur();
     Sorus.getSorus().getSettingsManager().save();
     this.main.onRemove();
+    super.exit();
   }
 
   /** Renders the overlay for a hud taking in account selectedness, and hoveredness. */
