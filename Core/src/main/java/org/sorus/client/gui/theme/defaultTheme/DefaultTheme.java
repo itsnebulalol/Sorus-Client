@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.gui.theme.defaultTheme;
 
 import java.awt.*;
@@ -34,6 +10,8 @@ import org.sorus.client.gui.theme.defaultTheme.menu.DefaultMenuScreen;
 import org.sorus.client.gui.theme.defaultTheme.modulelist.DefaultModuleListScreen2;
 import org.sorus.client.gui.theme.defaultTheme.positionscreen.DefaultHUDPositionScreen;
 import org.sorus.client.gui.theme.defaultTheme.profilelist.DefaultProfileListScreen;
+import org.sorus.client.gui.theme.defaultTheme.selectComponent.DefaultSelectComponentScreen;
+import org.sorus.client.gui.theme.defaultTheme.settings.components.*;
 import org.sorus.client.gui.theme.defaultTheme.theme.DefaultSelectThemeScreen;
 import org.sorus.client.gui.theme.defaultTheme.theme.DefaultThemeListScreen;
 import org.sorus.client.settings.Setting;
@@ -70,11 +48,16 @@ public class DefaultTheme extends Theme {
     this.register("hud-list", DefaultHUDListScreen.class);
     this.register("hud-config", DefaultHUDConfigScreen.class);
     this.register("settings", DefaultSettingsScreen.class);
-    this.register("settings-color-picker", DefaultColorPickerScreen.class);
+    this.register("color-picker", DefaultColorPickerScreen.class);
     this.register("component-select", DefaultSelectComponentScreen.class);
     this.register("theme-list", DefaultThemeListScreen.class);
     this.register("theme-select", DefaultSelectThemeScreen.class);
     this.register("profile-list", DefaultProfileListScreen.class);
+    this.register("settings-click-through", DefaultClickThrough.class);
+    this.register("settings-toggle", DefaultToggle.class);
+    this.register("settings-color-picker", DefaultColorPicker.class);
+    this.register("settings-text-box", DefaultTextBox.class);
+    this.register("settings-custom-text", DefaultCustomTextColor.class);
     this.register(
         backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
     this.register(
@@ -93,15 +76,22 @@ public class DefaultTheme extends Theme {
             new Setting<>("foregroundLessLessLayerColor", new Color(130, 130, 130)));
     this.register(shadowStartColor = new Setting<>("shadowStartColor", new Color(14, 14, 14)));
     this.register(shadowEndColor = new Setting<>("shadowEndColor", new Color(14, 14, 14, 0)));
+
     this.register(backgroundColorNew = new Setting<>("backgroundColor", new Color(25, 25, 25)));
     this.register(foregroundColorNew = new Setting<>("foregroundColor", new Color(30, 30, 30)));
-    this.register(gradientStartColorNew = new Setting<>("gradientStartColor", new Color(10, 10, 10, 100)));
-    this.register(gradientEndColorNew = new Setting<>("gradientEndColor", new Color(10, 10, 10, 20)));
-    this.register(elementBackgroundColorNew = new Setting<>("elementBackgroundColor", new Color(40, 40, 40)));
-    this.register(elementMedgroundColorNew = new Setting<>("elementMedgroundColor", new Color(55, 55, 55)));
-    this.register(elementForegroundColorNew = new Setting<>("elementForegroundColor", new Color(80, 80, 80)));
+    this.register(
+        gradientStartColorNew = new Setting<>("gradientStartColor", new Color(10, 10, 10, 100)));
+    this.register(
+        gradientEndColorNew = new Setting<>("gradientEndColor", new Color(10, 10, 10, 20)));
+    this.register(
+        elementBackgroundColorNew = new Setting<>("elementBackgroundColor", new Color(40, 40, 40)));
+    this.register(
+        elementMedgroundColorNew = new Setting<>("elementMedgroundColor", new Color(55, 55, 55)));
+    this.register(
+        elementForegroundColorNew = new Setting<>("elementForegroundColor", new Color(80, 80, 80)));
     this.register(elementColorNew = new Setting<>("elementColor", new Color(200, 200, 200)));
-    this.register(elementSecondColorNew = new Setting<>("elementSecondColor", new Color(150, 150, 150)));
+    this.register(
+        elementSecondColorNew = new Setting<>("elementSecondColor", new Color(150, 150, 150)));
     instance = this;
   }
 
@@ -198,5 +188,4 @@ public class DefaultTheme extends Theme {
   public static Color getElementSecondColorNew() {
     return DefaultTheme.getInstance().elementSecondColorNew.getValue();
   }
-
 }

@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.module.impl.cps;
 
 import java.awt.*;
@@ -191,7 +167,7 @@ public abstract class CPSMode extends Mode {
 
     @Override
     public String getName() {
-      return "Both Buttons";
+      return "Two Buttons";
     }
 
     @Override
@@ -255,17 +231,17 @@ public abstract class CPSMode extends Mode {
     }
 
     @Override
-    public double getWidth(String[] fpsString, IFontRenderer fontRenderer) {
+    public double getWidth(String[] cpsString, IFontRenderer fontRenderer) {
       double maxWidth = 0;
-      for (String string : fpsString) {
+      for (String string : cpsString) {
         maxWidth = Math.max(maxWidth, fontRenderer.getStringWidth(string));
       }
       return maxWidth + 4;
     }
 
     @Override
-    public double getHeight(String[] fpsString, IFontRenderer fontRenderer) {
-      return fontRenderer.getFontHeight() * fpsString.length + (fpsString.length - 1) * 2 + 4;
+    public double getHeight(String[] cpsSring, IFontRenderer fontRenderer) {
+      return fontRenderer.getFontHeight() * cpsSring.length + (cpsSring.length - 1) * 2 + 4;
     }
 
     @Override

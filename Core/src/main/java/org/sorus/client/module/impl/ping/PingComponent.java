@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.module.impl.ping;
 
 import java.awt.*;
@@ -33,7 +9,6 @@ import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.MultiText;
-import org.sorus.client.gui.core.component.impl.Paragraph;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
@@ -59,7 +34,7 @@ public class PingComponent extends Component {
 
   private final Panel modPanel;
   private final Rectangle background;
-  private final Paragraph pingText;
+  private final Collection pingText;
 
   private String[] pingString = new String[0];
 
@@ -82,7 +57,7 @@ public class PingComponent extends Component {
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
-    modPanel.add(pingText = new Paragraph());
+    modPanel.add(pingText = new Collection());
     this.currentMode = this.registeredModes.get(0);
     this.updateFontRenderer();
   }
@@ -97,35 +72,35 @@ public class PingComponent extends Component {
     List<String> strings = new ArrayList<>();
     for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder fpsBuilder = new StringBuilder();
-      if (i >= this.pingText.getComponents().size()) {
+      if (i >= this.pingText.getChildren().size()) {
         MultiText multiText = new MultiText();
         this.pingText.add(multiText);
       }
-      MultiText multiText = (MultiText) this.pingText.getComponents().get(i);
+      MultiText multiText = (MultiText) this.pingText.getChildren().get(i);
       int j = 0;
       for (Pair<String, Color> pair : formattedLine) {
-        if (j >= multiText.getComponents().size()) {
+        if (j >= multiText.getChildren().size()) {
           Text text = new Text();
           multiText.add(text);
         }
-        Text text = (Text) multiText.getComponents().get(j);
+        Text text = (Text) multiText.getChildren().get(j);
         text.text(pair.getKey()).fontRenderer(fontRenderer).color(pair.getValue());
         j++;
         fpsBuilder.append(pair.getLeft());
       }
-      if (multiText.getComponents().size() > formattedLine.size()) {
-        Text text1 = (Text) multiText.getComponents().get(multiText.getComponents().size() - 1);
+      if (multiText.getChildren().size() > formattedLine.size()) {
+        Text text1 = (Text) multiText.getChildren().get(multiText.getChildren().size() - 1);
         multiText.remove(text1);
       }
-      double specificHeight = this.getHeight() / this.pingText.getComponents().size();
+      double specificHeight = this.getHeight() / this.pingText.getChildren().size();
       double textY = specificHeight * i + specificHeight / 2 - multiText.getHeight() / 2;
       multiText.position(this.getWidth() / 2 - multiText.getWidth() / 2, textY);
       strings.add(fpsBuilder.toString());
       i++;
     }
-    if (this.pingText.getComponents().size() > formatted.size()) {
+    if (this.pingText.getChildren().size() > formatted.size()) {
       MultiText multiText1 =
-          (MultiText) this.pingText.getComponents().get(this.pingText.getComponents().size() - 1);
+          (MultiText) this.pingText.getChildren().get(this.pingText.getChildren().size() - 1);
       pingText.remove(multiText1);
     }
     this.pingString = strings.toArray(new String[0]);
@@ -174,8 +149,8 @@ public class PingComponent extends Component {
   @Override
   public double getHeight() {
     return tightFit.getValue()
-        ? fontRenderer.getFontHeight() * this.pingText.getComponents().size()
-            + (this.pingText.getComponents().size() - 1) * 2
+        ? fontRenderer.getFontHeight() * this.pingText.getChildren().size()
+            + (this.pingText.getChildren().size() - 1) * 2
             + 4
         : 11;
   }

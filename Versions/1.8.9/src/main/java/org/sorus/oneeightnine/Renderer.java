@@ -1,42 +1,24 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 
 package org.sorus.oneeightnine;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.shader.ShaderGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.SlickException;
+import org.sorus.client.cosmetic.TexturedQuad;
 import org.sorus.client.obfuscation.ObfuscationManager;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.game.IItemStack;
@@ -51,9 +33,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Implementation of {@link IRenderer} for 1.8.9.
- */
+
 public class Renderer implements IRenderer {
 
     private final Map<String, FontRenderer> fontRendererCache = new HashMap<>();
@@ -73,17 +53,11 @@ public class Renderer implements IRenderer {
             useShader = EntityRenderer.class.getDeclaredField(useShaderName);
             useShader.setAccessible(true);
         } catch(NoSuchFieldException e) {
-            e.printStackTrace();;
+            e.printStackTrace();
         }
     }
 
-    /**
-     * Draws a rectangle.
-     * @param x the x position
-     * @param y the y position
-     * @param width the width
-     * @param height the height
-     */
+    
     @Override
     public void drawRect(double x, double y, double width, double height, Color bottomLeftColor, Color bottomRightColor, Color topRightColor, Color topLeftColor) {
         GL11.glEnable(GL11.GL_BLEND);
@@ -103,16 +77,7 @@ public class Renderer implements IRenderer {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    /**
-     * Draws an arc.
-     * @param x the x position
-     * @param y the y position
-     * @param xRadius the x radius
-     * @param yRadius the y radius
-     * @param startAngle the angle the arc starts at
-     * @param endAngle the angle the arc ends at
-     * @param color the color
-     */
+    
     @Override
     public void drawArc(double x, double y, double xRadius, double yRadius, int startAngle, int endAngle, Color color) {
         x += xRadius;
@@ -131,17 +96,7 @@ public class Renderer implements IRenderer {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    /**
-     * Draws a hollow arc.
-     * @param x the x position
-     * @param y the y position
-     * @param xRadius the x radius
-     * @param yRadius the y radius
-     * @param startAngle the angle the arc starts at
-     * @param endAngle the angle the arc ends at
-     * @param thickness the thickness of the line
-     * @param color the color
-     */
+    
     @Override
     public void drawHollowArc(double x, double y, double xRadius, double yRadius, int startAngle, int endAngle, double thickness, Color color) {
         xRadius -= thickness / 2;
@@ -165,16 +120,7 @@ public class Renderer implements IRenderer {
         GL11.glLineWidth(1);
     }
 
-    /**
-     * Draws a string using the default minecraft font renderer.
-     * @param fontLocation the location of the font
-     * @param string the string to draw
-     * @param x the x position
-     * @param y the y position
-     * @param xScale the x scale
-     * @param yScale the y scale
-     * @param color the color
-     */
+    
     @Override
     public void drawString(String fontLocation, String string, double x, double y, double xScale, double yScale, boolean shadow, Color color) {
         GL11.glPushMatrix();
@@ -189,32 +135,19 @@ public class Renderer implements IRenderer {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    /**
-     * Gets the width of a string from the default minecraft font renderer.
-     * @param fontLocation the location of the font
-     * @param string the string
-     * @return the width of the string
-     */
+    
     @Override
     public double getStringWidth(String fontLocation, String string) {
         return this.getFontRenderer(fontLocation).getStringWidth(string) - 1;
     }
 
-    /**
-     * Gets the character height from the default minecraft font renderer.
-     * @param fontLocation the location of the font
-     * @return the font height
-     */
+    
     @Override
     public double getFontHeight(String fontLocation) {
         return this.getFontRenderer(fontLocation).FONT_HEIGHT - 2;
     }
 
-    /**
-     * Gets a minecraft font renderer based on the font location.
-     * @param fontLocation the location of the font
-     * @return the minecraft font renderer
-     */
+    
     private FontRenderer getFontRenderer(String fontLocation) {
         FontRenderer fontRenderer = this.fontRendererCache.get(fontLocation);
         if(fontRenderer == null) {
@@ -298,10 +231,26 @@ public class Renderer implements IRenderer {
         GL11.glBlendFunc(770, 771);
         GL11.glTranslated(x, y, 0);
         GL11.glColor4d(color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, color.getAlpha() / 255.0);
-        Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(((ItemStackImpl) itemStack).getItemStack(), 0, 0);
+        ItemStack itemStack1 = ((ItemStackImpl) itemStack).getItemStack();
+        Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(itemStack1, 0, 0);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
+    }
+
+    @Override
+    public void drawQuad(TexturedQuad quad) {
+        WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
+        renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
+        TexturedQuad.Vertex[] vertices = quad.getVertices();
+        TexturedQuad.TexturePosition[] texturePositions = quad.getTexturePositions();
+        for(int i = 0; i < 4; i++) {
+            TexturedQuad.Vertex vertex = vertices[i];
+            TexturedQuad.TexturePosition texturePosition = texturePositions[i];
+            renderer.pos(vertex.getX(), vertex.getY(), vertex.getZ()).tex(texturePosition.getTextureX(), texturePosition.getTextureY()).normal(1, 1, 1).endVertex();
+
+        }
+        Tessellator.getInstance().draw();
     }
 
 }

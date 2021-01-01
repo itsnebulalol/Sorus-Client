@@ -33,10 +33,7 @@ Due to Sorus being an open source project, guidelines need to be created to ensu
 #### Classes
 Classes should have a header containing a short description of the class' purpose.
 ```java
-    /** 
-     * A plant that contains a wooden trunk, along with branches that
-     * extrude from the trunk. Uses it's leaves to convert sunlight into energy. 
-     */
+    
     public class Tree implements Plant {
     
     }
@@ -45,11 +42,7 @@ Classes should have a header containing a short description of the class' purpos
 #### Methods
 Methods should have a header containing a short description of the method's purpose. The description also should contain a @param description for each parameter along with a @return description if applicable.
 ```java
-    /** 
-     * Returns the tree height based on time.
-     * @param years time to grow
-     * @return the height of the tree in feet 
-     */
+    
     @Override
     public int getHeight(int years) {
         return years * this.getGrowthSingleYear();
@@ -62,7 +55,7 @@ Fields do not each have to have an individual description, but groups of friends
     private final Color color;
     private final int initialHeight;
 
-    /** Statistics used to determine how healthy the tree is. */  
+      
     private float water;
     private float energy;
 ```

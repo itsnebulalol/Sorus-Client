@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.obfuscation;
 
 import java.io.File;
@@ -32,7 +8,6 @@ import org.sorus.client.obfuscation.mappings.ClassMapping;
 import org.sorus.client.obfuscation.mappings.Mappings;
 import org.sorus.client.startup.SorusStartup;
 
-/** Helps handle the obfuscation of the game. */
 public class ObfuscationManager {
 
   private static final boolean dev = SorusStartup.DEV;
@@ -51,12 +26,6 @@ public class ObfuscationManager {
     }
   }
 
-  /**
-   * Returns the deobfuscated or obfuscated class name, depending on if its a dev environment.
-   *
-   * @param className the input class name
-   * @return the actual class name
-   */
   public static String getClassName(String className) {
     String rawName = ObfuscationManager.getClassNameRaw(className);
     if (externalMappings == null) {
@@ -80,14 +49,6 @@ public class ObfuscationManager {
     return className;
   }
 
-  /**
-   * Returns the deobfuscated or obfuscated method name, depending on if its a dev environment.
-   *
-   * @param className the input class name
-   * @param methodName the input method name
-   * @param methodDesc the description of the input method
-   * @return the actual method name
-   */
   public static String getMethodName(String className, String methodName, String methodDesc) {
     String result = methodName;
     if (!dev) {
@@ -179,12 +140,6 @@ public class ObfuscationManager {
         .getName();
   }
 
-  /**
-   * Returns the deobfuscated or obfuscated method desc, depending on if its a dev environment.
-   *
-   * @param desc the input description
-   * @return the actual description
-   */
   public static String getDesc(String desc) {
     String rawDesc = ObfuscationManager.getDescRaw(desc);
     if (externalMappings == null) {

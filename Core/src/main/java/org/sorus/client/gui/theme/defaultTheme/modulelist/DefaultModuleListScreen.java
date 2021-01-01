@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.gui.theme.defaultTheme.modulelist;
 
 import org.sorus.client.Sorus;
@@ -109,14 +85,19 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
     menu.add(
         new ExitButton(
                 () -> {
-                  Sorus.getSorus().getGUIManager().close(this.screen);
+                  Sorus.getSorus().getGUIManager().close(this.getParent());
                   Sorus.getSorus().getGUIManager().open(new MenuScreen(false));
                 })
             .position(10, 10));
     Scissor scissor = new Scissor().size(700, 710).position(3, 74);
     this.scroll = new Scroll();
     scissor.add(scroll);
-    menu.add(new Rectangle().size(12.5, 710).smooth(7.5).position(682.5, 74).color(DefaultTheme.getMedbackgroundLayerColor()));
+    menu.add(
+        new Rectangle()
+            .size(12.5, 710)
+            .smooth(7.5)
+            .position(682.5, 74)
+            .color(DefaultTheme.getMedbackgroundLayerColor()));
     menu.add(scissor);
     menu.add(scrollBar = new Rectangle().color(DefaultTheme.getMedgroundLayerColor()));
     this.updateHUDS();
@@ -142,7 +123,10 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
     targetScroll = MathUtil.clamp(targetScroll, scroll.getMinScroll(), scroll.getMaxScroll());
     double scrollBarSize = 710 / (maxScroll + 710);
     double scrollBarPosition = -scroll.getScroll() / maxScroll * (1 - scrollBarSize);
-    scrollBar.size(12.5, 710 * scrollBarSize).smooth(7.5).position(682.5, 74 + 710 * scrollBarPosition);
+    scrollBar
+        .size(12.5, 710 * scrollBarSize)
+        .smooth(7.5)
+        .position(682.5, 74 + 710 * scrollBarPosition);
     main.scale(
         Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
         Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
@@ -158,9 +142,9 @@ public class DefaultModuleListScreen extends ThemeBase<ModuleListScreen> {
   }
 
   @Override
-  public void keyTyped(Key key, boolean repeat) {
+  public void onKeyType(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
-      Sorus.getSorus().getGUIManager().close(this.screen);
+      Sorus.getSorus().getGUIManager().close(this.getParent());
     }
   }
 }

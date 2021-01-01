@@ -1,31 +1,8 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client;
 
 import java.io.InputStream;
 import java.util.Map;
+import org.sorus.client.cosmetic.CosmeticManager;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.EventManager;
 import org.sorus.client.event.impl.client.StartEvent;
@@ -43,7 +20,6 @@ public class Sorus {
 
   public static boolean isRunning = false;
 
-  /** The single {@link Sorus} instance */
   private static final Sorus INSTANCE = new Sorus();
 
   public static Sorus getSorus() {
@@ -52,38 +28,26 @@ public class Sorus {
 
   private Map<String, String> args;
 
-  /** The {@link EventManager} for Sorus */
   private final EventManager EVENT_MANAGER = new EventManager();
 
-  /** The {@link ModuleManager} for Sorus */
   private final ModuleManager MODULE_MANAGER = new ModuleManager();
 
-  /** The {@link GUIManager} for Sorus */
   private final GUIManager GUI_MANAGER = new GUIManager();
 
-  /** The {@link HUDManager} for Sorus */
   private final HUDManager HUD_MANAGER = new HUDManager();
 
-  /** The {@link SettingsManager} for Sorus */
   private final SettingsManager SETTINGS_MANAGER = new SettingsManager();
 
-  /** The {@link PluginManager} for Sorus */
   private final PluginManager PLUGIN_MANAGER = new PluginManager();
 
-  /** The {@link ThemeManager} for Sorus */
   private final ThemeManager THEME_MANAGER = new ThemeManager();
 
-  /** The {@link IVersion} for Sorus */
+  private final CosmeticManager COSMETIC_MANAGER = new CosmeticManager();
+
   private IVersion version;
 
   private Sorus() {}
 
-  /**
-   * Called when the client is first launched. Initializes important processes for the client to
-   * operate.
-   *
-   * @param version the version class used to connect with the version of minecraft
-   */
   public void initialize(Class<? extends IVersion> version, Map<String, String> args) {
     isRunning = true;
     try {
@@ -94,12 +58,13 @@ public class Sorus {
     }
     this.args = args;
     this.getModuleManager().registerInternalModules();
-    this.getModuleManager().onLoad();
-    this.getGUIManager().initialize(this.getThemeManager());
+    this.getGUIManager().initialize();
     this.getHUDManager().initialize();
-    this.getGUIManager().open(new HUDRenderScreen(this.getHUDManager()));
+    this.getGUIManager().open(new HUDRenderScreen());
     this.getPluginManager().initialize(args.get("plugins"));
     this.getSettingsManager().load("default");
+    this.getModuleManager().onLoad();
+    this.getCosmeticManager().onLoad();
     this.getEventManager().register(this);
   }
 
@@ -133,6 +98,10 @@ public class Sorus {
 
   public ThemeManager getThemeManager() {
     return THEME_MANAGER;
+  }
+
+  public CosmeticManager getCosmeticManager() {
+    return COSMETIC_MANAGER;
   }
 
   public IVersion getVersion() {

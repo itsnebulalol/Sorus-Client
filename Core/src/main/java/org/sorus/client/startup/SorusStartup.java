@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.startup;
 
 import com.google.gson.Gson;
@@ -39,7 +15,6 @@ import org.sorus.client.obfuscation.ObfuscationManager;
 import org.sorus.client.startup.injection.Hook;
 import org.sorus.client.version.IVersion;
 
-/** Class that allows for startup from any version implementation of Sorus. */
 public class SorusStartup {
 
   public static boolean DEV;
@@ -61,15 +36,6 @@ public class SorusStartup {
     return launchArgs;
   }
 
-  /**
-   * Allows startup of Sorus from any version implementation. Also starts the class data collector
-   * to get data from all the loaded classes for later injection use.
-   *
-   * @param version the version class used for connecting with the specific version of minecraft
-   * @param transformerUtility the instrumentation instance
-   * @param classLoader the classloader to use when starting Sorus
-   * @param dev if the environment is a dev environment
-   */
   public static void start(
       Class<? extends IVersion> version,
       TransformerUtility transformerUtility,
@@ -109,11 +75,6 @@ public class SorusStartup {
         .start();
   }
 
-  /**
-   * Registers injectors and adds then to a list of injectors for each class.
-   *
-   * @param transformer the {@link TransformerUtility} to register injectors with
-   */
   private static void registerTransformers(TransformerUtility transformer) {
     Map<String, List<Class<?>>> injectors = new HashMap<>();
     String version = SorusStartup.getLaunchArgs().get("version");
@@ -214,5 +175,4 @@ public class SorusStartup {
   public static void setLaunchArgs(Map<String, String> args) {
     launchArgs = args;
   }
-
 }

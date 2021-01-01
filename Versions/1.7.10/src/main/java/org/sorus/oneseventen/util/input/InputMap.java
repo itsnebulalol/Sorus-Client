@@ -1,26 +1,4 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 
 package org.sorus.oneseventen.util.input;
 
@@ -29,12 +7,10 @@ import com.google.common.collect.HashBiMap;
 import org.sorus.client.version.input.Button;
 import org.sorus.client.version.input.Key;
 
-/**
- * Provides mappings of input from the LWJGL2 keycode to the {@link Key} enum.
- */
+
 public class InputMap {
 
-    /** Mappings for keys. */
+
     private static final BiMap<Integer, Key> KEY_MAP = HashBiMap.create();
 
     static {
@@ -114,7 +90,7 @@ public class InputMap {
         KEY_MAP.put(157, Key.CONTROL_RIGHT);
     }
 
-    /** Mappings for mouse buttons. */
+
     private static final BiMap<Integer, Button> BUTTON_MAP = HashBiMap.create();
 
     static {

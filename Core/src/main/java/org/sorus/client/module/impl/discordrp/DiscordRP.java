@@ -1,7 +1,6 @@
 package org.sorus.client.module.impl.discordrp;
 
 import com.jagrosh.discordipc.IPCClient;
-import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 import java.time.OffsetDateTime;
@@ -32,7 +31,6 @@ public class DiscordRP extends ModuleConfigurable {
 
   @Override
   public void onLoad() {
-    client.setListener(new IPCListener() {});
     builder.setStartTimestamp(OffsetDateTime.now()).setLargeImage("logo_dark", "Sorus Client");
     Runtime.getRuntime()
         .addShutdownHook(
@@ -42,6 +40,7 @@ public class DiscordRP extends ModuleConfigurable {
                     client.close();
                   }
                 }));
+    super.onLoad();
   }
 
   @Override
@@ -90,7 +89,7 @@ public class DiscordRP extends ModuleConfigurable {
 
   @EventInvoked
   public void onTick(TickEvent e) {
-    if (status.getValue().equals(details)) {
+    if (!status.getValue().equals(details)) {
       details = status.getValue();
       this.updateDetails(details);
     }
@@ -116,5 +115,4 @@ public class DiscordRP extends ModuleConfigurable {
   public String getDescription() {
     return "Show all your friends that your playing Sorus!";
   }
-
 }

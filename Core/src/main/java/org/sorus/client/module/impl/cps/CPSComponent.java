@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.module.impl.cps;
 
 import java.awt.*;
@@ -36,7 +12,6 @@ import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.MultiText;
-import org.sorus.client.gui.core.component.impl.Paragraph;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
@@ -61,7 +36,7 @@ public class CPSComponent extends Component {
 
   private final Panel modPanel;
   private final Rectangle background;
-  private final Paragraph cpsText;
+  private final Collection cpsText;
 
   private final Map<Button, List<Long>> prevClickTimes = new HashMap<>();
   private String[] cpsString = new String[0];
@@ -85,7 +60,7 @@ public class CPSComponent extends Component {
     this.register(backgroundColor = new Setting<>("backgroundColor", new Color(0, 0, 0, 50)));
     modPanel = new Panel();
     modPanel.add(background = new Rectangle());
-    modPanel.add(cpsText = new Paragraph());
+    modPanel.add(cpsText = new Collection());
     this.currentMode = this.registeredModes.get(0);
     this.updateFontRenderer();
     Sorus.getSorus().getEventManager().register(this);
@@ -95,8 +70,12 @@ public class CPSComponent extends Component {
   }
 
   @Override
-  public void render(double x, double y, boolean dummy) {
+  public void update(boolean dummy) {
     this.updateFontRenderer();
+  }
+
+  @Override
+  public void render(double x, double y, boolean dummy) {
     long currentTime = System.currentTimeMillis();
     for (List<Long> prevClickTimes : this.prevClickTimes.values()) {
       prevClickTimes.removeIf((value) -> currentTime - value > 1000);
@@ -111,35 +90,35 @@ public class CPSComponent extends Component {
     List<String> strings = new ArrayList<>();
     for (List<Pair<String, Color>> formattedLine : formatted) {
       StringBuilder cpsBuilder = new StringBuilder();
-      if (i >= this.cpsText.getComponents().size()) {
+      if (i >= this.cpsText.getChildren().size()) {
         MultiText multiText = new MultiText();
         this.cpsText.add(multiText);
       }
-      MultiText multiText = (MultiText) this.cpsText.getComponents().get(i);
+      MultiText multiText = (MultiText) this.cpsText.getChildren().get(i);
       int j = 0;
       for (Pair<String, Color> pair : formattedLine) {
-        if (j >= multiText.getComponents().size()) {
+        if (j >= multiText.getChildren().size()) {
           Text text = new Text();
           multiText.add(text);
         }
-        Text text = (Text) multiText.getComponents().get(j);
+        Text text = (Text) multiText.getChildren().get(j);
         text.text(pair.getKey()).fontRenderer(fontRenderer).color(pair.getValue());
         j++;
         cpsBuilder.append(pair.getLeft());
       }
-      if (multiText.getComponents().size() > formattedLine.size()) {
-        Text text1 = (Text) multiText.getComponents().get(multiText.getComponents().size() - 1);
+      if (multiText.getChildren().size() > formattedLine.size()) {
+        Text text1 = (Text) multiText.getChildren().get(multiText.getChildren().size() - 1);
         multiText.remove(text1);
       }
-      double specificHeight = this.getHeight() / this.cpsText.getComponents().size();
+      double specificHeight = this.getHeight() / this.cpsText.getChildren().size();
       double textY = specificHeight * i + specificHeight / 2 - multiText.getHeight() / 2;
       multiText.position(this.getWidth() / 2 - multiText.getWidth() / 2, textY);
       strings.add(cpsBuilder.toString());
       i++;
     }
-    if (this.cpsText.getComponents().size() > formatted.size()) {
+    if (this.cpsText.getChildren().size() > formatted.size()) {
       MultiText multiText1 =
-          (MultiText) this.cpsText.getComponents().get(this.cpsText.getComponents().size() - 1);
+          (MultiText) this.cpsText.getChildren().get(this.cpsText.getChildren().size() - 1);
       cpsText.remove(multiText1);
     }
     this.cpsString = strings.toArray(new String[0]);

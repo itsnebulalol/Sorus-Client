@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.gui.theme.defaultTheme.menu;
 
 import org.sorus.client.Sorus;
@@ -33,7 +9,6 @@ import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.MenuScreen;
-import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
@@ -74,13 +49,15 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
     menu.add(new Scissor().size(870, 440).add(scroll = new Scroll()).position(0, 80));
     menu.add(scrollBar = new ScrollBar().position(870, 90));
     this.addGuiPostComponents(menu);
-    Text title = new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer()).text("MODULES").scale(6, 6);
+    Text title =
+        new Text()
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer())
+            .text("MODULES")
+            .scale(6, 6);
     menu.add(new ExitButton(this::onExit).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     this.addOption("HUDS", null, null);
-    /*this.addOption("MODULES", null, () -> {
-      Sorus.getSorus().getGUIManager().open(new ModuleListScreen());
-    });*/
+
     this.addOption("THEMES", null, null);
     this.addOption("PLUGINS", null, null);
     this.addOption("COSMETICS", null, null);
@@ -95,27 +72,56 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
   }
 
   private void addOption(String name, MenuComponent.ILogoCreator creator, Runnable runnable) {
-    this.scroll.add(new MenuComponent(name, creator, runnable).position(SEPARATION + (int) (count % 4) * (MenuComponent.WIDTH + SEPARATION), SEPARATION + (int) (count / 4) * (MenuComponent.HEIGHT + SEPARATION)));
+    this.scroll.add(
+        new MenuComponent(name, creator, runnable)
+            .position(
+                SEPARATION + (int) (count % 4) * (MenuComponent.WIDTH + SEPARATION),
+                SEPARATION + (int) (count / 4) * (MenuComponent.HEIGHT + SEPARATION)));
     count++;
   }
 
   private void addGuiPreComponents(Collection collection) {
-    collection.add(new Rectangle().size(900, 600).smooth(10).color(DefaultTheme.getBackgroundColorNew()));
+    collection.add(
+        new Rectangle().size(900, 600).smooth(10).color(DefaultTheme.getBackgroundColorNew()));
   }
 
   private void addGuiPostComponents(Collection collection) {
-    collection.add(new Rectangle().size(900, 15).gradient(DefaultTheme.getGradientEndColorNew(), DefaultTheme.getGradientEndColorNew(), DefaultTheme.getGradientStartColorNew(), DefaultTheme.getGradientStartColorNew()).position(0, 70));
-    collection.add(new Rectangle().size(900, 15).gradient(DefaultTheme.getGradientStartColorNew(), DefaultTheme.getGradientStartColorNew(), DefaultTheme.getGradientEndColorNew(), DefaultTheme.getGradientEndColorNew()).position(0, 515));
-    collection.add(new Rectangle().size(900, 80).smooth(10).color(DefaultTheme.getForegroundColorNew()));
-    collection.add(new Rectangle().size(900, 80).smooth(10).position(0, 520).color(DefaultTheme.getForegroundColorNew()));
+    collection.add(
+        new Rectangle()
+            .size(900, 15)
+            .gradient(
+                DefaultTheme.getGradientEndColorNew(),
+                DefaultTheme.getGradientEndColorNew(),
+                DefaultTheme.getGradientStartColorNew(),
+                DefaultTheme.getGradientStartColorNew())
+            .position(0, 70));
+    collection.add(
+        new Rectangle()
+            .size(900, 15)
+            .gradient(
+                DefaultTheme.getGradientStartColorNew(),
+                DefaultTheme.getGradientStartColorNew(),
+                DefaultTheme.getGradientEndColorNew(),
+                DefaultTheme.getGradientEndColorNew())
+            .position(0, 515));
+    collection.add(
+        new Rectangle().size(900, 80).smooth(10).color(DefaultTheme.getForegroundColorNew()));
+    collection.add(
+        new Rectangle()
+            .size(900, 80)
+            .smooth(10)
+            .position(0, 520)
+            .color(DefaultTheme.getForegroundColorNew()));
   }
 
   @Override
   public void render() {
-    int lineCount = (int) Math.ceil(scroll.getComponents().size() / 4.0);
+    int lineCount = (int) Math.ceil(scroll.getChildren().size() / 4.0);
     final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
     double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
-    targetScroll = MathUtil.clamp(targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
+    targetScroll =
+        MathUtil.clamp(
+            targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
     currentScroll = (targetScroll - currentScroll) * 12 / FPS + scroll.getScroll();
     scroll.setScroll(currentScroll);
     maxScroll = lineCount * (MenuComponent.HEIGHT + SEPARATION) - 420;
@@ -123,9 +129,9 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
     double size = Math.min(1, 440 / (maxScroll + 440));
     this.scrollBar.updateScrollBar(-currentScroll / (maxScroll + 440), size);
     main.scale(
-            Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
-            Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
-    main.onRender(this.screen);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
+    main.onRender();
   }
 
   @Override
@@ -135,14 +141,14 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
   }
 
   private void onExit() {
-    Sorus.getSorus().getGUIManager().close(this.screen);
+    Sorus.getSorus().getGUIManager().close(this.getParent());
     Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(false));
   }
 
   @Override
-  public void keyTyped(Key key, boolean repeat) {
+  public void onKeyType(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
-      Sorus.getSorus().getGUIManager().close(this.screen);
+      Sorus.getSorus().getGUIManager().close(this.getParent());
     }
   }
 
@@ -161,25 +167,35 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
     private double initialLocation;
 
     public ScrollBar() {
-      this.add(new Rectangle().size(18, 420).smooth(9).color(DefaultTheme.getElementBackgroundColorNew()));
-      this.add(scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementMedgroundColorNew()));
+      this.add(
+          new Rectangle()
+              .size(18, 420)
+              .smooth(9)
+              .color(DefaultTheme.getElementBackgroundColorNew()));
+      this.add(
+          scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementMedgroundColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 
     @Override
     public void onRender() {
       this.scrollBar.size(18, 420 * size).position(0, 420 * location);
-      if(dragging) {
+      if (dragging) {
         double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
         double delta = mouseY - initialDragY;
-        DefaultMenuScreen.this.setTargetScroll(-(initialLocation + delta / (420 * scrollBar.absoluteYScale())) * (DefaultMenuScreen.this.maxScroll + 440));
+        DefaultMenuScreen.this.setTargetScroll(
+            -(initialLocation + delta / (420 * scrollBar.absoluteYScale()))
+                * (DefaultMenuScreen.this.maxScroll + 440));
       }
       super.onRender();
     }
 
     @EventInvoked
     public void onClick(MousePressEvent e) {
-      if(e.getX() > scrollBar.absoluteX() && e.getX() < scrollBar.absoluteX() + 18 * scrollBar.absoluteXScale() && e.getY() > scrollBar.absoluteY() && e.getY() < scrollBar.absoluteY() + 420 * size * scrollBar.absoluteYScale()) {
+      if (e.getX() > scrollBar.absoluteX()
+          && e.getX() < scrollBar.absoluteX() + 18 * scrollBar.absoluteXScale()
+          && e.getY() > scrollBar.absoluteY()
+          && e.getY() < scrollBar.absoluteY() + 420 * size * scrollBar.absoluteYScale()) {
         dragging = true;
         initialDragY = e.getY();
         initialLocation = location;
@@ -203,7 +219,5 @@ public class DefaultMenuScreen extends ThemeBase<MenuScreen> {
       this.location = location;
       this.size = size;
     }
-
   }
-
 }

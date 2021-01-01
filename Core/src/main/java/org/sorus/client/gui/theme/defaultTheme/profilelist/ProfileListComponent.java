@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.gui.theme.defaultTheme.profilelist;
 
 import java.awt.*;
@@ -48,81 +24,81 @@ public class ProfileListComponent extends Collection {
     final double WIDTH = 685;
     final double HEIGHT = 100;
     this.add(
-            new Rectangle()
-                    .size(WIDTH, HEIGHT)
-                    .position(4, 4)
-                    .color(DefaultTheme.getMedbackgroundLayerColor()));
+        new Rectangle()
+            .size(WIDTH, HEIGHT)
+            .position(4, 4)
+            .color(DefaultTheme.getMedbackgroundLayerColor()));
     this.add(
-            new Rectangle()
-                    .gradient(
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor())
-                    .size(WIDTH, 4)
-                    .position(4, 0));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(WIDTH, 4)
+            .position(4, 0));
     this.add(
-            new Rectangle()
-                    .gradient(
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor())
-                    .size(4, 4)
-                    .position(WIDTH + 4, 0));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(4, 4)
+            .position(WIDTH + 4, 0));
     this.add(
-            new Rectangle()
-                    .gradient(
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowStartColor())
-                    .size(4, HEIGHT)
-                    .position(WIDTH + 4, 4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
+            .size(4, HEIGHT)
+            .position(WIDTH + 4, 4));
     this.add(
-            new Rectangle()
-                    .gradient(
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowStartColor())
-                    .size(4, 4)
-                    .position(WIDTH + 4, HEIGHT + 4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor())
+            .size(4, 4)
+            .position(WIDTH + 4, HEIGHT + 4));
     this.add(
-            new Rectangle()
-                    .gradient(
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowStartColor())
-                    .size(WIDTH, 4)
-                    .position(4, HEIGHT + 4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor())
+            .size(WIDTH, 4)
+            .position(4, HEIGHT + 4));
     this.add(
-            new Rectangle()
-                    .gradient(
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowEndColor())
-                    .size(4, 4)
-                    .position(0, HEIGHT + 4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(4, 4)
+            .position(0, HEIGHT + 4));
     this.add(
-            new Rectangle()
-                    .gradient(
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowEndColor())
-                    .size(4, HEIGHT)
-                    .position(0, 4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(4, HEIGHT)
+            .position(0, 4));
     this.add(
-            new Rectangle()
-                    .gradient(
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowStartColor(),
-                            DefaultTheme.getShadowEndColor(),
-                            DefaultTheme.getShadowEndColor())
-                    .size(4, 4));
+        new Rectangle()
+            .gradient(
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowStartColor(),
+                DefaultTheme.getShadowEndColor(),
+                DefaultTheme.getShadowEndColor())
+            .size(4, 4));
     Collection collection = new Collection().position(15, 15);
     this.add(collection);
     this.add(
@@ -133,7 +109,11 @@ public class ProfileListComponent extends Collection {
             .scale(4, 4)
             .color(DefaultTheme.getForegroundLessLayerColor()));
     if (Sorus.getSorus().getSettingsManager().getCurrentProfile().equals(this.profile)) {
-      this.add(new Rectangle().size(200, 5).position(125, 90).color(DefaultTheme.getForegroundLessLayerColor()));
+      this.add(
+          new Rectangle()
+              .size(200, 5)
+              .position(125, 90)
+              .color(DefaultTheme.getForegroundLessLayerColor()));
     }
     this.add(new LoadButton().position(615, 15));
   }
@@ -179,8 +159,10 @@ public class ProfileListComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        ProfileListComponent.this.profileListScreenTheme.screen.loadProfile(
-            ProfileListComponent.this.profile);
+        ProfileListComponent.this
+            .profileListScreenTheme
+            .getParent()
+            .loadProfile(ProfileListComponent.this.profile);
         ProfileListComponent.this.profileListScreenTheme.updateProfiles();
       }
     }

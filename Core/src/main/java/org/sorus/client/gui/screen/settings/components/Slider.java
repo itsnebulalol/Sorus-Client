@@ -1,30 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.gui.screen.settings.components;
 
-import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -56,12 +31,23 @@ public class Slider extends Configurable {
     this.maxValue = maxValue;
     this.value = setting.getValue();
     this.add(
-        new Rectangle().smooth(3.5).size(160, 7).position(670, 36.5).color(DefaultTheme.getElementMedgroundColorNew()));
+        new Rectangle()
+            .smooth(3.5)
+            .size(160, 7)
+            .position(670, 36.5)
+            .color(DefaultTheme.getElementMedgroundColorNew()));
     this.add(
         this.selector2 =
-            new Rectangle().smooth(3.5).position(670, 36.5).color(DefaultTheme.getElementBackgroundColorNew()));
+            new Rectangle()
+                .smooth(3.5)
+                .position(670, 36.5)
+                .color(DefaultTheme.getElementBackgroundColorNew()));
     this.add(
-        this.selector = new Arc().angle(0, 360).radius(10, 10).color(DefaultTheme.getElementBackgroundColorNew()));
+        this.selector =
+            new Arc()
+                .angle(0, 360)
+                .radius(10, 10)
+                .color(DefaultTheme.getElementBackgroundColorNew()));
     this.add(
         new Text()
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRobotoFontRenderer())
@@ -93,7 +79,7 @@ public class Slider extends Configurable {
 
   @EventInvoked
   public void onClick(MousePressEvent e) {
-    if (this.getContainer().isInteractContainer()) {
+    if (this.getContainer().isTopLevel()) {
       selected = this.isHovered(e.getX(), e.getY());
     }
   }

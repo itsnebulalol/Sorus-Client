@@ -12,6 +12,7 @@ import org.sorus.client.gui.screen.settings.components.ClickThrough;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.IScreen;
 
 public class Crosshair extends ModuleConfigurable {
@@ -62,6 +63,7 @@ public class Crosshair extends ModuleConfigurable {
       double scaledWidth = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth();
       double scaledHeight = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight();
       this.renderCrosshair(scaledWidth / 2, scaledHeight / 2);
+      Sorus.getSorus().getVersion().getData(IGLHelper.class).blend(true);
     }
   }
 
@@ -92,7 +94,10 @@ public class Crosshair extends ModuleConfigurable {
 
   @Override
   public void addIconElements(Collection collection) {
-    collection.add(new Image().resource("sorus/modules/crosshair/logo.png").size(80, 80).color(new Color(175, 175, 175)));
+    collection.add(
+        new Image()
+            .resource("sorus/modules/crosshair/logo.png")
+            .size(80, 80)
+            .color(new Color(175, 175, 175)));
   }
-
 }

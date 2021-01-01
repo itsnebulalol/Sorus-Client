@@ -9,6 +9,7 @@
     "RenderGlobalInjector",
     "FontRendererInjector",
     "GuiInjector",
+    "RenderManagerInjector",
     "oldanimations.ItemRendererInjector",
     "oldanimations.LayerArmorBaseInjector",
     "oldanimations.MinecraftInjector",

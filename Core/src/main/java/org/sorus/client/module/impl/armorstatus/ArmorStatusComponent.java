@@ -1,31 +1,6 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.module.impl.armorstatus;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.sorus.client.Sorus;
@@ -74,8 +49,9 @@ public class ArmorStatusComponent extends Component {
 
   @Override
   public void update(boolean dummy) {
-    List<IItemStack> armor = Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getInventory().getArmor();
-    if(armor.isEmpty() && dummy) {
+    List<IItemStack> armor =
+        Sorus.getSorus().getVersion().getData(IGame.class).getPlayer().getInventory().getArmor();
+    if (armor.isEmpty() && dummy) {
       armor = Sorus.getSorus().getVersion().getData(IGame.class).getDummyArmor();
     }
     Collections.reverse(armor);
@@ -86,7 +62,8 @@ public class ArmorStatusComponent extends Component {
     int i = 0;
     for (IItemStack iItemStack : armor) {
       if (this.showArmor(iItemStack)) {
-        SingleArmorComponent singleArmorComponent = new SingleArmorComponent(iItemStack).position(2, 2 + i * 18);
+        SingleArmorComponent singleArmorComponent =
+            new SingleArmorComponent(iItemStack).position(2, 2 + i * 18);
         mainCollection.add(singleArmorComponent);
         width = Math.max(width, singleArmorComponent.width + 2);
         height += 18;
@@ -100,7 +77,7 @@ public class ArmorStatusComponent extends Component {
   @Override
   public void render(double x, double y, boolean dummy) {
     this.modPanel.position(x, y);
-    if(this.mainCollection.getComponents().size() > 0) {
+    if (this.mainCollection.getChildren().size() > 0) {
       this.modPanel.onRender();
     }
   }
@@ -179,23 +156,21 @@ public class ArmorStatusComponent extends Component {
         this.text.text(String.valueOf((iItemStack.getMaxDamage() - iItemStack.getDamage())));
       } else {
         this.text.text(
-                String.format(
-                        "%.2f",
-                        (iItemStack.getMaxDamage() - iItemStack.getDamage())
-                                / (double) iItemStack.getMaxDamage()
-                                * 100)
-                        + "%");
+            String.format(
+                    "%.2f",
+                    (iItemStack.getMaxDamage() - iItemStack.getDamage())
+                        / (double) iItemStack.getMaxDamage()
+                        * 100)
+                + "%");
       }
 
       this.text.color(ArmorStatusComponent.this.textColor.getValue());
       this.width = this.text.width() + 20;
     }
-
   }
 
   @Override
   public void addIconElements(Collection collection) {
     collection.add(new Image().resource("sorus/modules/armorstatus/logo.png").size(80, 80));
   }
-
 }

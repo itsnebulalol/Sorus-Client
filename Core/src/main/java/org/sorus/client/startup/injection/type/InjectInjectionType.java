@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Danterus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package org.sorus.client.startup.injection.type;
 
 import java.lang.reflect.Method;
@@ -37,19 +13,8 @@ import org.sorus.client.startup.injection.InjectionManager;
 import org.sorus.client.startup.injection.inject.At;
 import org.sorus.client.startup.injection.inject.Inject;
 
-/** The injection type used with the {@link Inject} annotation. */
 public class InjectInjectionType implements IMethodInjectionType<Inject> {
 
-  /**
-   * Finds the method that is to being injected into and modifies it with a method call to the
-   * annotated method.
-   *
-   * @param data the data of the class being modified
-   * @param inject the inject annotation used to specify the location
-   * @param injector the injector class
-   * @param method the method that is annotated with {@link Inject}
-   * @return the modified class data
-   */
   @Override
   public byte[] inject(byte[] data, Inject inject, Class<?> injector, Method method) {
     ClassReader classReader = new ClassReader(data);
@@ -73,14 +38,6 @@ public class InjectInjectionType implements IMethodInjectionType<Inject> {
     return classWriter.toByteArray();
   }
 
-  /**
-   * Injects into the method and modifies it based on the location provided with the {@link At}.
-   *
-   * @param methodNode the methodnode being modified
-   * @param injector the injector
-   * @param method the method that the methodnode will now call
-   * @param at the location of the injection in the method
-   */
   private void injectAtLocation(MethodNode methodNode, Class<?> injector, Method method, At at) {
     if (at.value().equals("HEAD")) {
       methodNode.instructions.insert(this.getList(methodNode, injector, method));
@@ -131,14 +88,6 @@ public class InjectInjectionType implements IMethodInjectionType<Inject> {
     }
   }
 
-  /**
-   * Returns a new {@link org.objectweb.asm.tree.MethodInsnNode} based on the method that will be
-   * called.
-   *
-   * @param injector the injector
-   * @param method the method that is going to be called because of the injection
-   * @return the methodinsn node based on the paramaters
-   */
   private InsnList getList(MethodNode methodNode, Class<?> injector, Method method) {
     InsnList insnList = new InsnList();
     if ((method.getModifiers() & Opcodes.ACC_STATIC) != 0) {
