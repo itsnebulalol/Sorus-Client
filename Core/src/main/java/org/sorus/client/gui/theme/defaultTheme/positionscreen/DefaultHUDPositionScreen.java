@@ -5,6 +5,7 @@ import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.theme.defaultTheme.DefaultSomethingScreen;
+import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.render.IRenderer;
 
@@ -16,8 +17,8 @@ public class DefaultHUDPositionScreen extends DefaultSomethingScreen<HUDPosition
 
   private final boolean fadeIn;
 
-  public DefaultHUDPositionScreen(boolean animateIn) {
-    super(animateIn, 0);
+  public DefaultHUDPositionScreen(DefaultTheme theme, boolean animateIn) {
+    super(theme, animateIn, 0);
     this.fadeIn = animateIn;
   }
 

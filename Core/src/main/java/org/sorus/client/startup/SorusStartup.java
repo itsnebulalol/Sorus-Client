@@ -25,7 +25,7 @@ public class SorusStartup {
 
   private static Map<String, String> launchArgs = new HashMap<>();
 
-  public static Map<String, String> getLaunchArgs(String args) {
+  public static Map<String, String> getArgsMap(String args) {
     Map<String, String> launchArgs = new HashMap<>();
     if (args != null) {
       for (String string : args.split(";")) {
@@ -77,10 +77,10 @@ public class SorusStartup {
 
   private static void registerTransformers(TransformerUtility transformer) {
     Map<String, List<Class<?>>> injectors = new HashMap<>();
-    String version = SorusStartup.getLaunchArgs().get("version");
+    String version = SorusStartup.getArgsMap().get("version");
     Gson gson = new Gson();
-    if (SorusStartup.getLaunchArgs().get("plugins") != null) {
-      for (String string : SorusStartup.getLaunchArgs().get("plugins").split(",")) {
+    if (SorusStartup.getArgsMap().get("plugins") != null) {
+      for (String string : SorusStartup.getArgsMap().get("plugins").split(",")) {
         String actual = string.substring(2);
         if (string.charAt(0) == 'p') {
           File directory = new File(actual);
@@ -168,7 +168,7 @@ public class SorusStartup {
     transformer.addTransformer(new MainTransformer(injectors));
   }
 
-  public static Map<String, String> getLaunchArgs() {
+  public static Map<String, String> getArgsMap() {
     return launchArgs;
   }
 

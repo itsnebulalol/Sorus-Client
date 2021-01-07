@@ -21,6 +21,7 @@
     "perspective.RendererLivingEntityInjector",
     "perspective.EffectRendererInjector",
     "perspective.ActiveRenderInfoInjector",
+    "perspective.RenderGlobalInjector",
     "enhancements.InventoryEffectRendererInjector",
     "enhancements.ItemRendererInjector",
     "enhancements.EntityRendererInjector",

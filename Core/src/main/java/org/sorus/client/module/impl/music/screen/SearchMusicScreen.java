@@ -18,9 +18,6 @@ import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.theme.ExitButton;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
-import org.sorus.client.util.ColorUtil;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.IScreen;
@@ -49,130 +46,130 @@ public class SearchMusicScreen extends Screen {
     Collection menu = new Collection();
     menu.position(1520, 0);
     main.add(menu);
-    menu.add(
+    /*menu.add(
         new Rectangle()
             .smooth(5)
             .size(405, 1080)
             .position(0, 0)
-            .color(DefaultTheme.getBackgroundLayerColor()));
+            .color(defaultTheme.getBackgroundLayerColor()));
     menu.add(
-        new Rectangle().size(405, 85).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(405, 85).position(0, 5).color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Arc()
             .radius(5, 5)
             .angle(180, 270)
             .position(0, 0)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Arc()
             .radius(5, 5)
             .angle(90, 180)
             .position(390, 0)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
-        new Rectangle().size(390, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(390, 5).position(5, 0).color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor())
             .size(400, 7)
             .position(0, 90));
     menu.add(
         new Rectangle()
             .size(380, 130)
             .position(10, 935)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(380, 4)
             .position(10, 931));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(390, 931));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor())
             .size(4, 130)
             .position(390, 935));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor())
             .size(4, 4)
             .position(390, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor())
             .size(380, 4)
             .position(10, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(6, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 100)
             .position(6, 965));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(6, 961));
+            .position(6, 961));*/
     IFontRenderer fontRenderer =
         Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer();
-    menu.add(
+    /*menu.add(
         new Text()
             .fontRenderer(fontRenderer)
             .text("SORUS")
             .position(200 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 15)
             .scale(5.5, 5.5)
-            .color(DefaultTheme.getForegroundLayerColor()));
+            .color(defaultTheme.getForegroundLayerColor()));
     menu.add(
         new ExitButton(
                 () -> {
                   Sorus.getSorus().getGUIManager().close(this);
                   Sorus.getSorus().getGUIManager().open(new MainMusicScreen());
                 })
-            .position(10, 10));
+            .position(10, 10));*/
     menu.add(new SearchBox("").position(10, 100));
     menu.add(new Scissor().size(380, 765).add(scroll = new Scroll()).position(10, 160));
     Sorus.getSorus().getEventManager().register(this);
@@ -233,7 +230,7 @@ public class SearchMusicScreen extends Screen {
 
     public SearchResult(String name) {
       this.name = name;
-      this.add(new Rectangle().size(380, 75).color(DefaultTheme.getMedgroundLayerColor()));
+      /*this.add(new Rectangle().size(380, 75).color(defaultTheme.getMedgroundLayerColor()));
       this.add(new SelectButton().position(10, 45));
       this.add(
           new Text()
@@ -241,7 +238,7 @@ public class SearchMusicScreen extends Screen {
               .text(name)
               .scale(2, 2)
               .position(10, 13)
-              .color(DefaultTheme.getForegroundLessLayerColor()));
+              .color(defaultTheme.getForegroundLessLayerColor()));*/
     }
 
     public class SelectButton extends Collection {
@@ -260,11 +257,11 @@ public class SearchMusicScreen extends Screen {
                 Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
                 Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
         this.hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.05, 0, 1);
-        this.color(
-            ColorUtil.getBetween(
-                DefaultTheme.getForegroundLessLayerColor(),
-                DefaultTheme.getForegroundLayerColor(),
-                hoveredPercent));
+        /*this.color(
+        ColorUtil.getBetween(
+            defaultTheme.getForegroundLessLayerColor(),
+            defaultTheme.getForegroundLayerColor(),
+            hoveredPercent));*/
         super.onRender();
       }
 
@@ -317,15 +314,15 @@ public class SearchMusicScreen extends Screen {
 
     @Override
     public void onRender() {
-      if (selected) {
-        rectangle.color(DefaultTheme.getMedgroundLayerColor());
-        hollowRectangle.color(DefaultTheme.getForegroundLayerColor());
-        text.color(DefaultTheme.getForegroundLayerColor());
+      /*if (selected) {
+        rectangle.color(defaultTheme.getMedgroundLayerColor());
+        hollowRectangle.color(defaultTheme.getForegroundLayerColor());
+        text.color(defaultTheme.getForegroundLayerColor());
       } else {
-        rectangle.color(DefaultTheme.getMedgroundLayerColor());
-        hollowRectangle.color(DefaultTheme.getForegroundLessLayerColor());
-        text.color(DefaultTheme.getForegroundLessLayerColor());
-      }
+        rectangle.color(defaultTheme.getMedgroundLayerColor());
+        hollowRectangle.color(defaultTheme.getForegroundLessLayerColor());
+        text.color(defaultTheme.getForegroundLessLayerColor());
+      }*/
       this.updateButton(message);
       this.rectangle.onRender();
       this.hollowRectangle.onRender();

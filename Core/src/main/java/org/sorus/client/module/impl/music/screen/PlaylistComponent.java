@@ -6,8 +6,6 @@ import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Image;
-import org.sorus.client.gui.core.component.impl.Rectangle;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.module.impl.music.Playlist;
 import org.sorus.client.version.input.IInput;
 
@@ -19,80 +17,80 @@ public class PlaylistComponent extends Collection {
   public PlaylistComponent(MainMusicScreen mainMusicScreen, Playlist playlist) {
     this.mainMusicScreen = mainMusicScreen;
     this.playlist = playlist;
-    this.add(
-        new Rectangle().size(380, 70).position(4, 4).color(DefaultTheme.getMedgroundLayerColor()));
+    /*this.add(
+        new Rectangle().size(380, 70).position(4, 4).color(defaultTheme.getMedgroundLayerColor()));
     this.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(380, 4)
             .position(4, 0));
     this.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(384, 0));
     this.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor())
             .size(4, 70)
             .position(384, 4));
     this.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor())
             .size(4, 4)
             .position(384, 74));
     this.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor())
             .size(380, 4)
             .position(4, 74));
     this.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(0, 74));
     this.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 70)
             .position(0, 4));
     this.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
-            .position(0, 0));
+            .position(0, 0));*/
     this.add(new SettingsButton().position(280, 17.5));
     this.add(new PlayButton().position(330, 17.5));
   }

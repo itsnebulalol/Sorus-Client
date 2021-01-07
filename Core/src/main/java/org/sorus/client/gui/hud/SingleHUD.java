@@ -22,8 +22,7 @@ public class SingleHUD extends HUD {
   public void onCreation() {
     Sorus.getSorus()
         .getGUIManager()
-        .open(
-            new SelectComponentScreen(new HUDListScreen(), new OnSelectScreenExit()));
+        .open(new SelectComponentScreen(new HUDListScreen(), new OnSelectScreenExit()));
   }
 
   @Override

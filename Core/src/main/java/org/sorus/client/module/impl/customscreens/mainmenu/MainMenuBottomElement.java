@@ -1,5 +1,6 @@
 package org.sorus.client.module.impl.customscreens.mainmenu;
 
+import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -7,7 +8,6 @@ import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.game.GUIType;
 import org.sorus.client.version.game.IGame;
@@ -20,8 +20,7 @@ public abstract class MainMenuBottomElement extends Collection {
   private double expandedPercent;
 
   public MainMenuBottomElement() {
-    collection.add(
-        new Rectangle().size(75, 75).smooth(37.5).color(DefaultTheme.getMedgroundLayerColor()));
+    collection.add(new Rectangle().size(75, 75).smooth(37.5).color(Color.GREEN));
     this.add(collection);
     Sorus.getSorus().getEventManager().register(this);
   }
@@ -90,7 +89,7 @@ public abstract class MainMenuBottomElement extends Collection {
               .resource("sorus/gear.png")
               .size(50, 50)
               .position(12.5, 12.5)
-              .color(DefaultTheme.getForegroundLayerColor()));
+              .color(Color.BLACK));
     }
 
     @Override
@@ -108,7 +107,7 @@ public abstract class MainMenuBottomElement extends Collection {
               .resource("sorus/modules/custommenus/exit.png")
               .size(50, 50)
               .position(12.5, 12.5)
-              .color(DefaultTheme.getForegroundLayerColor()));
+              .color(Color.BLACK));
     }
 
     @Override

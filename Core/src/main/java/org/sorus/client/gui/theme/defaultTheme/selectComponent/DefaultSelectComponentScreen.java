@@ -44,8 +44,9 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
 
   private SelectComponent selected;
 
-  public DefaultSelectComponentScreen(Screen parent, Callback<IComponent> callback) {
-    super(false, 2);
+  public DefaultSelectComponentScreen(
+      DefaultTheme theme, Screen parent, Callback<IComponent> callback) {
+    super(theme, false, 2);
     this.parent = parent;
     this.callback = callback;
     this.hudManager = Sorus.getSorus().getHUDManager();
@@ -66,10 +67,8 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
         Component component = componentClass.newInstance();
         SelectComponent selectComponent = new SelectComponent(this, component);
         this.scroll.add(
-                selectComponent
-                        .position(
-                                SEPARATION + ((componentCount % 2) * (SelectComponent.WIDTH + SEPARATION)),
-                                SEPARATION + (int) (componentCount / 2) * (SelectComponent.HEIGHT + SEPARATION)));
+            selectComponent.position(
+                SEPARATION, SEPARATION + componentCount * (SelectComponent.HEIGHT + SEPARATION)));
         componentCount++;
       } catch (InstantiationException | IllegalAccessException e) {
         e.printStackTrace();
@@ -77,12 +76,12 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
     }
     this.addGuiPostComponents(menu);
     Text title =
-            new Text()
-                    .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer())
-                    .text("HUDS")
-                    .scale(6, 6)
-                    .color(DefaultTheme.getElementColorNew());
-    menu.add(new ExitButton(this::onExit).position(10, 15));
+        new Text()
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer())
+            .text("HUDS")
+            .scale(6, 6)
+            .color(defaultTheme.getElementColorNew());
+    menu.add(new ExitButton(this, this::onExit).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     menu.add(new Add().position(420, 530));
     super.init();
@@ -90,36 +89,36 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
 
   private void addGuiPreComponents(Collection collection) {
     collection.add(
-            new Rectangle().size(900, 600).smooth(10).color(DefaultTheme.getBackgroundColorNew()));
+        new Rectangle().size(900, 600).smooth(10).color(defaultTheme.getBackgroundColorNew()));
   }
 
   private void addGuiPostComponents(Collection collection) {
     collection.add(
-            new Rectangle()
-                    .size(900, 15)
-                    .gradient(
-                            DefaultTheme.getGradientEndColorNew(),
-                            DefaultTheme.getGradientEndColorNew(),
-                            DefaultTheme.getGradientStartColorNew(),
-                            DefaultTheme.getGradientStartColorNew())
-                    .position(0, 70));
+        new Rectangle()
+            .size(900, 15)
+            .gradient(
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientStartColorNew())
+            .position(0, 70));
     collection.add(
-            new Rectangle()
-                    .size(900, 15)
-                    .gradient(
-                            DefaultTheme.getGradientStartColorNew(),
-                            DefaultTheme.getGradientStartColorNew(),
-                            DefaultTheme.getGradientEndColorNew(),
-                            DefaultTheme.getGradientEndColorNew())
-                    .position(0, 515));
+        new Rectangle()
+            .size(900, 15)
+            .gradient(
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientEndColorNew())
+            .position(0, 515));
     collection.add(
-            new Rectangle().size(900, 80).smooth(10).color(DefaultTheme.getForegroundColorNew()));
+        new Rectangle().size(900, 80).smooth(10).color(defaultTheme.getForegroundColorNew()));
     collection.add(
-            new Rectangle()
-                    .size(900, 80)
-                    .smooth(10)
-                    .position(0, 520)
-                    .color(DefaultTheme.getForegroundColorNew()));
+        new Rectangle()
+            .size(900, 80)
+            .smooth(10)
+            .position(0, 520)
+            .color(defaultTheme.getForegroundColorNew()));
   }
 
   @Override
@@ -133,17 +132,17 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
     final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
     double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll =
-            MathUtil.clamp(
-                    targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
+        MathUtil.clamp(
+            targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
     currentScroll = (targetScroll - currentScroll) * 12 / FPS + scroll.getScroll();
     scroll.setScroll(currentScroll);
-    maxScroll = Math.ceil(componentCount / 2.0) * (SelectComponent.HEIGHT + SEPARATION) - 420;
+    maxScroll = componentCount * (SelectComponent.HEIGHT + SEPARATION) - 420;
     scroll.addMinMaxScroll(-maxScroll, 0);
     double size = Math.min(1, 440 / (maxScroll + 440));
     this.scrollBar.updateScrollBar(-currentScroll / (maxScroll + 440), size);
     main.scale(
-            Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
-            Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender();
   }
 
@@ -192,12 +191,12 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
 
     public ScrollBar() {
       this.add(
-              new Rectangle()
-                      .size(18, 420)
-                      .smooth(9)
-                      .color(DefaultTheme.getElementBackgroundColorNew()));
+          new Rectangle()
+              .size(18, 420)
+              .smooth(9)
+              .color(defaultTheme.getElementBackgroundColorNew()));
       this.add(
-              scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementMedgroundColorNew()));
+          scrollBar = new Rectangle().smooth(9).color(defaultTheme.getElementMedgroundColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -208,8 +207,8 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
         double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
         double delta = mouseY - initialDragY;
         DefaultSelectComponentScreen.this.setTargetScroll(
-                -(initialLocation + delta / (420 * scrollBar.absoluteYScale()))
-                        * (DefaultSelectComponentScreen.this.maxScroll + 440));
+            -(initialLocation + delta / (420 * scrollBar.absoluteYScale()))
+                * (DefaultSelectComponentScreen.this.maxScroll + 440));
       }
       super.onRender();
     }
@@ -217,9 +216,9 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (e.getX() > scrollBar.absoluteX()
-              && e.getX() < scrollBar.absoluteX() + 18 * scrollBar.absoluteXScale()
-              && e.getY() > scrollBar.absoluteY()
-              && e.getY() < scrollBar.absoluteY() + 420 * size * scrollBar.absoluteYScale()) {
+          && e.getX() < scrollBar.absoluteX() + 18 * scrollBar.absoluteXScale()
+          && e.getY() > scrollBar.absoluteY()
+          && e.getY() < scrollBar.absoluteY() + 420 * size * scrollBar.absoluteYScale()) {
         dragging = true;
         initialDragY = e.getY();
         initialLocation = location;
@@ -259,7 +258,11 @@ public class DefaultSelectComponentScreen extends DefaultSomethingScreen<SelectC
       Sorus.getSorus().getEventManager().register(this);
       Collection main;
       this.add(main = new Collection());
-      main.add(new Rectangle().smooth(4).size(60, 60).color(DefaultTheme.getElementBackgroundColorNew()));
+      main.add(
+          new Rectangle()
+              .smooth(4)
+              .size(60, 60)
+              .color(defaultTheme.getElementBackgroundColorNew()));
       Collection centerCross = new Collection();
       centerCross.add(new Rectangle().size(10, 40).position(25, 10));
       centerCross.add(new Rectangle().size(40, 10).position(10, 25));

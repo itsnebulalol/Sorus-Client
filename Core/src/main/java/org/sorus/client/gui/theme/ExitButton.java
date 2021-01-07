@@ -5,25 +5,27 @@ import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Image;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
+import org.sorus.client.gui.theme.defaultTheme.DefaultThemeBase;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.input.IInput;
 
 public class ExitButton extends Collection {
 
+  private final DefaultThemeBase<?> theme;
   private final Runnable runnable;
   private final Collection main;
 
   private double hoverPercent;
 
-  public ExitButton(Runnable runnable) {
+  public ExitButton(DefaultThemeBase<?> theme, Runnable runnable) {
+    this.theme = theme;
     this.runnable = runnable;
     this.add(main = new Collection());
     main.add(
         new Image()
             .resource("sorus/back_arrow.png")
             .size(50, 50)
-            .color(DefaultTheme.getElementColorNew()));
+            .color(theme.getDefaultTheme().getElementColorNew()));
     Sorus.getSorus().getEventManager().register(this);
   }
 

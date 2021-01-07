@@ -10,8 +10,10 @@ public class TextBox extends ThemeableConfigurable {
   private static Collection main;
 
   public TextBox(Setting<String> setting, String description) {
-    super(Sorus.getSorus().getThemeManager().getTheme("settings-text-box", main = new Collection(), setting, description));
+    super(
+        Sorus.getSorus()
+            .getThemeManager()
+            .getTheme("settings-text-box", main = new Collection(), setting, description));
     this.add(main);
   }
-
 }

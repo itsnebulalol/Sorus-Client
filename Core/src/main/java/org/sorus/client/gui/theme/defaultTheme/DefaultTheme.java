@@ -6,8 +6,7 @@ import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.defaultTheme.hudconfig.DefaultHUDConfigScreen;
 import org.sorus.client.gui.theme.defaultTheme.hudlist.DefaultHUDListScreen;
-import org.sorus.client.gui.theme.defaultTheme.menu.DefaultMenuScreen;
-import org.sorus.client.gui.theme.defaultTheme.modulelist.DefaultModuleListScreen2;
+import org.sorus.client.gui.theme.defaultTheme.modulelist.DefaultModuleListScreen;
 import org.sorus.client.gui.theme.defaultTheme.positionscreen.DefaultHUDPositionScreen;
 import org.sorus.client.gui.theme.defaultTheme.profilelist.DefaultProfileListScreen;
 import org.sorus.client.gui.theme.defaultTheme.selectComponent.DefaultSelectComponentScreen;
@@ -17,8 +16,6 @@ import org.sorus.client.gui.theme.defaultTheme.theme.DefaultThemeListScreen;
 import org.sorus.client.settings.Setting;
 
 public class DefaultTheme extends Theme {
-
-  private static DefaultTheme instance;
 
   private final Setting<Color> backgroundLayerColor;
   private final Setting<Color> medbackgroundLayerColor;
@@ -41,8 +38,7 @@ public class DefaultTheme extends Theme {
 
   public DefaultTheme() {
     super("DEFAULT");
-    this.register("menu", DefaultMenuScreen.class);
-    this.register("module-list", DefaultModuleListScreen2.class);
+    this.register("module-list", DefaultModuleListScreen.class);
     this.register("hud-render", DefaultHUDRenderScreen.class);
     this.register("hud-position", DefaultHUDPositionScreen.class);
     this.register("hud-list", DefaultHUDListScreen.class);
@@ -58,6 +54,8 @@ public class DefaultTheme extends Theme {
     this.register("settings-color-picker", DefaultColorPicker.class);
     this.register("settings-text-box", DefaultTextBox.class);
     this.register("settings-custom-text", DefaultCustomTextColor.class);
+    this.register("settings-keybind", DefaultKeybind.class);
+    this.register("settings-slider", DefaultSlider.class);
     this.register(
         backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
     this.register(
@@ -92,20 +90,18 @@ public class DefaultTheme extends Theme {
     this.register(elementColorNew = new Setting<>("elementColor", new Color(200, 200, 200)));
     this.register(
         elementSecondColorNew = new Setting<>("elementSecondColor", new Color(150, 150, 150)));
-    instance = this;
   }
 
   @Override
   public void addConfigComponents(Collection collection) {
-    collection.add(new ColorPicker(backgroundLayerColor, "Background Layer"));
-    collection.add(new ColorPicker(medbackgroundLayerColor, "Medbackgroundground Layer"));
-    collection.add(new ColorPicker(medgroundLayerColor, "Medground Layer"));
-    collection.add(new ColorPicker(medforegroundLayerColor, "Medforeground Layer"));
-    collection.add(new ColorPicker(foregroundLayerColor, "Foreground Layer"));
-    collection.add(new ColorPicker(foregroundLessLayerColor, "Foreground Less Layer"));
-    collection.add(new ColorPicker(foregroundLessLessLayerColor, "Foreground Less Less Layer"));
-    collection.add(new ColorPicker(shadowStartColor, "Shadow Start"));
-    collection.add(new ColorPicker(shadowEndColor, "Shadow End"));
+    collection.add(new ColorPicker(backgroundColorNew, "Background Color"));
+    collection.add(new ColorPicker(foregroundColorNew, "Foreground Color"));
+    collection.add(new ColorPicker(gradientStartColorNew, "Gradient Start Color"));
+    collection.add(new ColorPicker(gradientEndColorNew, "Gradient End Color"));
+    collection.add(new ColorPicker(elementBackgroundColorNew, "Element Background Color"));
+    collection.add(new ColorPicker(elementMedgroundColorNew, "Element Medground Color"));
+    collection.add(new ColorPicker(elementForegroundColorNew, "Element Foreground Color"));
+    collection.add(new ColorPicker(elementColorNew, "Element Color"));
   }
 
   @Override
@@ -113,79 +109,39 @@ public class DefaultTheme extends Theme {
     return "DEFAULT";
   }
 
-  public static DefaultTheme getInstance() {
-    return instance;
+  public Color getBackgroundColorNew() {
+    return this.backgroundColorNew.getValue();
   }
 
-  public static Color getBackgroundLayerColor() {
-    return DefaultTheme.getInstance().backgroundLayerColor.getValue();
+  public Color getForegroundColorNew() {
+    return this.foregroundColorNew.getValue();
   }
 
-  public static Color getMedbackgroundLayerColor() {
-    return DefaultTheme.getInstance().medbackgroundLayerColor.getValue();
+  public Color getGradientStartColorNew() {
+    return this.gradientStartColorNew.getValue();
   }
 
-  public static Color getMedgroundLayerColor() {
-    return DefaultTheme.getInstance().medgroundLayerColor.getValue();
+  public Color getGradientEndColorNew() {
+    return this.gradientEndColorNew.getValue();
   }
 
-  public static Color getMedforegroundLayerColor() {
-    return DefaultTheme.getInstance().medforegroundLayerColor.getValue();
+  public Color getElementBackgroundColorNew() {
+    return this.elementBackgroundColorNew.getValue();
   }
 
-  public static Color getForegroundLayerColor() {
-    return DefaultTheme.getInstance().foregroundLayerColor.getValue();
+  public Color getElementMedgroundColorNew() {
+    return this.elementMedgroundColorNew.getValue();
   }
 
-  public static Color getForegroundLessLayerColor() {
-    return DefaultTheme.getInstance().foregroundLessLayerColor.getValue();
+  public Color getElementForegroundColorNew() {
+    return this.elementForegroundColorNew.getValue();
   }
 
-  public static Color getForegroundLessLessLayerColor() {
-    return DefaultTheme.getInstance().foregroundLessLessLayerColor.getValue();
+  public Color getElementColorNew() {
+    return this.elementColorNew.getValue();
   }
 
-  public static Color getShadowStartColor() {
-    return DefaultTheme.getInstance().shadowStartColor.getValue();
-  }
-
-  public static Color getShadowEndColor() {
-    return DefaultTheme.getInstance().shadowEndColor.getValue();
-  }
-
-  public static Color getBackgroundColorNew() {
-    return DefaultTheme.getInstance().backgroundColorNew.getValue();
-  }
-
-  public static Color getForegroundColorNew() {
-    return DefaultTheme.getInstance().foregroundColorNew.getValue();
-  }
-
-  public static Color getGradientStartColorNew() {
-    return DefaultTheme.getInstance().gradientStartColorNew.getValue();
-  }
-
-  public static Color getGradientEndColorNew() {
-    return DefaultTheme.getInstance().gradientEndColorNew.getValue();
-  }
-
-  public static Color getElementBackgroundColorNew() {
-    return DefaultTheme.getInstance().elementBackgroundColorNew.getValue();
-  }
-
-  public static Color getElementMedgroundColorNew() {
-    return DefaultTheme.getInstance().elementMedgroundColorNew.getValue();
-  }
-
-  public static Color getElementForegroundColorNew() {
-    return DefaultTheme.getInstance().elementForegroundColorNew.getValue();
-  }
-
-  public static Color getElementColorNew() {
-    return DefaultTheme.getInstance().elementColorNew.getValue();
-  }
-
-  public static Color getElementSecondColorNew() {
-    return DefaultTheme.getInstance().elementSecondColorNew.getValue();
+  public Color getElementSecondColorNew() {
+    return this.elementSecondColorNew.getValue();
   }
 }

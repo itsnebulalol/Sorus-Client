@@ -4,119 +4,55 @@ import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
-import org.sorus.client.event.impl.client.input.MouseReleaseEvent;
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.core.component.impl.HollowRectangle;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
-import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
 import org.sorus.client.gui.theme.Theme;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.Axis;
+import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.input.IInput;
 
 public class ThemeListComponent extends Collection {
 
-  private final DefaultThemeListScreen themeListScreen;
-  private final Theme theme;
+  public static final double WIDTH = 835, HEIGHT = 70;
 
-  public ThemeListComponent(DefaultThemeListScreen themeListScreen, Theme theme) {
-    this.themeListScreen = themeListScreen;
+  private final DefaultThemeListScreen theme;
+  private final Theme componentTheme;
+
+  public ThemeListComponent(DefaultThemeListScreen theme, Theme componentTheme) {
     this.theme = theme;
-    IFontRenderer fontRenderer =
-        Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
-    final double WIDTH = 685;
-    final double HEIGHT = 100;
+    this.componentTheme = componentTheme;
+    final double ROUNDING = 10;
     this.add(
         new Rectangle()
             .size(WIDTH, HEIGHT)
-            .position(4, 4)
-            .color(DefaultTheme.getMedbackgroundLayerColor()));
+            .smooth(ROUNDING)
+            .color(theme.getDefaultTheme().getForegroundColorNew()));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(WIDTH, 4)
-            .position(4, 0));
+        new HollowRectangle()
+            .thickness(2)
+            .size(WIDTH, HEIGHT)
+            .smooth(ROUNDING)
+            .color(theme.getDefaultTheme().getElementMedgroundColorNew()));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(WIDTH + 4, 0));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, HEIGHT)
-            .position(WIDTH + 4, 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 4)
-            .position(WIDTH + 4, HEIGHT + 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(WIDTH, 4)
-            .position(4, HEIGHT + 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(0, HEIGHT + 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, HEIGHT)
-            .position(0, 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4));
-    Collection collection = new Collection().position(15, 15);
-    this.add(collection);
-    // module.addIconElements(collection);
+        new Image()
+            .resource("sorus/modules/test_icon.png")
+            .size(45, 45)
+            .position(12.5, 12.5)
+            .color(theme.getDefaultTheme().getElementColorNew()));
     this.add(
         new Text()
-            .fontRenderer(fontRenderer)
-            .text(theme.getName())
-            .position(125, 20)
-            .scale(4, 4)
-            .color(new Color(235, 235, 235, 210)));
-    this.add(new SettingsButton(theme).position(615, 22));
-    this.add(new RemoveButton(theme).position(555, 22));
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
+            .text(componentTheme.getName())
+            .scale(3, 3)
+            .position(80, 27.5)
+            .color(theme.getDefaultTheme().getElementColorNew()));
+    this.add(new Remove().position(WIDTH - 100, HEIGHT / 2 - 20));
+    this.add(new Settings().position(WIDTH - 50, HEIGHT / 2 - 20));
     Sorus.getSorus().getEventManager().register(this);
   }
 
@@ -126,74 +62,119 @@ public class ThemeListComponent extends Collection {
     super.onRemove();
   }
 
-  @EventInvoked
-  public void onClick(MousePressEvent e) {
-    if (this.parent == null) {
-      return;
-    }
-    if (e.getX() > this.absoluteX()
-        && e.getY() < this.absoluteX() + 670 * this.absoluteXScale()
-        && e.getY() > this.absoluteY()
-        && e.getY() < this.absoluteY() + 125 * this.absoluteYScale()) {
-      if (!(e.getX() > this.absoluteX() + 615 * this.absoluteXScale()
-          && e.getX() < this.absoluteX() + 665 * this.absoluteXScale()
-          && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
-          && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
-        if (!(e.getX() > this.absoluteX() + 555 * this.absoluteXScale()
-            && e.getX() < this.absoluteX() + 605 * this.absoluteXScale()
-            && e.getY() > this.absoluteY() + 22 * this.absoluteYScale()
-            && e.getY() < this.absoluteY() + 72 * this.absoluteYScale())) {
-          this.themeListScreen.onComponentDrag(this, e.getX(), e.getY());
-        }
-      }
-    }
-  }
-
-  @EventInvoked
-  public void onRelease(MouseReleaseEvent e) {
-    if (this.equals(this.themeListScreen.getDraggedComponent())) {
-      this.themeListScreen.onComponentRelease(this);
-    }
-  }
-
   public Theme getTheme() {
-    return theme;
+    return componentTheme;
   }
 
-  public class RemoveButton extends Collection {
-
-    private final Theme theme;
+  public class Settings extends Collection {
 
     private final Collection main;
-
+    private final Rectangle rectangle;
+    private final Image image;
     private double hoverPercent;
-
     private long prevRenderTime;
 
-    public RemoveButton(Theme theme) {
-      this.theme = theme;
+    public Settings() {
       this.add(main = new Collection());
-      main.add(new Rectangle().size(40, 40).smooth(5).color(new Color(160, 35, 35)));
       main.add(
-          new Rectangle().size(30, 10).smooth(3).position(5, 15).color(new Color(210, 210, 210)));
+          rectangle =
+              new Rectangle()
+                  .size(40, 40)
+                  .smooth(20)
+                  .color(theme.getDefaultTheme().getBackgroundColorNew()));
+      main.add(
+          image =
+              new Image()
+                  .resource("sorus/gear.png")
+                  .size(25, 25)
+                  .position(7.5, 7.5)
+                  .color(theme.getDefaultTheme().getElementColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 
     @Override
     public void onRender() {
+      IInput input = Sorus.getSorus().getVersion().getData(IInput.class);
+      boolean hovered = this.isHovered(input.getMouseX(), input.getMouseY());
       long renderTime = System.currentTimeMillis();
       long deltaTime = renderTime - prevRenderTime;
-      boolean hovered =
-          this.isHovered(
-              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
-              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
-      hoverPercent =
-          Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
-      this.main
-          .position(-hoverPercent * 2.25, -hoverPercent * 2.25)
-          .scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
-      prevRenderTime = renderTime;
-      super.onRender();
+      hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
+      main.position(-hoverPercent, -hoverPercent)
+          .scale(1 + hoverPercent * 0.05, 1 + hoverPercent * 0.05);
+      this.prevRenderTime = renderTime;
+      rectangle.onRender();
+      IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
+      double x = main.absoluteX() + 20 * main.absoluteXScale(),
+          y = main.absoluteY() + 20 * main.absoluteYScale();
+      glHelper.translate(x, y, 0);
+      glHelper.rotate(Axis.Z, hoverPercent * 40);
+      glHelper.translate(-x, -y, 0);
+      image.onRender();
+      glHelper.translate(x, y, 0);
+      glHelper.rotate(Axis.Z, -hoverPercent * 40);
+      glHelper.translate(-x, -y, 0);
+    }
+
+    @Override
+    public void onRemove() {
+      Sorus.getSorus().getEventManager().unregister(this);
+      super.onRemove();
+    }
+
+    @EventInvoked
+    public void onClick(MousePressEvent e) {
+      if (this.isHovered(e.getX(), e.getY())) {
+        Sorus.getSorus().getGUIManager().close(ThemeListComponent.this.theme.getParent());
+        Sorus.getSorus()
+            .getGUIManager()
+            .open(new SettingsScreen(ThemeListComponent.this.theme.getParent(), componentTheme));
+      }
+    }
+
+    private boolean isHovered(double x, double y) {
+      return x > this.absoluteX()
+          && x < this.absoluteX() + 40 * this.absoluteXScale()
+          && y > this.absoluteY()
+          && y < this.absoluteY() + 40 * this.absoluteYScale();
+    }
+  }
+
+  public class Remove extends Collection {
+
+    private final Collection main;
+    private double hoverPercent;
+    private long prevRenderTime;
+
+    public Remove() {
+      this.add(main = new Collection());
+      main.add(
+          new Rectangle()
+              .size(40, 40)
+              .smooth(20)
+              .color(theme.getDefaultTheme().getBackgroundColorNew()));
+      main.add(
+          new Image()
+              .resource("sorus/huds/trash_can.png")
+              .size(22.5, 25)
+              .position(8.25, 7.5)
+              .color(
+                  Sorus.getSorus().getThemeManager().getCurrentThemes().size() == 1
+                      ? new Color(35, 35, 35)
+                      : new Color(170, 30, 30)));
+      Sorus.getSorus().getEventManager().register(this);
+    }
+
+    @Override
+    public void onRender() {
+      IInput input = Sorus.getSorus().getVersion().getData(IInput.class);
+      boolean hovered = this.isHovered(input.getMouseX(), input.getMouseY());
+      long renderTime = System.currentTimeMillis();
+      long deltaTime = renderTime - prevRenderTime;
+      hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
+      main.position(-hoverPercent, -hoverPercent)
+          .scale(1 + hoverPercent * 0.05, 1 + hoverPercent * 0.05);
+      this.prevRenderTime = renderTime;
+      main.onRender();
     }
 
     @Override
@@ -208,8 +189,8 @@ public class ThemeListComponent extends Collection {
         if (Sorus.getSorus().getThemeManager().getCurrentThemes().size() <= 1) {
           return;
         }
-        Sorus.getSorus().getThemeManager().remove(theme);
-        ThemeListComponent.this.themeListScreen.updateThemes();
+        Sorus.getSorus().getThemeManager().remove(componentTheme);
+        ThemeListComponent.this.theme.updateThemes();
       }
     }
 
@@ -218,72 +199,6 @@ public class ThemeListComponent extends Collection {
           && x < this.absoluteX() + 40 * this.absoluteXScale()
           && y > this.absoluteY()
           && y < this.absoluteY() + 40 * this.absoluteYScale();
-    }
-  }
-
-  public class SettingsButton extends Collection {
-
-    private double hoverPercent;
-
-    private long prevRenderTime;
-
-    private final Theme theme;
-
-    private final Image image;
-
-    public SettingsButton(Theme theme) {
-      this.theme = theme;
-      this.add(image = new Image().resource("sorus/gear.png").size(40, 40));
-      Sorus.getSorus().getEventManager().register(this);
-    }
-
-    @Override
-    public void onRender() {
-      long renderTime = System.currentTimeMillis();
-      long deltaTime = renderTime - prevRenderTime;
-      boolean hovered =
-          this.isHovered(
-              Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
-              Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
-      hoverPercent =
-          Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
-      image.scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
-      image.position(-2 * hoverPercent, -2 * hoverPercent);
-      image.color(new Color(235, 235, 235, (int) (210 + 45 * hoverPercent)));
-      prevRenderTime = renderTime;
-      double x = this.absoluteX() + 20 * this.absoluteXScale();
-      double y = this.absoluteY() + 20 * this.absoluteYScale();
-      IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
-      glHelper.translate(x, y, 0);
-      glHelper.rotate(Axis.Z, hoverPercent * 50);
-      glHelper.translate(-x, -y, 0);
-      super.onRender();
-      glHelper.translate(x, y, 0);
-      glHelper.rotate(Axis.Z, -hoverPercent * 50);
-      glHelper.translate(-x, -y, 0);
-    }
-
-    @Override
-    public void onRemove() {
-      Sorus.getSorus().getEventManager().unregister(this);
-      super.onRemove();
-    }
-
-    @EventInvoked
-    public void onClick(MousePressEvent e) {
-      if (this.isHovered(e.getX(), e.getY())) {
-        Sorus.getSorus().getGUIManager().close(themeListScreen.getParent());
-        Sorus.getSorus()
-            .getGUIManager()
-            .open(new SettingsScreen(ThemeListComponent.this.themeListScreen.getParent(), theme));
-      }
-    }
-
-    private boolean isHovered(double x, double y) {
-      return x > this.absoluteX()
-          && x < this.absoluteX() + 50 * this.absoluteXScale()
-          && y > this.absoluteY()
-          && y < this.absoluteY() + 50 * this.absoluteYScale();
     }
   }
 }

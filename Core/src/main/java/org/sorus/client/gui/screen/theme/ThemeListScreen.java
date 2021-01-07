@@ -6,10 +6,7 @@ import org.sorus.client.gui.core.ThemeableScreen;
 public class ThemeListScreen extends ThemeableScreen {
 
   public ThemeListScreen() {
-    super(
-        Sorus.getSorus()
-            .getThemeManager()
-            .getTheme("theme-list", Sorus.getSorus().getThemeManager()));
+    super(Sorus.getSorus().getThemeManager().getTheme("theme-list"));
   }
 
   @Override

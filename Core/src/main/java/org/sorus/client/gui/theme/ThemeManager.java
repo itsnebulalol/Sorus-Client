@@ -7,16 +7,15 @@ import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 
 public class ThemeManager {
 
-  private final List<Theme> registeredThemes = new ArrayList<>();
+  private final List<Class<? extends Theme>> registeredThemes = new ArrayList<>();
   private final List<Theme> currentThemes = new ArrayList<>();
 
   public ThemeManager() {
-    Theme defaultTheme = new DefaultTheme();
-    this.register(defaultTheme);
-    this.currentThemes.add(defaultTheme);
+    this.register(DefaultTheme.class);
+    this.currentThemes.add(new DefaultTheme());
   }
 
-  public void register(Theme theme) {
+  public void register(Class<? extends Theme> theme) {
     this.registeredThemes.add(theme);
   }
 
@@ -29,14 +28,19 @@ public class ThemeManager {
   }
 
   public <T> T getTheme(String screenName, Object... args) {
+    Theme theme = null;
     Class<? extends ITheme<?>> themeClass = null;
     int i = 0;
     while (themeClass == null) {
-      themeClass = currentThemes.get(i).getTheme(screenName);
+      theme = currentThemes.get(i);
+      themeClass = theme.getTheme(screenName);
       i++;
     }
     try {
-      return (T) themeClass.getConstructors()[0].newInstance(args);
+      Object[] newArgs = new Object[args.length + 1];
+      newArgs[0] = theme;
+      System.arraycopy(args, 0, newArgs, 1, args.length);
+      return (T) themeClass.getConstructors()[0].newInstance(newArgs);
     } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
       e.printStackTrace();
       return null;
@@ -47,7 +51,7 @@ public class ThemeManager {
     return currentThemes;
   }
 
-  public List<Theme> getRegisteredThemes() {
+  public List<Class<? extends Theme>> getRegisteredThemes() {
     return registeredThemes;
   }
 

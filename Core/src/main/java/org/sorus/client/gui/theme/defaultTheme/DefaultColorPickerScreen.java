@@ -1,7 +1,6 @@
 package org.sorus.client.gui.theme.defaultTheme;
 
 import java.awt.*;
-
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -15,14 +14,13 @@ import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.modifier.impl.OnClick;
 import org.sorus.client.gui.core.modifier.impl.Recolor;
 import org.sorus.client.gui.screen.Callback;
-import org.sorus.client.gui.theme.ThemeBase;
-import org.sorus.client.gui.theme.defaultTheme.settings.components.DefaultColorPicker;
+import org.sorus.client.gui.screen.settings.components.ColorPickerScreen;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
-public class DefaultColorPickerScreen extends ThemeBase<DefaultColorPicker.ColorPickerScreen> {
+public class DefaultColorPickerScreen extends DefaultThemeBase<ColorPickerScreen> {
 
   private final Color color;
   private final Callback<Color> callback;
@@ -32,7 +30,8 @@ public class DefaultColorPickerScreen extends ThemeBase<DefaultColorPicker.Color
   private AlphaSlider alphaSlider;
   private ColorSlider colorSlider;
 
-  public DefaultColorPickerScreen(Color color, Callback<Color> callback) {
+  public DefaultColorPickerScreen(DefaultTheme theme, Color color, Callback<Color> callback) {
+    super(theme);
     this.color = color;
     this.callback = callback;
   }
@@ -41,14 +40,15 @@ public class DefaultColorPickerScreen extends ThemeBase<DefaultColorPicker.Color
   public void init() {
     this.main = new Panel(this.getParent());
     float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-    main.add(new Rectangle().size(320, 335).smooth(10).position(800, 350).color(DefaultTheme.getForegroundColorNew()));
+    main.add(
+        new Rectangle()
+            .size(320, 335)
+            .smooth(10)
+            .position(800, 350)
+            .color(defaultTheme.getForegroundColorNew()));
     main.add(colorSlider = new ColorSlider(hsb[0]).position(1030, 370));
     main.add(alphaSlider = new AlphaSlider(color.getAlpha() / 255.0).position(1075, 370));
-    main.add(
-        colorPicker =
-            new ColorPickerInner(
-                    hsb[1], hsb[2])
-                .position(815, 370));
+    main.add(colorPicker = new ColorPickerInner(hsb[1], hsb[2]).position(815, 370));
     main.add(new DoneButton().position(1005, 630));
     this.updateSetting();
   }
@@ -74,8 +74,7 @@ public class DefaultColorPickerScreen extends ThemeBase<DefaultColorPicker.Color
   }
 
   public void updateSetting() {
-    this.colorPicker.update(
-        Color.getHSBColor((float) this.colorSlider.getValue(), 1, 1));
+    this.colorPicker.update(Color.getHSBColor((float) this.colorSlider.getValue(), 1, 1));
     this.alphaSlider.update(this.colorPicker.getColor());
     this.callback.call(this.getCompleteColor());
   }
@@ -102,10 +101,7 @@ public class DefaultColorPickerScreen extends ThemeBase<DefaultColorPicker.Color
     public ColorPickerInner(double xPercent, double yPercent) {
       this.xPercent = xPercent;
       this.yPercent = yPercent;
-      this.add(
-          picker =
-              new Rectangle()
-                      .size(200, 200));
+      this.add(picker = new Rectangle().size(200, 200));
       this.add(selector = new HollowRectangle().size(10, 10).smooth(5));
       Sorus.getSorus().getEventManager().register(this);
       this.selector.position(xPercent * 200 - 5, (1 - yPercent) * 200 - 5);
@@ -169,12 +165,10 @@ public class DefaultColorPickerScreen extends ThemeBase<DefaultColorPicker.Color
     public AlphaSlider(double value) {
       this.value = 1 - value;
       Sorus.getSorus().getEventManager().register(this);
-      this.add(
-          new Image()
-              .resource("sorus/alpha-slider.png")
-              .size(30, 200));
+      this.add(new Image().resource("sorus/alpha-slider.png").size(30, 200));
       this.add(overlay = new Rectangle().size(30, 200));
-      this.add(selector = new HollowRectangle().thickness(1.5).size(30, 8).smooth(3).color(Color.WHITE));
+      this.add(
+          selector = new HollowRectangle().thickness(1.5).size(30, 8).smooth(3).color(Color.WHITE));
     }
 
     @Override
@@ -233,7 +227,8 @@ public class DefaultColorPickerScreen extends ThemeBase<DefaultColorPicker.Color
       this.value = value;
       Sorus.getSorus().getEventManager().register(this);
       this.add(new Image().resource("sorus/color-slider.png").size(30, 200));
-      this.add(selector = new HollowRectangle().thickness(1.5).size(30, 8).smooth(3).color(Color.WHITE));
+      this.add(
+          selector = new HollowRectangle().thickness(1.5).size(30, 8).smooth(3).color(Color.WHITE));
     }
 
     @Override
@@ -279,14 +274,32 @@ public class DefaultColorPickerScreen extends ThemeBase<DefaultColorPicker.Color
   public class DoneButton extends Collection {
 
     public DoneButton() {
-      this.add(new Rectangle().size(100, 40).smooth(20).attach(new Recolor(100, 100, 40, DefaultTheme.getElementMedgroundColorNew(), DefaultTheme.getElementForegroundColorNew())));
-      this.add(new Text().fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer()).text("Done").position(23, 11).scale(2.5, 2.5).color(DefaultTheme.getElementColorNew()));
-      this.attach(new OnClick(100, 40, () -> {
-        Sorus.getSorus().getGUIManager().close(DefaultColorPickerScreen.this.getParent());
-        callback.cancel();
-      }));
+      this.add(
+          new Rectangle()
+              .size(100, 40)
+              .smooth(20)
+              .attach(
+                  new Recolor(
+                      100,
+                      100,
+                      40,
+                      defaultTheme.getElementMedgroundColorNew(),
+                      defaultTheme.getElementForegroundColorNew())));
+      this.add(
+          new Text()
+              .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer())
+              .text("Done")
+              .position(23, 11)
+              .scale(2.5, 2.5)
+              .color(defaultTheme.getElementColorNew()));
+      this.attach(
+          new OnClick(
+              100,
+              40,
+              () -> {
+                Sorus.getSorus().getGUIManager().close(DefaultColorPickerScreen.this.getParent());
+                callback.cancel();
+              }));
     }
-
   }
-
 }

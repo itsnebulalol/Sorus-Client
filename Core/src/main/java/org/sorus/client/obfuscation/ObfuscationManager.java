@@ -20,7 +20,7 @@ public class ObfuscationManager {
   public static Mappings externalMappings;
 
   static {
-    String mappings = SorusStartup.getLaunchArgs().get("mappings");
+    String mappings = SorusStartup.getArgsMap().get("mappings");
     if (mappings != null) {
       externalMappings = Mappings.from(new File("sorus/mappings/" + mappings + ".txt"));
     }

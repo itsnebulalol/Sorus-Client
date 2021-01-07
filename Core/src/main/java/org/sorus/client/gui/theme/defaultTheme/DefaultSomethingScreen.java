@@ -16,7 +16,9 @@ import org.sorus.client.gui.hud.positonscreen.SelectedHUDState;
 import org.sorus.client.gui.hud.positonscreen.Snap;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
-import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.gui.screen.profilelist.ProfileListScreen;
+import org.sorus.client.gui.screen.settings.SettingsScreen;
+import org.sorus.client.gui.screen.theme.ThemeListScreen;
 import org.sorus.client.util.Axis;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IScreen;
@@ -24,7 +26,7 @@ import org.sorus.client.version.input.Button;
 import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
-public class DefaultSomethingScreen<T extends Screen> extends ThemeBase<T> {
+public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T> {
 
   private static int prevIndex = 0;
   private static int staticIndex = 0;
@@ -50,7 +52,8 @@ public class DefaultSomethingScreen<T extends Screen> extends ThemeBase<T> {
 
   private long initTime;
 
-  public DefaultSomethingScreen(boolean flyIn, int index) {
+  public DefaultSomethingScreen(DefaultTheme theme, boolean flyIn, int index) {
+    super(theme);
     this.flyIn = flyIn;
     prevIndex = staticIndex;
     staticIndex = index;
@@ -66,25 +69,41 @@ public class DefaultSomethingScreen<T extends Screen> extends ThemeBase<T> {
     this.components.add(
         new DefaultSomethingComponent(
             this,
-            () -> {
-              Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(false));
-            }));
+            "sorus/hudposition.png",
+            () -> Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(false))));
     this.components.add(
         new DefaultSomethingComponent(
             this,
-            () -> {
-              Sorus.getSorus().getGUIManager().open(new ModuleListScreen());
-            }));
-
+            "sorus/hudlist.png",
+            () -> Sorus.getSorus().getGUIManager().open(new ModuleListScreen())));
     this.components.add(
         new DefaultSomethingComponent(
             this,
-            () -> {
-              Sorus.getSorus().getGUIManager().open(new HUDListScreen());
-            }));
+            "sorus/hudlist.png",
+            () -> Sorus.getSorus().getGUIManager().open(new HUDListScreen())));
+    this.components.add(
+        new DefaultSomethingComponent(
+            this,
+            "sorus/gear.png",
+            () ->
+                Sorus.getSorus()
+                    .getGUIManager()
+                    .open(
+                        new SettingsScreen(
+                            this.getParent(), null, Sorus.getSorus().getSettingsManager()))));
+    this.components.add(
+        new DefaultSomethingComponent(
+            this,
+            "sorus/hudlist.png",
+            () -> Sorus.getSorus().getGUIManager().open(new ThemeListScreen())));
+    this.components.add(
+        new DefaultSomethingComponent(
+            this,
+            "sorus/hudlist.png",
+            () -> Sorus.getSorus().getGUIManager().open(new ProfileListScreen())));
     width = 80 + components.size() * 70;
     this.bar = new Collection();
-    bar.add(new Rectangle().size(width, 70).smooth(10).color(DefaultTheme.getBackgroundColorNew()));
+    bar.add(new Rectangle().size(width, 70).smooth(10).color(defaultTheme.getBackgroundColorNew()));
     bar.add(new Image().resource("sorus/logo.png").size(70, 70));
     int i = 0;
     for (DefaultSomethingComponent component : components) {
@@ -103,7 +122,8 @@ public class DefaultSomethingScreen<T extends Screen> extends ThemeBase<T> {
     selector.size(65 * ((staticIndex >= 0) ? 1 : 0), 70);
     double realLocation =
         prevIndex
-            + (staticIndex - prevIndex) * Math.min(1, (System.currentTimeMillis() - initTime) / 100.0);
+            + (staticIndex - prevIndex)
+                * Math.min(1, (System.currentTimeMillis() - initTime) / 100.0);
     selector.position(75 + Math.max(0, realLocation) * 70, 0);
     main.scale(
         Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
@@ -402,8 +422,12 @@ public class DefaultSomethingScreen<T extends Screen> extends ThemeBase<T> {
   @Override
   public void onKeyType(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
-      Sorus.getSorus().getGUIManager().close(this.getParent());
+      this.close();
     }
+  }
+
+  protected void close() {
+    Sorus.getSorus().getGUIManager().close(this.getParent());
   }
 
   @Override

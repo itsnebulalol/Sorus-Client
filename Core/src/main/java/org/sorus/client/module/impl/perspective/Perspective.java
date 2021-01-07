@@ -10,6 +10,7 @@ import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.module.VersionDecision;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.game.PerspectiveMode;
 import org.sorus.client.version.input.Input;
@@ -94,7 +95,7 @@ public class Perspective extends ModuleConfigurable {
   }
 
   public void setRotationPitch(float rotationPitch) {
-    this.rotationPitch = rotationPitch;
+    this.rotationPitch = (float) MathUtil.clamp(rotationPitch, -90, 90);
   }
 
   public void setRotationYaw(float rotationYaw) {

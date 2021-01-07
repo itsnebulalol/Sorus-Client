@@ -25,9 +25,9 @@ public class InjectionManager {
   private static final BiMap<Object, List<Object>> injectors = HashBiMap.create();
 
   static {
-    String version = SorusStartup.getLaunchArgs().get("version");
-    if (SorusStartup.getLaunchArgs().get("plugins") != null) {
-      for (String string : SorusStartup.getLaunchArgs().get("plugins").split(",")) {
+    String version = SorusStartup.getArgsMap().get("version");
+    if (SorusStartup.getArgsMap().get("plugins") != null) {
+      for (String string : SorusStartup.getArgsMap().get("plugins").split(",")) {
         String actual = string.substring(2);
         switch (string.charAt(0)) {
           case 'p':

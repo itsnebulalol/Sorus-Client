@@ -4,227 +4,117 @@ import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
+import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
+import org.sorus.client.gui.core.component.Component;
+import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
-import org.sorus.client.gui.core.component.impl.Text;
-import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
+import org.sorus.client.gui.core.modifier.impl.Expand;
+import org.sorus.client.gui.screen.settings.SettingsScreen;
 import org.sorus.client.module.ModuleConfigurable;
 import org.sorus.client.util.Axis;
+import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.input.IInput;
 
 public class ModuleListComponent extends Collection {
 
-  private final DefaultModuleListScreen moduleListScreenTheme;
+  public static final double WIDTH = 835, HEIGHT = 70;
 
-  public ModuleListComponent(
-      DefaultModuleListScreen moduleListScreenTheme, ModuleConfigurable module) {
-    this.moduleListScreenTheme = moduleListScreenTheme;
-    IFontRenderer fontRenderer =
-        Sorus.getSorus().getGUIManager().getRenderer().getGidoleFontRenderer();
-    final double WIDTH = 670;
-    final double HEIGHT = 100;
+  private final DefaultModuleListScreen theme;
+  private final ModuleConfigurable module;
+
+  public ModuleListComponent(DefaultModuleListScreen theme, ModuleConfigurable module) {
+    this.theme = theme;
+    this.module = module;
+    final double ROUNDING = 10;
     this.add(
         new Rectangle()
             .size(WIDTH, HEIGHT)
-            .position(4, 4)
-            .color(DefaultTheme.getMedbackgroundLayerColor()));
+            .smooth(ROUNDING)
+            .color(theme.getDefaultTheme().getForegroundColorNew()));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(WIDTH, 4)
-            .position(4, 0));
+        new HollowRectangle()
+            .thickness(2)
+            .size(WIDTH, HEIGHT)
+            .smooth(ROUNDING)
+            .color(theme.getDefaultTheme().getElementMedgroundColorNew()));
     this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(WIDTH + 4, 0));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, HEIGHT)
-            .position(WIDTH + 4, 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(4, 4)
-            .position(WIDTH + 4, HEIGHT + 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
-            .size(WIDTH, 4)
-            .position(4, HEIGHT + 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4)
-            .position(0, HEIGHT + 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, HEIGHT)
-            .position(0, 4));
-    this.add(
-        new Rectangle()
-            .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
-            .size(4, 4));
-    Collection collection = new Collection().position(15, 15);
-    this.add(collection);
-    module.addIconElements(collection);
+        new Image()
+            .resource("sorus/modules/test_icon.png")
+            .size(45, 45)
+            .position(12.5, 12.5)
+            .color(theme.getDefaultTheme().getElementColorNew()));
     this.add(
         new Text()
-            .fontRenderer(fontRenderer)
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
             .text(module.getName())
-            .position(105, 15)
-            .scale(4, 4)
-            .color(DefaultTheme.getForegroundLessLayerColor()));
-    int i = 0;
-    for (String string :
-        module.getSplitDescription(
-            Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer(), 150)) {
-      this.add(
-          new Text()
-              .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
-              .text(string)
-              .position(105, 50 + i * 18)
-              .scale(2, 2)
-              .color(DefaultTheme.getForegroundLessLessLayerColor()));
-      i++;
-    }
-    this.add(new ToggleButton(module).position(515, 32.5));
-    this.add(new SettingsButton(module).position(615, 32.5));
+            .scale(3, 3)
+            .position(80, 27.5)
+            .color(theme.getDefaultTheme().getElementColorNew()));
+    this.add(new Toggle().position(WIDTH - 100, HEIGHT / 2 - 20));
+    this.add(new Settings().position(WIDTH - 50, HEIGHT / 2 - 20));
   }
 
-  public static class ToggleButton extends Collection {
-
-    private final ModuleConfigurable module;
-
-    private boolean value;
-    private double switchPercent;
-
-    private final Rectangle background;
-    private final Rectangle selector;
-
-    private long prevRenderTime;
-
-    public ToggleButton(ModuleConfigurable module) {
-      this.module = module;
-      this.value = module.isEnabled();
-      this.background = new Rectangle().size(80, 45).smooth(22.5).position(0, 0);
-      this.add(background);
-      this.selector = new Rectangle().size(35, 35).smooth(17.5).color(new Color(235, 235, 235));
-      this.add(selector);
-      Sorus.getSorus().getEventManager().register(this);
+  @Override
+  public void onRender() {
+    if (this.module.isEnabled()) {
+      this.color(Color.WHITE);
+      // border.color(new Color(67, 144, 32));
+    } else {
+      this.color(new Color(255, 255, 255, 122));
+      // border.color(new Color(170, 29, 29));
     }
-
-    @Override
-    public void onRender() {
-      long renderTime = System.currentTimeMillis();
-      long deltaTime = renderTime - prevRenderTime;
-      switchPercent =
-          Math.max(0, Math.min(1, switchPercent + (value ? 1 : -1) * deltaTime * 0.007));
-      this.background.color(
-          new Color(
-              (int) (160 - switchPercent * 135),
-              (int) (35 + switchPercent * 125),
-              (int) (35 + switchPercent * 30)));
-      this.selector.position(5 + 35 * switchPercent, 5);
-      prevRenderTime = renderTime;
-      super.onRender();
-    }
-
-    @Override
-    public void onRemove() {
-      Sorus.getSorus().getEventManager().unregister(this);
-      super.onRemove();
-    }
-
-    @EventInvoked
-    public void onClick(MousePressEvent e) {
-      if (e.getX() > this.absoluteX()
-          && e.getX() < this.absoluteX() + 80 * this.absoluteXScale()
-          && e.getY() > this.absoluteY()
-          && e.getY() < this.absoluteY() + 45 * this.absoluteYScale()) {
-        this.value = !value;
-        this.module.setEnabled(value);
-      }
-    }
+    super.onRender();
   }
 
-  public class SettingsButton extends Collection {
+  public class Settings extends Collection {
 
-    private double hoverPercent;
-
-    private long prevRenderTime;
-
-    private final ModuleConfigurable module;
-
+    private final Collection main;
+    private final Rectangle rectangle;
     private final Image image;
+    private double hoverPercent;
+    private long prevRenderTime;
 
-    public SettingsButton(ModuleConfigurable module) {
-      this.module = module;
-      this.add(image = new Image().resource("sorus/gear.png").size(45, 45));
+    public Settings() {
+      this.add(main = new Collection());
+      main.add(
+          rectangle =
+              new Rectangle()
+                  .size(40, 40)
+                  .smooth(20)
+                  .color(theme.getDefaultTheme().getBackgroundColorNew()));
+      main.add(
+          image =
+              new Image()
+                  .resource("sorus/gear.png")
+                  .size(25, 25)
+                  .position(7.5, 7.5)
+                  .color(theme.getDefaultTheme().getElementColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 
     @Override
     public void onRender() {
+      IInput input = Sorus.getSorus().getVersion().getData(IInput.class);
+      boolean hovered = this.isHovered(input.getMouseX(), input.getMouseY());
       long renderTime = System.currentTimeMillis();
       long deltaTime = renderTime - prevRenderTime;
-      boolean hovered =
-          module.isEnabled()
-              && this.isHovered(
-                  Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
-                  Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
-      hoverPercent =
-          Math.max(0, Math.min(1, hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.008));
-      image.scale(1 + hoverPercent * 0.1, 1 + hoverPercent * 0.1);
-      image.position(-2 * hoverPercent, -2 * hoverPercent);
-      image.color(new Color(235, 235, 235, (int) (210 + 45 * hoverPercent)));
-      prevRenderTime = renderTime;
-      double x = this.absoluteX() + 22.5 * this.absoluteXScale();
-      double y = this.absoluteY() + 22.5 * this.absoluteYScale();
+      hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
+      main.position(-hoverPercent, -hoverPercent)
+          .scale(1 + hoverPercent * 0.05, 1 + hoverPercent * 0.05);
+      this.prevRenderTime = renderTime;
+      rectangle.onRender();
       IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
+      double x = main.absoluteX() + 20 * main.absoluteXScale(),
+          y = main.absoluteY() + 20 * main.absoluteYScale();
       glHelper.translate(x, y, 0);
-      glHelper.rotate(Axis.Z, hoverPercent * 50);
+      glHelper.rotate(Axis.Z, hoverPercent * 40);
       glHelper.translate(-x, -y, 0);
-      super.onRender();
+      image.onRender();
       glHelper.translate(x, y, 0);
-      glHelper.rotate(Axis.Z, -hoverPercent * 50);
+      glHelper.rotate(Axis.Z, -hoverPercent * 40);
       glHelper.translate(-x, -y, 0);
     }
 
@@ -236,16 +126,111 @@ public class ModuleListComponent extends Collection {
 
     @EventInvoked
     public void onClick(MousePressEvent e) {
-      if (module.isEnabled() && this.isHovered(e.getX(), e.getY())) {
-        ModuleListComponent.this.moduleListScreenTheme.getParent().displayModuleSettings(module);
+      if (this.isHovered(e.getX(), e.getY())) {
+        Screen current = ModuleListComponent.this.theme.getParent();
+        Sorus.getSorus().getGUIManager().close(current);
+        Sorus.getSorus()
+            .getGUIManager()
+            .open(new SettingsScreen(current, ModuleListComponent.this.module));
       }
     }
 
     private boolean isHovered(double x, double y) {
       return x > this.absoluteX()
-          && x < this.absoluteX() + 50 * this.absoluteXScale()
+          && x < this.absoluteX() + 40 * this.absoluteXScale()
           && y > this.absoluteY()
-          && y < this.absoluteY() + 50 * this.absoluteYScale();
+          && y < this.absoluteY() + 40 * this.absoluteYScale();
+    }
+  }
+
+  public class Toggle extends Collection {
+
+    private final Collection main;
+    private Component icon;
+
+    private double expandedPercent;
+    private long prevRenderTime;
+
+    public Toggle() {
+      this.add(main = new Collection());
+      main.add(
+          new Rectangle()
+              .size(40, 40)
+              .smooth(20)
+              .color(theme.getDefaultTheme().getBackgroundColorNew()));
+      main.attach(new Expand(100, 40, 40, 0.05));
+      Sorus.getSorus().getEventManager().register(this);
+    }
+
+    private void updateIcon(boolean hovered) {
+      if (icon != null) {
+        main.remove(icon);
+      }
+      if (hovered) {
+        Color newElementColor = theme.getDefaultTheme().getElementColorNew();
+        icon =
+            new Rectangle()
+                .size(25, 25)
+                .smooth(12.5)
+                .position(7.5, 7.5)
+                .color(
+                    new Color(
+                        newElementColor.getRed(),
+                        newElementColor.getGreen(),
+                        newElementColor.getBlue(),
+                        75));
+      } else {
+        if (ModuleListComponent.this.module.isEnabled()) {
+          icon =
+              new Rectangle()
+                  .size(25, 25)
+                  .smooth(12.5)
+                  .position(7.5, 7.5)
+                  .color(theme.getDefaultTheme().getElementColorNew());
+        } else {
+          icon =
+              new HollowRectangle()
+                  .thickness(2)
+                  .size(25, 25)
+                  .smooth(12.5)
+                  .position(7.5, 7.5)
+                  .color(theme.getDefaultTheme().getElementColorNew());
+        }
+      }
+      main.add(icon);
+    }
+
+    @Override
+    public void onRender() {
+      IInput input = Sorus.getSorus().getVersion().getData(IInput.class);
+      boolean hovered = this.isHovered(input.getMouseX(), input.getMouseY());
+      long renderTime = System.currentTimeMillis();
+      long deltaTime = renderTime - prevRenderTime;
+      expandedPercent =
+          MathUtil.clamp(expandedPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
+      this.prevRenderTime = renderTime;
+      this.updateIcon(hovered);
+      super.onRender();
+    }
+
+    @Override
+    public void onRemove() {
+      Sorus.getSorus().getEventManager().unregister(this);
+      super.onRemove();
+    }
+
+    @EventInvoked
+    public void onClick(MousePressEvent e) {
+      if (this.isHovered(e.getX(), e.getY())) {
+        ModuleListComponent.this.module.setEnabled(!ModuleListComponent.this.module.isEnabled());
+      }
+    }
+
+    private boolean isHovered(double x, double y) {
+      return x > this.absoluteX()
+          && x < this.absoluteX() + 40 * this.absoluteXScale()
+          && y > this.absoluteY()
+          && y < this.absoluteY() + 40 * this.absoluteYScale();
     }
   }
 }

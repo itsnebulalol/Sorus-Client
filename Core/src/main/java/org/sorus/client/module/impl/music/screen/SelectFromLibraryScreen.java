@@ -8,17 +8,11 @@ import org.sorus.client.event.impl.client.input.MousePressEvent;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
-import org.sorus.client.gui.core.component.impl.Arc;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Scroll;
-import org.sorus.client.gui.core.component.impl.Text;
-import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.screen.Callback;
-import org.sorus.client.gui.theme.ExitButton;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.module.impl.music.ISound;
 import org.sorus.client.module.impl.music.SoundConverter;
-import org.sorus.client.util.ColorUtil;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.input.IInput;
@@ -41,112 +35,112 @@ public class SelectFromLibraryScreen extends Screen {
     Collection menu = new Collection();
     menu.position(1520, 0);
     main.add(menu);
-    menu.add(
+    /*menu.add(
         new Rectangle()
             .smooth(5)
             .size(405, 1080)
             .position(0, 0)
-            .color(DefaultTheme.getBackgroundLayerColor()));
+            .color(defaultTheme.getBackgroundLayerColor()));
     menu.add(
-        new Rectangle().size(405, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(405, 65).position(0, 5).color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Arc()
             .radius(5, 5)
             .angle(180, 270)
             .position(0, 0)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Arc()
             .radius(5, 5)
             .angle(90, 180)
             .position(390, 0)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
-        new Rectangle().size(390, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(390, 5).position(5, 0).color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor())
             .size(400, 7)
             .position(0, 70));
     menu.add(
         new Rectangle()
             .size(380, 130)
             .position(10, 935)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(380, 4)
             .position(10, 931));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(390, 931));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor())
             .size(4, 130)
             .position(390, 935));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor())
             .size(4, 4)
             .position(390, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor())
             .size(380, 4)
             .position(10, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(6, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 100)
             .position(6, 965));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(6, 961));
     IFontRenderer fontRenderer =
@@ -157,14 +151,14 @@ public class SelectFromLibraryScreen extends Screen {
             .text("SORUS")
             .position(200 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 15)
             .scale(5.5, 5.5)
-            .color(DefaultTheme.getForegroundLayerColor()));
+            .color(defaultTheme.getForegroundLayerColor()));
     menu.add(
         new ExitButton(
                 () -> {
                   Sorus.getSorus().getGUIManager().close(this);
                   callback.cancel();
                 })
-            .position(10, 10));
+            .position(10, 10));*/
     menu.add(scroll = new Scroll().position(10, 80));
     int i = 0;
     File music = new File("sorus/music");
@@ -218,7 +212,7 @@ public class SelectFromLibraryScreen extends Screen {
 
     public SongComponent(String name) {
       this.name = name;
-      this.add(new Rectangle().size(380, 75).color(DefaultTheme.getMedgroundLayerColor()));
+      /*this.add(new Rectangle().size(380, 75).color(defaultTheme.getMedgroundLayerColor()));
       this.add(new Select().position(10, 45));
       this.add(
           new Text()
@@ -226,7 +220,7 @@ public class SelectFromLibraryScreen extends Screen {
               .text(name)
               .scale(2, 2)
               .position(10, 13)
-              .color(DefaultTheme.getForegroundLessLayerColor()));
+              .color(defaultTheme.getForegroundLessLayerColor()));*/
     }
 
     public class Select extends Collection {
@@ -246,11 +240,11 @@ public class SelectFromLibraryScreen extends Screen {
                 Sorus.getSorus().getVersion().getData(IInput.class).getMouseX(),
                 Sorus.getSorus().getVersion().getData(IInput.class).getMouseY());
         this.hoveredPercent = MathUtil.clamp(hoveredPercent + (hovered ? 1 : -1) * 0.05, 0, 1);
-        this.color(
-            ColorUtil.getBetween(
-                DefaultTheme.getForegroundLessLayerColor(),
-                DefaultTheme.getForegroundLayerColor(),
-                hoveredPercent));
+        /*this.color(
+        ColorUtil.getBetween(
+            defaultTheme.getForegroundLessLayerColor(),
+            defaultTheme.getForegroundLayerColor(),
+            hoveredPercent));*/
         super.onRender();
       }
 

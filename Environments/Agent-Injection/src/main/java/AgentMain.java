@@ -7,7 +7,7 @@ import java.util.Map;
 public class AgentMain {
 
     public static void premain(String args, Instrumentation inst) {
-        Map<String, String> launchArgs = SorusStartup.getLaunchArgs(args);
+        Map<String, String> launchArgs = SorusStartup.getArgsMap(args);
         try {
             Class<?> versionMain = Class.forName(launchArgs.get("versionMain"));
             SorusStartup.start((Class<? extends IVersion>) versionMain, new InstrumentationTransformerUtility(inst), null, launchArgs, false);

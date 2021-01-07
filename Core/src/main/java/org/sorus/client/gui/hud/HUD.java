@@ -1,7 +1,6 @@
 package org.sorus.client.gui.hud;
 
 import java.util.*;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.Screen;
@@ -192,8 +191,8 @@ public class HUD implements ISettingHolder {
       }
     }
     List<Pair<Class<? extends Component>, Map<String, String>>> componentSettings =
-            (List<Pair<Class<? extends Component>, Map<String, String>>>) settingsMap.get("components");
-    for(Pair<Class<? extends Component>, Map<String, String>> pair : componentSettings) {
+        (List<Pair<Class<? extends Component>, Map<String, String>>>) settingsMap.get("components");
+    for (Pair<Class<? extends Component>, Map<String, String>> pair : componentSettings) {
       try {
         Component component = pair.getLeft().newInstance();
         component.setSettings(pair.getRight());

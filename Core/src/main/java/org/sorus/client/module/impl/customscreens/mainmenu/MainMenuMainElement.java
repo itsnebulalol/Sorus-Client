@@ -1,5 +1,6 @@
 package org.sorus.client.module.impl.customscreens.mainmenu;
 
+import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.MousePressEvent;
@@ -8,7 +9,6 @@ import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.component.impl.Text;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.game.GUIType;
 import org.sorus.client.version.game.IGame;
@@ -21,7 +21,7 @@ public abstract class MainMenuMainElement extends Collection {
   private double expandedPercent;
 
   public MainMenuMainElement(String name, String image) {
-    collection.add(new Rectangle().size(450, 90).color(DefaultTheme.getMedbackgroundLayerColor()));
+    collection.add(new Rectangle().size(450, 90).color(Color.BLUE));
     Text text;
     collection.add(
         text =
@@ -29,14 +29,14 @@ public abstract class MainMenuMainElement extends Collection {
                 .text(name)
                 .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
                 .scale(4, 4)
-                .color(DefaultTheme.getForegroundLayerColor()));
+                .color(Color.BLUE));
     text.position(225 - text.width() * 4 / 2 - 15, 45 - text.height() * 4 / 2);
     collection.add(
         new Image()
             .resource(image)
             .size(60, 60)
             .position(225 + text.width() * 4 / 2 - 10, 17.5)
-            .color(DefaultTheme.getForegroundLayerColor()));
+            .color(Color.BLUE));
     this.add(collection);
     Sorus.getSorus().getEventManager().register(this);
   }

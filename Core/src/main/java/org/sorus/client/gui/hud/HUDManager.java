@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
-import org.sorus.client.event.EventInvoked;
-import org.sorus.client.event.impl.client.input.KeyPressEvent;
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.module.impl.armorstatus.ArmorStatusComponent;
 import org.sorus.client.module.impl.clock.ClockComponent;
 import org.sorus.client.module.impl.cps.CPSComponent;
@@ -18,8 +15,6 @@ import org.sorus.client.module.impl.potionstatus.PotionStatusComponent;
 import org.sorus.client.module.impl.scoreboard.ScoreboardComponent;
 import org.sorus.client.module.impl.text.TextComponent;
 import org.sorus.client.settings.ISettingHolder;
-import org.sorus.client.version.game.IGame;
-import org.sorus.client.version.input.Key;
 
 public class HUDManager implements ISettingHolder {
 
@@ -34,8 +29,8 @@ public class HUDManager implements ISettingHolder {
 
   public void initialize() {
     Sorus.getSorus().getEventManager().register(this);
-    this.registerInternalComponents();
     Sorus.getSorus().getSettingsManager().register(this);
+    this.registerInternalComponents();
   }
 
   public void registerInternalComponents() {
@@ -73,15 +68,6 @@ public class HUDManager implements ISettingHolder {
 
   public List<Class<? extends Component>> getRegisteredComponents() {
     return registeredComponents;
-  }
-
-  @EventInvoked
-  public void onKeyPress(KeyPressEvent e) {
-    if (Sorus.getSorus().getVersion().getData(IGame.class).isIngame()
-        && e.getKey() == Key.SHIFT_RIGHT
-        && !e.isRepeat()) {
-      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(true));
-    }
   }
 
   @Override

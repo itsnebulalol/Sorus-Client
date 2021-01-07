@@ -12,7 +12,7 @@ public class SorusStartupCustomClassLoader {
     Sorus sorus = Sorus.getSorus();
     try {
       sorus.initialize(
-          (Class<? extends IVersion>) Class.forName(versionClass), SorusStartup.getLaunchArgs());
+          (Class<? extends IVersion>) Class.forName(versionClass), SorusStartup.getArgsMap());
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
     }

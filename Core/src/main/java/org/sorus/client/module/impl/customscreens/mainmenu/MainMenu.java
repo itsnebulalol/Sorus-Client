@@ -1,5 +1,6 @@
 package org.sorus.client.module.impl.customscreens.mainmenu;
 
+import java.awt.*;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
@@ -7,7 +8,6 @@ import org.sorus.client.gui.core.component.Component;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.Image;
 import org.sorus.client.gui.core.component.impl.Rectangle;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
@@ -21,23 +21,13 @@ public class MainMenu extends Screen {
     main = new Panel(this);
     main.add(
         image = new Image().resource("sorus/modules/custommenus/background.png").size(1940, 1100));
+    main.add(new Rectangle().size(175, 175).smooth(87.5).color(Color.RED).position(872.5, 302.5));
     main.add(
-        new Rectangle()
-            .size(175, 175)
-            .smooth(87.5)
-            .color(DefaultTheme.getMedbackgroundLayerColor())
-            .position(872.5, 302.5));
-    main.add(
-        new Image()
-            .resource("sorus/logo.png")
-            .size(150, 150)
-            .color(DefaultTheme.getForegroundLayerColor())
-            .position(885, 315));
+        new Image().resource("sorus/logo.png").size(150, 150).color(Color.RED).position(885, 315));
     main.add(new MainMenuMainElement.Singleplayer().position(735, 500));
     main.add(new MainMenuMainElement.Multiplayer().position(735, 600));
     Collection bottomBar = new Collection();
-    bottomBar.add(
-        new Rectangle().size(300, 100).smooth(50).color(DefaultTheme.getMedbackgroundLayerColor()));
+    bottomBar.add(new Rectangle().size(300, 100).smooth(50).color(Color.BLUE));
     bottomBar.position(810, 965);
     bottomBar.add(new MainMenuBottomElement.LanguagesButton().position(12.5, 12.5));
     bottomBar.add(new MainMenuBottomElement.SettingsButton().position(112.5, 12.5));

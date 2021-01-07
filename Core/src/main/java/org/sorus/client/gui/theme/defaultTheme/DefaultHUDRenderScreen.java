@@ -4,14 +4,14 @@ import org.sorus.client.Sorus;
 import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.HUDRenderScreen;
-import org.sorus.client.gui.theme.ThemeBase;
 import org.sorus.client.version.game.IGame;
 
-public class DefaultHUDRenderScreen extends ThemeBase<HUDRenderScreen> {
+public class DefaultHUDRenderScreen extends DefaultThemeBase<HUDRenderScreen> {
 
   private final HUDManager hudManager;
 
-  public DefaultHUDRenderScreen() {
+  public DefaultHUDRenderScreen(DefaultTheme theme) {
+    super(theme);
     this.hudManager = Sorus.getSorus().getHUDManager();
   }
 

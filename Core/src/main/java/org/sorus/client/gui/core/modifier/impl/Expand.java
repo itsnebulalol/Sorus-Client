@@ -11,6 +11,8 @@ public class Expand extends Hover {
 
   @Override
   protected void onUpdated() {
-    component.position(-percent * maxPercent * width / 2, -percent * maxPercent * height / 2).scale(1 + percent * maxPercent, 1 + percent * maxPercent);
+    component
+        .position(-percent * maxPercent * width / 2, -percent * maxPercent * height / 2)
+        .scale(1 + percent * maxPercent, 1 + percent * maxPercent);
   }
 }

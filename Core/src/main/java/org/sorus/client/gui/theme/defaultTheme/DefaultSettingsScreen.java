@@ -14,8 +14,9 @@ import org.sorus.client.gui.screen.modulelist.ModuleListScreen;
 import org.sorus.client.gui.screen.settings.IConfigurableScreen;
 import org.sorus.client.gui.screen.settings.SettingsHolder;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
+import org.sorus.client.gui.screen.theme.ThemeListScreen;
 import org.sorus.client.gui.theme.ExitButton;
-import org.sorus.client.gui.theme.ThemeBase;
+import org.sorus.client.settings.SettingsManager;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.game.IGame;
@@ -26,6 +27,7 @@ import org.sorus.client.version.render.IRenderer;
 public class DefaultSettingsScreen extends DefaultSomethingScreen<SettingsScreen> {
 
   private final Screen parent;
+  private final Screen returnScreen;
   private final IConfigurableScreen configurable;
 
   private Panel main;
@@ -35,18 +37,26 @@ public class DefaultSettingsScreen extends DefaultSomethingScreen<SettingsScreen
   private double currentScroll;
   private ScrollBar scrollBar;
 
-  public DefaultSettingsScreen(Screen parent, IConfigurableScreen configurable) {
-    super(false, DefaultSettingsScreen.getIndex(parent));
+  public DefaultSettingsScreen(
+      DefaultTheme theme, Screen parent, Screen returnScreen, IConfigurableScreen configurable) {
+    super(theme, false, DefaultSettingsScreen.getIndex(parent, configurable));
     this.parent = parent;
+    this.returnScreen = returnScreen;
     this.configurable = configurable;
   }
 
-  private static int getIndex(Screen parent) {
-    if(parent.getClass().equals(ModuleListScreen.class)) {
+  private static int getIndex(Screen parent, IConfigurableScreen configurable) {
+    if (configurable instanceof SettingsManager) {
+      return 3;
+    }
+    if (parent.getClass().equals(ModuleListScreen.class)) {
       return 1;
     }
-    if(parent.getClass().equals(HUDListScreen.class)) {
+    if (parent.getClass().equals(HUDListScreen.class)) {
       return 2;
+    }
+    if (parent.getClass().equals(ThemeListScreen.class)) {
+      return 4;
     }
     return -1;
   }
@@ -67,15 +77,16 @@ public class DefaultSettingsScreen extends DefaultSomethingScreen<SettingsScreen
         new Text()
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer())
             .text("SETTINGS")
-            .scale(6, 6).color(DefaultTheme.getElementColorNew());
-    menu.add(new ExitButton(this::onExit).position(10, 15));
+            .scale(6, 6)
+            .color(defaultTheme.getElementColorNew());
+    menu.add(new ExitButton(this, this::onExit).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     super.init();
   }
 
   private void addGuiPreComponents(Collection collection) {
     collection.add(
-        new Rectangle().size(900, 600).smooth(10).color(DefaultTheme.getBackgroundColorNew()));
+        new Rectangle().size(900, 600).smooth(10).color(defaultTheme.getBackgroundColorNew()));
   }
 
   private void addGuiPostComponents(Collection collection) {
@@ -83,28 +94,28 @@ public class DefaultSettingsScreen extends DefaultSomethingScreen<SettingsScreen
         new Rectangle()
             .size(900, 15)
             .gradient(
-                DefaultTheme.getGradientEndColorNew(),
-                DefaultTheme.getGradientEndColorNew(),
-                DefaultTheme.getGradientStartColorNew(),
-                DefaultTheme.getGradientStartColorNew())
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientStartColorNew())
             .position(0, 70));
     collection.add(
         new Rectangle()
             .size(900, 15)
             .gradient(
-                DefaultTheme.getGradientStartColorNew(),
-                DefaultTheme.getGradientStartColorNew(),
-                DefaultTheme.getGradientEndColorNew(),
-                DefaultTheme.getGradientEndColorNew())
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientEndColorNew())
             .position(0, 515));
     collection.add(
-        new Rectangle().size(900, 80).smooth(10).color(DefaultTheme.getForegroundColorNew()));
+        new Rectangle().size(900, 80).smooth(10).color(defaultTheme.getForegroundColorNew()));
     collection.add(
         new Rectangle()
             .size(900, 80)
             .smooth(10)
             .position(0, 520)
-            .color(DefaultTheme.getForegroundColorNew()));
+            .color(defaultTheme.getForegroundColorNew()));
   }
 
   @Override
@@ -142,7 +153,7 @@ public class DefaultSettingsScreen extends DefaultSomethingScreen<SettingsScreen
 
   private void onExit() {
     Sorus.getSorus().getGUIManager().close(this.getParent());
-    Sorus.getSorus().getGUIManager().open(parent);
+    Sorus.getSorus().getGUIManager().open(returnScreen);
   }
 
   @Override
@@ -173,9 +184,9 @@ public class DefaultSettingsScreen extends DefaultSomethingScreen<SettingsScreen
           new Rectangle()
               .size(18, 420)
               .smooth(9)
-              .color(DefaultTheme.getElementBackgroundColorNew()));
+              .color(defaultTheme.getElementBackgroundColorNew()));
       this.add(
-          scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementMedgroundColorNew()));
+          scrollBar = new Rectangle().smooth(9).color(defaultTheme.getElementMedgroundColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -186,7 +197,7 @@ public class DefaultSettingsScreen extends DefaultSomethingScreen<SettingsScreen
         double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
         double delta = mouseY - initialDragY;
         /*DefaultSettingsScreen.this.setTargetScroll(-(initialLocation + delta / (420 *
-                scrollBar.absoluteYScale())) * (DefaultSettingsScreen.this.maxScroll + 440));*/
+        scrollBar.absoluteYScale())) * (DefaultSettingsScreen.this.maxScroll + 440));*/
       }
       super.onRender();
     }

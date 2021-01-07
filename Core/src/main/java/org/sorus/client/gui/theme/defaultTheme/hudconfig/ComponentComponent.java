@@ -14,7 +14,6 @@ import org.sorus.client.gui.core.component.impl.Text;
 import org.sorus.client.gui.core.font.IFontRenderer;
 import org.sorus.client.gui.hud.Component;
 import org.sorus.client.gui.screen.settings.SettingsScreen;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.util.Axis;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IGLHelper;
@@ -32,30 +31,31 @@ public class ComponentComponent extends Collection {
     this.component = component;
     final double ROUNDING = 10;
     this.add(
-            new Rectangle()
-                    .size(WIDTH, HEIGHT)
-                    .smooth(ROUNDING)
-                    .color(DefaultTheme.getForegroundColorNew()));
+        new Rectangle()
+            .size(WIDTH, HEIGHT)
+            .smooth(ROUNDING)
+            .color(theme.getDefaultTheme().getForegroundColorNew()));
     this.add(
-            new HollowRectangle()
-                    .thickness(2)
-                    .size(WIDTH, HEIGHT)
-                    .smooth(ROUNDING).color(DefaultTheme.getElementMedgroundColorNew()));
+        new HollowRectangle()
+            .thickness(2)
+            .size(WIDTH, HEIGHT)
+            .smooth(ROUNDING)
+            .color(theme.getDefaultTheme().getElementMedgroundColorNew()));
     this.add(new Image().resource("sorus/modules/test_icon.png").size(70, 70).position(20, 20));
     this.add(
-            new Text()
-                    .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
-                    .text(component.getName())
-                    .scale(3, 3)
-                    .position(110, 25)
-                    .color(DefaultTheme.getElementColorNew()));
+        new Text()
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
+            .text(component.getName())
+            .scale(3, 3)
+            .position(110, 25)
+            .color(theme.getDefaultTheme().getElementColorNew()));
     this.add(new Remove().position(WIDTH - 50, 10));
     this.add(new Settings().position(WIDTH - 50, HEIGHT - 50));
     Sorus.getSorus().getEventManager().register(this);
   }
 
   public List<String> getSplitDescription(
-          String description, IFontRenderer fontRenderer, double width) {
+      String description, IFontRenderer fontRenderer, double width) {
     List<String> strings = new ArrayList<>();
     StringBuilder stringBuilder = new StringBuilder();
     for (char c : description.toCharArray()) {
@@ -88,15 +88,18 @@ public class ComponentComponent extends Collection {
     public Settings() {
       this.add(main = new Collection());
       main.add(
-              rectangle =
-                      new Rectangle().size(40, 40).smooth(20).color(DefaultTheme.getBackgroundColorNew()));
+          rectangle =
+              new Rectangle()
+                  .size(40, 40)
+                  .smooth(20)
+                  .color(theme.getDefaultTheme().getBackgroundColorNew()));
       main.add(
-              image =
-                      new Image()
-                              .resource("sorus/gear.png")
-                              .size(25, 25)
-                              .position(7.5, 7.5)
-                              .color(DefaultTheme.getElementColorNew()));
+          image =
+              new Image()
+                  .resource("sorus/gear.png")
+                  .size(25, 25)
+                  .position(7.5, 7.5)
+                  .color(theme.getDefaultTheme().getElementColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -108,12 +111,12 @@ public class ComponentComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
       main.position(-hoverPercent, -hoverPercent)
-              .scale(1 + hoverPercent * 0.05, 1 + hoverPercent * 0.05);
+          .scale(1 + hoverPercent * 0.05, 1 + hoverPercent * 0.05);
       this.prevRenderTime = renderTime;
       rectangle.onRender();
       IGLHelper glHelper = Sorus.getSorus().getVersion().getData(IGLHelper.class);
       double x = main.absoluteX() + 20 * main.absoluteXScale(),
-              y = main.absoluteY() + 20 * main.absoluteYScale();
+          y = main.absoluteY() + 20 * main.absoluteYScale();
       glHelper.translate(x, y, 0);
       glHelper.rotate(Axis.Z, hoverPercent * 40);
       glHelper.translate(-x, -y, 0);
@@ -132,18 +135,16 @@ public class ComponentComponent extends Collection {
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (this.isHovered(e.getX(), e.getY())) {
-        Sorus.getSorus()
-                .getGUIManager()
-                .close(ComponentComponent.this.theme.getParent());
+        Sorus.getSorus().getGUIManager().close(ComponentComponent.this.theme.getParent());
         Sorus.getSorus().getGUIManager().open(new SettingsScreen(theme.getParent(), component));
       }
     }
 
     private boolean isHovered(double x, double y) {
       return x > this.absoluteX()
-              && x < this.absoluteX() + 40 * this.absoluteXScale()
-              && y > this.absoluteY()
-              && y < this.absoluteY() + 40 * this.absoluteYScale();
+          && x < this.absoluteX() + 40 * this.absoluteXScale()
+          && y > this.absoluteY()
+          && y < this.absoluteY() + 40 * this.absoluteYScale();
     }
   }
 
@@ -155,13 +156,17 @@ public class ComponentComponent extends Collection {
 
     public Remove() {
       this.add(main = new Collection());
-      main.add(new Rectangle().size(40, 40).smooth(20).color(DefaultTheme.getBackgroundColorNew()));
       main.add(
-              new Image()
-                      .resource("sorus/huds/trash_can.png")
-                      .size(22.5, 25)
-                      .position(8.25, 7.5)
-                      .color(new Color(170, 30, 30)));
+          new Rectangle()
+              .size(40, 40)
+              .smooth(20)
+              .color(theme.getDefaultTheme().getBackgroundColorNew()));
+      main.add(
+          new Image()
+              .resource("sorus/huds/trash_can.png")
+              .size(22.5, 25)
+              .position(8.25, 7.5)
+              .color(new Color(170, 30, 30)));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -173,7 +178,7 @@ public class ComponentComponent extends Collection {
       long deltaTime = renderTime - prevRenderTime;
       hoverPercent = MathUtil.clamp(hoverPercent + (hovered ? 1 : -1) * deltaTime * 0.01, 0, 1);
       main.position(-hoverPercent, -hoverPercent)
-              .scale(1 + hoverPercent * 0.05, 1 + hoverPercent * 0.05);
+          .scale(1 + hoverPercent * 0.05, 1 + hoverPercent * 0.05);
       this.prevRenderTime = renderTime;
       main.onRender();
     }
@@ -194,9 +199,9 @@ public class ComponentComponent extends Collection {
 
     private boolean isHovered(double x, double y) {
       return x > this.absoluteX()
-              && x < this.absoluteX() + 40 * this.absoluteXScale()
-              && y > this.absoluteY()
-              && y < this.absoluteY() + 40 * this.absoluteYScale();
+          && x < this.absoluteX() + 40 * this.absoluteXScale()
+          && y > this.absoluteY()
+          && y < this.absoluteY() + 40 * this.absoluteYScale();
     }
   }
 

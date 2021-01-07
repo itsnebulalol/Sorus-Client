@@ -10,7 +10,10 @@ public class Toggle extends ThemeableConfigurable {
   private static Collection main;
 
   public Toggle(Setting<Boolean> setting, String description) {
-    super(Sorus.getSorus().getThemeManager().getTheme("settings-toggle", main = new Collection(), setting, description));
+    super(
+        Sorus.getSorus()
+            .getThemeManager()
+            .getTheme("settings-toggle", main = new Collection(), setting, description));
     this.add(main);
   }
 }

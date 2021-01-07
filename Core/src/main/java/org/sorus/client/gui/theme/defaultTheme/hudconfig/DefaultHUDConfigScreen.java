@@ -11,15 +11,13 @@ import org.sorus.client.gui.core.component.impl.Rectangle;
 import org.sorus.client.gui.core.modifier.impl.Expand;
 import org.sorus.client.gui.hud.*;
 import org.sorus.client.gui.hud.Component;
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.Callback;
 import org.sorus.client.gui.screen.SelectComponentScreen;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.defaultTheme.DefaultSomethingScreen;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
-import org.sorus.client.gui.theme.defaultTheme.hudlist.DefaultHUDListScreen;
-import org.sorus.client.gui.theme.defaultTheme.modulelist.ModuleListComponent2;
+import org.sorus.client.gui.theme.defaultTheme.modulelist.ModuleListComponent;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.game.IGame;
@@ -40,8 +38,8 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
   private ScrollBar scrollBar;
   private double maxScroll;
 
-  public DefaultHUDConfigScreen(HUD hud) {
-    super(false, 2);
+  public DefaultHUDConfigScreen(DefaultTheme theme, HUD hud) {
+    super(theme, false, 2);
     this.hud = hud;
   }
 
@@ -57,52 +55,54 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
     menu.add(scrollBar = new ScrollBar().position(870, 90));
     this.addGuiPostComponents(menu);
     Text title =
-            new Text()
-                    .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer())
-                    .text("HUD")
-                    .scale(6, 6)
-                    .color(DefaultTheme.getElementColorNew());
-    menu.add(new ExitButton(this::onExit).position(10, 15));
+        new Text()
+            .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer())
+            .text("HUD")
+            .scale(6, 6)
+            .color(defaultTheme.getElementColorNew());
+    menu.add(new ExitButton(this, this::onExit).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     menu.add(new Add().position(420, 530));
     this.updateComponents();
-    //collection.add(new DefaultHUDListScreen.Add(DefaultHUDListScreen.AddType.SINGLE).position(7.5, 7.5));
-    //collection.add(new DefaultHUDListScreen.Add(DefaultHUDListScreen.AddType.MULTI).position(70, 7.5));
+    // collection.add(new
+    // DefaultHUDListScreen.Add(DefaultHUDListScreen.AddType.SINGLE).position(7.5, 7.5));
+    // collection.add(new DefaultHUDListScreen.Add(DefaultHUDListScreen.AddType.MULTI).position(70,
+    // 7.5));
     super.init();
   }
 
   private void addGuiPreComponents(Collection collection) {
     collection.add(
-            new Rectangle().size(900, 600).smooth(10).color(DefaultTheme.getBackgroundColorNew()));
+        new Rectangle().size(900, 600).smooth(10).color(defaultTheme.getBackgroundColorNew()));
   }
 
   private void addGuiPostComponents(Collection collection) {
     collection.add(
-            new Rectangle()
-                    .size(900, 15)
-                    .gradient(
-                            DefaultTheme.getGradientEndColorNew(),
-                            DefaultTheme.getGradientEndColorNew(),
-                            DefaultTheme.getGradientStartColorNew(),
-                            DefaultTheme.getGradientStartColorNew())
-                    .position(0, 70));
+        new Rectangle()
+            .size(900, 15)
+            .gradient(
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientStartColorNew())
+            .position(0, 70));
     collection.add(
-            new Rectangle()
-                    .size(900, 15)
-                    .gradient(
-                            DefaultTheme.getGradientStartColorNew(),
-                            DefaultTheme.getGradientStartColorNew(),
-                            DefaultTheme.getGradientEndColorNew(),
-                            DefaultTheme.getGradientEndColorNew())
-                    .position(0, 515));
+        new Rectangle()
+            .size(900, 15)
+            .gradient(
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientEndColorNew())
+            .position(0, 515));
     collection.add(
-            new Rectangle().size(900, 80).smooth(10).color(DefaultTheme.getForegroundColorNew()));
+        new Rectangle().size(900, 80).smooth(10).color(defaultTheme.getForegroundColorNew()));
     collection.add(
-            new Rectangle()
-                    .size(900, 80)
-                    .smooth(10)
-                    .position(0, 520)
-                    .color(DefaultTheme.getForegroundColorNew()));
+        new Rectangle()
+            .size(900, 80)
+            .smooth(10)
+            .position(0, 520)
+            .color(defaultTheme.getForegroundColorNew()));
   }
 
   public void updateComponents() {
@@ -110,10 +110,10 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
     int i = 0;
     for (IComponent component : this.hud.getComponents()) {
       this.scroll.add(
-              new ComponentComponent(this, (Component) component)
-                      .position(
-                              SEPARATION + ((i % 2) * (ModuleListComponent2.WIDTH + SEPARATION)),
-                              SEPARATION + (int) (i / 2) * (ModuleListComponent2.HEIGHT + SEPARATION)));
+          new ComponentComponent(this, (Component) component)
+              .position(
+                  SEPARATION + ((i % 2) * (ModuleListComponent.WIDTH + SEPARATION)),
+                  SEPARATION + (int) (i / 2) * (ModuleListComponent.HEIGHT + SEPARATION)));
       i++;
     }
   }
@@ -131,17 +131,17 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
     final int FPS = Math.max(Sorus.getSorus().getVersion().getData(IGame.class).getFPS(), 1);
     double scrollValue = Sorus.getSorus().getVersion().getData(IInput.class).getScroll();
     targetScroll =
-            MathUtil.clamp(
-                    targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
+        MathUtil.clamp(
+            targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
     currentScroll = (targetScroll - currentScroll) * 12 / FPS + scroll.getScroll();
     scroll.setScroll(currentScroll);
-    maxScroll = Math.ceil(moduleCount / 2.0) * (ModuleListComponent2.HEIGHT + SEPARATION) - 420;
+    maxScroll = Math.ceil(moduleCount / 2.0) * (ModuleListComponent.HEIGHT + SEPARATION) - 420;
     scroll.addMinMaxScroll(-maxScroll, 0);
     double size = Math.min(1, 440 / (maxScroll + 440));
     this.scrollBar.updateScrollBar(-currentScroll / (maxScroll + 440), size);
     main.scale(
-            Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
-            Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth() / 1920,
+        Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight() / 1080);
     main.onRender();
   }
 
@@ -180,7 +180,11 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
     public Add() {
       Sorus.getSorus().getEventManager().register(this);
       this.add(main = new Collection());
-      main.add(new Rectangle().smooth(4).size(60, 60).color(DefaultTheme.getElementBackgroundColorNew()));
+      main.add(
+          new Rectangle()
+              .smooth(4)
+              .size(60, 60)
+              .color(defaultTheme.getElementBackgroundColorNew()));
       Collection centerCross = new Collection();
       centerCross.add(new Rectangle().size(10, 40).position(25, 10));
       centerCross.add(new Rectangle().size(40, 10).position(10, 25));
@@ -193,9 +197,10 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
       if (this.isHovered(e.getX(), e.getY())) {
         Sorus.getSorus().getGUIManager().close(DefaultHUDConfigScreen.this.getParent());
         Sorus.getSorus()
-                .getGUIManager()
-                .open(
-                        new SelectComponentScreen(DefaultHUDConfigScreen.this.getParent(), new OnAddComponent()));
+            .getGUIManager()
+            .open(
+                new SelectComponentScreen(
+                    DefaultHUDConfigScreen.this.getParent(), new OnAddComponent()));
       }
     }
 
@@ -219,13 +224,12 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
       public void call(IComponent selected) {
         DefaultHUDConfigScreen.this.hud.addComponent(selected);
         DefaultHUDConfigScreen.this.hud.displaySettings(
-                new HUDConfigScreen(DefaultHUDConfigScreen.this.hud));
+            new HUDConfigScreen(DefaultHUDConfigScreen.this.hud));
       }
 
       @Override
       public void cancel() {}
     }
-
   }
 
   public class ScrollBar extends Collection {
@@ -240,12 +244,12 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
 
     public ScrollBar() {
       this.add(
-              new Rectangle()
-                      .size(18, 420)
-                      .smooth(9)
-                      .color(DefaultTheme.getElementBackgroundColorNew()));
+          new Rectangle()
+              .size(18, 420)
+              .smooth(9)
+              .color(defaultTheme.getElementBackgroundColorNew()));
       this.add(
-              scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementMedgroundColorNew()));
+          scrollBar = new Rectangle().smooth(9).color(defaultTheme.getElementMedgroundColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 
@@ -256,8 +260,8 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
         double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
         double delta = mouseY - initialDragY;
         DefaultHUDConfigScreen.this.setTargetScroll(
-                -(initialLocation + delta / (420 * scrollBar.absoluteYScale()))
-                        * (DefaultHUDConfigScreen.this.maxScroll + 440));
+            -(initialLocation + delta / (420 * scrollBar.absoluteYScale()))
+                * (DefaultHUDConfigScreen.this.maxScroll + 440));
       }
       super.onRender();
     }
@@ -265,9 +269,9 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
     @EventInvoked
     public void onClick(MousePressEvent e) {
       if (e.getX() > scrollBar.absoluteX()
-              && e.getX() < scrollBar.absoluteX() + 18 * scrollBar.absoluteXScale()
-              && e.getY() > scrollBar.absoluteY()
-              && e.getY() < scrollBar.absoluteY() + 420 * size * scrollBar.absoluteYScale()) {
+          && e.getX() < scrollBar.absoluteX() + 18 * scrollBar.absoluteXScale()
+          && e.getY() > scrollBar.absoluteY()
+          && e.getY() < scrollBar.absoluteY() + 420 * size * scrollBar.absoluteYScale()) {
         dragging = true;
         initialDragY = e.getY();
         initialLocation = location;
@@ -292,5 +296,4 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
       this.size = size;
     }
   }
-
 }

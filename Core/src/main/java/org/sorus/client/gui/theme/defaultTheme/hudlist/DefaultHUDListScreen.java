@@ -12,12 +12,11 @@ import org.sorus.client.gui.core.modifier.impl.Expand;
 import org.sorus.client.gui.hud.HUD;
 import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.SingleHUD;
-import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.screen.hudlist.HUDListScreen;
 import org.sorus.client.gui.theme.ExitButton;
 import org.sorus.client.gui.theme.defaultTheme.DefaultSomethingScreen;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
-import org.sorus.client.gui.theme.defaultTheme.modulelist.ModuleListComponent2;
+import org.sorus.client.gui.theme.defaultTheme.modulelist.ModuleListComponent;
 import org.sorus.client.util.MathUtil;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.game.IGame;
@@ -38,8 +37,8 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
   private ScrollBar scrollBar;
   private double maxScroll;
 
-  public DefaultHUDListScreen() {
-    super(false, 2);
+  public DefaultHUDListScreen(DefaultTheme theme) {
+    super(theme, false, 2);
     this.hudManager = Sorus.getSorus().getHUDManager();
   }
 
@@ -59,12 +58,12 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRawLineFontRenderer())
             .text("HUDS")
             .scale(6, 6)
-            .color(DefaultTheme.getElementColorNew());
-    menu.add(new ExitButton(this::onExit).position(10, 15));
+            .color(defaultTheme.getElementColorNew());
+    menu.add(new ExitButton(this, this::close).position(10, 15));
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     Collection collection = new Collection().position(767.5, 12.5);
     collection.add(
-        new Rectangle().size(117.5, 55).smooth(10).color(DefaultTheme.getBackgroundColorNew()));
+        new Rectangle().size(117.5, 55).smooth(10).color(defaultTheme.getBackgroundColorNew()));
     collection.add(new Add(AddType.SINGLE).position(7.5, 7.5));
     collection.add(new Add(AddType.MULTI).position(70, 7.5));
     menu.add(collection);
@@ -74,7 +73,7 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
 
   private void addGuiPreComponents(Collection collection) {
     collection.add(
-        new Rectangle().size(900, 600).smooth(10).color(DefaultTheme.getBackgroundColorNew()));
+        new Rectangle().size(900, 600).smooth(10).color(defaultTheme.getBackgroundColorNew()));
   }
 
   private void addGuiPostComponents(Collection collection) {
@@ -82,28 +81,28 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
         new Rectangle()
             .size(900, 15)
             .gradient(
-                DefaultTheme.getGradientEndColorNew(),
-                DefaultTheme.getGradientEndColorNew(),
-                DefaultTheme.getGradientStartColorNew(),
-                DefaultTheme.getGradientStartColorNew())
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientStartColorNew())
             .position(0, 70));
     collection.add(
         new Rectangle()
             .size(900, 15)
             .gradient(
-                DefaultTheme.getGradientStartColorNew(),
-                DefaultTheme.getGradientStartColorNew(),
-                DefaultTheme.getGradientEndColorNew(),
-                DefaultTheme.getGradientEndColorNew())
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientStartColorNew(),
+                defaultTheme.getGradientEndColorNew(),
+                defaultTheme.getGradientEndColorNew())
             .position(0, 515));
     collection.add(
-        new Rectangle().size(900, 80).smooth(10).color(DefaultTheme.getForegroundColorNew()));
+        new Rectangle().size(900, 80).smooth(10).color(defaultTheme.getForegroundColorNew()));
     collection.add(
         new Rectangle()
             .size(900, 80)
             .smooth(10)
             .position(0, 520)
-            .color(DefaultTheme.getForegroundColorNew()));
+            .color(defaultTheme.getForegroundColorNew()));
   }
 
   @Override
@@ -122,7 +121,7 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
             targetScroll + scrollValue * 0.7, scroll.getMinScroll(), scroll.getMaxScroll());
     currentScroll = (targetScroll - currentScroll) * 12 / FPS + scroll.getScroll();
     scroll.setScroll(currentScroll);
-    maxScroll = Math.ceil(moduleCount / 2.0) * (ModuleListComponent2.HEIGHT + SEPARATION) - 420;
+    maxScroll = moduleCount * (ModuleListComponent.HEIGHT + SEPARATION) - 420;
     scroll.addMinMaxScroll(-maxScroll, 0);
     double size = Math.min(1, 440 / (maxScroll + 440));
     this.scrollBar.updateScrollBar(-currentScroll / (maxScroll + 440), size);
@@ -144,15 +143,10 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
     super.exit();
   }
 
-  private void onExit() {
-    Sorus.getSorus().getGUIManager().close(this.getParent());
-    Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(false));
-  }
-
   @Override
   public void onKeyType(Key key, boolean repeat) {
     if (key == Key.ESCAPE) {
-      Sorus.getSorus().getGUIManager().close(this.getParent());
+      this.close();
     }
   }
 
@@ -169,10 +163,8 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
     for (HUD hud : hudManager.getHUDs()) {
       if (searchTerm.isEmpty() || hud.getName().toLowerCase().contains(searchTerm.toLowerCase())) {
         this.scroll.add(
-            new HUDListComponent2(this, hud)
-                .position(
-                    SEPARATION + ((i % 2) * (ModuleListComponent2.WIDTH + SEPARATION)),
-                    SEPARATION + (int) (i / 2) * (ModuleListComponent2.HEIGHT + SEPARATION)));
+            new HUDListComponent(this, hud)
+                .position(SEPARATION, SEPARATION + i * (HUDListComponent.HEIGHT + SEPARATION)));
         i++;
       }
     }
@@ -186,19 +178,28 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
       this.type = type;
       Collection main = new Collection();
       if (type == AddType.SINGLE) {
-        main.add(new Rectangle().size(40, 40).smooth(5).color(DefaultTheme.getElementBackgroundColorNew()));
+        main.add(
+            new Rectangle()
+                .size(40, 40)
+                .smooth(5)
+                .color(defaultTheme.getElementBackgroundColorNew()));
       } else {
         main.add(
             new Rectangle()
-                .size(32, 32).smooth(5)
+                .size(32, 32)
+                .smooth(5)
                 .position(8, 8)
-                .color(DefaultTheme.getElementMedgroundColorNew()));
-        main.add(new Rectangle().size(32, 32).smooth(5).color(DefaultTheme.getElementBackgroundColorNew()));
+                .color(defaultTheme.getElementMedgroundColorNew()));
+        main.add(
+            new Rectangle()
+                .size(32, 32)
+                .smooth(5)
+                .color(defaultTheme.getElementBackgroundColorNew()));
       }
       main.add(
-          new Rectangle().size(5, 30).position(17.5, 5).color(DefaultTheme.getElementColorNew()));
+          new Rectangle().size(5, 30).position(17.5, 5).color(defaultTheme.getElementColorNew()));
       main.add(
-          new Rectangle().size(30, 5).position(5, 17.5).color(DefaultTheme.getElementColorNew()));
+          new Rectangle().size(30, 5).position(5, 17.5).color(defaultTheme.getElementColorNew()));
       main.attach(new Expand(100, 40, 40, 0.05));
       this.add(main);
       Sorus.getSorus().getEventManager().register(this);
@@ -253,9 +254,9 @@ public class DefaultHUDListScreen extends DefaultSomethingScreen<HUDListScreen> 
           new Rectangle()
               .size(18, 420)
               .smooth(9)
-              .color(DefaultTheme.getElementBackgroundColorNew()));
+              .color(defaultTheme.getElementBackgroundColorNew()));
       this.add(
-          scrollBar = new Rectangle().smooth(9).color(DefaultTheme.getElementMedgroundColorNew()));
+          scrollBar = new Rectangle().smooth(9).color(defaultTheme.getElementMedgroundColorNew()));
       Sorus.getSorus().getEventManager().register(this);
     }
 

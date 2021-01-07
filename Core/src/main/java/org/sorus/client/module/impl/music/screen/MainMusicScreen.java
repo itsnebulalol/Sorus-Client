@@ -9,9 +9,6 @@ import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.*;
 import org.sorus.client.gui.core.component.impl.Image;
-import org.sorus.client.gui.core.component.impl.Rectangle;
-import org.sorus.client.gui.core.font.IFontRenderer;
-import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.module.impl.music.ISound;
 import org.sorus.client.module.impl.music.Music;
 import org.sorus.client.module.impl.music.Playlist;
@@ -24,7 +21,7 @@ public class MainMusicScreen extends Screen {
 
   private final Panel main;
   private final Scroll scroll;
-  private final Text text;
+  // private final Text text;
   private final MusicSlider slider;
 
   public MainMusicScreen() {
@@ -32,35 +29,35 @@ public class MainMusicScreen extends Screen {
     Collection menu = new Collection();
     menu.position(1520, 0);
     main.add(menu);
-    menu.add(
+    /*menu.add(
         new Rectangle()
             .smooth(5)
             .size(405, 1080)
             .position(0, 0)
-            .color(DefaultTheme.getBackgroundLayerColor()));
+            .color(defaultTheme.getBackgroundLayerColor()));
     menu.add(
-        new Rectangle().size(405, 65).position(0, 5).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(405, 65).position(0, 5).color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Arc()
             .radius(5, 5)
             .angle(180, 270)
             .position(0, 0)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Arc()
             .radius(5, 5)
             .angle(90, 180)
             .position(390, 0)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
-        new Rectangle().size(390, 5).position(5, 0).color(DefaultTheme.getMedgroundLayerColor()));
+        new Rectangle().size(390, 5).position(5, 0).color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor())
             .size(400, 7)
             .position(0, 70));
     menu.add(new AddMusicBox().position(180, 885));
@@ -68,77 +65,77 @@ public class MainMusicScreen extends Screen {
         new Rectangle()
             .size(380, 130)
             .position(10, 935)
-            .color(DefaultTheme.getMedgroundLayerColor()));
+            .color(defaultTheme.getMedgroundLayerColor()));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(380, 4)
             .position(10, 931));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(390, 931));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor())
             .size(4, 130)
             .position(390, 935));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor())
             .size(4, 4)
             .position(390, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor())
             .size(380, 4)
             .position(10, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(6, 1065));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 100)
             .position(6, 965));
     menu.add(
         new Rectangle()
             .gradient(
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowStartColor(),
-                DefaultTheme.getShadowEndColor(),
-                DefaultTheme.getShadowEndColor())
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowStartColor(),
+                defaultTheme.getShadowEndColor(),
+                defaultTheme.getShadowEndColor())
             .size(4, 4)
             .position(6, 961));
     IFontRenderer fontRenderer =
@@ -149,13 +146,13 @@ public class MainMusicScreen extends Screen {
             .text("SORUS")
             .position(200 - fontRenderer.getStringWidth("SORUS") / 2 * 5.5, 15)
             .scale(5.5, 5.5)
-            .color(DefaultTheme.getForegroundLayerColor()));
+            .color(defaultTheme.getForegroundLayerColor()));
     menu.add(
         text =
             new Text()
                 .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
                 .scale(2.5, 2.5)
-                .color(DefaultTheme.getForegroundLessLayerColor()));
+                .color(defaultTheme.getForegroundLessLayerColor()));*/
     menu.add(slider = new MusicSlider().position(80, 980));
     menu.add(new PlayPauseComponent().position(180, 1010));
     menu.add(new NavigateComponent(NavigateComponent.Type.BACKWARD).position(120, 1010));
@@ -181,8 +178,8 @@ public class MainMusicScreen extends Screen {
     Music music = Sorus.getSorus().getModuleManager().getModule(Music.class);
     Playlist playlist = music.getCurrentPlaylist();
     ISound sound = music.getCurrentSound();
-    text.text(sound != null ? sound.getName() : "No Song Playing")
-        .position(200 - text.width() / 2 * 2.5, 955);
+    /*text.text(sound != null ? sound.getName() : "No Song Playing")
+    .position(200 - text.width() / 2 * 2.5, 955);*/
     if (slider.isEditing()) {
       if (sound != null) {
         Sorus.getSorus()

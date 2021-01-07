@@ -6,15 +6,18 @@ import org.sorus.client.cosmetic.CosmeticManager;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.EventManager;
 import org.sorus.client.event.impl.client.StartEvent;
+import org.sorus.client.event.impl.client.input.KeyPressEvent;
 import org.sorus.client.gui.core.GUIManager;
 import org.sorus.client.gui.hud.HUDManager;
 import org.sorus.client.gui.hud.HUDRenderScreen;
+import org.sorus.client.gui.hud.positonscreen.HUDPositionScreen;
 import org.sorus.client.gui.theme.ThemeManager;
 import org.sorus.client.module.ModuleManager;
 import org.sorus.client.plugin.PluginManager;
 import org.sorus.client.settings.SettingsManager;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.IVersion;
+import org.sorus.client.version.game.IGame;
 
 public class Sorus {
 
@@ -110,9 +113,18 @@ public class Sorus {
 
   @EventInvoked
   public void configureWindow(StartEvent e) {
-    InputStream x16 =
+    InputStream icon =
         Sorus.class.getClassLoader().getResourceAsStream("assets/minecraft/sorus/sorus_icon.png");
-    this.getVersion().getData(IScreen.class).setIcon(x16);
+    this.getVersion().getData(IScreen.class).setIcon(icon);
     this.getVersion().getData(IScreen.class).setTitle("Sorus Client");
+  }
+
+  @EventInvoked
+  public void onKeyPress(KeyPressEvent e) {
+    if (Sorus.getSorus().getVersion().getData(IGame.class).isIngame()
+        && e.getKey() == this.getSettingsManager().getOpenGuiKeybind()
+        && !e.isRepeat()) {
+      Sorus.getSorus().getGUIManager().open(new HUDPositionScreen(true));
+    }
   }
 }

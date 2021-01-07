@@ -28,6 +28,9 @@ public class GUIManager {
   }
 
   public void open(Screen screen) {
+    if (screen == null) {
+      return;
+    }
     this.currentScreens.add(screen);
     screen.onOpen();
   }
