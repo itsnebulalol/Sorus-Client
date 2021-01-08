@@ -6,6 +6,7 @@ import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.theme.Theme;
 import org.sorus.client.gui.theme.defaultTheme.hudconfig.DefaultHUDConfigScreen;
 import org.sorus.client.gui.theme.defaultTheme.hudlist.DefaultHUDListScreen;
+import org.sorus.client.gui.theme.defaultTheme.mainmenu.DefaultMainMenuScreen;
 import org.sorus.client.gui.theme.defaultTheme.modulelist.DefaultModuleListScreen;
 import org.sorus.client.gui.theme.defaultTheme.positionscreen.DefaultHUDPositionScreen;
 import org.sorus.client.gui.theme.defaultTheme.profilelist.DefaultProfileListScreen;
@@ -17,15 +18,6 @@ import org.sorus.client.settings.Setting;
 
 public class DefaultTheme extends Theme {
 
-  private final Setting<Color> backgroundLayerColor;
-  private final Setting<Color> medbackgroundLayerColor;
-  private final Setting<Color> medgroundLayerColor;
-  private final Setting<Color> medforegroundLayerColor;
-  private final Setting<Color> foregroundLayerColor;
-  private final Setting<Color> foregroundLessLayerColor;
-  private final Setting<Color> foregroundLessLessLayerColor;
-  private final Setting<Color> shadowStartColor;
-  private final Setting<Color> shadowEndColor;
   private final Setting<Color> backgroundColorNew;
   private final Setting<Color> foregroundColorNew;
   private final Setting<Color> gradientStartColorNew;
@@ -38,6 +30,7 @@ public class DefaultTheme extends Theme {
 
   public DefaultTheme() {
     super("DEFAULT");
+    this.register("main-menu", DefaultMainMenuScreen.class);
     this.register("module-list", DefaultModuleListScreen.class);
     this.register("hud-render", DefaultHUDRenderScreen.class);
     this.register("hud-position", DefaultHUDPositionScreen.class);
@@ -56,25 +49,6 @@ public class DefaultTheme extends Theme {
     this.register("settings-custom-text", DefaultCustomTextColor.class);
     this.register("settings-keybind", DefaultKeybind.class);
     this.register("settings-slider", DefaultSlider.class);
-    this.register(
-        backgroundLayerColor = new Setting<>("backgroundLayerColor", new Color(18, 18, 18)));
-    this.register(
-        medbackgroundLayerColor = new Setting<>("medbackgroundLayerColor", new Color(22, 22, 22)));
-    this.register(
-        medgroundLayerColor = new Setting<>("medgroundLayerColor", new Color(30, 30, 30)));
-    this.register(
-        medforegroundLayerColor = new Setting<>("medforegroundLayerColor", new Color(40, 40, 40)));
-    this.register(
-        foregroundLayerColor = new Setting<>("foregroundLayerColor", new Color(215, 215, 215)));
-    this.register(
-        foregroundLessLayerColor =
-            new Setting<>("foregroundLessLayerColor", new Color(160, 160, 160)));
-    this.register(
-        foregroundLessLessLayerColor =
-            new Setting<>("foregroundLessLessLayerColor", new Color(130, 130, 130)));
-    this.register(shadowStartColor = new Setting<>("shadowStartColor", new Color(14, 14, 14)));
-    this.register(shadowEndColor = new Setting<>("shadowEndColor", new Color(14, 14, 14, 0)));
-
     this.register(backgroundColorNew = new Setting<>("backgroundColor", new Color(25, 25, 25)));
     this.register(foregroundColorNew = new Setting<>("foregroundColor", new Color(30, 30, 30)));
     this.register(

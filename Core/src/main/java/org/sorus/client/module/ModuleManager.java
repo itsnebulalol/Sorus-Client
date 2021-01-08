@@ -15,6 +15,7 @@ import org.sorus.client.module.impl.mousedelayfix.MouseDelayFix;
 import org.sorus.client.module.impl.music.Music;
 import org.sorus.client.module.impl.names.Names;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
+import org.sorus.client.module.impl.particlemultiplier.Particles;
 import org.sorus.client.module.impl.perspective.Perspective;
 import org.sorus.client.module.impl.timechanger.TimeChanger;
 import org.sorus.client.module.impl.togglesprint.ToggleSprint;
@@ -41,6 +42,7 @@ public class ModuleManager {
     this.register(new MouseDelayFix());
     this.register(new Music());
     this.register(new OldAnimations());
+    this.register(new Particles());
     this.register(new Perspective());
     this.register(new CustomMenus());
     this.register(new TimeChanger());

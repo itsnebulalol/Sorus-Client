@@ -28,6 +28,8 @@
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
     "names.GuiPlayerTabOverlayInjector",
-    "optimisations.ClippingHelperImplInjector"
+    "optimisations.ClippingHelperImplInjector",
+    "particlemultiplier.EntityParticleEmitterInjector",
+    "particlemultiplier.EntityPlayerInjector"
   ]
 }

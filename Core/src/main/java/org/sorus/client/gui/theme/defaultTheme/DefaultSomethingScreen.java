@@ -84,7 +84,7 @@ public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T
     this.components.add(
         new DefaultSomethingComponent(
             this,
-            "sorus/gear.png",
+            "sorus/settings.png",
             () ->
                 Sorus.getSorus()
                     .getGUIManager()
@@ -94,12 +94,12 @@ public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T
     this.components.add(
         new DefaultSomethingComponent(
             this,
-            "sorus/hudlist.png",
+            "sorus/themelist.png",
             () -> Sorus.getSorus().getGUIManager().open(new ThemeListScreen())));
     this.components.add(
         new DefaultSomethingComponent(
             this,
-            "sorus/hudlist.png",
+            "sorus/profilelist.png",
             () -> Sorus.getSorus().getGUIManager().open(new ProfileListScreen())));
     width = 80 + components.size() * 70;
     this.bar = new Collection();
