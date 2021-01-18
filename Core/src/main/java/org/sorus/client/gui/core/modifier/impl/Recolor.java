@@ -5,7 +5,7 @@ import org.sorus.client.util.ColorUtil;
 
 public class Recolor extends Hover {
 
-  private final Color base, hovered;
+  protected final Color base, hovered;
 
   public Recolor(double time, double width, double height, Color base, Color hovered) {
     super(time, width, height);

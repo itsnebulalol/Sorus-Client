@@ -12,13 +12,13 @@ import org.sorus.client.module.impl.discordrp.DiscordRP;
 import org.sorus.client.module.impl.enhancements.Enhancements;
 import org.sorus.client.module.impl.itemphysics.ItemPhysics;
 import org.sorus.client.module.impl.mousedelayfix.MouseDelayFix;
-import org.sorus.client.module.impl.music.Music;
 import org.sorus.client.module.impl.names.Names;
 import org.sorus.client.module.impl.oldanimations.OldAnimations;
 import org.sorus.client.module.impl.particlemultiplier.Particles;
 import org.sorus.client.module.impl.perspective.Perspective;
 import org.sorus.client.module.impl.timechanger.TimeChanger;
 import org.sorus.client.module.impl.togglesprint.ToggleSprint;
+import org.sorus.client.module.impl.zoom.Zoom;
 
 public class ModuleManager {
 
@@ -40,13 +40,14 @@ public class ModuleManager {
     this.register(new Enhancements());
     this.register(new ItemPhysics());
     this.register(new MouseDelayFix());
-    this.register(new Music());
+    // this.register(new Music());
     this.register(new OldAnimations());
     this.register(new Particles());
     this.register(new Perspective());
     this.register(new CustomMenus());
     this.register(new TimeChanger());
     this.register(new ToggleSprint());
+    this.register(new Zoom());
   }
 
   public void onLoad() {

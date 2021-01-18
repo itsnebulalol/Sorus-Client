@@ -3,7 +3,6 @@ package org.sorus.client.module.impl.text;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Panel;
@@ -16,6 +15,7 @@ import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.CustomTextColor;
 import org.sorus.client.gui.screen.settings.components.Toggle;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.util.Pair;
 
 public class TextComponent extends Component {
 

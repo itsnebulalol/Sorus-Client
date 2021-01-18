@@ -29,7 +29,9 @@
     "names.GuiNewChatInjector",
     "names.GuiPlayerTabOverlayInjector",
     "optimisations.ClippingHelperImplInjector",
-    "particlemultiplier.EntityParticleEmitterInjector",
-    "particlemultiplier.EntityPlayerInjector"
+    "particles.EntityParticleEmitterInjector",
+    "particles.EntityPlayerInjector",
+    "zoom.EntityRendererInjector",
+    "zoom.InventoryPlayerInjector"
   ]
 }

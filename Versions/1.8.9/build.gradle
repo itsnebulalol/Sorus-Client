@@ -14,7 +14,9 @@ repositories {
 }
 
 dependencies {
-    jarExport group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
+    jarExport('org.slick2d:slick2d-core:1.0.2') {
+        exclude group: 'org.lwjgl.lwjgl'
+    }
     compile files("../../sorus/temp/" + version + ".jar")
 
     File file = new File("${project.parent.parent.projectDir}/sorus/temp/classpath_" + version + ".txt")

@@ -18,7 +18,7 @@ public class InventoryEffectRendererInjector extends Injector<InventoryEffectRen
         super(that);
     }
 
-    @Modify(name = "updateActivePotionEffects")
+    /*@Modify(name = "drawActivePotionEffects")
     public static void modifyUpdateActivePotionEffects(MethodNode methodNode) {
         LabelNode labelNode = new LabelNode();
         for(AbstractInsnNode node : methodNode.instructions.toArray()) {
@@ -32,7 +32,7 @@ public class InventoryEffectRendererInjector extends Injector<InventoryEffectRen
                 methodNode.instructions.insertBefore(node, labelNode);
             }
         }
-    }
+    }*/
 
     public static boolean shouldShiftInventory() {
         Enhancements enhancements = Sorus.getSorus().getModuleManager().getModule(Enhancements.class);

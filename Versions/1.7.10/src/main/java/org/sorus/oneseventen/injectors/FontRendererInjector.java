@@ -21,7 +21,7 @@ public class FontRendererInjector extends Injector<FontRenderer> {
         super(that);
     }
 
-    @Modify(name = "drawString", desc = "(Ljava/lang/String;FFIZ)I")
+    @Modify(name = "drawString", desc = "(Ljava/lang/String;IIIZ)I")
     public static void modifyDrawString(MethodNode methodNode) {
         InsnList insnList = new InsnList();
         insnList.add(new TypeInsnNode(Opcodes.NEW, RenderObjectEvent.Text.class.getName().replace(".", "/")));

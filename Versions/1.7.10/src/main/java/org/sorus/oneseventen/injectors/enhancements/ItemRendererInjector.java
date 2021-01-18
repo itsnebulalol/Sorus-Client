@@ -20,7 +20,7 @@ public class ItemRendererInjector extends Injector<ItemRenderer> {
 
     private double customFireHeight;
 
-    @Inject(name = "renderFireInFirstPerson", desc = "(F)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/GlStateManager;tryBlendFuncSeparate(IIII)V", shift = At.Shift.AFTER))
+    @Inject(name = "renderFireInFirstPerson", desc = "(F)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/OpenGlHelper;glBlendFunc(IIII)V", shift = At.Shift.AFTER))
     public void renderFirstInFirstPersonHead() {
         Enhancements enhancements = Sorus.getSorus().getModuleManager().getModule(Enhancements.class);
         customFireHeight = enhancements.isEnabled() ? enhancements.getCustomFireHeight() : 0;

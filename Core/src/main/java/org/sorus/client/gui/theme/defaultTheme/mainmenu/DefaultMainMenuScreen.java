@@ -2,7 +2,6 @@ package org.sorus.client.gui.theme.defaultTheme.mainmenu;
 
 import java.awt.*;
 import org.sorus.client.Sorus;
-import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.core.component.Component;
 import org.sorus.client.gui.core.component.Panel;
 import org.sorus.client.gui.core.component.impl.Image;
@@ -11,13 +10,19 @@ import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.gui.theme.defaultTheme.DefaultThemeBase;
 import org.sorus.client.module.impl.customscreens.mainmenu.MainMenuScreen;
 import org.sorus.client.version.IScreen;
+import org.sorus.client.version.game.GUIType;
+import org.sorus.client.version.game.IGame;
 import org.sorus.client.version.input.IInput;
 import org.sorus.client.version.input.Key;
 
 public class DefaultMainMenuScreen extends DefaultThemeBase<MainMenuScreen> {
 
+  public static final int SIDEBAR_COUNT = 6;
+
   private Panel main;
   private Component image;
+
+  private int sidebarElementCount;
 
   public DefaultMainMenuScreen(DefaultTheme theme) {
     super(theme);
@@ -27,19 +32,64 @@ public class DefaultMainMenuScreen extends DefaultThemeBase<MainMenuScreen> {
   public void init() {
     main = new Panel(this.getParent());
     main.add(
-        image = new Image().resource("sorus/modules/custommenus/background.png").size(1940, 1100));
-    main.add(new Rectangle().size(175, 175).smooth(87.5).color(Color.RED).position(872.5, 302.5));
+        image =
+            new Image()
+                .resource("sorus/modules/custommenus/mainmenu/background.png")
+                .size(1940, 1100));
     main.add(
-        new Image().resource("sorus/logo.png").size(150, 150).color(Color.RED).position(885, 315));
-    main.add(new MainMenuMainElement.Singleplayer().position(735, 500));
-    main.add(new MainMenuMainElement.Multiplayer().position(735, 600));
-    Collection bottomBar = new Collection();
-    bottomBar.add(new Rectangle().size(300, 100).smooth(50).color(Color.BLUE));
-    bottomBar.position(810, 965);
-    bottomBar.add(new MainMenuBottomElement.LanguagesButton().position(12.5, 12.5));
-    bottomBar.add(new MainMenuBottomElement.SettingsButton().position(112.5, 12.5));
-    bottomBar.add(new MainMenuBottomElement.ExitButton().position(212.5, 12.5));
-    main.add(bottomBar);
+        new Rectangle()
+            .size(300, 300)
+            .smooth(150)
+            .color(defaultTheme.getBackgroundColorNew())
+            .position(810, 390));
+    main.add(
+        new Image()
+            .resource("sorus/modules/custommenus/mainmenu/logo.png")
+            .size(150, 150)
+            .color(defaultTheme.getElementColorNew())
+            .position(885, 465));
+    this.addSidebarElement("sorus/modules/custommenus/mainmenu/logo.png", () -> {});
+    this.addSidebarElement(
+        "sorus/modules/custommenus/mainmenu/singleplayer.png",
+        () -> {
+          Sorus.getSorus().getGUIManager().close(this.getParent());
+          Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.VIEW_WORLDS);
+        });
+    this.addSidebarElement(
+        "sorus/modules/custommenus/mainmenu/multiplayer.png",
+        () -> {
+          Sorus.getSorus().getGUIManager().close(this.getParent());
+          Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.VIEW_SERVERS);
+        });
+    this.addSidebarElement(
+        "sorus/modules/custommenus/mainmenu/settings.png",
+        () -> {
+          Sorus.getSorus().getGUIManager().close(this.getParent());
+          Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.SETTINGS);
+        });
+    this.addSidebarElement(
+        "sorus/modules/custommenus/mainmenu/languages.png",
+        () -> {
+          Sorus.getSorus().getGUIManager().close(this.getParent());
+          Sorus.getSorus().getVersion().getData(IGame.class).display(GUIType.LANGUAGES);
+        });
+    this.addSidebarElement(
+        "sorus/modules/custommenus/mainmenu/exit.png",
+        () -> {
+          Sorus.getSorus().getVersion().getData(IGame.class).shutdown();
+        });
+  }
+
+  private void addSidebarElement(String imagePath, Runnable runnable) {
+    main.add(
+        new SideBarElement(this, imagePath, runnable)
+            .position(0, 1080.0 / DefaultMainMenuScreen.SIDEBAR_COUNT * sidebarElementCount));
+    sidebarElementCount++;
+  }
+
+  @Override
+  public void update() {
+    main.onUpdate();
   }
 
   @Override

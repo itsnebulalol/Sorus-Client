@@ -1,7 +1,6 @@
 package org.sorus.client.startup;
 
 import java.lang.reflect.Method;
-import java.security.ProtectionDomain;
 import java.util.*;
 import org.objectweb.asm.*;
 import org.objectweb.asm.tree.*;
@@ -28,21 +27,20 @@ public class MainTransformer implements ITransformer {
   }
 
   @Override
-  public byte[] transform(
-      String name, byte[] data, ClassLoader classLoader, ProtectionDomain protectionDomain) {
+  public byte[] transform(String name, byte[] data, ClassLoader classLoader, String resourcePath) {
     if (name.equals("net/minecraft/client/main/Main")) {
       SorusStartup.classLoader = classLoader;
     }
-    if (protectionDomain != null
-        && protectionDomain.getCodeSource().getLocation().getFile().contains("sorus")) {
+    if (resourcePath != null && resourcePath.contains("sorus")) {
       ClassNode classNode = new ClassNode();
       ClassReader classReader = new ClassReader(data);
       classReader.accept(classNode, 0);
-      ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
       this.reobfClass(classNode);
+      ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
       classNode.accept(classWriter);
       data = classWriter.toByteArray();
     }
+
     List<Class<?>> injectors2 = injectors.get(name);
     if (injectors2 == null) {
       return data;
@@ -67,6 +65,9 @@ public class MainTransformer implements ITransformer {
 
   private void reobfClass(ClassNode classNode) {
     Mappings mappings = ObfuscationManager.externalMappings;
+    if (mappings == null) {
+      return;
+    }
     ClassMapping classMapping = mappings.getClassMapping(classNode.name, 0);
     if (classMapping != null) {
       classNode.name = classMapping.getClassData(1).getName();

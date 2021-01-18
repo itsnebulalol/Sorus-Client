@@ -5,13 +5,15 @@ package org.sorus.oneeightnine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import org.sorus.client.obfuscation.ObfuscationManager;
 import org.sorus.client.version.game.*;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,6 +141,11 @@ public class Game implements IGame {
         armor.add(new ItemStackImpl(new ItemStack(Item.getItemById(313))));
         armor.add(new ItemStackImpl(new ItemStack(Item.getItemById(311))));
         return armor;
+    }
+
+    @Override
+    public void setSmoothCamera(boolean smoothCamera) {
+        Minecraft.getMinecraft().gameSettings.smoothCamera = smoothCamera;
     }
 
     @Override

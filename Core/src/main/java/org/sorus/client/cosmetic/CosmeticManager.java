@@ -6,8 +6,6 @@ import org.sorus.client.Sorus;
 import org.sorus.client.cosmetic.impl.Wings;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.render.RenderEntityEvent;
-import org.sorus.client.version.game.EntityType;
-import org.sorus.client.version.game.IPlayer;
 
 public class CosmeticManager {
 
@@ -28,10 +26,10 @@ public class CosmeticManager {
 
   @EventInvoked
   public void onRenderPlayer(RenderEntityEvent e) {
-    if (e.getEntity().getType() == EntityType.PLAYER) {
+    /*if (e.getEntity().getType() == EntityType.PLAYER) {
       for (Cosmetic cosmetic : this.cosmetics) {
         cosmetic.render((IPlayer) e.getEntity());
       }
-    }
+    }*/
   }
 }

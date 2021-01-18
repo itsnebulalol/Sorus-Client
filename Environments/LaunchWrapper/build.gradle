@@ -1,0 +1,13 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile project(':Core')
+    compile files('lib/launchwrapper-1.12.jar')
+    compile group: 'net.sf.jopt-simple', name: 'jopt-simple', version: '4.7'
+}

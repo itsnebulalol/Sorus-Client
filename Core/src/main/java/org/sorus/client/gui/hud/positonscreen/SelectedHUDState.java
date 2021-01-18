@@ -50,7 +50,9 @@ public class SelectedHUDState {
 
   public enum InteractType {
     DRAG,
-    RESIZE_LEFT,
-    RESIZE_RIGHT
+    RESIZE_LEFT_TOP,
+    RESIZE_LEFT_BOTTOM,
+    RESIZE_RIGHT_TOP,
+    RESIZE_RIGHT_BOTTOM
   }
 }

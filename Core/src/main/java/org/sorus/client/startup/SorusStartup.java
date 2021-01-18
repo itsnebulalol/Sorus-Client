@@ -37,16 +37,8 @@ public class SorusStartup {
   }
 
   public static void start(
-      Class<? extends IVersion> version,
-      TransformerUtility transformerUtility,
-      ClassLoader classLoader,
-      Map<String, String> args,
-      boolean dev) {
+      Class<? extends IVersion> version, ClassLoader classLoader, Map<String, String> args) {
     launchArgs = args;
-    DEV = dev;
-    transformer = transformerUtility;
-    transformer.initialize();
-    SorusStartup.registerTransformers(transformer);
     new Thread(
             () -> {
               ClassLoader classLoader1 = classLoader;
@@ -64,7 +56,7 @@ public class SorusStartup {
                         classLoader1);
                 final Method mainMethod =
                     clazz.getMethod("start", String.class, Map.class, boolean.class);
-                mainMethod.invoke(null, version.getName(), args, dev);
+                mainMethod.invoke(null, version.getName(), args, DEV);
               } catch (ClassNotFoundException
                   | NoSuchMethodException
                   | IllegalAccessException
@@ -73,6 +65,13 @@ public class SorusStartup {
               }
             })
         .start();
+  }
+
+  public static void addTransformerUtility(TransformerUtility transformerUtility, boolean dev) {
+    transformer = transformerUtility;
+    DEV = dev;
+    transformer.initialize();
+    SorusStartup.registerTransformers(transformer);
   }
 
   private static void registerTransformers(TransformerUtility transformer) {

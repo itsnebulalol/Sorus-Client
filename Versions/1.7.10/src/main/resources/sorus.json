@@ -20,6 +20,10 @@
     "names.RendererLivingEntityInjector",
     "names.GuiNewChatInjector",
     "names.GuiIngameInjector",
-    "optimisations.ClippingHelperImplInjector"
+    "optimisations.ClippingHelperImplInjector",
+    "particles.EntityCrit2FXInjector",
+    "particles.EntityPlayerInjector",
+    "zoom.EntityRendererInjector",
+    "zoom.InventoryPlayerInjector"
   ]
 }

@@ -133,7 +133,7 @@ public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T
       hud.render();
       this.renderHUDOverlay(hud);
     }
-    this.updateMods();
+    this.updateHUDs();
   }
 
   @Override
@@ -153,8 +153,10 @@ public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T
           backgroundColor = new Color(255, 255, 255, 75);
           borderColor = new Color(255, 255, 255, 150);
           break;
-        case RESIZE_LEFT:
-        case RESIZE_RIGHT:
+        case RESIZE_LEFT_TOP:
+        case RESIZE_LEFT_BOTTOM:
+        case RESIZE_RIGHT_TOP:
+        case RESIZE_RIGHT_BOTTOM:
           resizeBoxesColor = new Color(255, 255, 255, 150);
           break;
       }
@@ -190,13 +192,14 @@ public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T
     }
   }
 
-  public void updateMods() {
+  public void updateHUDs() {
     boolean mouseDown = Button.ONE.isDown();
     double mouseX = Sorus.getSorus().getVersion().getData(IInput.class).getMouseX();
     double mouseY = Sorus.getSorus().getVersion().getData(IInput.class).getMouseY();
     if (mouseDown && selectedHUD != null) {
       List<Double> xSnaps = this.getXSnaps();
       List<Double> ySnaps = this.getYSnaps();
+      boolean centerScaling = Sorus.getSorus().getSettingsManager().isCenterScaling();
       switch (selectedHUDState.getInteractType()) {
         case DRAG:
           {
@@ -207,24 +210,88 @@ public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T
             this.applyCorrectionsAndMove(selectedHUD, xSnaps, ySnaps, targetX, targetY);
             break;
           }
-        case RESIZE_LEFT:
+        case RESIZE_LEFT_TOP:
           {
-            this.applyCorrectionsAndResize(
-                selectedHUD,
-                xSnaps,
-                ySnaps,
-                (selectedHUDState.getInitialMouseX() - mouseX) / selectedHUD.getWidth() * 2
-                    + selectedHUDState.getInitialScale());
+            if (centerScaling) {
+              this.applyCorrectionsAndResize(
+                  selectedHUD,
+                  xSnaps,
+                  ySnaps,
+                  (selectedHUDState.getInitialMouseX() - mouseX) / selectedHUD.getWidth() * 2
+                      + selectedHUDState.getInitialScale());
+            } else {
+              this.applyCorrectionsAndResize2(
+                  selectedHUD,
+                  xSnaps,
+                  ySnaps,
+                  (selectedHUDState.getInitialMouseX() - mouseX) / selectedHUD.getWidth()
+                      + selectedHUDState.getInitialScale(),
+                  0.5,
+                  -0.5);
+            }
             break;
           }
-        case RESIZE_RIGHT:
+        case RESIZE_LEFT_BOTTOM:
           {
-            this.applyCorrectionsAndResize(
-                selectedHUD,
-                xSnaps,
-                ySnaps,
-                (mouseX - selectedHUDState.getInitialMouseX()) / selectedHUD.getWidth() * 2
-                    + selectedHUDState.getInitialScale());
+            if (centerScaling) {
+              this.applyCorrectionsAndResize(
+                  selectedHUD,
+                  xSnaps,
+                  ySnaps,
+                  (selectedHUDState.getInitialMouseX() - mouseX) / selectedHUD.getWidth() * 2
+                      + selectedHUDState.getInitialScale());
+            } else {
+              this.applyCorrectionsAndResize2(
+                  selectedHUD,
+                  xSnaps,
+                  ySnaps,
+                  (selectedHUDState.getInitialMouseX() - mouseX) / selectedHUD.getWidth()
+                      + selectedHUDState.getInitialScale(),
+                  0.5,
+                  0.5);
+            }
+            break;
+          }
+        case RESIZE_RIGHT_TOP:
+          {
+            if (centerScaling) {
+              this.applyCorrectionsAndResize(
+                  selectedHUD,
+                  xSnaps,
+                  ySnaps,
+                  (mouseX - selectedHUDState.getInitialMouseX()) / selectedHUD.getWidth() * 2
+                      + selectedHUDState.getInitialScale());
+            } else {
+              this.applyCorrectionsAndResize2(
+                  selectedHUD,
+                  xSnaps,
+                  ySnaps,
+                  (mouseX - selectedHUDState.getInitialMouseX()) / selectedHUD.getWidth()
+                      + selectedHUDState.getInitialScale(),
+                  -0.5,
+                  -0.5);
+            }
+            break;
+          }
+        case RESIZE_RIGHT_BOTTOM:
+          {
+            if (centerScaling) {
+              this.applyCorrectionsAndResize(
+                  selectedHUD,
+                  xSnaps,
+                  ySnaps,
+                  (mouseX - selectedHUDState.getInitialMouseX()) / selectedHUD.getWidth() * 2
+                      + selectedHUDState.getInitialScale());
+            } else {
+              this.applyCorrectionsAndResize2(
+                  selectedHUD,
+                  xSnaps,
+                  ySnaps,
+                  (mouseX - selectedHUDState.getInitialMouseX()) / selectedHUD.getWidth()
+                      + selectedHUDState.getInitialScale(),
+                  -0.5,
+                  0.5);
+            }
             break;
           }
       }
@@ -382,9 +449,84 @@ public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T
     hud.setY(selectedHUDState.getInitialY());
   }
 
+  public void applyCorrectionsAndResize2(
+      HUD hud,
+      List<Double> xSnaps,
+      List<Double> ySnaps,
+      double wantedScale,
+      double offsetX,
+      double offsetY) {
+    double scaledWidth = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledWidth();
+    double scaledHeight = Sorus.getSorus().getVersion().getData(IScreen.class).getScaledHeight();
+    double x = selectedHUDState.getInitialX();
+    double y = selectedHUDState.getInitialY();
+    double x2 =
+        x - ((wantedScale - selectedHUDState.getInitialScale()) * selectedHUD.getWidth()) * offsetX;
+    double y2 =
+        y
+            + ((wantedScale - selectedHUDState.getInitialScale()) * selectedHUD.getHeight())
+                * offsetY;
+    Snap[] snaps = {
+      this.getSnap(xSnaps, hud.getX() - wantedScale * hud.getWidth() * offsetX, 0, Axis.X),
+      this.getSnap(ySnaps, y2 + wantedScale * hud.getHeight() * offsetY, 0, Axis.Y)
+    };
+    List<Double> actualXSnaps = new ArrayList<>();
+    List<Double> actualYSnaps = new ArrayList<>();
+    Snap minSnap = new Snap(0, Double.MAX_VALUE, 0, false, Axis.X);
+    for (Snap snap : snaps) {
+      if (snap.getDistance() <= minSnap.getDistance()) {
+        if (snap.getDistance() < minSnap.getDistance()) {
+          actualXSnaps.clear();
+          actualYSnaps.clear();
+        }
+        if (snap.isSnapped()) {
+          if (snap.getAxis() == Axis.X) {
+            actualXSnaps.add(snap.getValue());
+          } else {
+            actualYSnaps.add(snap.getValue());
+          }
+        }
+        minSnap = snap;
+      }
+    }
+    double newScale = wantedScale;
+    if (minSnap.getAxis() == Axis.X) {
+      newScale = -(minSnap.getValue() - hud.getX()) / (offsetX * hud.getWidth());
+      this.ySnaps.clear();
+    } else {
+      // newScale = (minSnap.getValue() - hud.getY()) / offsetY;
+      // newScale = Math.abs(minSnap.getValue() - y) / hud.getHeight() * 2;
+      this.xSnaps.clear();
+    }
+    double constrainedScale = newScale; // MathUtil.clamp(newScale, 0.5, 2);
+    /*if (x - constrainedScale * hud.getWidth() / 2 < 0) {
+      constrainedScale = -(-x * 2 / hud.getWidth());
+    }
+    if (y - constrainedScale * hud.getHeight() / 2 < 0) {
+      constrainedScale = -(-y * 2 / hud.getHeight());
+    }
+    if (x + constrainedScale * hud.getWidth() / 2 > scaledWidth) {
+      constrainedScale = (scaledWidth - x) * 2 / hud.getWidth();
+    }
+    if (y + constrainedScale * hud.getHeight() / 2 > scaledHeight) {
+      constrainedScale = (scaledHeight - y) * 2 / hud.getHeight();
+    }*/
+    if (constrainedScale != newScale) {
+      actualXSnaps.clear();
+      actualYSnaps.clear();
+    }
+    this.xSnaps.addAll(actualXSnaps);
+    this.ySnaps.addAll(actualYSnaps);
+    hud.setScale(constrainedScale);
+    // hud.setX(x - ((constrainedScale - selectedHUDState.getInitialScale()) *
+    // selectedHUD.getWidth()) * offsetX);
+    // hud.setY(y + ((constrainedScale - selectedHUDState.getInitialScale()) *
+    // selectedHUD.getHeight()) * offsetY);
+  }
+
   public Snap getSnap(List<Double> snaps, double value, double offset, Axis axis) {
     for (double dub : snaps) {
-      if (Math.abs(dub - value) < 3.5) {
+      if (Math.abs(dub - value) < Sorus.getSorus().getSettingsManager().getSnappingSensitivity()) {
         return new Snap(dub, Math.abs(dub - value), offset, true, axis);
       }
     }
@@ -442,13 +584,13 @@ public class DefaultSomethingScreen<T extends Screen> extends DefaultThemeBase<T
       double bottom = hud.getBottom();
       SelectedHUDState.InteractType interactType = null;
       if (this.distance(x, y, right, top) < 2.5) {
-        interactType = SelectedHUDState.InteractType.RESIZE_RIGHT;
+        interactType = SelectedHUDState.InteractType.RESIZE_RIGHT_TOP;
       } else if (this.distance(x, y, left, top) < 2.5) {
-        interactType = SelectedHUDState.InteractType.RESIZE_LEFT;
+        interactType = SelectedHUDState.InteractType.RESIZE_LEFT_TOP;
       } else if (this.distance(x, y, left, bottom) < 2.5) {
-        interactType = SelectedHUDState.InteractType.RESIZE_LEFT;
+        interactType = SelectedHUDState.InteractType.RESIZE_LEFT_BOTTOM;
       } else if (this.distance(x, y, right, bottom) < 2.5) {
-        interactType = SelectedHUDState.InteractType.RESIZE_RIGHT;
+        interactType = SelectedHUDState.InteractType.RESIZE_RIGHT_BOTTOM;
       } else if (x > left && x < right && y > top && y < bottom) {
         interactType = SelectedHUDState.InteractType.DRAG;
       }

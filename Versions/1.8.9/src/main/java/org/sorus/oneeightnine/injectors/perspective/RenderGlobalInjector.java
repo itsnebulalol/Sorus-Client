@@ -18,20 +18,21 @@ public class RenderGlobalInjector extends Injector<RenderGlobal> {
         super(that);
     }
 
-    @Modify(name = "setupTerrain", desc = "(Lnet/minecraft/entity/Entity;Dnet/minecraft/client/renderer/culling/ICamera;IZ)V")
+    @Modify(name = "setupTerrain", desc = "(Lnet/minecraft/entity/Entity;DLnet/minecraft/client/renderer/culling/ICamera;IZ)V")
     public static void modifySetupTerrain(MethodNode methodNode) {
         for(AbstractInsnNode node : methodNode.instructions.toArray()) {
+            String parentClass = ObfuscationManager.getClassName("net/minecraft/entity/Entity");
             String rotationYawField = ObfuscationManager.getFieldName("net/minecraft/entity/Entity", "rotationYaw");
             String prevRotationYawField = ObfuscationManager.getFieldName("net/minecraft/entity/Entity", "prevRotationYaw");
             String rotationPitchField = ObfuscationManager.getFieldName("net/minecraft/entity/Entity", "rotationPitch");
             String prevRotationPitchField = ObfuscationManager.getFieldName("net/minecraft/entity/Entity", "prevRotationPitch");
-            if(node instanceof FieldInsnNode && (((FieldInsnNode) node).name.equals(rotationYawField) || ((FieldInsnNode) node).name.equals(prevRotationYawField))) {
+            if(node instanceof FieldInsnNode && ((FieldInsnNode) node).owner.equals(parentClass) && (((FieldInsnNode) node).name.equals(rotationYawField) || ((FieldInsnNode) node).name.equals(prevRotationYawField))) {
                 AbstractInsnNode nextNode = node.getNext();
                 methodNode.instructions.remove(node.getPrevious());
                 methodNode.instructions.remove(node);
                 methodNode.instructions.insertBefore(nextNode, new MethodInsnNode(Opcodes.INVOKESTATIC, EntityRendererHook.class.getCanonicalName().replace(".", "/"), "getRotationYaw", "()F", false));
             }
-            if(node instanceof FieldInsnNode && (((FieldInsnNode) node).name.equals(rotationPitchField) || ((FieldInsnNode) node).name.equals(prevRotationPitchField))) {
+            if(node instanceof FieldInsnNode && ((FieldInsnNode) node).owner.equals(parentClass) && (((FieldInsnNode) node).name.equals(rotationPitchField) || ((FieldInsnNode) node).name.equals(prevRotationPitchField))) {
                 AbstractInsnNode nextNode = node.getNext();
                 methodNode.instructions.remove(node.getPrevious());
                 methodNode.instructions.remove(node);

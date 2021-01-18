@@ -1,15 +1,15 @@
-
-
 package org.sorus.oneseventen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.MouseFilter;
 import org.sorus.client.obfuscation.ObfuscationManager;
 import org.sorus.client.version.game.*;
 
@@ -29,7 +29,7 @@ public class Game implements IGame {
 
     @Override
     public boolean shouldRenderHUDS() {
-        return this.isIngame() || Minecraft.getMinecraft().currentScreen instanceof GuiChat || Minecraft.getMinecraft().currentScreen instanceof GuiBlank;
+        return this.isIngame() || Minecraft.getMinecraft().currentScreen instanceof GuiChat;
     }
 
     @Override
@@ -157,6 +157,48 @@ public class Game implements IGame {
         armor.add(new ItemStackImpl(new ItemStack(Item.getItemById(313))));
         armor.add(new ItemStackImpl(new ItemStack(Item.getItemById(311))));
         return armor;
+    }
+
+    @Override
+    public void setSmoothCamera(boolean smoothCamera) {
+        Minecraft.getMinecraft().gameSettings.smoothCamera = smoothCamera;
+        String smoothCamFilterXName = ObfuscationManager.getFieldName("net/minecraft/client/renderer/EntityRenderer", "smoothCamFilterX");
+        String smoothCamFilterYName = ObfuscationManager.getFieldName("net/minecraft/client/renderer/EntityRenderer", "smoothCamFilterY");
+        String mouseFilterXAxisName = ObfuscationManager.getFieldName("net/minecraft/client/renderer/EntityRenderer", "mouseFilterXAxis");
+        String mouseFilterYAxisName = ObfuscationManager.getFieldName("net/minecraft/client/renderer/EntityRenderer", "mouseFilterYAxis");
+        try {
+            EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
+            Field smoothCamFilterX = EntityRenderer.class.getDeclaredField(smoothCamFilterXName);
+            smoothCamFilterX.setAccessible(true);
+            Field smoothCamFilterY = EntityRenderer.class.getDeclaredField(smoothCamFilterYName);
+            smoothCamFilterY.setAccessible(true);
+            Field mouseFilterXAxis = EntityRenderer.class.getDeclaredField(mouseFilterXAxisName);
+            mouseFilterXAxis.setAccessible(true);
+            Field mouseFilterYAxis = EntityRenderer.class.getDeclaredField(mouseFilterYAxisName);
+            mouseFilterYAxis.setAccessible(true);
+            smoothCamFilterX.set(entityRenderer, 0);
+            smoothCamFilterY.set(entityRenderer, 0);
+            this.resetMouseFilter((MouseFilter) mouseFilterXAxis.get(entityRenderer));
+            this.resetMouseFilter((MouseFilter) mouseFilterYAxis.get(entityRenderer));
+        } catch(NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void resetMouseFilter(MouseFilter filter) {
+        List<String> stuff = new ArrayList<>();
+        stuff.add(ObfuscationManager.getFieldName("net/minecraft/util/MouseFilter", "field_76336_a"));
+        stuff.add(ObfuscationManager.getFieldName("net/minecraft/util/MouseFilter", "field_76334_b"));
+        stuff.add(ObfuscationManager.getFieldName("net/minecraft/util/MouseFilter", "field_76335_c"));
+        try {
+            for(String string : stuff) {
+                Field field = MouseFilter.class.getDeclaredField(string);
+                field.setAccessible(true);
+                field.set(filter, 0);
+            }
+        } catch(NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

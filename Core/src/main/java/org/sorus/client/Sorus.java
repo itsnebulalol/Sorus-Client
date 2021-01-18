@@ -21,8 +21,6 @@ import org.sorus.client.version.game.IGame;
 
 public class Sorus {
 
-  public static boolean isRunning = false;
-
   private static final Sorus INSTANCE = new Sorus();
 
   public static Sorus getSorus() {
@@ -52,7 +50,6 @@ public class Sorus {
   private Sorus() {}
 
   public void initialize(Class<? extends IVersion> version, Map<String, String> args) {
-    isRunning = true;
     try {
       this.version = version.newInstance();
       Class.forName("org.sorus.client.obfuscation.ObfuscationManager");

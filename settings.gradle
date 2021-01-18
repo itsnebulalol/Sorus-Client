@@ -2,4 +2,5 @@ include ':Core',
         ':Versions:1.7.10',
         ':Versions:1.8.9',
         ':Versions:1.16.4',
-        'Environments:Agent-Injection'
+        'Environments:JavaAgent',
+        'Environments:LaunchWrapper'

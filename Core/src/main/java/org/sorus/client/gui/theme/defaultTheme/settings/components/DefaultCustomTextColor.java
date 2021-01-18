@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.EventInvoked;
 import org.sorus.client.event.impl.client.input.KeyPressEvent;
@@ -24,6 +23,7 @@ import org.sorus.client.gui.screen.settings.components.CustomTextColor;
 import org.sorus.client.gui.theme.defaultTheme.DefaultTheme;
 import org.sorus.client.gui.theme.defaultTheme.DefaultThemeBase;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.util.Pair;
 import org.sorus.client.version.input.IInput;
 
 public class DefaultCustomTextColor extends DefaultThemeBase<CustomTextColor>
@@ -123,7 +123,7 @@ public class DefaultCustomTextColor extends DefaultThemeBase<CustomTextColor>
     for (List<Pair<String, Color>> list : this.setting.getValue()) {
       CustomTextLine customTextLine = new CustomTextLine().position(10, 10 + 100 * i);
       for (Pair<String, Color> pair : list) {
-        customTextLine.addCustomText(pair.getKey(), pair.getValue());
+        customTextLine.addCustomText(pair.getLeft(), pair.getRight());
       }
       this.customTextLines.add(customTextLine);
       this.collection.add(customTextLine);

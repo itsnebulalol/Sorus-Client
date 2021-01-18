@@ -2,7 +2,6 @@ package org.sorus.client.gui.hud;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.module.impl.armorstatus.ArmorStatusComponent;
 import org.sorus.client.module.impl.clock.ClockComponent;
@@ -15,6 +14,7 @@ import org.sorus.client.module.impl.potionstatus.PotionStatusComponent;
 import org.sorus.client.module.impl.scoreboard.ScoreboardComponent;
 import org.sorus.client.module.impl.text.TextComponent;
 import org.sorus.client.settings.ISettingHolder;
+import org.sorus.client.util.Pair;
 
 public class HUDManager implements ISettingHolder {
 
@@ -86,8 +86,8 @@ public class HUDManager implements ISettingHolder {
         (List<Pair<Class<? extends HUD>, ?>>) settings;
     for (Pair<Class<? extends HUD>, ?> pair : settingsList) {
       try {
-        HUD hud = pair.getKey().newInstance();
-        hud.setSettings(pair.getValue());
+        HUD hud = pair.getLeft().newInstance();
+        hud.setSettings(pair.getRight());
         this.register(hud);
       } catch (InstantiationException | IllegalAccessException e) {
         e.printStackTrace();

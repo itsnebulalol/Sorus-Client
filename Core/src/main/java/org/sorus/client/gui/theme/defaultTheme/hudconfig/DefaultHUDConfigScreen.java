@@ -64,10 +64,6 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
     menu.add(title.position(450 - title.width() / 2 * 6, 30 - title.height() / 2 * 6));
     menu.add(new Add().position(420, 530));
     this.updateComponents();
-    // collection.add(new
-    // DefaultHUDListScreen.Add(DefaultHUDListScreen.AddType.SINGLE).position(7.5, 7.5));
-    // collection.add(new DefaultHUDListScreen.Add(DefaultHUDListScreen.AddType.MULTI).position(70,
-    // 7.5));
     super.init();
   }
 
@@ -111,9 +107,7 @@ public class DefaultHUDConfigScreen extends DefaultSomethingScreen<HUDConfigScre
     for (IComponent component : this.hud.getComponents()) {
       this.scroll.add(
           new ComponentComponent(this, (Component) component)
-              .position(
-                  SEPARATION + ((i % 2) * (ModuleListComponent.WIDTH + SEPARATION)),
-                  SEPARATION + (int) (i / 2) * (ModuleListComponent.HEIGHT + SEPARATION)));
+              .position(SEPARATION, SEPARATION + i * (ModuleListComponent.HEIGHT + SEPARATION)));
       i++;
     }
   }

@@ -31,6 +31,7 @@ public class RenderGlobalInjector extends Injector<RenderGlobal> {
         insnList.add(new VarInsnNode(Opcodes.ALOAD, 100));
         insnList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, EventCancelable.class.getName().replace(".", "/"), "isCancelled", "()Z", false));
         LabelNode label = new LabelNode();
+        insnList.add(new FrameNode(Opcodes.F_SAME, 0, new Object[0], 0, new Object[0]));
         insnList.add(new JumpInsnNode(Opcodes.IFEQ, label));
         insnList.add(new InsnNode(Opcodes.RETURN));
         insnList.add(label);

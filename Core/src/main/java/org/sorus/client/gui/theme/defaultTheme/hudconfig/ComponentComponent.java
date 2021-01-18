@@ -21,7 +21,7 @@ import org.sorus.client.version.input.IInput;
 
 public class ComponentComponent extends Collection {
 
-  public static final double WIDTH = 410, HEIGHT = 110;
+  public static final double WIDTH = 835, HEIGHT = 70;
 
   private final DefaultHUDConfigScreen theme;
   private final Component component;
@@ -49,8 +49,8 @@ public class ComponentComponent extends Collection {
             .scale(3, 3)
             .position(110, 25)
             .color(theme.getDefaultTheme().getElementColorNew()));
-    this.add(new Remove().position(WIDTH - 50, 10));
-    this.add(new Settings().position(WIDTH - 50, HEIGHT - 50));
+    this.add(new Remove().position(WIDTH - 100, HEIGHT / 2 - 20));
+    this.add(new Settings().position(WIDTH - 50, HEIGHT / 2 - 20));
     Sorus.getSorus().getEventManager().register(this);
   }
 

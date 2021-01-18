@@ -22,6 +22,8 @@ public class DefaultSlider extends DefaultThemeBase<Slider> implements IConfigur
   private final Setting<Double> setting;
   private final double minValue, maxValue;
 
+  private final Text text;
+
   private boolean selected;
 
   protected double value;
@@ -67,11 +69,18 @@ public class DefaultSlider extends DefaultThemeBase<Slider> implements IConfigur
             .scale(3.5, 3.5)
             .position(30, 30)
             .color(defaultTheme.getElementColorNew()));
+    main.add(
+        text =
+            new Text()
+                .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
+                .scale(2.5, 2.5)
+                .color(defaultTheme.getElementColorNew()));
     Sorus.getSorus().getEventManager().register(this);
   }
 
   @Override
   public void update() {
+    text.text(String.valueOf(Math.round(value * 10) / 10.0)).position(650 - text.width() * 2.5, 35);
     main.onUpdate();
   }
 

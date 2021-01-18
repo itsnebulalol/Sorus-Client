@@ -10,6 +10,7 @@ import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.sorus.client.Sorus;
 import org.sorus.client.event.impl.client.GuiSwitchEvent;
 import org.sorus.client.event.impl.client.WorldLoadEvent;

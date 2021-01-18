@@ -1,12 +1,12 @@
 package org.sorus.client.gui.hud;
 
 import java.util.*;
-import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.Sorus;
 import org.sorus.client.gui.core.Screen;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.settings.ISettingHolder;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.util.Pair;
 import org.sorus.client.version.IGLHelper;
 import org.sorus.client.version.IScreen;
 import org.sorus.client.version.game.IGame;

@@ -35,4 +35,6 @@ public interface IGame {
   List<IPotionEffect> getDummyEffects();
 
   List<IItemStack> getDummyArmor();
+
+  void setSmoothCamera(boolean smoothCamera);
 }

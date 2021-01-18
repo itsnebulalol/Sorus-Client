@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.components.ColorPicker;
 import org.sorus.client.gui.screen.settings.components.CustomTextColor;
 import org.sorus.client.gui.screen.settings.components.TextBox;
 import org.sorus.client.module.Mode;
 import org.sorus.client.settings.Setting;
+import org.sorus.client.util.Pair;
 
 public abstract class PingMode extends Mode {
 

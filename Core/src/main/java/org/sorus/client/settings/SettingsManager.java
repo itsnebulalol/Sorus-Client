@@ -8,9 +8,9 @@ import java.util.*;
 import org.sorus.client.gui.core.component.Collection;
 import org.sorus.client.gui.screen.settings.IConfigurableScreen;
 import org.sorus.client.gui.screen.settings.components.Keybind;
+import org.sorus.client.gui.screen.settings.components.Slider;
 import org.sorus.client.version.input.Input;
 import org.sorus.client.version.input.Key;
-import sun.misc.IOUtils;
 
 public class SettingsManager implements ISettingHolder, IConfigurableScreen {
 
@@ -20,10 +20,14 @@ public class SettingsManager implements ISettingHolder, IConfigurableScreen {
   private final List<Setting<?>> clientSettings = new ArrayList<>();
 
   private final Setting<Input> openGui;
+  private final Setting<Double> snappingSensitivity;
+  private final Setting<Boolean> centerScaling;
 
   public SettingsManager() {
     this.register(this);
     this.register(openGui = new Setting<>("openGui", Key.SHIFT_RIGHT));
+    this.register(snappingSensitivity = new Setting<>("snappingSensitivity", 2.5));
+    this.register(centerScaling = new Setting<>("centerScaling", true));
   }
 
   public void register(ISettingHolder settingHolder) {
@@ -83,8 +87,9 @@ public class SettingsManager implements ISettingHolder, IConfigurableScreen {
       }
       try {
         InputStream input = new FileInputStream(file);
-        Object loadedSettings =
-            JsonReader.jsonToJava(new String(IOUtils.readFully(input, -1, true)));
+        byte[] bytes = new byte[input.available()];
+        input.read(bytes);
+        Object loadedSettings = JsonReader.jsonToJava(new String(bytes));
         setting.setSettings(loadedSettings);
         input.close();
       } catch (IOException e) {
@@ -100,6 +105,8 @@ public class SettingsManager implements ISettingHolder, IConfigurableScreen {
   @Override
   public void addConfigComponents(Collection collection) {
     collection.add(new Keybind(openGui, "Client GUI Keybind"));
+    // collection.add(new Toggle(centerScaling, "Center Scaling"));
+    collection.add(new Slider(snappingSensitivity, 1, 5, "Snapping Sensitivity"));
   }
 
   @Override
@@ -109,6 +116,14 @@ public class SettingsManager implements ISettingHolder, IConfigurableScreen {
 
   public Input getOpenGuiKeybind() {
     return openGui.getValue();
+  }
+
+  public double getSnappingSensitivity() {
+    return snappingSensitivity.getValue();
+  }
+
+  public boolean isCenterScaling() {
+    return true;
   }
 
   @Override
