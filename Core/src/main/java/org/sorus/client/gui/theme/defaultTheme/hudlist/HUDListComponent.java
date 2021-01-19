@@ -49,7 +49,7 @@ public class HUDListComponent extends Collection {
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
             .text(hud.getName())
             .scale(3, 3)
-            .position(80, 27.5)
+            .position(80, 22)
             .color(theme.getDefaultTheme().getElementColorNew()));
     this.add(new Remove().position(WIDTH - 100, HEIGHT / 2 - 20));
     this.add(new Settings().position(WIDTH - 50, HEIGHT / 2 - 20));

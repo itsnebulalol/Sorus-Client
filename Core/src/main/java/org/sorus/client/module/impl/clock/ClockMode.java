@@ -62,7 +62,7 @@ public abstract class ClockMode extends Mode {
 
     @Override
     public String getName() {
-      return "Hour12";
+      return "12 Hour";
     }
 
     @Override

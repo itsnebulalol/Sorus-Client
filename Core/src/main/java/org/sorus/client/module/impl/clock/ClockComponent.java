@@ -134,7 +134,7 @@ public class ClockComponent extends Component {
 
   @Override
   public double getWidth() {
-    return this.currentMode.getWidth(this.dateString, this.fontRenderer);
+    return this.currentMode.getWidth(this.dateString, this.fontRenderer) - 20;
   }
 
   @Override

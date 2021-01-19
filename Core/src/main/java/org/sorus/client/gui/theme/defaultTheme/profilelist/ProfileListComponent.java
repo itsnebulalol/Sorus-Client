@@ -56,7 +56,7 @@ public class ProfileListComponent extends Collection {
             .fontRenderer(Sorus.getSorus().getGUIManager().getRenderer().getRubikFontRenderer())
             .text(profile)
             .scale(3, 3)
-            .position(80, 27.5)
+            .position(80, 22)
             .color(theme.getDefaultTheme().getElementColorNew()));
     /*if (Sorus.getSorus().getSettingsManager().getCurrentProfile().equals(this.profile)) {
       this.add(

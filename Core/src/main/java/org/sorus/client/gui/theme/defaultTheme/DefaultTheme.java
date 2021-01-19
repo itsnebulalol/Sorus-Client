@@ -29,7 +29,7 @@ public class DefaultTheme extends Theme {
   private final Setting<Color> elementSecondColorNew;
 
   public DefaultTheme() {
-    super("DEFAULT");
+    super("Default");
     this.register("main-menu", DefaultMainMenuScreen.class);
     this.register("module-list", DefaultModuleListScreen.class);
     this.register("hud-render", DefaultHUDRenderScreen.class);
